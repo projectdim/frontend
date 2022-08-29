@@ -1,0 +1,16 @@
+<template>
+	<div id="sideBar" class="border-r-4 border-amber-400
+	bg-blue-500 overflow-scroll h-screen">
+	  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda consequuntur culpa dicta dignissimos dolor dolore doloremque ducimus earum esse est eum explicabo fuga fugiat hic in ipsa iure laudantium minima molestias necessitatibus non obcaecati, odio officiis placeat porro possimus praesentium provident quaerat quibusdam quisquam saepe suscipit temporibus unde vitae voluptates voluptatibus. Animi, debitis deserunt earum eligendi eum exercitationem facere harum illum incidunt ipsa ipsam itaque labore, laborum libero, minus necessitatibus nesciunt quae quidem rem sed sequi ut veniam voluptatem? Accusamus amet, at consequuntur cum debitis dignissimos ea eaque eligendi esse facilis fuga fugit illo ipsum minima nihil nobis non odio perspiciatis quam quia quis similique sint voluptate voluptates voluptatibus. A accusantium architecto cupiditate doloribus eos molestiae, necessitatibus nihil provident quam quas similique ut vero. Fugiat incidunt odio optio recusandae! Ad adipisci aliquam blanditiis delectus deleniti distinctio dolorum enim, et eum excepturi hic incidunt iste laboriosam laborum magni mollitia praesentium quae quas quasi quibusdam quos reiciendis sequi sit temporibus totam unde velit vitae. Dolorem et incidunt iure natus non, nostrum odit omnis praesentium, quas tempora veritatis vero vitae! Doloribus itaque laboriosam nulla ratione tenetur. Accusamus amet assumenda beatae distinctio eaque ex facere facilis fugiat hic ipsa laboriosam, libero magni modi molestiae mollitia nesciunt nisi odit optio quaerat quis quisquam sed suscipit tempore temporibus unde veritatis voluptatem voluptates? Accusamus, ad alias atque blanditiis consectetur delectus deserunt dignissimos dolor ea error eum ipsa iste libero maxime minus nam neque numquam placeat possimus sequi totam veritatis voluptates. Impedit, itaque modi nostrum odit quo quod suscipit! Commodi incidunt ipsam maxime nesciunt quam sequi ut voluptate? Doloribus, eaque facere harum inventore modi molestiae repudiandae velit! Ab debitis ea eius eligendi, facilis iste laborum, omnis placeat qui quibusdam quidem rerum! A ab ad amet commodi culpa dignissimos dolor dolore ducimus eaque est, expedita inventore maiores neque odit officia quo ratione sapiente sequi suscipit tenetur. Asperiores aspernatur consequatur cum deleniti enim exercitationem expedita impedit incidunt laborum minima mollitia nemo obcaecati officiis pariatur placeat possimus quam quasi quo, reprehenderit voluptatum. At blanditiis consequatur dignissimos nam nesciunt odit provident sint. A accusantium ad aliquid aperiam beatae consectetur, debitis deleniti dignissimos dolor dolorem dolores error et facere fugiat id illum labore laborum maxime modi natus nihil nulla officia officiis quas qui quidem, quo quod quos ratione rem repellat reprehenderit sed sit temporibus veritatis voluptas voluptatem. Cumque, dignissimos eveniet exercitationem obcaecati perspiciatis quas. Eius, fugit illum laudantium neque sint vero? Dolore.
+	</div>
+</template>
+
+<script>
+export default {
+  name: "SideBar"
+}
+</script>
+
+<style scoped>
+
+</style>
