@@ -12,7 +12,10 @@
 		  :v-if="this.ifClickMarker"
 		  key="customMarker"
 		  :draggable="false"
-		  :position= "ClickMarkerCoords.position"
+		  :position= "this.ClickMarkerCoords"
+		  icon="./public/vite.svg"
+		  :clickable="true"
+		  @click="this.CustomMarkerClick"
 	  />
 
 	</GMapMap>
@@ -21,14 +24,10 @@
 
 <script>
 import axios from "axios";
-import {API_KEY, URL_PLACE_ID_REQ} from "../../Scripts/MapScripts.js";
-import MapMarker from "./MapMarker.vue";
+import {API_KEY, KURSANT_API_KEY, URL_PLACE_ID_REQ} from "../../Scripts/MapScripts.js";
 
 export default {
   name: "GoogleMap",
-  components: {
-	MapMarker
-  },
   data : function (){
 	  return {
 		center: {lat: 49.23414701332752, lng: 28.46228865225255},
@@ -40,28 +39,35 @@ export default {
   },
   methods : {
 	ClickHandler(event) {
-	  if (event.latLng?.lat) {
-		//console.log(JSON.stringify(event));
-		this.SetMarker(JSON.stringify(event.latLng));
-		/*console.log(event.latLng?.toString());
-		console.log(event.latLng?.lat())
-		console.log(event.latLng?.lng())*/
+	  console.log(event)
+	  console.log(event.placeId)
+	  if(event.placeId){
+		this.GetPlaceDetails(event.placeId);
+	  }
+	  else if (event.latLng) {
+		this.SetMarker(event.latLng);
 	  }
 	},
 	GetPlaceDetails(placeId){
 	  axios.get(URL_PLACE_ID_REQ,{
 		params : {
 		  placeId: placeId,
-		  key : API_KEY
+		  key : KURSANT_API_KEY
 		}
+	  }).then(res=>{
+		console.log(res);
+	  }).catch(err=>{
+		console.log(err);
 	  })
   	},
 	SetMarker(coords){
-	  console.log(coords)
 	  this.ifClickMarker = true;
 	  this.ClickMarkerCoords = coords;
-	  console.log(this.center)
 	  //console.log(this.ClickMarkerCoords)
+	},
+	CustomMarkerClick(){
+	  this.ifClickMarker = true;
+	  this.ClickMarkerCoords = null;
 	}
 }
 }

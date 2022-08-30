@@ -12,8 +12,7 @@ export default {
   name: "MapMarker",
   props :{
 	key : String,
-	lat: Number,
-	lng: Number,
+	position : {lat: Number, lng: Number}
   },
   data : function (){
 	return{
