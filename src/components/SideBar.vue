@@ -1,13 +1,48 @@
 <template>
-	<div id="sideBar" class="border-r-4 border-amber-400
-	bg-blue-500 overflow-scroll h-screen">
-	  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda consequuntur culpa dicta dignissimos dolor dolore doloremque ducimus earum esse est eum explicabo fuga fugiat hic in ipsa iure laudantium minima molestias necessitatibus non obcaecati, odio officiis placeat porro possimus praesentium provident quaerat quibusdam quisquam saepe suscipit temporibus unde vitae voluptates voluptatibus. Animi, debitis deserunt earum eligendi eum exercitationem facere harum illum incidunt ipsa ipsam itaque labore, laborum libero, minus necessitatibus nesciunt quae quidem rem sed sequi ut veniam voluptatem? Accusamus amet, at consequuntur cum debitis dignissimos ea eaque eligendi esse facilis fuga fugit illo ipsum minima nihil nobis non odio perspiciatis quam quia quis similique sint voluptate voluptates voluptatibus. A accusantium architecto cupiditate doloribus eos molestiae, necessitatibus nihil provident quam quas similique ut vero. Fugiat incidunt odio optio recusandae! Ad adipisci aliquam blanditiis delectus deleniti distinctio dolorum enim, et eum excepturi hic incidunt iste laboriosam laborum magni mollitia praesentium quae quas quasi quibusdam quos reiciendis sequi sit temporibus totam unde velit vitae. Dolorem et incidunt iure natus non, nostrum odit omnis praesentium, quas tempora veritatis vero vitae! Doloribus itaque laboriosam nulla ratione tenetur. Accusamus amet assumenda beatae distinctio eaque ex facere facilis fugiat hic ipsa laboriosam, libero magni modi molestiae mollitia nesciunt nisi odit optio quaerat quis quisquam sed suscipit tempore temporibus unde veritatis voluptatem voluptates? Accusamus, ad alias atque blanditiis consectetur delectus deserunt dignissimos dolor ea error eum ipsa iste libero maxime minus nam neque numquam placeat possimus sequi totam veritatis voluptates. Impedit, itaque modi nostrum odit quo quod suscipit! Commodi incidunt ipsam maxime nesciunt quam sequi ut voluptate? Doloribus, eaque facere harum inventore modi molestiae repudiandae velit! Ab debitis ea eius eligendi, facilis iste laborum, omnis placeat qui quibusdam quidem rerum! A ab ad amet commodi culpa dignissimos dolor dolore ducimus eaque est, expedita inventore maiores neque odit officia quo ratione sapiente sequi suscipit tenetur. Asperiores aspernatur consequatur cum deleniti enim exercitationem expedita impedit incidunt laborum minima mollitia nemo obcaecati officiis pariatur placeat possimus quam quasi quo, reprehenderit voluptatum. At blanditiis consequatur dignissimos nam nesciunt odit provident sint. A accusantium ad aliquid aperiam beatae consectetur, debitis deleniti dignissimos dolor dolorem dolores error et facere fugiat id illum labore laborum maxime modi natus nihil nulla officia officiis quas qui quidem, quo quod quos ratione rem repellat reprehenderit sed sit temporibus veritatis voluptas voluptatem. Cumque, dignissimos eveniet exercitationem obcaecati perspiciatis quas. Eius, fugit illum laudantium neque sint vero? Dolore.
+	<div id="sideBar" class="overflow-y-auto h-full shadow-1cs">
+
+	  <h1 class="px-5 text-3xl font-semibold my-3">{{this.selectedItem.address}}, {{this.selectedItem.index}}, {{this.selectedItem.city}}</h1>
+	  <div class="text-base flex flex-nowrap text-center">
+		<div class="basis-1/2 py-2.5  cursor-pointer hover:bg-gray-200 box-border"
+			 :class="this.selectedTabItem==`Overview`? `text-blue border-[#2E60B3] border-b-4` : `text-grey border-[#64748C] border-b-2`"
+			 @click="setSelectedTab(`Overview`)"
+		>
+		  Overview
+		</div>
+		<div class=" basis-1/2 py-2.5 cursor-pointer hover:bg-gray-200 box-border"
+			 :class="this.selectedTabItem==`History`? `text-blue border-[#2E60B3] border-b-4` : `text-grey border-[#64748C] border-b-2`"
+			 @click="setSelectedTab(`History`)"
+		>
+		  Change history
+		</div>
+	  </div>
+	  <div>
+		<Overview v-if="this.selectedTabItem==`Overview`"/>
+		<History v-if="this.selectedTabItem==`History`"/>
+	  </div>
 	</div>
 </template>
 
 <script>
+import {SelectedDataItem} from "../Scripts/DataProvider.js";
+import Overview from "./Overview.vue";
+import History from "./History.vue";
+
 export default {
-  name: "SideBar"
+  name: "SideBar",
+  components: {History, Overview},
+  methods : {
+	setSelectedTab(tabName){
+	  this.selectedTabItem = tabName;
+	  console.log( this.selectedTabItem)
+	}
+  },
+  data : function () {
+	return {
+	  selectedItem: SelectedDataItem,
+	  selectedTabItem : "Overview"
+	}
+  },
 }
 </script>
 

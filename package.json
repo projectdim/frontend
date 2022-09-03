@@ -11,7 +11,8 @@
   "dependencies": {
     "@fawmi/vue-google-maps": "^0.9.72",
     "axios": "^0.27.2",
-    "vue": "^3.2.37"
+    "vue": "^3.2.37",
+    "vue3-carousel": "^0.1.46"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.0.3",

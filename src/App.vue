@@ -6,13 +6,13 @@ import GoogleMap from "./components/MapComponents/GoogleMap.vue";
 </script>
 
 <template>
-  <div>
+  <div class="h-full">
 	<Header/>
-	<div class="grid grid-cols-4">
-	  <div class="col-start-1 col-end-1">
+	<div class="flex h-[calc(100vh-64px)]">
+	  <div class="basis-4/12 h-full">
 	  	<SideBar/>
 	  </div>
-	  <div class="col-span-3">
+	  <div class="basis-8/12">
 	  	<GoogleMap/>
 	  </div>
 	</div>

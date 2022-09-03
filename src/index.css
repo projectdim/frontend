@@ -2,8 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+
 :root {
     --text-blue: #2E60B3;
+    --text-grey: #64748C;
 }
 
 /**{
@@ -13,4 +15,7 @@
 
 .text-blue{
     color: var(--text-blue);
+}
+.text-grey{
+    color: var(--text-grey);
 }

@@ -1,5 +1,5 @@
 <template>
-  <div id="mapContainer" class="h-screen">
+  <div id="mapContainer" class="h-full">
 	<GMapMap
 		:center="center"
  		:zoom="15"
@@ -17,14 +17,13 @@
 		  :clickable="true"
 		  @click="this.CustomMarkerClick"
 	  />
-
 	</GMapMap>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import {API_KEY, KURSANT_API_KEY, URL_PLACE_ID_REQ} from "../../Scripts/MapScripts.js";
+import {API_KEY, URL_PROXY_PLACE_REQUEST, URL_PLACE_ID_REQ} from "../../Scripts/MapScripts.js";
 
 export default {
   name: "GoogleMap",
@@ -48,11 +47,11 @@ export default {
 		this.SetMarker(event.latLng);
 	  }
 	},
-	GetPlaceDetails(placeId){
-	  axios.get(URL_PLACE_ID_REQ,{
+	async GetPlaceDetails(placeId){
+	  await axios.get(URL_PROXY_PLACE_REQUEST,{
 		params : {
 		  placeId: placeId,
-		  key : KURSANT_API_KEY
+		  key : API_KEY
 		}
 	  }).then(res=>{
 		console.log(res);

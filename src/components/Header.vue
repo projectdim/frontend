@@ -1,12 +1,12 @@
 <template>
-  	<header class="w-full h-74 flex flex-nowrap place-content-between px-[24px] py-[16px] custom-shadow
+  	<header class="w-full h-16 flex flex-nowrap place-content-between px-[24px] shadow-2cs
 			bg-white">
-	  	<div class="cursor-pointer w-min">
-	  		<img src="../assets/Logo.svg" alt="" class="min-w-[100px]">
+	  	<div class="cursor-pointer my-auto">
+	  		<img src="../assets/Logo.svg" alt="" class="h-10 w-36">
 	  	</div>
 
 		<div class="flex font-medium text-blue">
-		  	<img v-bind:src="'./public/Flags/'+this.imageSrc" class="h-[18px] w-[24px] my-auto" alt="Flag">
+		  	<img v-bind:src="'./Flags/'+this.imageSrc" class="h-[18px] w-[24px] my-auto" alt="Flag">
 			<select name="lang-selector" id="lang-selector"
 					class="h-min my-auto bg-transparent ml-[5px] text-right"
 			@change="onSelectChange">
@@ -44,7 +44,5 @@ export default {
 </script>
 
 <style scoped>
-	.custom-shadow{
-	  box-shadow: 0px 1px 0px rgba(197, 208, 227, 0.4);
-	}
+
 </style>
