@@ -2,6 +2,7 @@
 import Header from "./components/Header.vue";
 import SideBar from "./components/SideBar.vue";
 import GoogleMap from "./components/MapComponents/GoogleMap.vue";
+import PhotoViewerModal from "./components/PhotoViewerModal.vue";
 
 </script>
 
@@ -16,6 +17,7 @@ import GoogleMap from "./components/MapComponents/GoogleMap.vue";
 	  	<GoogleMap/>
 	  </div>
 	</div>
+	<PhotoViewerModal :isVisible=true />
   </div>
 
 </template>
