@@ -213,10 +213,10 @@ import 'vue3-carousel/dist/carousel.css';
 export default {
   name: "Overview",
   components: {
-	Carousel,
-	Slide,
-	Pagination,
-	Navigation,
+	  Carousel,
+	  Slide,
+	  Pagination,
+	  Navigation,
   },
   data : function () {
 	return {
@@ -235,24 +235,24 @@ export default {
 		  snapAlign: 'start',
 		},
 	  },
-	  settings: {
-		itemsToShow: 4,
-		snapAlign: 'center',
+	    settings: {
+		  itemsToShow: 4,
+		  snapAlign: 'center',
 	  },
-	  issueMessage: ""
-	}
+	    issueMessage: ""
+	  }
   },
   computed : {
 	isDisabled(){
 	  return this.issueMessage.length < 10;
-	}
+	  }
   },
   methods : {
 	Show(string){
 	  alert(string);
 	},
 	ShowModalEvent(){
-
+    this.$emit('show-modal');
 	},
 	auto_grow(event) {
 	  /*element.style.height = "5px";*/

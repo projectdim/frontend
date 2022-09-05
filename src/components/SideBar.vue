@@ -17,7 +17,7 @@
 		</div>
 	  </div>
 	  <div>
-		<Overview v-if="this.selectedTabItem==`Overview`"/>
+		<Overview v-if="this.selectedTabItem==`Overview`" v-on:show-modal="forwardEvent"/>
 		<History v-if="this.selectedTabItem==`History`"/>
 	  </div>
 	</div>
@@ -32,10 +32,13 @@ export default {
   name: "SideBar",
   components: {History, Overview},
   methods : {
-	setSelectedTab(tabName){
-	  this.selectedTabItem = tabName;
-	  console.log( this.selectedTabItem)
-	}
+	  setSelectedTab(tabName){
+	    this.selectedTabItem = tabName;
+	    console.log( this.selectedTabItem)
+	  },
+    forwardEvent() {
+      this.$emit('show-modal');
+    }
   },
   data : function () {
 	return {
