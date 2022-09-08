@@ -1,5 +1,5 @@
 <template>
-	<div id="sideBar" class="overflow-y-auto h-full shadow-1cs">
+	<div id="sideBar" class="overflow-y-auto h-full shadow-1cs p-4">
 
 	  <h1 class="px-5 text-3xl font-semibold my-3">{{this.selectedItem.address}}, {{this.selectedItem.index}}, {{this.selectedItem.city}}</h1>
 	  <div class="text-base flex flex-nowrap text-center">
@@ -17,35 +17,32 @@
 		</div>
 	  </div>
 	  <div>
-		<Overview v-if="this.selectedTabItem==`Overview`" v-on:show-modal="forwardEvent"/>
+		<Overview v-if="this.selectedTabItem==`Overview`"/>
 		<History v-if="this.selectedTabItem==`History`"/>
 	  </div>
 	</div>
 </template>
 
 <script>
-import {SelectedDataItem} from "../Scripts/DataProvider.js";
+import { SelectedDataItem } from "../Scripts/DataProvider.js";
 import Overview from "./Overview.vue";
 import History from "./History.vue";
 
 export default {
   name: "SideBar",
-  components: {History, Overview},
+  components: { History, Overview },
   methods : {
 	  setSelectedTab(tabName){
 	    this.selectedTabItem = tabName;
 	    console.log( this.selectedTabItem)
-	  },
-    forwardEvent() {
-      this.$emit('show-modal');
-    }
+	  }
   },
   data : function () {
-	return {
-	  selectedItem: SelectedDataItem,
-	  selectedTabItem : "Overview"
-	}
-  },
+	  return {
+	    selectedItem: SelectedDataItem,
+	    selectedTabItem : "Overview"
+	  }
+  }
 }
 </script>
 

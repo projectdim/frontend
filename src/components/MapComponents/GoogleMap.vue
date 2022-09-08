@@ -13,7 +13,7 @@
 		  key="customMarker"
 		  :draggable="false"
 		  :position= "this.ClickMarkerCoords"
-		  icon="./public/vite.svg"
+		  icon="./public/map-pin.svg"
 		  :clickable="true"
 		  @click="this.CustomMarkerClick"
 	  />
@@ -23,6 +23,7 @@
 
 <script>
 import axios from "axios";
+import api from "../../api/index.js";
 import {API_KEY, URL_PROXY_PLACE_REQUEST, URL_PLACE_ID_REQ} from "../../Scripts/MapScripts.js";
 
 export default {
@@ -33,41 +34,74 @@ export default {
 		zoom : 15,
 		markers : [],
 		ifClickMarker : false,
-		ClickMarkerCoords : {lat: Number, lng: Number}
+		ClickMarkerCoords : {lat: Number, lng: Number},
+      currentPlaceData: []
 	  }
   },
   methods : {
-	ClickHandler(event) {
-	  console.log(event)
-	  console.log(event.placeId)
-	  if(event.placeId){
-		this.GetPlaceDetails(event.placeId);
+	  ClickHandler(event) {
+      console.log(event)
+	    if(event.placeId) {
+	  	  this.GetPlaceDetails(event.placeId);
+      }
+      else if (event.latLng) {
+	  	  this.SetMarker(event.latLng);
+	    }
+	  },
+	  async GetPlaceDetails(placeId){
+	    await axios.get(URL_PROXY_PLACE_REQUEST,{
+	  	  params : {
+	  	    placeId: placeId,
+	  	    key : API_KEY
+	  	  }
+	    }).then( res => {
+	  	  console.log(res);
+	    }).catch( err => {
+	  	  console.log(err);
+	    });
+    },
+	  SetMarker(coords){
+	    this.ifClickMarker = true;
+	    this.ClickMarkerCoords = coords;
+      this.getPlaceInfo(coords)
+	  },
+    async getPlaceInfo (coords) {
+      await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.lat() + ',' + coords.lng()}&key=${API_KEY}`)
+          .then((res => this.currentPlaceData = res.data))
+          .catch((err) => console.log(JSON.stringify(err)));
+
+      // let addressData = this.currentPlaceData.results[0].address_components;
+      // let coordsData = this.currentPlaceData.results[0].geometry;
+      //
+      // let formattedAddress = {};
+      //
+      // for (var i = 0; i < addressData.length; i++) {
+      //   var c = addressData[i];
+      //   formattedAddress[c.types[0]] = c;
+      // }
+      //
+      // await api.locations.addLocation(
+      //     {
+      //       address: formattedAddress.route.long_name + "," + formattedAddress.street_number.long_name,
+      //       index: formattedAddress.postal_code.long_name,
+      //       country: formattedAddress.country.long_name,
+      //       city: formattedAddress.locality.long_name,
+      //       coordinates: coordsData.location.lat + "," + coordsData.location.lng
+      //     }
+      // )
+
+      await api.locations.searchByCoords(
+          {
+            coordinates: coordsData.location.lat + "," + coordsData.location.lng
+          }
+      ).then((response) => {
+        console.log(response)
+      });
+    },
+	  CustomMarkerClick(){
+	    this.ifClickMarker = true;
+	    this.ClickMarkerCoords = null;
 	  }
-	  else if (event.latLng) {
-		this.SetMarker(event.latLng);
-	  }
-	},
-	async GetPlaceDetails(placeId){
-	  await axios.get(URL_PROXY_PLACE_REQUEST,{
-		params : {
-		  placeId: placeId,
-		  key : API_KEY
-		}
-	  }).then(res=>{
-		console.log(res);
-	  }).catch(err=>{
-		console.log(err);
-	  })
-  	},
-	SetMarker(coords){
-	  this.ifClickMarker = true;
-	  this.ClickMarkerCoords = coords;
-	  //console.log(this.ClickMarkerCoords)
-	},
-	CustomMarkerClick(){
-	  this.ifClickMarker = true;
-	  this.ClickMarkerCoords = null;
-	}
 }
 }
 

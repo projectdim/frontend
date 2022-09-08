@@ -1,5 +1,5 @@
 <template>
-  <div
+  <div :class="this._isVisible ?`` :`hidden`"
 	  class="modal-mask z-50 h-screen w-screen bg-black/30 absolute top-0"
   		ref="photoModal">
 	<div class="mx-auto my-[5vh] lg:my-[10vh] modal-container w-11/12 lg:w-8/12 h-[90vh] lg:h-4/5 bg-white
@@ -27,11 +27,11 @@
 			</div>
 		  </Slide>
 		  <template #addons>
-			  <Navigation/>
-      </template>
-		  </Carousel>
-	    </div>
+			<Navigation/>
+		  </template>
+		</Carousel>
 	  </div>
+	</div>
   </div>
 </template>
 
@@ -45,30 +45,28 @@ import { ref } from 'vue';
 export default {
   name: "PhotoViewerModal",
   components: {
-	  Carousel,
-	  Slide,
-	  Pagination,
-	  Navigation,
+	Carousel,
+	Slide,
+	Pagination,
+	Navigation,
   },
   props : {
-	  isVisible : Boolean,
-    photo: Object
+	isVisible : Boolean,
   },
   data : function (){
-	return {
+	return{
 	  selectedDataItem : SelectedDataItem,
 	  _isVisible : this.isVisible
-	  }
+	}
   },
   computed : {
 	mainImageSrc(){
 	  return this.selectedDataItem.photo[0];
-	  }
+	}
   },
   methods : {
 	closeModal(){
-	  // this._isVisible = false;
-    this.$emit('close-modal')
+	  this._isVisible = false;
 	},
 	showModal(){
 	  alert("Show")

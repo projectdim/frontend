@@ -11,13 +11,13 @@ import PhotoViewerModal from "./components/PhotoViewerModal.vue";
 	<Header/>
 	<div class="flex h-[calc(100vh-64px)]">
 	  <div class="basis-4/12 h-full">
-	  	<SideBar v-on:show-modal="changeModalVisibility"/>
+	  	<SideBar/>
 	  </div>
 	  <div class="basis-8/12">
 	  	<GoogleMap/>
 	  </div>
 	</div>
-	<PhotoViewerModal v-on:close-modal="changeModalVisibility" v-if="modalVisible" />
+	<PhotoViewerModal :isVisible=true />
   </div>
 
 </template>
@@ -27,15 +27,11 @@ import PhotoViewerModal from "./components/PhotoViewerModal.vue";
 	  methods :{
 		  Foo(message){
 			this.msg = "NE qwerty " + message;
-		  },
-      changeModalVisibility () {
-        this.modalVisible = !this.modalVisible
-      }
+		  }
 		},
 	  data : function() {
 		  return {
-			  msg : "qwerty",
-        modalVisible: true
+			msg : "qwerty"
 		  }
 	  }
 	}
