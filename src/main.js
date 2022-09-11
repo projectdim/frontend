@@ -9,7 +9,7 @@ import PhotoViewerModal from "./components/PhotoViewerModal.vue";
 const app = createApp(App);
 app.use(VueGoogleMaps,{
         load: {
-            key: KURSANT_API_KEY,
+            key: API_KEY,
             language: 'ua',
         },
     });
