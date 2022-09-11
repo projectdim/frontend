@@ -11,10 +11,10 @@ import PhotoViewerModal from "./components/PhotoViewerModal.vue";
 	<Header/>
 	<div class="flex h-[calc(100vh-64px)]">
 	  <div class="basis-4/12 h-full">
-	  	<SideBar/>
+	  	<SideBar v-if="selectedMarker" v-bind:selected-marker="selectedMarker"/>
 	  </div>
 	  <div class="basis-8/12">
-	  	<GoogleMap/>
+	  	<GoogleMap v-on:changeMarkerView="setMarker"/>
 	  </div>
 	</div>
   </div>
@@ -24,13 +24,14 @@ import PhotoViewerModal from "./components/PhotoViewerModal.vue";
 <script>
 	export default {
 	  methods :{
-		  Foo(message){
-			this.msg = "NE qwerty " + message;
-		  }
+		  setMarker (marker) {
+        this.selectedMarker = marker
+      }
 		},
 	  data : function() {
 		  return {
-			msg : "qwerty"
+			  msg : "qwerty",
+        selectedMarker: null
 		  }
 	  }
 	}

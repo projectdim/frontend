@@ -1,5 +1,5 @@
 <template>
-	<div id="sideBar" class="overflow-y-auto h-full shadow-1cs p-4">
+	<div id="sideBar" class="overflow-y-auto h-full shadow-1cs p-4" v-if="selectedItem">
 
 	  <h1 class="px-5 text-3xl font-semibold my-3">{{this.selectedItem.address}}, {{this.selectedItem.index}}, {{this.selectedItem.city}}</h1>
 	  <div class="text-base flex flex-nowrap text-center">
@@ -19,7 +19,7 @@
 	  <div>
 		<Overview v-if="this.selectedTabItem==`Overview`"/>
 		<History v-if="this.selectedTabItem==`History`"/>
-	  </div>
+	  </div>admin
 	</div>
 </template>
 
@@ -30,6 +30,9 @@ import History from "./History.vue";
 
 export default {
   name: "SideBar",
+  props: {
+    selectedMarker: Object
+  },
   components: { History, Overview },
   methods : {
 	  setSelectedTab(tabName){
@@ -37,9 +40,15 @@ export default {
 	    console.log( this.selectedTabItem)
 	  }
   },
+  watch: {
+    selectedMarker: function (newMark) {
+      console.log(newMark)
+      this.selectedItem = newMark
+    }
+  },
   data : function () {
 	  return {
-	    selectedItem: SelectedDataItem,
+	    selectedItem: null,
 	    selectedTabItem : "Overview"
 	  }
   }

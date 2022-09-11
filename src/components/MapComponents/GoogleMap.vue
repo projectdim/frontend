@@ -7,6 +7,8 @@
 		style="width: 100%; height: 100%"
 		:click="true"
 		@click="ClickHandler"
+    @zoom_changed="getZoom"
+    @bounds_changed="getBounds"
 	>
 	  <GMapMarker
 		  :v-if="this.ifClickMarker"
@@ -19,12 +21,14 @@
 	  />
 
 	  <GMapMarker
+        v-if="showMarkers"
 		  v-for="(m, index) in markers"
 		  :key="index"
 		  :position="m.position"
-		  icon="./public/vite.svg"
+		  icon="./public/map-pin.svg"
 		  :clickable="true"
-		  :draggable="true"
+		  :draggable="false"
+      @click="getMarkerInfo(m)"
 	  />
 
 	</GMapMap>
@@ -46,37 +50,38 @@ export default {
 		ifClickMarker : false,
 		ClickMarkerCoords : {lat: Number, lng: Number},
 		markers: [
-		  {
-			position: {
-			  lat: 49.23424701332752, lng: 28.46228865225255
-			},
-		  },
-		  {
-			position: {
-			  lat: 49.23434701332752, lng: 28.46228865225255
-			},
-		  },
-		  {
-			position: {
-			  lat: 49.23574701332752, lng: 28.46228865225255
-			},
-		  },
-		  {
-			position: {
-			  lat: 49.23934701332752, lng: 28.46228865225255
-			},
-		  },
-		  {
-			position: {
-			  lat: 49.23419601332752, lng: 28.46228865225255
-			},
-		  },
-		  {
-			position: {
-			  lat: 49.24414701332752, lng: 28.46228865225255
-			},
-		  },
+		  // {
+			// position: {
+			//   lat: 49.23424701332752, lng: 28.46228865225255
+			// },
+		  // },
+		  // {
+			// position: {
+			//   lat: 49.23434701332752, lng: 28.46228865225255
+			// },
+		  // },
+		  // {
+			// position: {
+			//   lat: 49.23574701332752, lng: 28.46228865225255
+			// },
+		  // },
+		  // {
+			// position: {
+			//   lat: 49.23934701332752, lng: 28.46228865225255
+			// },
+		  // },
+		  // {
+			// position: {
+			//   lat: 49.23419601332752, lng: 28.46228865225255
+			// },
+		  // },
+		  // {
+			// position: {
+			//   lat: 49.24414701332752, lng: 28.46228865225255
+			// },
+		  // },
 		],
+      showMarkers: false,
       currentPlaceData: []
 	  }
   },
@@ -90,6 +95,24 @@ export default {
 	  	  this.SetMarker(event.latLng);
 	    }
 	  },
+    async getBounds ( arg ) {
+      let bounds = {
+        lat: { hi: arg.Bb.hi, lo: arg.Bb.lo },
+        lng: { hi: arg.Va.hi, lo: arg.Va.lo }
+      }
+      console.log(bounds)
+      await api.locations.searchByCoords(bounds).then((response) => {
+        this.markers = []
+        response.data.forEach((loc) => {
+          this.markers.push(loc)
+          this.showMarkers = true;
+        })
+        console.log(this.markers)
+      });
+    },
+    async getMarkerInfo(marker) {
+      this.$emit('changeMarkerView', marker)
+    },
 	  async GetPlaceDetails(placeId){
 	    await axios.get(URL_PROXY_PLACE_REQUEST,{
 	  	  params : {
@@ -112,9 +135,9 @@ export default {
           .then((res => this.currentPlaceData = res.data))
           .catch((err) => console.log(JSON.stringify(err)));
 
-      // let addressData = this.currentPlaceData.results[0].address_components;
-      // let coordsData = this.currentPlaceData.results[0].geometry;
-      //
+      let addressData = this.currentPlaceData.results[0].address_components;
+      let coordsData = this.currentPlaceData.results[0].geometry;
+
       // let formattedAddress = {};
       //
       // for (var i = 0; i < addressData.length; i++) {
@@ -128,16 +151,24 @@ export default {
       //       index: formattedAddress.postal_code.long_name,
       //       country: formattedAddress.country.long_name,
       //       city: formattedAddress.locality.long_name,
-      //       coordinates: coordsData.location.lat + "," + coordsData.location.lng
+      //       // coordinates: coordsData.location.lat + "," + coordsData.location.lng,
+      //       lat: coordsData.location.lat,
+      //       lng: coordsData.location.lng
       //     }
       // )
 
       await api.locations.searchByCoords(
           {
-            coordinates: coordsData.location.lat + "," + coordsData.location.lng
+            lat: coordsData.location.lat,
+            lng: coordsData.location.lng
           }
       ).then((response) => {
-        console.log(response)
+        this.markers = []
+        response.data.forEach((loc) => {
+          this.markers.push(loc)
+          this.showMarkers = true;
+        })
+        console.log(this.markers)
       });
     },
 	  CustomMarkerClick(){
