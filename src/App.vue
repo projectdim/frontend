@@ -7,7 +7,7 @@ import PhotoViewerModal from "./components/PhotoViewerModal.vue";
 </script>
 
 <template>
-  <div class="h-full">
+  <div id="container" class="h-full">
 	<Header/>
 	<div class="flex h-[calc(100vh-64px)]">
 	  <div class="basis-4/12 h-full">
@@ -17,7 +17,6 @@ import PhotoViewerModal from "./components/PhotoViewerModal.vue";
 	  	<GoogleMap/>
 	  </div>
 	</div>
-	<PhotoViewerModal :isVisible=true />
   </div>
 
 </template>

@@ -17,6 +17,16 @@
 		  :clickable="true"
 		  @click="this.CustomMarkerClick"
 	  />
+
+	  <GMapMarker
+		  v-for="(m, index) in markers"
+		  :key="index"
+		  :position="m.position"
+		  icon="./public/vite.svg"
+		  :clickable="true"
+		  :draggable="true"
+	  />
+
 	</GMapMap>
   </div>
 </template>
@@ -24,6 +34,7 @@
 <script>
 import axios from "axios";
 import {API_KEY, URL_PROXY_PLACE_REQUEST, URL_PLACE_ID_REQ} from "../../Scripts/MapScripts.js";
+import VueGoogleMaps from "@fawmi/vue-google-maps";
 
 export default {
   name: "GoogleMap",
@@ -31,9 +42,40 @@ export default {
 	  return {
 		center: {lat: 49.23414701332752, lng: 28.46228865225255},
 		zoom : 15,
-		markers : [],
 		ifClickMarker : false,
-		ClickMarkerCoords : {lat: Number, lng: Number}
+		ClickMarkerCoords : {lat: Number, lng: Number},
+		markers: [
+		  {
+			position: {
+			  lat: 49.23424701332752, lng: 28.46228865225255
+			},
+		  },
+		  {
+			position: {
+			  lat: 49.23434701332752, lng: 28.46228865225255
+			},
+		  },
+		  {
+			position: {
+			  lat: 49.23574701332752, lng: 28.46228865225255
+			},
+		  },
+		  {
+			position: {
+			  lat: 49.23934701332752, lng: 28.46228865225255
+			},
+		  },
+		  {
+			position: {
+			  lat: 49.23419601332752, lng: 28.46228865225255
+			},
+		  },
+		  {
+			position: {
+			  lat: 49.24414701332752, lng: 28.46228865225255
+			},
+		  },
+		]
 	  }
   },
   methods : {
