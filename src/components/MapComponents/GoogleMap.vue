@@ -45,7 +45,6 @@ export default {
 		zoom : 15,
 		ifClickMarker : false,
 		ClickMarkerCoords : {lat: Number, lng: Number},
-<<<<<<< HEAD
 		markers: [
 		  {
 			position: {
@@ -77,10 +76,8 @@ export default {
 			  lat: 49.24414701332752, lng: 28.46228865225255
 			},
 		  },
-		]
-=======
+		],
       currentPlaceData: []
->>>>>>> 430dfd10e4ca942a535d27405021ac47ea924ffc
 	  }
   },
   methods : {
