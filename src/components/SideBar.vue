@@ -4,13 +4,13 @@
 	  <h1 class="px-5 text-3xl font-semibold my-3">{{ selectedMarker.address }}, {{ selectedMarker.index }}, {{ selectedMarker.city }}</h1>
 	  <div class="text-base flex flex-nowrap text-center">
 		<div class="basis-1/2 py-2.5  cursor-pointer hover:bg-gray-200 box-border"
-			 :class="this.selectedTabItem==`Overview`? `text-blue border-[#2E60B3] border-b-4` : `text-grey border-[#64748C] border-b-2`"
+			 :class="this.selectedTabItem === `Overview`? `text-blue border-[#2E60B3] border-b-4` : `text-grey border-[#64748C] border-b-2`"
 			 @click="setSelectedTab(`Overview`)"
 		>
 		  Overview
 		</div>
 		<div class=" basis-1/2 py-2.5 cursor-pointer hover:bg-gray-200 box-border"
-			 :class="this.selectedTabItem==`History`? `text-blue border-[#2E60B3] border-b-4` : `text-grey border-[#64748C] border-b-2`"
+			 :class="this.selectedTabItem === `History`? `text-blue border-[#2E60B3] border-b-4` : `text-grey border-[#64748C] border-b-2`"
 			 @click="setSelectedTab(`History`)"
 		>
 		  Change history
