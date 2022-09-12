@@ -7,7 +7,6 @@
 		style="width: 100%; height: 100%"
 		:click="true"
 		@click="ClickHandler"
-    @zoom_changed="getZoom"
     @bounds_changed="getBounds"
 	>
 	  <GMapMarker
@@ -100,14 +99,12 @@ export default {
         lat: { hi: arg.Bb.hi, lo: arg.Bb.lo },
         lng: { hi: arg.Va.hi, lo: arg.Va.lo }
       }
-      console.log(bounds)
       await api.locations.searchByCoords(bounds).then((response) => {
         this.markers = []
         response.data.forEach((loc) => {
           this.markers.push(loc)
           this.showMarkers = true;
         })
-        console.log(this.markers)
       });
     },
     async getMarkerInfo(marker) {
@@ -138,8 +135,8 @@ export default {
       let addressData = this.currentPlaceData.results[0].address_components;
       let coordsData = this.currentPlaceData.results[0].geometry;
 
-      // let formattedAddress = {};
-      //
+      let formattedAddress = {};
+
       // for (var i = 0; i < addressData.length; i++) {
       //   var c = addressData[i];
       //   formattedAddress[c.types[0]] = c;
@@ -157,19 +154,19 @@ export default {
       //     }
       // )
 
-      await api.locations.searchByCoords(
-          {
-            lat: coordsData.location.lat,
-            lng: coordsData.location.lng
-          }
-      ).then((response) => {
-        this.markers = []
-        response.data.forEach((loc) => {
-          this.markers.push(loc)
-          this.showMarkers = true;
-        })
-        console.log(this.markers)
-      });
+      // await api.locations.searchByCoords(
+      //     {
+      //       lat: coordsData.location.lat,
+      //       lng: coordsData.location.lng
+      //     }
+      // ).then((response) => {
+      //   this.markers = []
+      //   response.data.forEach((loc) => {
+      //     this.markers.push(loc)
+      //     this.showMarkers = true;
+      //   })
+      //   console.log(this.markers)
+      // });
     },
 	  CustomMarkerClick(){
 	    this.ifClickMarker = true;
