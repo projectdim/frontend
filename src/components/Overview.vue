@@ -129,7 +129,7 @@
 			 :class="markerReports.fuelStation === `open` ? 'text-safety-green' : 'text-dangerous-red'">
 			{{markerReports.fuelStation}}
 			<span v-if="markerReports.fuelStation !== `none`" class="text-base-grey text-sm">
-			  ( {{markerReports.fuelStationDistance}} KM )
+			  ( {{markerReports.fuelStationDistance.toFixed(2)}} KM )
 			</span>
 		  </p>
 		  <p class="text-base-grey text-sm my-auto">
@@ -147,7 +147,7 @@
 			 :class="markerReports.hospital === `open` ? 'text-safety-green' : 'text-dangerous-red'">
 			{{markerReports.hospital}}
 			<span v-if="markerReports.hospital !== `none`" class="text-base-grey text-sm">
-			  ({{markerReports.hospitalDistance}} KM)
+			  ( {{markerReports.hospitalDistance.toFixed(2)}} KM )
 			</span>
 		  </p>
 		  <p class="text-base-grey text-sm my-auto">

@@ -1,6 +1,9 @@
 <template>
   <div id="mapContainer" class="h-full">
+    <input class="absolute z-10 top-32 right-24 w-3/5 p-4 border bg-white rounded-2xl" placeholder="Search">
 	<GMapMap
+      class="z-0"
+      ref="map"
 		:center="center"
  		:zoom="15"
 		map-type-id="roadmap"
@@ -109,6 +112,7 @@ export default {
     },
     async getMarkerInfo(marker) {
       this.$emit('changeMarkerView', marker)
+      this.$refs["map"].moveCamera()
     },
 	  async GetPlaceDetails(placeId){
 	    await axios.get(URL_PROXY_PLACE_REQUEST,{
@@ -135,8 +139,8 @@ export default {
       let addressData = this.currentPlaceData.results[0].address_components;
       let coordsData = this.currentPlaceData.results[0].geometry;
 
-      let formattedAddress = {};
-
+      // let formattedAddress = {};
+      //
       // for (var i = 0; i < addressData.length; i++) {
       //   var c = addressData[i];
       //   formattedAddress[c.types[0]] = c;

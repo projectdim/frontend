@@ -8,16 +8,16 @@ import PhotoViewerModal from "./components/PhotoViewerModal.vue";
 
 <template>
   <div id="container" class="h-full">
-	<Header/>
-	<div class="flex h-[calc(100vh-64px)]">
-	  <div class="basis-4/12 h-full">
-	  	<SideBar v-bind:selected-marker="selectedMarker" v-if="selectedMarker"/>
-      <p v-else class="text-center p-24 font-bold text-2xl">No marker selected.</p>
+	  <Header/>
+	  <div class="md:flex h-[calc(100vh-64px)]">
+	    <div class="basis-4/12 h-full">
+	    	<SideBar v-bind:selected-marker="selectedMarker" v-if="selectedMarker"/>
+        <p v-else class="text-center p-24 font-bold text-2xl">No marker selected.</p>
+	    </div>
+      <div class="md:basis-8/12 h-full md:p-0 p-4">
+        <GoogleMap v-on:changeMarkerView="setMarker"/>
+      </div>
 	  </div>
-	  <div class="basis-8/12">
-	  	<GoogleMap v-on:changeMarkerView="setMarker"/>
-	  </div>
-	</div>
   </div>
 
 </template>
@@ -39,5 +39,8 @@ import PhotoViewerModal from "./components/PhotoViewerModal.vue";
 </script>
 
 <style scoped>
-
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+* {
+  font-family: 'Inter', sans-serif;
+}
 </style>
