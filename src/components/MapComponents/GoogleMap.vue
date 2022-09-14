@@ -1,16 +1,37 @@
 <template>
-  <div id="mapContainer" class="h-full">
-    <input class="absolute z-10 top-32 right-24 w-3/5 p-4 border bg-white rounded-2xl" placeholder="Search">
+  <div id="mapContainer" class="h-full relative">
+	<div class="absolute z-10 top-2 w-full flex flex-nowrap">
+	  <div class="mx-[2.5%] w-[95%] border bg-white rounded-2xl border border-[3px]"
+	  	:class="{'border-base-blue': isInputFocused}"
+	  >
+		<input class="w-[90%] p-1.5 bg-transparent rounded-2xl outline-none bg-yellow-400 block" placeholder="Search..."
+		@focusin="OnInputFocus(true)"
+		@focusout="OnInputFocus(false)">
+		<div class="w-[10%]">
+		  Search
+		</div>
+	  </div>
+<!--	  <input class="mx-[5%] w-[90%] p-1.5 border bg-white rounded-2xl" placeholder="Search...">-->
+	</div>
 	<GMapMap
       class="z-0"
       ref="map"
 		:center="center"
- 		:zoom="15"
+ 		:zoom="this.currentMapZoom"
 		map-type-id="roadmap"
 		style="width: 100%; height: 100%"
 		:click="true"
 		@click="ClickHandler"
-    @bounds_changed="getBounds"
+    	@bounds_changed="getBounds"
+	  	@zoom_changed="OnMapZoomChanged"
+	  	:options="{
+                      zoomControl: true,
+                      mapTypeControl: false,
+                      scaleControl: true,
+                      streetViewControl: false,
+                      rotateControl: false,
+                      fullscreenControl: false,
+                }"
 	>
 	  <GMapMarker
 		  :v-if="this.ifClickMarker"
@@ -22,17 +43,32 @@
 		  @click="this.CustomMarkerClick"
 	  />
 
-	  <GMapMarker
-        v-if="showMarkers"
-		  v-for="(m, index) in markers"
-		  :key="index"
-		  :position="m.position"
-		  icon="./public/map-pin.svg"
-		  :clickable="true"
-		  :draggable="false"
-      @click="getMarkerInfo(m)"
-	  />
-
+	  <GMapCluster
+		  :styles="[
+         	{
+			   textColor: 'black',
+			   url: `./public/m1.png`,
+			   height: 52,
+			   width: 53,
+			   textSize: 16,
+			   textLineHeight: 52,
+         	},
+      	  ]"
+		  :minimumClusterSize="2"
+		  :zoomOnClick="true"
+		  :maxZoom="11"
+	  >
+		<GMapMarker
+		  v-if="showMarkers"
+			v-for="(m, index) in markers"
+			:key="index"
+			:position="m.position"
+			icon="./public/map-pin.svg"
+			:clickable="true"
+			:draggable="false"
+		  @click="getMarkerInfo(m)"
+		/>
+	  </GMapCluster>
 	</GMapMap>
   </div>
 </template>
@@ -48,7 +84,7 @@ export default {
   data : function (){
 	  return {
 		center: {lat: 49.23414701332752, lng: 28.46228865225255},
-		zoom : 15,
+		currentMapZoom : 14,
 		ifClickMarker : false,
 		ClickMarkerCoords : {lat: Number, lng: Number},
 		markers: [
@@ -83,12 +119,13 @@ export default {
 			// },
 		  // },
 		],
-      showMarkers: false,
-      currentPlaceData: []
+      	showMarkers: false,
+      	currentPlaceData: [],
+		isInputFocused : false
 	  }
   },
   methods : {
-	  ClickHandler(event) {
+	ClickHandler(event) {
       console.log(event)
 	    if(event.placeId) {
 	  	  this.GetPlaceDetails(event.placeId);
@@ -114,7 +151,7 @@ export default {
       this.$emit('changeMarkerView', marker)
       this.$refs["map"].moveCamera()
     },
-	  async GetPlaceDetails(placeId){
+	async GetPlaceDetails(placeId){
 	    await axios.get(URL_PROXY_PLACE_REQUEST,{
 	  	  params : {
 	  	    placeId: placeId,
@@ -126,7 +163,7 @@ export default {
 	  	  console.log(err);
 	    });
     },
-	  SetMarker(coords){
+	SetMarker(coords){
 	    this.ifClickMarker = true;
 	    this.ClickMarkerCoords = coords;
       this.getPlaceInfo(coords)
@@ -172,17 +209,26 @@ export default {
       //   console.log(this.markers)
       // });
     },
-	  CustomMarkerClick(){
+	CustomMarkerClick(){
 	    this.ifClickMarker = true;
 	    this.ClickMarkerCoords = null;
-	  }
+	  },
+	OnMapZoomChanged(arg){
+		console.log(arg);
+		this.currentMapZoom = arg;
+	},
+	OnInputFocus(arg){
+	  this.isInputFocused = arg;
+	}
 }
 }
 
 </script>
 
 <style scoped>
+ .class1{
 
+ }
 </style>
 
 
