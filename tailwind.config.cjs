@@ -11,7 +11,11 @@ module.exports = {
         'safety-green' : '#098507',
         'dangerous-red' : '#C02C0B',
         'base-blue' : '#2E60B3',
-        'base-grey' : '#64748c'
+        'base-grey' : '#64748c',
+        'light-blue' : '#F2F7FF',
+        'gray-light-100' :'#F7F9FC',
+        'gray-light-200' : '#F0F4FA',
+        'gray-light-300' :'#C5D0E3',
       },
       boxShadow: {
         '1cs': '1px 0px 0px rgba(181, 181, 181, 0.25), 2px 0px 20px rgba(207, 205, 205, 0.25);',
@@ -29,6 +33,10 @@ module.exports = {
         '9/12': '75%',
         '10/12': '83.333334%',
         '11/12': '91.666667%',
+      },
+      fontSize: {
+        'overview-item': ['16px', '26px'],
+        'sidebar-title': ['20px', '32px'],
       }
     },
   },

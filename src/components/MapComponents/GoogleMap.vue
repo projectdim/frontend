@@ -1,21 +1,27 @@
 <template>
-  <div id="mapContainer" class="h-full relative">
-	<div class="absolute z-10 top-2 w-full flex flex-nowrap">
-	  <div class="mx-[2.5%] w-[95%] border bg-white rounded-2xl border border-[3px]"
-	  	:class="{'border-base-blue': isInputFocused}"
-	  >
-		<input class="w-[90%] p-1.5 bg-transparent rounded-2xl outline-none bg-yellow-400 block" placeholder="Search..."
-		@focusin="OnInputFocus(true)"
-		@focusout="OnInputFocus(false)">
-		<div class="w-[10%]">
-		  Search
+	<div id="mapContainer" class="h-full relative">
+		<div class="absolute z-10 top-2 w-full">
+			<div class="mx-[2.5%] w-[95%] border bg-white rounded-2xl border border-[3px] flex flex-nowrap max-h-10"
+			:class="{'border-base-blue': isInputFocused}"
+			>
+				<GMapAutocomplete
+					placeholder="Search..."
+					@place_changed="setPlace"
+					class="w-[90%] p-1.5 bg-transparent rounded-2xl outline-none block"
+					:options="{
+							  fields: [`geometry`, `name`]
+						  }"
+					@focusin="OnInputFocus(true)"
+					@focusout="OnInputFocus(false)"
+		  		/>
+				<div class="w-[10%] cursor-pointer rounded-2xl bg-blue-200 hover:bg-blue-400">
+					<img src="../../../public/search2.png" class="h-full w-full object-contain">
+				</div>
+	  		</div>
 		</div>
-	  </div>
-<!--	  <input class="mx-[5%] w-[90%] p-1.5 border bg-white rounded-2xl" placeholder="Search...">-->
-	</div>
 	<GMapMap
-      class="z-0"
-      ref="map"
+    	class="z-0"
+    	ref="map"
 		:center="center"
  		:zoom="this.currentMapZoom"
 		map-type-id="roadmap"
@@ -23,26 +29,58 @@
 		:click="true"
 		@click="ClickHandler"
     	@bounds_changed="getBounds"
-	  	@zoom_changed="OnMapZoomChanged"
-	  	:options="{
-                      zoomControl: true,
-                      mapTypeControl: false,
-                      scaleControl: true,
-                      streetViewControl: false,
-                      rotateControl: false,
-                      fullscreenControl: false,
-                }"
+		@zoom_changed="OnMapZoomChanged"
+		:options="{
+			zoomControl: true,
+			mapTypeControl: false,
+			scaleControl: true,
+			streetViewControl: false,
+			rotateControl: false,
+			fullscreenControl: false,
+			disableDefaultUI: true,
+			styles:[
+				{
+					'featureType': 'administrative',
+					'elementType': 'geometry',
+					'stylers': [
+						{ 'visibility': 'off' }
+					]
+				},
+				{
+					'featureType': 'poi',
+					'stylers': [
+						{ 'visibility': 'off' }
+					]
+				},
+				{
+					'featureType': 'road',
+					'elementType': 'labels.icon',
+					'stylers': [
+						{ 'visibility': 'off' }
+					]
+				},
+				{
+					'featureType': 'transit',
+					'stylers': [
+						{ 'visibility': 'off' }
+					]
+				}
+			]
+
+   		}"
 	>
 	  <GMapMarker
 		  :v-if="this.ifClickMarker"
 		  key="customMarker"
 		  :draggable="false"
 		  :position= "this.ClickMarkerCoords"
-		  icon="./public/map-pin.svg"
+		  :icon= '{
+			url: "./public/map-marker.svg",
+			scaledSize: {width: 40, height: 40},
+      	  }'
 		  :clickable="true"
 		  @click="this.CustomMarkerClick"
 	  />
-
 	  <GMapCluster
 		  :styles="[
          	{
@@ -70,7 +108,7 @@
 		/>
 	  </GMapCluster>
 	</GMapMap>
-  </div>
+  	</div>
 </template>
 
 <script>
@@ -83,45 +121,14 @@ export default {
   name: "GoogleMap",
   data : function (){
 	  return {
-		center: {lat: 49.23414701332752, lng: 28.46228865225255},
-		currentMapZoom : 14,
-		ifClickMarker : false,
-		ClickMarkerCoords : {lat: Number, lng: Number},
-		markers: [
-		  // {
-			// position: {
-			//   lat: 49.23424701332752, lng: 28.46228865225255
-			// },
-		  // },
-		  // {
-			// position: {
-			//   lat: 49.23434701332752, lng: 28.46228865225255
-			// },
-		  // },
-		  // {
-			// position: {
-			//   lat: 49.23574701332752, lng: 28.46228865225255
-			// },
-		  // },
-		  // {
-			// position: {
-			//   lat: 49.23934701332752, lng: 28.46228865225255
-			// },
-		  // },
-		  // {
-			// position: {
-			//   lat: 49.23419601332752, lng: 28.46228865225255
-			// },
-		  // },
-		  // {
-			// position: {
-			//   lat: 49.24414701332752, lng: 28.46228865225255
-			// },
-		  // },
-		],
-      	showMarkers: false,
-      	currentPlaceData: [],
-		isInputFocused : false
+		  center: {lat: 49.23414701332752, lng: 28.46228865225255},
+		  currentMapZoom : 14,
+		  ifClickMarker : false,
+		  ClickMarkerCoords : {lat: Number, lng: Number},
+		  markers: [],
+		  showMarkers: false,
+		  currentPlaceData: [],
+		  isInputFocused : false
 	  }
   },
   methods : {
@@ -148,8 +155,9 @@ export default {
       });
     },
     async getMarkerInfo(marker) {
+	  console.log(JSON.stringify(marker))
       this.$emit('changeMarkerView', marker)
-      this.$refs["map"].moveCamera()
+	  this.center = marker.position;
     },
 	async GetPlaceDetails(placeId){
 	    await axios.get(URL_PROXY_PLACE_REQUEST,{
@@ -167,7 +175,12 @@ export default {
 	    this.ifClickMarker = true;
 	    this.ClickMarkerCoords = coords;
       this.getPlaceInfo(coords)
-	  },
+	},
+	SetCustomMarkerKursantEdition(coords){
+	  this.ifClickMarker = true;
+	  this.ClickMarkerCoords = coords;
+	  this.currentMapZoom = this.currentMapZoom >= 15 ? this.currentMapZoom : 15;
+	},
     async getPlaceInfo (coords) {
       await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.lat() + ',' + coords.lng()}&key=${API_KEY}`)
           .then((res => this.currentPlaceData = res.data))
@@ -219,6 +232,10 @@ export default {
 	},
 	OnInputFocus(arg){
 	  this.isInputFocused = arg;
+	},
+	setPlace(arg){
+	  this.center = arg.geometry.location;
+	  this.SetCustomMarkerKursantEdition(arg.geometry.location);
 	}
 }
 }
@@ -226,9 +243,7 @@ export default {
 </script>
 
 <style scoped>
- .class1{
 
- }
 </style>
 
 
@@ -238,3 +253,34 @@ The following map types are available in the Maps JavaScript API:
 "satellite" displays Google Earth satellite images.
 "hybrid" displays a mixture of normal and satellite views.
 "terrain" displays a physical map based on terrain information.
+
+// {
+// position: {
+//   lat: 49.23424701332752, lng: 28.46228865225255
+// },
+// },
+// {
+// position: {
+//   lat: 49.23434701332752, lng: 28.46228865225255
+// },
+// },
+// {
+// position: {
+//   lat: 49.23574701332752, lng: 28.46228865225255
+// },
+// },
+// {
+// position: {
+//   lat: 49.23934701332752, lng: 28.46228865225255
+// },
+// },
+// {
+// position: {
+//   lat: 49.23419601332752, lng: 28.46228865225255
+// },
+// },
+// {
+// position: {
+//   lat: 49.24414701332752, lng: 28.46228865225255
+// },
+// },

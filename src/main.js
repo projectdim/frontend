@@ -11,10 +11,8 @@ app.use(VueGoogleMaps,{
         load: {
             key: API_KEY,
             language: 'ua',
+            libraries: "places"
         },
     });
 app.mount('#app');
 app.component("PhotoViewerModal", PhotoViewerModal);
-
-
-//autobindAllEvents: true,
