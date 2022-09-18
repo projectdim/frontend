@@ -1,22 +1,30 @@
 <template>
 	<div id="mapContainer" class="h-full relative">
-		<div class="absolute z-10 top-2 w-full">
-			<div class="mx-[2.5%] w-[95%] border bg-white rounded-2xl border border-[3px] flex flex-nowrap max-h-10"
+		<div class="absolute z-10 top-6 w-full">
+			<div class="mx-[2.5%] w-[95%] border bg-white rounded-xl border-gray-light-300 border-[2px] h-10 flex flex-nowrap"
 			:class="{'border-base-blue': isInputFocused}"
 			>
+				<div class="w-[44px] cursor-pointer rounded-xl hover:bg-blue-200">
+					<img src="../../../public/search.svg" class="h-full w-full object-scale-down">
+				</div>
+
 				<GMapAutocomplete
+					ref="autocomplete"
 					placeholder="Search..."
 					@place_changed="setPlace"
-					class="w-[90%] p-1.5 bg-transparent rounded-2xl outline-none block"
+					class="w-full bg-transparent outline-none block text-overview-item"
 					:options="{
 							  fields: [`geometry`, `name`]
 						  }"
 					@focusin="OnInputFocus(true)"
 					@focusout="OnInputFocus(false)"
+					:v-model="this.searchRequest"
 		  		/>
-				<div class="w-[10%] cursor-pointer rounded-2xl bg-blue-200 hover:bg-blue-400">
-					<img src="../../../public/search2.png" class="h-full w-full object-contain">
+				<div class="w-[40px] cursor-pointer rounded-xl hover:bg-blue-200"
+					@click="this.ClearSearchRequest">
+					<img src="../../../public/close.svg" class="h-full w-full object-scale-down">
 				</div>
+
 	  		</div>
 		</div>
 	<GMapMap
@@ -115,7 +123,6 @@
 import axios from "axios";
 import api from "../../api/index.js";
 import {API_KEY, URL_PROXY_PLACE_REQUEST, URL_PLACE_ID_REQ} from "../../Scripts/MapScripts.js";
-import VueGoogleMaps from "@fawmi/vue-google-maps";
 
 export default {
   name: "GoogleMap",
@@ -128,116 +135,122 @@ export default {
 		  markers: [],
 		  showMarkers: false,
 		  currentPlaceData: [],
-		  isInputFocused : false
+		  isInputFocused : false,
+		  searchRequest : ""
 	  }
   },
-  methods : {
-	ClickHandler(event) {
-      console.log(event)
-	    if(event.placeId) {
-	  	  this.GetPlaceDetails(event.placeId);
-      }
-      else if (event.latLng) {
-	  	  this.SetMarker(event.latLng);
-	    }
-	  },
-    async getBounds ( arg ) {
-      let bounds = {
-        lat: { hi: arg.Bb.hi, lo: arg.Bb.lo },
-        lng: { hi: arg.Va.hi, lo: arg.Va.lo }
-      }
-      await api.locations.searchByCoords(bounds).then((response) => {
-        this.markers = []
-        response.data.forEach((loc) => {
-          this.markers.push(loc)
-          this.showMarkers = true;
-        })
-      });
-    },
-    async getMarkerInfo(marker) {
-	  console.log(JSON.stringify(marker))
-      this.$emit('changeMarkerView', marker)
-	  this.center = marker.position;
-    },
-	async GetPlaceDetails(placeId){
-	    await axios.get(URL_PROXY_PLACE_REQUEST,{
-	  	  params : {
-	  	    placeId: placeId,
-	  	    key : API_KEY
-	  	  }
-	    }).then( res => {
-	  	  console.log(res);
-	    }).catch( err => {
-	  	  console.log(err);
-	    });
-    },
-	SetMarker(coords){
-	    this.ifClickMarker = true;
-	    this.ClickMarkerCoords = coords;
-      this.getPlaceInfo(coords)
-	},
-	SetCustomMarkerKursantEdition(coords){
-	  this.ifClickMarker = true;
-	  this.ClickMarkerCoords = coords;
-	  this.currentMapZoom = this.currentMapZoom >= 15 ? this.currentMapZoom : 15;
-	},
-    async getPlaceInfo (coords) {
-      await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.lat() + ',' + coords.lng()}&key=${API_KEY}`)
-          .then((res => this.currentPlaceData = res.data))
-          .catch((err) => console.log(JSON.stringify(err)));
+	methods : {
+	  	ClickHandler(event) {
+    	  console.log(event)
+		  if(event.placeId) {
+		  	  this.GetPlaceDetails(event.placeId);
+    	  }
+    	  else if (event.latLng) {
+		  	  this.SetMarker(event.latLng);
+		    }
+		  },
+		async getBounds ( arg ) {
+    	  let bounds = {
+    	    lat: { hi: arg.Bb.hi, lo: arg.Bb.lo },
+    	    lng: { hi: arg.Va.hi, lo: arg.Va.lo }
+    	  }
+    	  await api.locations.searchByCoords(bounds).then((response) => {
+    	    this.markers = []
+    	    response.data.forEach((loc) => {
+    	      this.markers.push(loc)
+    	      this.showMarkers = true;
+    	    })
+    	  });
+    	},
+    	async getMarkerInfo(marker) {
+		  console.log(JSON.stringify(marker))
+    	  this.$emit('changeMarkerView', marker)
+		  this.center = marker.position;
+    	},
+		async GetPlaceDetails(placeId){
+		    await axios.get(URL_PROXY_PLACE_REQUEST,{
+		  	  params : {
+		  	    placeId: placeId,
+		  	    key : API_KEY
+		  	  }
+		    }).then( res => {
+		  	  console.log(res);
+		    }).catch( err => {
+		  	  console.log(err);
+		    });
+    	},
+		SetMarker(coords){
+		    this.ifClickMarker = true;
+		    this.ClickMarkerCoords = coords;
+    	  this.getPlaceInfo(coords)
+		},
+		SetCustomMarkerKursantEdition(coords){
+		  this.ifClickMarker = true;
+		  this.ClickMarkerCoords = coords;
+		  this.currentMapZoom = this.currentMapZoom >= 15 ? this.currentMapZoom : 15;
+		},
+    	async getPlaceInfo (coords) {
+    	  await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.lat() + ',' + coords.lng()}&key=${API_KEY}`)
+    	      .then((res => this.currentPlaceData = res.data))
+    	      .catch((err) => console.log(JSON.stringify(err)));
 
-      let addressData = this.currentPlaceData.results[0].address_components;
-      let coordsData = this.currentPlaceData.results[0].geometry;
+    	  let addressData = this.currentPlaceData.results[0].address_components;
+    	  let coordsData = this.currentPlaceData.results[0].geometry;
 
-      // let formattedAddress = {};
-      //
-      // for (var i = 0; i < addressData.length; i++) {
-      //   var c = addressData[i];
-      //   formattedAddress[c.types[0]] = c;
-      // }
-      //
-      // await api.locations.addLocation(
-      //     {
-      //       address: formattedAddress.route.long_name + "," + formattedAddress.street_number.long_name,
-      //       index: formattedAddress.postal_code.long_name,
-      //       country: formattedAddress.country.long_name,
-      //       city: formattedAddress.locality.long_name,
-      //       // coordinates: coordsData.location.lat + "," + coordsData.location.lng,
-      //       lat: coordsData.location.lat,
-      //       lng: coordsData.location.lng
-      //     }
-      // )
+    	  // let formattedAddress = {};
+    	  //
+    	  // for (var i = 0; i < addressData.length; i++) {
+    	  //   var c = addressData[i];
+    	  //   formattedAddress[c.types[0]] = c;
+    	  // }
+    	  //
+    	  // await api.locations.addLocation(
+    	  //     {
+    	  //       address: formattedAddress.route.long_name + "," + formattedAddress.street_number.long_name,
+    	  //       index: formattedAddress.postal_code.long_name,
+    	  //       country: formattedAddress.country.long_name,
+    	  //       city: formattedAddress.locality.long_name,
+    	  //       // coordinates: coordsData.location.lat + "," + coordsData.location.lng,
+    	  //       lat: coordsData.location.lat,
+    	  //       lng: coordsData.location.lng
+    	  //     }
+    	  // )
 
-      // await api.locations.searchByCoords(
-      //     {
-      //       lat: coordsData.location.lat,
-      //       lng: coordsData.location.lng
-      //     }
-      // ).then((response) => {
-      //   this.markers = []
-      //   response.data.forEach((loc) => {
-      //     this.markers.push(loc)
-      //     this.showMarkers = true;
-      //   })
-      //   console.log(this.markers)
-      // });
-    },
-	CustomMarkerClick(){
-	    this.ifClickMarker = true;
-	    this.ClickMarkerCoords = null;
-	  },
-	OnMapZoomChanged(arg){
-		console.log(arg);
-		this.currentMapZoom = arg;
-	},
-	OnInputFocus(arg){
-	  this.isInputFocused = arg;
-	},
-	setPlace(arg){
-	  this.center = arg.geometry.location;
-	  this.SetCustomMarkerKursantEdition(arg.geometry.location);
-	}
-}
+    	  // await api.locations.searchByCoords(
+    	  //     {
+    	  //       lat: coordsData.location.lat,
+    	  //       lng: coordsData.location.lng
+    	  //     }
+    	  // ).then((response) => {
+    	  //   this.markers = []
+    	  //   response.data.forEach((loc) => {
+    	  //     this.markers.push(loc)
+    	  //     this.showMarkers = true;
+    	  //   })
+    	  //   console.log(this.markers)
+    	  // });
+    	},
+		CustomMarkerClick(){
+		    this.ifClickMarker = true;
+		    this.ClickMarkerCoords = null;
+		  },
+		OnMapZoomChanged(arg){
+			console.log(arg);
+			this.currentMapZoom = arg;
+		},
+		OnInputFocus(arg){
+		  this.isInputFocused = arg;
+		},
+		setPlace(arg){
+		  this.center = arg.geometry.location;
+		  this.SetCustomMarkerKursantEdition(arg.geometry.location);
+		},
+		ClearSearchRequest(){
+			  console.log(this.searchRequest)
+			  this.searchRequest = "";
+			//this.$refs.autocomplete
+		}
+  	}
 }
 
 </script>
