@@ -7,18 +7,18 @@
 			 :class="this.selectedTabItem === `Overview`? `text-blue border-[#2E60B3] border-b-2` : `text-grey border-[#64748C] border-b`"
 			 @click="setSelectedTab(`Overview`)"
 		>
-		  Overview
+      Огляд
 		</div>
 		<div class="basis-1/2 pb-2.5 cursor-pointer hover:bg-gray-200 box-border leading-[26px]"
 			 :class="this.selectedTabItem === `History`? `text-blue border-[#2E60B3] border-b-2` : `text-grey border-[#64748C] border-b`"
 			 @click="setSelectedTab(`History`)"
 		>
-		  Change history
+		  Історія змін
 		</div>
 	  </div>
 	  <div class="pt-6">
 		  <Overview v-if="this.selectedTabItem === `Overview` && selectedMarker" v-bind:marker-reports="selectedMarker.reports"/>
-		  <History v-if="this.selectedTabItem===`History`"/>
+		  <History v-if="this.selectedTabItem===`History`" v-bind:location-id="selectedMarker.id"/>
 	  </div>
 	</div>
 </template>

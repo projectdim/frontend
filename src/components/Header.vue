@@ -10,11 +10,11 @@
 			<select name="lang-selector" id="lang-selector"
 					class="h-min my-auto bg-transparent ml-[5px] text-right"
 			@change="onSelectChange">
+        <option value="Ukrainian">Українська</option>
 			  <option value="English">English</option>
-			  <option value="Ukrainian">Ukrainian</option>
 			</select>
 		  	<p class="ml-[37px] h-min my-auto">
-			  Log in
+			  Увійти
 			</p>
 		</div>
 	</header>
@@ -25,7 +25,7 @@ export default {
   name: "Header",
   data : function (){
 	return {
-	  imageSrc : "USA_flag.svg"
+	  imageSrc : "UA_flag.svg"
 	}
   },
   methods : {

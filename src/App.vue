@@ -12,7 +12,7 @@ import PhotoViewerModal from "./components/PhotoViewerModal.vue";
 	  <div class="md:flex h-[calc(100vh-64px)]">
 	    <div class="basis-4/12 h-full">
 	    	<SideBar v-bind:selected-marker="selectedMarker" v-if="selectedMarker"/>
-        <p v-else class="text-center p-24 font-bold text-2xl">No marker selected.</p>
+        <p v-else class="text-center p-24 font-bold text-2xl">Жоден маркер не вибрано.</p>
 	    </div>
       <div class="md:basis-8/12 h-full md:p-0 p-4">
         <GoogleMap v-on:changeMarkerView="setMarker"/>

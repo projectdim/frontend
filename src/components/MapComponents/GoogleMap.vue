@@ -7,10 +7,10 @@
 				<div class="w-[44px] cursor-pointer rounded-xl hover:bg-blue-200">
 					<img src="../../../public/search.svg" class="h-full w-full object-scale-down">
 				</div>
-
 				<GMapAutocomplete
+          id="autocomplete"
 					ref="autocomplete"
-					placeholder="Search..."
+					placeholder="Пошук..."
 					@place_changed="setPlace"
 					class="w-full bg-transparent outline-none block text-overview-item"
 					:options="{
@@ -20,12 +20,10 @@
 					@focusout="OnInputFocus(false)"
 					:v-model="this.searchRequest"
 		  		/>
-				<div class="w-[40px] cursor-pointer rounded-xl hover:bg-blue-200"
-					@click="this.ClearSearchRequest">
-					<img src="../../../public/close.svg" class="h-full w-full object-scale-down">
+				<div class="w-[40px] cursor-pointer rounded-xl hover:bg-blue-200" @click="this.ClearSearchRequest">
+          <img src="../../../public/close.svg" class="h-full w-full object-scale-down">
 				</div>
-
-	  		</div>
+      </div>
 		</div>
 	<GMapMap
     	class="z-0"
@@ -163,9 +161,9 @@ export default {
     	  });
     	},
     	async getMarkerInfo(marker) {
-		  console.log(JSON.stringify(marker))
-    	  this.$emit('changeMarkerView', marker)
-		  this.center = marker.position;
+    	  this.$emit('changeMarkerView', marker);
+		    this.center = marker.position;
+        this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
     	},
 		async GetPlaceDetails(placeId){
 		    await axios.get(URL_PROXY_PLACE_REQUEST,{
@@ -180,14 +178,14 @@ export default {
 		    });
     	},
 		SetMarker(coords){
-		    this.ifClickMarker = true;
-		    this.ClickMarkerCoords = coords;
-    	  this.getPlaceInfo(coords)
+		  this.ifClickMarker = true;
+		  this.ClickMarkerCoords = coords;
+    	this.getPlaceInfo(coords)
 		},
 		SetCustomMarkerKursantEdition(coords){
 		  this.ifClickMarker = true;
 		  this.ClickMarkerCoords = coords;
-		  this.currentMapZoom = this.currentMapZoom >= 15 ? this.currentMapZoom : 15;
+		  this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
 		},
     	async getPlaceInfo (coords) {
     	  await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.lat() + ',' + coords.lng()}&key=${API_KEY}`)
@@ -198,12 +196,12 @@ export default {
     	  let coordsData = this.currentPlaceData.results[0].geometry;
 
     	  // let formattedAddress = {};
-    	  //
+        //
     	  // for (var i = 0; i < addressData.length; i++) {
     	  //   var c = addressData[i];
     	  //   formattedAddress[c.types[0]] = c;
     	  // }
-    	  //
+        //
     	  // await api.locations.addLocation(
     	  //     {
     	  //       address: formattedAddress.route.long_name + "," + formattedAddress.street_number.long_name,
@@ -246,11 +244,10 @@ export default {
 		  this.SetCustomMarkerKursantEdition(arg.geometry.location);
 		},
 		ClearSearchRequest(){
-			  console.log(this.searchRequest)
-			  this.searchRequest = "";
-			//this.$refs.autocomplete
+		  let autocomplete = document.getElementById('autocomplete');
+      autocomplete.value = ''
 		}
-  	}
+  }
 }
 
 </script>

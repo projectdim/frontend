@@ -19,3 +19,23 @@
 .text-grey{
     color: var(--text-grey);
 }
+
+@layer utilities {
+    ::-webkit-scrollbar {
+        width: 8px; /* ширина для вертикального скролла */
+        height: 8px; /* высота для горизонтального скролла */
+        background-color: transparent;
+    }
+    /* ползунок скроллбара */
+    ::-webkit-scrollbar-thumb {
+        /*background: transparent linear-gradient(*/
+        /*        214deg, #363940 0%, #0B0B0D 100%) 0% 0% no-repeat padding-box;*/
+        /*border-radius: 9em;*/
+        background: rgba(73, 84, 102, 0.51);
+        border-radius: 4px;
+        opacity: 0.5;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #363940;
+    }
+}

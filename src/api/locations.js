@@ -5,6 +5,9 @@ export default function (instance) {
         },
         searchByCoords (payload) {
             return instance.post('locations/cord_search', payload)
+        },
+        getLocationChangeLog (locationId) {
+            return instance.get(`locations/changelogs?location_id=${locationId}`)
         }
     }
 }
