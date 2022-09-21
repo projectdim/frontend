@@ -81,23 +81,23 @@
 		  :draggable="false"
 		  :position= "this.ClickMarkerCoords"
 		  :icon= '{
-			url: "./public/map-marker.svg",
-			scaledSize: {width: 40, height: 40},
-      	  }'
+				url: "./public/map-marker.svg",
+				scaledSize: {width: 40, height: 40},
+      }'
 		  :clickable="true"
 		  @click="this.CustomMarkerClick"
 	  />
 	  <GMapCluster
 		  :styles="[
-         	{
-			   textColor: 'black',
-			   url: `./public/m1.png`,
-			   height: 52,
-			   width: 53,
-			   textSize: 16,
-			   textLineHeight: 52,
-         	},
-      	  ]"
+      	{
+			   	textColor: 'black',
+			   	url: `./public/m1.png`,
+			   	height: 52,
+			   	width: 53,
+			   	textSize: 16,
+			   	textLineHeight: 52,
+        },
+     	]"
 		  :minimumClusterSize="2"
 		  :zoomOnClick="true"
 		  :maxZoom="11"
@@ -120,7 +120,7 @@
 <script>
 import axios from "axios";
 import api from "../../api/index.js";
-import {API_KEY, URL_PROXY_PLACE_REQUEST, URL_PLACE_ID_REQ} from "../../Scripts/MapScripts.js";
+import {API_KEY, URL_PROXY_PLACE_REQUEST} from "../../Scripts/MapScripts.js";
 
 export default {
   name: "GoogleMap",
@@ -159,6 +159,9 @@ export default {
     	      this.showMarkers = true;
     	    })
     	  });
+				//TODO remove
+				console.log(JSON.stringify(this.markers));
+				//
     	},
     	async getMarkerInfo(marker) {
     	  this.$emit('changeMarkerView', marker);

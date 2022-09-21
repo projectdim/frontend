@@ -7,8 +7,11 @@
       <div class="flex p-4">
         <p class="text-grey font-normal">{{new Date(log.created_at).toTimeString().split(' ')[0]}}</p>
         <div v-for="change in Object.keys(log.old_flags)" class="flex mx-auto gap-4">
-          <img class="fill-dangerous-red"
-               :src="`/src/assets/buildingState/${change}.svg`">
+<!--          <img class="fill-dangerous-red"
+               :src="`/src/assets/buildingState/${change}.svg`">-->
+					<p class="w-4 h-5">
+						<SVG_water class="fill-dangerous-red"/>
+					</p>
           <p class="grow font-semibold text-overview-item my-auto uppercase text-base"
              :class="log.old_flags[change] === `Неушкоджена` ? 'text-safety-green' : 'text-dangerous-red'">
             {{log.old_flags[change]}}
@@ -31,9 +34,11 @@
 
 <script>
 import api from "../api/index.js";
+import SVG_water from "./ComponentsSVG/SVG_water.vue";
 export default {
   name: "History",
-  props: {
+	components: {SVG_water},
+	props: {
     locationId: Number
   },
   data: function () {
@@ -52,6 +57,7 @@ export default {
   methods: {
     async getLocationLogs() {
       await api.locations.getLocationChangeLog(this.locationId).then((response) => {
+				console.log(JSON.stringify(response.data));
         this.changeLogs = response.data
       });
     }
