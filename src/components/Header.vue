@@ -5,7 +5,7 @@
 	  		<img src="../assets/Logo.svg" alt="" class="my-[17px] block h-10 w-[147px]">
 	  	</div>
 
-		<div class="flex font-medium text-blue py-[16px]">
+		<div class="flex font-medium text-base-blue py-[16px]">
 		  	<img v-bind:src="'./Flags/'+this.imageSrc" class="h-[18px] w-[24px] my-auto" alt="Flag">
 				<select name="lang-selector" id="lang-selector"
 					class="h-min my-auto bg-transparent ml-[5px] text-right"

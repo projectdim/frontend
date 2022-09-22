@@ -11,7 +11,6 @@ export function getDayDate(dateStr){
         else if(isYesterday(date))
             return "завтра"
         else {
-            console.log(date)
             return `${months[date.getMonth()]} ${date.getDate()}`
         }
     }
@@ -50,4 +49,37 @@ export function GetRandomElement(array){
 }
 export function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+export function GetStateColor(field, status){
+    let red = 'red';
+    let green = 'green';
+    let yellow = 'yellow';
+    let a = {
+        buildingCondition : {
+            'Неушкоджена' : green,
+            'Пошкоджена' : yellow,
+            'Зруйнована' : red
+        },
+        electricity : {
+            'Стабільна' : green,
+            'Переривчаста' : yellow,
+            'Відсутня' : red},
+        carEntrance : {
+            "Доступне" : green,
+            "Недоступне" : red
+        },
+        water: {
+            'Стабільна' : green,
+            "Нестабільна" : red},
+        fuelStation : {
+            'зачинено' : red,
+            'відчинено' : green},
+        hospital : {
+            'зачинено' : red,
+            'відчинено' : green},
+    }
+
+    return a[field][status];
 }

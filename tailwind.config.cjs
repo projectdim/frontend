@@ -16,6 +16,7 @@ module.exports = {
         'gray-light-100' :'#F7F9FC',
         'gray-light-200' : '#F0F4FA',
         'gray-light-300' :'#C5D0E3',
+        'yellow-custom-400' : '#E4CA00'
       },
       boxShadow: {
         '1cs': '1px 0px 0px rgba(181, 181, 181, 0.25), 2px 0px 20px rgba(207, 205, 205, 0.25);',
