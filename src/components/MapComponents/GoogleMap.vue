@@ -4,7 +4,7 @@
 			<div class="mx-[2.5%] w-[95%] border bg-white rounded-xl border-gray-light-300 border-[2px] h-10 flex flex-nowrap"
 			:class="{'border-base-blue': isInputFocused}"
 			>
-				<div class="w-[44px] cursor-pointer rounded-xl hover:bg-blue-200">
+				<div class="w-[44px] cursor-pointer rounded-xl">
 					<img src="../../../public/search.svg" class="h-full w-full object-scale-down">
 				</div>
 				<GMapAutocomplete
@@ -20,7 +20,7 @@
 					@focusout="OnInputFocus(false)"
 					:v-model="this.searchRequest"
 		  		/>
-				<div class="w-[40px] cursor-pointer rounded-xl hover:bg-blue-200" @click="this.ClearSearchRequest">
+				<div class="w-[40px] cursor-pointer rounded-xl" @click="this.ClearSearchRequest">
           <img src="../../../public/close.svg" class="h-full w-full object-scale-down">
 				</div>
       </div>
@@ -139,7 +139,6 @@ export default {
   },
 	methods : {
 	  	ClickHandler(event) {
-    	  console.log(event)
 		  if(event.placeId) {
 		  	  this.GetPlaceDetails(event.placeId);
     	  }
@@ -149,7 +148,7 @@ export default {
 		  },
 		async getBounds ( arg ) {
     	  let bounds = {
-    	    lat: { hi: arg.Bb.hi, lo: arg.Bb.lo },
+    	    lat: { hi: arg.Ab.hi, lo: arg.Ab.lo },
     	    lng: { hi: arg.Va.hi, lo: arg.Va.lo }
     	  }
     	  await api.locations.searchByCoords(bounds).then((response) => {
@@ -160,8 +159,7 @@ export default {
     	    })
     	  });
 				//TODO remove
-				console.log(JSON.stringify(this.markers));
-				//
+				//console.log(JSON.stringify(this.markers));
     	},
     	async getMarkerInfo(marker) {
     	  this.$emit('changeMarkerView', marker);

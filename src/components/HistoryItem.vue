@@ -1,11 +1,13 @@
 <template>
-	<div v-for="log in changeLogs" :key="log.id" class="p-4">
 		<div v-if="log.action_type === 1">
-			<div class="bg-[#F7F9FC] p-4 w-full">
+			<div class="bg-gray-light-100 p-4 w-full">
 				<p class="font-semibold text-black text-xl">{{ new Date(log.created_at).toUTCString()}}</p>
 			</div>
 			<div class="flex p-4">
-				<p class="text-grey font-normal">{{new Date(log.created_at).toTimeString().split(' ')[0]}}</p>
+				<p class="text-grey font-normal">
+					{{new Date(log.created_at).toTimeString().split(' ')[0]}}
+					{{getDate(log.create_at)}}
+				</p>
 				<div v-for="change in Object.keys(log.old_flags)" class="flex mx-auto gap-4">
 <!--					<img class="fill-dangerous-red"
 							 :src="`/src/assets/buildingState/${change}.svg`">-->
@@ -29,20 +31,24 @@
 			</div>
 			<hr>
 		</div>
-	</div>
 </template>
 
 <script>
-import {HistoryDataItem} from "../Scripts/DataItemFormat.js";
 import SVG_water from "./ComponentsSVG/SVG_water.vue";
+import {getDayDate} from "../Scripts/Helper.js";
 
 export default {
+	name: "HistoryItem",
 	components: {SVG_water},
 	props : {
-	prevState : HistoryDataItem,
-	currentState : HistoryDataItem
+		log : Object
   },
-  name: "HistoryItem"
+	methods : {
+		getDate(strDate){
+			return getDayDate(strDate);
+		}
+	}
+
 }
 </script>
 

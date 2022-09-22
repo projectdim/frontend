@@ -4,13 +4,13 @@
 	  <h1 class="px-5 text-3xl font-semibold my-6">{{ selectedMarker.address }}, {{ selectedMarker.index }}, {{ selectedMarker.city }}</h1>
 	  <div class="text-base flex flex-nowrap text-center">
 		<div class="basis-1/2 pb-2.5  cursor-pointer hover:bg-gray-200 box-border leading-[26px]"
-			 :class="this.selectedTabItem === `Overview`? `text-blue border-[#2E60B3] border-b-2` : `text-grey border-[#64748C] border-b`"
+			 :class="this.selectedTabItem === `Overview`? `text-base-blue border-base-blue border-b-2` : `text-base-grey border-base-grey border-b`"
 			 @click="setSelectedTab(`Overview`)"
 		>
       Огляд
 		</div>
 		<div class="basis-1/2 pb-2.5 cursor-pointer hover:bg-gray-200 box-border leading-[26px]"
-			 :class="this.selectedTabItem === `History`? `text-blue border-[#2E60B3] border-b-2` : `text-grey border-[#64748C] border-b`"
+			 :class="this.selectedTabItem === `History`? `text-base-blue border-base-blue border-b-2` : `text-base-grey border-base-grey border-b`"
 			 @click="setSelectedTab(`History`)"
 		>
 		  Історія змін
