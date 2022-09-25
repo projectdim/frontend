@@ -5,7 +5,7 @@
 			:class="{'border-base-blue': isInputFocused}"
 			>
 				<div class="w-[44px] cursor-pointer rounded-xl">
-					<img src="../../../public/search.svg" class="h-full w-full object-scale-down">
+					<img src="/search.svg" class="h-full w-full object-scale-down">
 				</div>
 				<GMapAutocomplete
           id="autocomplete"
@@ -21,7 +21,7 @@
 					:v-model="this.searchRequest"
 		  		/>
 				<div class="w-[40px] cursor-pointer rounded-xl" @click="this.ClearSearchRequest">
-          <img src="../../../public/close.svg" class="h-full w-full object-scale-down">
+          <img src="/close.svg" class="h-full w-full object-scale-down">
 				</div>
       </div>
 		</div>
@@ -81,17 +81,17 @@
 		  :draggable="false"
 		  :position= "this.ClickMarkerCoords"
 		  :icon= '{
-				url: "./public/map-marker.svg",
+				url: "/map-marker.svg",
 				scaledSize: {width: 40, height: 40},
       }'
-		  :clickable="true"
+		  :clickable="false"
 		  @click="this.CustomMarkerClick"
 	  />
 	  <GMapCluster
 		  :styles="[
       	{
 			   	textColor: 'black',
-			   	url: `./public/m1.png`,
+			   	url: `/m1.png`,
 			   	height: 52,
 			   	width: 53,
 			   	textSize: 16,
@@ -107,7 +107,7 @@
 			v-for="(m, index) in markers"
 			:key="index"
 			:position="m.position"
-			icon="./public/map-pin.svg"
+			icon="/map-pin.svg"
 			:clickable="true"
 			:draggable="false"
 		  @click="getMarkerInfo(m)"
@@ -124,10 +124,13 @@ import {API_KEY, URL_PROXY_PLACE_REQUEST} from "../../Scripts/MapScripts.js";
 
 export default {
   name: "GoogleMap",
+  props: {
+    center: Object
+  },
   data : function (){
 	  return {
-		  center: {lat: 49.23414701332752, lng: 28.46228865225255},
-		  currentMapZoom : 14,
+		  // center: {lat: 49.23414701332752, lng: 28.46228865225255},
+		  currentMapZoom : 17,
 		  ifClickMarker : false,
 		  ClickMarkerCoords : {lat: Number, lng: Number},
 		  markers: [],
@@ -215,24 +218,24 @@ export default {
     	  //     }
     	  // )
 
-    	  // await api.locations.searchByCoords(
-    	  //     {
-    	  //       lat: coordsData.location.lat,
-    	  //       lng: coordsData.location.lng
-    	  //     }
-    	  // ).then((response) => {
-    	  //   this.markers = []
-    	  //   response.data.forEach((loc) => {
-    	  //     this.markers.push(loc)
-    	  //     this.showMarkers = true;
-    	  //   })
-    	  //   console.log(this.markers)
-    	  // });
+    	  await api.locations.searchByCoords(
+    	      {
+    	        lat: coordsData.location.lat,
+    	        lng: coordsData.location.lng
+    	      }
+    	  ).then((response) => {
+    	    this.markers = []
+    	    response.data.forEach((loc) => {
+    	      this.markers.push(loc)
+    	      this.showMarkers = true;
+    	    })
+    	    console.log(this.markers)
+    	  });
     	},
-		CustomMarkerClick(){
-		    this.ifClickMarker = true;
-		    this.ClickMarkerCoords = null;
-		  },
+		// CustomMarkerClick(){
+		//     this.ifClickMarker = true;
+		//     this.ClickMarkerCoords = null;
+		//   },
 		OnMapZoomChanged(arg){
 			console.log(arg);
 			this.currentMapZoom = arg;
@@ -240,9 +243,29 @@ export default {
 		OnInputFocus(arg){
 		  this.isInputFocused = arg;
 		},
-		setPlace(arg){
-		  this.center = arg.geometry.location;
-		  this.SetCustomMarkerKursantEdition(arg.geometry.location);
+		async setPlace(arg) {
+      // console.log(arg.geometry.location)
+		  // this.center = arg.geometry.location;
+      // console.log(this.center)
+      let payload = {
+        lat: arg.geometry.location.lat(),
+        lng: arg.geometry.location.lng()
+      }
+      await api.locations.exactSearch(payload.lat, payload.lng).then((response) => {
+        this.getMarkerInfo(response.data);
+      }).catch((err) => {
+        if (err.response.status === 400) {
+          let notFoundAddress = {
+            position: payload,
+            address: arg.name
+          }
+          this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
+          this.$emit('show-not-found', notFoundAddress);
+          this.SetCustomMarkerKursantEdition(arg.geometry.location)
+          return
+        }
+      });
+		  // this.SetCustomMarkerKursantEdition(arg.geometry.location);
 		},
 		ClearSearchRequest(){
 		  let autocomplete = document.getElementById('autocomplete');

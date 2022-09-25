@@ -16,7 +16,7 @@ export default {
   },
   data : function (){
 	return{
-	  URLicon: "./public/vite.svg"
+	  URLicon: "/vite.svg"
 	}
   }
 }

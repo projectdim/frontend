@@ -1,0 +1,87 @@
+<template>
+  <div class="py-24 px-4 flex flex-col items-center">
+    <img src="/src/assets/fullLogo.svg">
+    <p class="text-base-grey text-base mt-9">Шукайте адресу, щоб переглянути краудсорсингові звіти про своє місто</p>
+    <div class="mx-[2.5%] md:w-[600px] w-[300px] border bg-white rounded-xl border-gray-light-300 border-[2px] h-10 flex flex-nowrap mt-6"
+         :class="{'border-base-blue': isInputFocused}"
+    >
+      <div class="w-[44px] cursor-pointer rounded-xl">
+        <img src="/search.svg" class="h-full w-full object-scale-down">
+      </div>
+      <GMapAutocomplete
+          v-model="searchRequest"
+          id="autocomplete"
+          ref="autocomplete"
+          placeholder="Пошук..."
+          @place_changed="setPlace"
+          class="w-full bg-transparent outline-none block text-overview-item"
+          :options="{
+							  fields: [`geometry`, `name`]
+						  }"
+          @focusin="OnInputFocus(true)"
+          @focusout="OnInputFocus(false)"
+          :v-model="this.searchRequest"
+      />
+      <div class="w-[40px] cursor-pointer rounded-xl" @click="this.ClearSearchRequest">
+        <img src="/close.svg" class="h-full w-full object-scale-down">
+      </div>
+    </div>
+    <div class="bg-[#F0F4FA] p-6 mt-12">
+      <p class="font-semibold text-black">Приклади: </p>
+      <p class="mt-4 font-normal">проспект Незалежності, Харків, Харківська область, Україна, 61000</p>
+      <p class="mt-2 font-normal">Жилянська,12 , Київ, Україна, 02000</p>
+    </div>
+  </div>
+</template>
+
+<script>
+import Header from "./Header.vue";
+import api from "../api/index.js";
+export default {
+  name: "WelcomeScreen",
+  components: {
+    Header
+  },
+  data: function () {
+    return {
+      searchRequest: null,
+      isInputFocused: false
+    }
+  },
+  methods: {
+    async setPlace (arg) {
+      this.center = arg.geometry.location;
+      let payload = {
+        lat: arg.geometry.location.lat(),
+        lng: arg.geometry.location.lng()
+      }
+      await api.locations.exactSearch(payload.lat, payload.lng).then((response) => {
+        this.$emit('changeMarkerView', response.data);
+      }).catch((err) => {
+        if (err.response.status === 400) {
+          // this.ifClickMarker = true;
+          // this.ClickMarkerCoords = arg.geometry.location;
+          let notFoundAddress = {
+            position: payload,
+            address: arg.name
+          }
+          this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
+          this.$emit('show-not-found', notFoundAddress);
+          return
+        }
+      });
+    },
+    OnInputFocus(arg){
+      this.isInputFocused = arg;
+    },
+    ClearSearchRequest(){
+      let autocomplete = document.getElementById('autocomplete');
+      autocomplete.value = ''
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
