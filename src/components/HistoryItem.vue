@@ -1,12 +1,19 @@
 <template>
 	<div v-if="log.action_type === 1">
 		<div class="bg-gray-light-100 py-2 px-6 w-full shadow-2cs">
-			<p class="font-semibold text-black text-sidebar-title capitalize">
+			<p class="font-semibold text-black capitalize
+			text-sidebar-title
+			screen-475:text-sidebar-address-mobile
+			screen-949:text-sidebar-address-mobile">
 				{{getDate(log.created_at)}}
 			</p>
 		</div>
 		<div class="py-4 px-6 flex gap-x-4 shadow-2cs">
-			<div class="text-base-grey text-overview-item font-normal pt-2.5">
+			<div class="text-base-grey font-normal pt-2.5
+				text-overview-item
+				screen-475:text-overview-item-mobile
+				screen-949:text-overview-item-mobile"
+				>
 				{{new Date(log.created_at).toTimeString().split(' ')[0]}}
 			</div>
 			<div class="w-full">
@@ -15,7 +22,10 @@
 						<p class="w-4 h-6">
 							<SVG_status_list :icon='change' :classList="getSVGColorClass(change, log.old_flags[change])"/>
 						</p>
-						<p class="grow text-overview-item my-auto uppercase" :class="getTextColorClass(change,log.old_flags[change])">
+						<p class="grow my-auto uppercase
+							text-overview-item
+							screen-475:text-overview-item-mobile
+							screen-949:text-overview-item-mobile" :class="getTextColorClass(change,log.old_flags[change])">
 							{{log.old_flags[change]}}
 						</p>
 					</div>
@@ -24,20 +34,24 @@
 						<p class="w-4 h-6">
 							<SVG_status_list :icon='change' :classList="getSVGColorClass(change, log.new_flags[change])"/>
 						</p>
-						<p class="grow text-overview-item my-auto uppercase text-base"
+						<p class="grow my-auto uppercase text-base
+							text-overview-item
+							screen-475:text-overview-item-mobile
+							screen-949:text-overview-item-mobile"
 							:class="getTextColorClass(change, log.new_flags[change])">
 							{{log.new_flags[change]}}
 						</p>
 				</div>
 				</div>
-				<div class="text-overview-item text-base-grey font-semibold">Організація</div>
+				<div class="text-overview-item screen-475:text-overview-item-mobile
+				screen-949:text-overview-item-mobile text-base-grey font-semibold">Організація</div>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import {getDayDate, GetStateColor} from "../Scripts/Helper.js";
+import {getDayDate, getTextColorClass, getSVGColorClass} from "../Scripts/Helper.js";
 import SVG_status_list from "./ComponentsSVG/SVG_status_list.vue";
 export default {
 	name: "HistoryItem",
@@ -50,22 +64,10 @@ export default {
 			return getDayDate(strDate).replace(' ', ", ");
 		},
 		getTextColorClass(field, status){
-			let color = GetStateColor(field,status);
-			if(color === "red")
-				return 'text-dangerous-red';
-			else if(color === "green")
-				return 'text-safety-green';
-			else if(color === "yellow")
-				return 'text-yellow-custom-400';
+			return getTextColorClass(field, status)
 		},
 		getSVGColorClass(field, status){
-			let color = GetStateColor(field,status);
-			if(color === "red")
-				return 'fill-dangerous-red';
-			else if(color === "green")
-				return 'fill-safety-green';
-			else if(color === "yellow")
-				return 'fill-yellow-custom-400';
+		 	return getSVGColorClass(field, status)
 		},
 	}
 

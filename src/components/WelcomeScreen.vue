@@ -1,8 +1,16 @@
 <template>
-  <div class="py-24 px-4 flex flex-col items-center">
+  <div class=" flex flex-col items-center px-4
+  		screen-475:py-24
+  		screen-949:py-24
+  		screen-950:py-10
+  		max-w-[600px] mx-auto
+			screen-475:text-overview-item-mobile
+			text-overview-item">
     <img src="/src/assets/fullLogo.svg">
-    <p class="text-base-grey text-base mt-9">Шукайте адресу, щоб переглянути краудсорсингові звіти про своє місто</p>
-    <div class="mx-[2.5%] md:w-[600px] w-[300px] border bg-white rounded-xl border-gray-light-300 border-[2px] h-10 flex flex-nowrap mt-6"
+    <p class="text-base-grey  mt-9 text-justify">
+			Шукайте адресу, щоб переглянути краудсорсингові звіти про своє місто
+		</p>
+    <div class="mx-[2.5%] w-full border bg-white rounded-xl border-gray-light-300 border-[2px] h-10 flex flex-nowrap mt-6"
          :class="{'border-base-blue': isInputFocused}"
     >
       <div class="w-[44px] cursor-pointer rounded-xl">
@@ -26,7 +34,7 @@
         <img src="/close.svg" class="h-full w-full object-scale-down">
       </div>
     </div>
-    <div class="bg-[#F0F4FA] p-6 mt-12">
+    <div class="bg-gray-light-200 p-6 mt-12">
       <p class="font-semibold text-black">Приклади: </p>
       <p class="mt-4 font-normal">проспект Незалежності, Харків, Харківська область, Україна, 61000</p>
       <p class="mt-2 font-normal">Жилянська,12 , Київ, Україна, 02000</p>

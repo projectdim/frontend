@@ -1,19 +1,32 @@
 <template>
-  	<header class="w-full h-[74px] flex flex-nowrap place-content-between px-[24px] shadow-2cs
-			bg-white">
-	  	<div class="cursor-pointer ">
-	  		<img src="../assets/Logo.svg" alt="" class="my-[17px] block h-10 w-[147px]">
+  	<header class="w-full
+  	screen-475:h-[62px]
+  	screen-949:h-[62px]
+  	screen-950:h-[74px]
+  	screen-475:px-4 screen-475:py-2.5
+  	screen-949:px-4 screen-949:py-2.5
+  	screen-950:px-2.5 screen-950:py-0
+  	shadow-2cs flex flex-nowrap place-content-between bg-white">
+	  	<div class="cursor-pointer h-min my-auto">
+	  		<img src="../assets/Logo.svg" alt="" class="block
+	  		screen-475:h-6 screen-475:w-[88px]
+	  		screen-949:h-6 screen-949:w-[88px]
+	  		screen-950:h-10 screen-950:w-[148px]
+	  		w-[147px]">
 	  	</div>
 
-		<div class="flex font-medium text-base-blue py-[16px]">
-		  	<img v-bind:src="'./Flags/'+this.imageSrc" class="h-[18px] w-[24px] my-auto" alt="Flag">
+		<div class="flex font-medium text-base-blue
+					screen-950:p-2">
+		  	<img v-bind:src="'./Flags/'+this.imageSrc"
+						 class="h-[18px] w-[24px] my-auto" alt="Flag">
 				<select name="lang-selector" id="lang-selector"
 					class="h-min my-auto bg-transparent ml-[5px] text-right"
 					@change="onSelectChange">
         	<option value="Ukrainian">Українська</option>
 			  	<option value="English">English</option>
 				</select>
-		  	<p class="ml-[37px] h-min my-auto">
+		  	<p class="h-min my-auto
+						screen-950:ml-[37px] screen-950:ml-[25px]">
 			  Увійти
 			</p>
 		</div>

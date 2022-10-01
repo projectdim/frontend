@@ -1,7 +1,10 @@
 <template>
 	<div id="mapContainer" class="h-full relative">
-		<div class="absolute z-10 top-6 w-full">
-			<div class="mx-[2.5%] w-[95%] border bg-white rounded-xl border-gray-light-300 border-[2px] h-10 flex flex-nowrap"
+		<div class="absolute z-10 w-full
+			screen-475:top-3.5
+			top-6">
+			<div class="border bg-white rounded-xl border-gray-light-300 border-2 h-10 flex flex-nowrap
+					screen-475:mx-4 mx-[30px]"
 			:class="{'border-base-blue': isInputFocused}"
 			>
 				<div class="w-[44px] cursor-pointer rounded-xl">
@@ -26,18 +29,18 @@
       </div>
 		</div>
 	<GMapMap
-    	class="z-0"
-    	ref="map"
+		class="z-0"
+		ref="map"
 		:center="center"
  		:zoom="this.currentMapZoom"
 		map-type-id="roadmap"
 		style="width: 100%; height: 100%"
 		:click="true"
 		@click="ClickHandler"
-    	@bounds_changed="getBounds"
+		@bounds_changed="getBounds"
 		@zoom_changed="OnMapZoomChanged"
 		:options="{
-			zoomControl: true,
+			zoomControl: false,
 			mapTypeControl: false,
 			scaleControl: true,
 			streetViewControl: false,
@@ -85,7 +88,6 @@
 				scaledSize: {width: 40, height: 40},
       }'
 		  :clickable="false"
-		  @click="this.CustomMarkerClick"
 	  />
 	  <GMapCluster
 		  :styles="[
@@ -102,16 +104,16 @@
 		  :zoomOnClick="true"
 		  :maxZoom="11"
 	  >
-		<GMapMarker
-		  v-if="showMarkers"
-			v-for="(m, index) in markers"
-			:key="index"
-			:position="m.position"
-			icon="/map-pin.svg"
-			:clickable="true"
-			:draggable="false"
-		  @click="getMarkerInfo(m)"
-		/>
+			<GMapMarker
+				v-if="showMarkers"
+				v-for="(m, index) in markers"
+				:key="index"
+				:position="m.position"
+				icon="/map-pin.svg"
+				:clickable="true"
+				:draggable="false"
+				@click="getMarkerInfo(m)"
+			/>
 	  </GMapCluster>
 	</GMapMap>
   	</div>
@@ -151,7 +153,7 @@ export default {
 		  },
 		async getBounds ( arg ) {
     	  let bounds = {
-    	    lat: { hi: arg.Ab.hi, lo: arg.Ab.lo },
+    	    lat: { hi: arg.Cb.hi, lo: arg.Cb.lo },
     	    lng: { hi: arg.Va.hi, lo: arg.Va.lo }
     	  }
     	  await api.locations.searchByCoords(bounds).then((response) => {

@@ -83,3 +83,23 @@ export function GetStateColor(field, status){
 
     return a[field][status];
 }
+
+
+export function getTextColorClass(field, status){
+    let color = GetStateColor(field,status);
+    if(color === "red")
+        return 'text-dangerous-red';
+    else if(color === "green")
+        return 'text-safety-green';
+    else if(color === "yellow")
+        return 'text-yellow-custom-400';
+}
+export function getSVGColorClass(field, status){
+    let color = GetStateColor(field,status);
+    if(color === "red")
+        return 'fill-dangerous-red';
+    else if(color === "green")
+        return 'fill-safety-green';
+    else if(color === "yellow")
+        return 'fill-yellow-custom-400';
+}

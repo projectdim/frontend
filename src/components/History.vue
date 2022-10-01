@@ -1,6 +1,6 @@
 <template>
-  <div v-for="logItem in changeLogs"  :key="logItem.id">
-		<HistoryItem :log="logItem"/>
+  <div>
+		<HistoryItem :log="logItem" v-for="logItem in changeLogs"  :key="logItem.id"/>
   </div>
 </template>
 
@@ -8,7 +8,6 @@
 import api from "../api/index.js";
 import SVG_fuel_station from "./ComponentsSVG/SVG_fuel_station.vue";
 import SVG_hospital from "./ComponentsSVG/SVG_hospital.vue";
-import {getDayDate, getTime} from "../Scripts/Helper.js";
 import SVG_status_list from "./ComponentsSVG/SVG_status_list.vue";
 import HistoryItem from "./HistoryItem.vue";
 export default {
@@ -37,10 +36,6 @@ export default {
         this.changeLogs = response.data
       });
     },
-		getDayDate(strDate){
-			//console.log(strDate)
-			return `${getDayDate(strDate)}`;
-		}
   }
 }
 </script>
