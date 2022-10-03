@@ -26,8 +26,8 @@
 			</div>
 	  </div>
 	  <div class="pt-6">
-		  <Overview v-if="this.selectedTabItem === `Overview` && selectedMarker" v-bind:marker-reports="selectedMarker.reports"/>
-		  <History v-if="this.selectedTabItem===`History`" v-bind:location-id="selectedMarker.id"/>
+		  <Overview v-if="this.selectedTabItem === `Overview` && this.$store.state.selectedMarkerData" />
+		  <History v-if="this.selectedTabItem===`History`"/>
 	  </div>
 	</div>
 </template>
@@ -49,13 +49,13 @@ export default {
 	  }
   },
   watch: {
-    selectedMarker: function (newMark) {
+    /*selectedMarker: function (newMark) {
       this.selectedItem = newMark
-    }
+    }*/
   },
   data : function () {
 	  return {
-	    selectedItem: null,
+	    /*selectedItem: null,*/
 	    selectedTabItem : "Overview"
 	  }
   }

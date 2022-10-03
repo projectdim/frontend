@@ -71,14 +71,13 @@ export default {
         this.$emit('changeMarkerView', response.data);
       }).catch((err) => {
         if (err.response.status === 400) {
-          // this.ifClickMarker = true;
-          // this.ClickMarkerCoords = arg.geometry.location;
           let notFoundAddress = {
             position: payload,
             address: arg.name
           }
           this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
-          this.$emit('show-not-found', notFoundAddress);
+					this.$store.commit('setNoDataMarkerMarker', notFoundAddress);
+					this.$emit('show-not-found', notFoundAddress);
           return
         }
       });

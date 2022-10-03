@@ -19,17 +19,14 @@ import WelcomeScreen from "./components/WelcomeScreen.vue";
 	  	screen-949:flex-col-reverse
 	  	screen-475:overflow-y-auto
 			screen-949:overflow-y-auto" v-if="!showWelcome">
-	    <div class="shrink-0 screen-950:w-[600px]">
-	    	<SideBar v-if="!selectedMarker"
-								 v-bind:selected-marker="this.selectedMarker"/>
-        <NotFound v-else v-bind:address="notFoundAddress.address"/>
-	    </div>
-      <div class="w-full p-0 min-h-[456px]">
-        <GoogleMap
-					v-on:changeMarkerView="setMarker" v-on:show-not-found="showNotFound"
-					v-bind:center="selectedMarker ? selectedMarker.position : notFoundAddress.position"
-				/>
-      </div>
+				<div class="shrink-0 screen-950:w-[600px]">
+					<SideBar v-if="this.$store.state.selectedMarkerData"
+									 v-bind:selected-marker="this.$store.state.selectedMarkerData"/>
+					<NotFound v-else v-bind:address="this.$store.state.notFoundedMarkerData.address"/>
+				</div>
+				<div class="w-full p-0 min-h-[456px]">
+					<GoogleMap v-on:changeMarkerView="setMarker" v-on:show-not-found="showNotFound"/>
+				</div>
 	  </div>
   </div>
 </template>

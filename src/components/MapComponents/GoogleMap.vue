@@ -125,9 +125,9 @@ import {API_KEY, URL_PROXY_PLACE_REQUEST} from "../../Scripts/MapScripts.js";
 
 export default {
   name: "GoogleMap",
-  props: {
+  /*props: {
     center: Object
-  },
+  },*/
   data : function (){
 	  return {
 		  //center: {lat: 49.23414701332752, lng: 28.46228865225255},
@@ -139,6 +139,19 @@ export default {
 		  searchRequest : ""
 	  }
   },
+	computed : {
+		center(){
+			if(this.$store.state.selectedMarkerData)
+				return this.$store.state.selectedMarkerData.position;
+			else if(this.$store.state.notFoundedMarkerData)
+				return this.$store.state.notFoundedMarkerData.position
+			else
+				return {lat: 49.23414701332752, lng: 28.46228865225255};
+		},
+		notFoundMarker(){
+			return this.$store.state.notFoundedMarkerData;
+		}
+	},
 	methods : {
 	  	ClickHandler(event) {
 		  if(event.placeId) {
@@ -153,12 +166,12 @@ export default {
     	    lat: { hi: arg.Cb.hi, lo: arg.Cb.lo },
     	    lng: { hi: arg.Va.hi, lo: arg.Va.lo }
     	  }
-				this.$store.dispatch("getMarkersByCoords", {bounds});
+				this.$store.dispatch("getMarkersByScreenBounds", {bounds});
     	},
-    	async getMarkerInfo(marker) {
+    	getMarkerInfo(marker) {
     	  //this.$emit('changeMarkerView', marker);
 				this.$store.commit("setSelectedMarker", marker);
-		    this.center = marker.position;
+		    //this.center = marker.position;
         this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
     	},
 		async GetPlaceDetails(placeId){
@@ -176,7 +189,7 @@ export default {
 		SetMarker(coords){
 		  this.ifClickMarker = true;
 		  this.ClickMarkerCoords = coords;
-    	this.getPlaceInfo(coords)
+    	//this.getPlaceInfo(coords)
 		},
     	async getPlaceInfo (coords) {
     	  await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.lat() + ',' + coords.lng()}&key=${API_KEY}`)
@@ -214,15 +227,10 @@ export default {
     	    this.markers = []
     	    response.data.forEach((loc) => {
     	      this.markers.push(loc)
-    	      this.showMarkers = true;
     	    })
     	    console.log(this.markers)
     	  });
     	},
-		// CustomMarkerClick(){
-		//     this.ifClickMarker = true;
-		//     this.ClickMarkerCoords = null;
-		//   },
 		OnMapZoomChanged(arg){
 			console.log(arg);
 			this.currentMapZoom = arg;
@@ -230,34 +238,20 @@ export default {
 		OnInputFocus(arg){
 		  this.isInputFocused = arg;
 		},
-		async setPlace(arg) {
-      // console.log(arg.geometry.location)
-		  // this.center = arg.geometry.location;
-      // console.log(this.center)
-      let payload = {
-        lat: arg.geometry.location.lat(),
-        lng: arg.geometry.location.lng()
-      }
-      await api.locations.exactSearch(payload.lat, payload.lng).then((response) => {
-        this.getMarkerInfo(response.data);
-      }).catch((err) => {
-        if (err.response.status === 400) {
-          let notFoundAddress = {
-            position: payload,
-            address: arg.name
-          }
-          this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
-          this.$emit('show-not-found', notFoundAddress);
-          this.SetMarker(arg.geometry.location)
-          return
-        }
-      });
+		setPlace(arg) {
+			this.$store.dispatch("GetMarkerByCoords", arg);
 		},
 		ClearSearchRequest(){
 		  let autocomplete = document.getElementById('autocomplete');
       autocomplete.value = ''
 		}
-  }
+  },
+	watch : {
+		notFoundMarker : function (newValue) {
+			if(newValue)
+				this.SetMarker(newValue.position)
+		}
+	}
 }
 
 </script>

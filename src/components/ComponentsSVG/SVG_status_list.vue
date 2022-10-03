@@ -20,7 +20,12 @@ import SVG_fuel_station from "./SVG_fuel_station.vue";
 import SVG_water from "./SVG_water.vue";
 export default {
 	name: "SVG_status_list",
-	components: {SVG_water, SVG_fuel_station, SVG_electricity, SVG_hospital, SVG_building_condition},
+	components: {
+		SVG_water,
+		SVG_fuel_station,
+		SVG_electricity,
+		SVG_hospital,
+		SVG_building_condition},
 	props : {
 		icon : String,
 		classList : String,

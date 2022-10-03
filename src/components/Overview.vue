@@ -211,25 +211,20 @@
 <script>
 import { Carousel, Navigation, Pagination, Slide } from 'vue3-carousel';
 import {SelectedDataItem} from "../Scripts/DataProvider.js";
+import SVG_status_list from "./ComponentsSVG/SVG_status_list.vue";
 import 'vue3-carousel/dist/carousel.css';
-import SVG_water from "./ComponentsSVG/SVG_water.vue";
-import SVG_fuel_station from "./ComponentsSVG/SVG_hospital.vue";
 import {getSVGColorClass, getTextColorClass} from "../Scripts/Helper.js";
 
 
 export default {
   name: "Overview",
   components: {
-		SVG_fuel_station,
-		SVG_water,
+		SVG_status_list,
 	  Carousel,
 	  Slide,
 	  Pagination,
 	  Navigation,
   },
-  /*props: {
-    markerReports: Object
-  },*/
   data : function () {
 	  return {
 	    selectedDataItem: SelectedDataItem,
@@ -258,7 +253,7 @@ export default {
 	    return this.issueMessage.length < 10;
 	  },
 		markerReports(){
-			this.$store.state.selectedMarkerData.reports;
+			return this.$store.state.selectedMarkerData.reports;
 		}
   },
   methods : {
@@ -277,12 +272,6 @@ export default {
 		getSVGColorClass(field, status){
 			return getSVGColorClass(field, status)
 		},
-	  auto_grow(event) {
-	    /*element.style.height = "5px";*/
-	    console.log((event.target.scrollHeight)+"px")
-	    event.target.style.height = event.target.style.height > event.target.scrollHeight + 5 ?
-	  	  event.target.style.height + "px" : (event.target.scrollHeight + 5) +"px";
-	  }
   }
 }
 </script>
