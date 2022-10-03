@@ -39,16 +39,20 @@
       <p class="mt-4 font-normal">проспект Незалежності, Харків, Харківська область, Україна, 61000</p>
       <p class="mt-2 font-normal">Жилянська,12 , Київ, Україна, 02000</p>
     </div>
+<!--		<Test/>-->
   </div>
+
 </template>
 
 <script>
 import Header from "./Header.vue";
+import Test from "./Test.vue"
 import api from "../api/index.js";
 export default {
   name: "WelcomeScreen",
   components: {
-    Header
+    Header,
+		Test
   },
   data: function () {
     return {

@@ -5,8 +5,12 @@ import 'vue3-carousel/dist/carousel.css';
 import App from './App.vue'
 import {API_KEY, KURSANT_API_KEY} from "./Scripts/MapScripts.js"
 import PhotoViewerModal from "./components/PhotoViewerModal.vue";
+import {createStore} from "vuex";
+import {storePrototype} from "./store/mainStore.js"
 
 const app = createApp(App);
+const store = createStore(storePrototype);
+
 app.use(VueGoogleMaps,{
         load: {
             key: API_KEY,
@@ -14,5 +18,6 @@ app.use(VueGoogleMaps,{
             libraries: "places"
         },
     });
-app.mount('#app');
+app.use(store);
 app.component("PhotoViewerModal", PhotoViewerModal);
+app.mount('#app');

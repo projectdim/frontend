@@ -5,7 +5,9 @@
 			screen-949:text-sidebar-address-mobile
 			screen-475:px-4
 			screen-949:px-4">
-			{{ selectedMarker.address }}, {{ selectedMarker.index }}, {{ selectedMarker.city }}
+				{{this.$store.state.selectedMarkerData.address }},
+				{{ this.$store.state.selectedMarkerData.index }},
+				{{ this.$store.state.selectedMarkerData.city }}
 		</h1>
 	  <div class="flex flex-nowrap text-center text-overview-item
 			screen-475:text-overview-item-mobile

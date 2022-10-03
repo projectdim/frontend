@@ -227,9 +227,9 @@ export default {
 	  Pagination,
 	  Navigation,
   },
-  props: {
+  /*props: {
     markerReports: Object
-  },
+  },*/
   data : function () {
 	  return {
 	    selectedDataItem: SelectedDataItem,
@@ -253,16 +253,13 @@ export default {
 	    isModalView : false
 	  }
   },
-  // watch: {
-  //   chosenMarker: function (newVal) {
-  //     this.markerReports = newVal.reports;
-  //     console.log(this.markerReports)
-  //   }
-  // },
   computed : {
 	  isDisabled(){
 	    return this.issueMessage.length < 10;
-	  }
+	  },
+		markerReports(){
+			this.$store.state.selectedMarkerData.reports;
+		}
   },
   methods : {
 	  Show(string){

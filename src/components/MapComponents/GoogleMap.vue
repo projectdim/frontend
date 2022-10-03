@@ -4,8 +4,8 @@
 			screen-475:top-3.5
 			top-6">
 			<div class="border bg-white rounded-xl border-gray-light-300 border-2 h-10 flex flex-nowrap
-					screen-475:mx-4 mx-[30px]"
-			:class="{'border-base-blue': isInputFocused}"
+				screen-475:mx-4 mx-[30px]"
+				:class="{'border-base-blue': isInputFocused}"
 			>
 				<div class="w-[44px] cursor-pointer rounded-xl">
 					<img src="/search.svg" class="h-full w-full object-scale-down">
@@ -105,8 +105,7 @@
 		  :maxZoom="11"
 	  >
 			<GMapMarker
-				v-if="showMarkers"
-				v-for="(m, index) in markers"
+				v-for="(m, index) in this.$store.state.markers"
 				:key="index"
 				:position="m.position"
 				icon="/map-pin.svg"
@@ -131,12 +130,10 @@ export default {
   },
   data : function (){
 	  return {
-		  // center: {lat: 49.23414701332752, lng: 28.46228865225255},
+		  //center: {lat: 49.23414701332752, lng: 28.46228865225255},
 		  currentMapZoom : 17,
 		  ifClickMarker : false,
 		  ClickMarkerCoords : {lat: Number, lng: Number},
-		  markers: [],
-		  showMarkers: false,
 		  currentPlaceData: [],
 		  isInputFocused : false,
 		  searchRequest : ""
@@ -151,23 +148,16 @@ export default {
 		  	  this.SetMarker(event.latLng);
 		    }
 		  },
-		async getBounds ( arg ) {
+			getBounds ( arg ) {
     	  let bounds = {
     	    lat: { hi: arg.Cb.hi, lo: arg.Cb.lo },
     	    lng: { hi: arg.Va.hi, lo: arg.Va.lo }
     	  }
-    	  await api.locations.searchByCoords(bounds).then((response) => {
-    	    this.markers = []
-    	    response.data.forEach((loc) => {
-    	      this.markers.push(loc)
-    	      this.showMarkers = true;
-    	    })
-    	  });
-				//TODO remove
-				//console.log(JSON.stringify(this.markers));
+				this.$store.dispatch("getMarkersByCoords", {bounds});
     	},
     	async getMarkerInfo(marker) {
-    	  this.$emit('changeMarkerView', marker);
+    	  //this.$emit('changeMarkerView', marker);
+				this.$store.commit("setSelectedMarker", marker);
 		    this.center = marker.position;
         this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
     	},
@@ -187,11 +177,6 @@ export default {
 		  this.ifClickMarker = true;
 		  this.ClickMarkerCoords = coords;
     	this.getPlaceInfo(coords)
-		},
-		SetCustomMarkerKursantEdition(coords){
-		  this.ifClickMarker = true;
-		  this.ClickMarkerCoords = coords;
-		  this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
 		},
     	async getPlaceInfo (coords) {
     	  await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.lat() + ',' + coords.lng()}&key=${API_KEY}`)
@@ -263,11 +248,10 @@ export default {
           }
           this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
           this.$emit('show-not-found', notFoundAddress);
-          this.SetCustomMarkerKursantEdition(arg.geometry.location)
+          this.SetMarker(arg.geometry.location)
           return
         }
       });
-		  // this.SetCustomMarkerKursantEdition(arg.geometry.location);
 		},
 		ClearSearchRequest(){
 		  let autocomplete = document.getElementById('autocomplete');

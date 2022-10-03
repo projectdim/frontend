@@ -20,8 +20,9 @@ import WelcomeScreen from "./components/WelcomeScreen.vue";
 	  	screen-475:overflow-y-auto
 			screen-949:overflow-y-auto" v-if="!showWelcome">
 	    <div class="shrink-0 screen-950:w-[600px]">
-	    	<SideBar v-bind:selected-marker="selectedMarker" v-if="selectedMarker"/>
-        <NotFound v-if="notFound" v-bind:address="notFoundAddress.address"/>
+	    	<SideBar v-if="!selectedMarker"
+								 v-bind:selected-marker="this.selectedMarker"/>
+        <NotFound v-else v-bind:address="notFoundAddress.address"/>
 	    </div>
       <div class="w-full p-0 min-h-[456px]">
         <GoogleMap
@@ -58,7 +59,7 @@ import WelcomeScreen from "./components/WelcomeScreen.vue";
         currentCenter: {},
         currentZoom: 14
 		  }
-	  }
+	  },
 	}
 </script>
 
