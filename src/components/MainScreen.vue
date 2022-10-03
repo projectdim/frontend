@@ -1,0 +1,38 @@
+<template>
+	<Header/>
+	<div class="flex h-[calc(100vh-62px)]
+	  	screen-950:h-[calc(100vh-74px)]
+	  	screen-475:flex-col-reverse
+	  	screen-949:flex-col-reverse
+	  	screen-475:overflow-y-auto
+			screen-949:overflow-y-auto">
+		<div class="shrink-0 screen-950:w-[600px]">
+			<SideBar v-if="this.$store.state.selectedMarkerData !== null"
+							 v-bind:selected-marker="this.$store.state.selectedMarkerData"/>
+			<NotFound v-else v-bind:address="this.$store.state.notFoundedMarkerData.address"/>
+		</div>
+		<div class="w-full p-0 min-h-[456px]">
+			<GoogleMap/>
+		</div>
+	</div>
+</template>
+
+<script>
+import SideBar from "./SideBar.vue";
+import NotFound from "./NotFound.vue";
+import GoogleMap from "./MapComponents/GoogleMap.vue";
+import Header from "./Header.vue";
+export default {
+	name: "MainScreen",
+	components : {
+		Header,
+		SideBar,
+		NotFound,
+		GoogleMap
+	}
+}
+</script>
+
+<style scoped>
+
+</style>

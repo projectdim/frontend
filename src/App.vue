@@ -9,11 +9,11 @@ import WelcomeScreen from "./components/WelcomeScreen.vue";
 </script>
 
 <template>
-  <div id="container" class="h-full">
-	  <Header/>
-    <WelcomeScreen v-if="showWelcome"
-                   v-on:changeMarkerView="setMarker" v-on:show-not-found="showNotFound"/>
-	  <div class="flex h-[calc(100vh-62px)]
+	<!--<div id="container" class="h-full">
+		<Header/>
+		<WelcomeScreen v-if="showWelcome"
+									 v-on:changeMarkerView="setMarker" v-on:show-not-found="showNotFound"/>-->
+<!--	  <div class="flex h-[calc(100vh-62px)]
 	  	screen-950:h-[calc(100vh-74px)]
 	  	screen-475:flex-col-reverse
 	  	screen-949:flex-col-reverse
@@ -28,7 +28,8 @@ import WelcomeScreen from "./components/WelcomeScreen.vue";
 					<GoogleMap v-on:changeMarkerView="setMarker" v-on:show-not-found="showNotFound"/>
 				</div>
 	  </div>
-  </div>
+  </div>-->
+	<router-view></router-view>
 </template>
 
 <script>

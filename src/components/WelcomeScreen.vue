@@ -1,8 +1,6 @@
 <template>
-  <div class=" flex flex-col items-center px-4
-  		screen-475:py-24
-  		screen-949:py-24
-  		screen-950:py-10
+	<Header/>
+  <div class=" flex flex-col items-center px-4 pt-24
   		max-w-[600px] mx-auto
 			screen-475:text-overview-item-mobile
 			text-overview-item">
@@ -61,8 +59,8 @@ export default {
     }
   },
   methods: {
-    async setPlace (arg) {
-      this.center = arg.geometry.location;
+		setPlace (arg) {
+     /* this.center = arg.geometry.location;
       let payload = {
         lat: arg.geometry.location.lat(),
         lng: arg.geometry.location.lng()
@@ -80,7 +78,8 @@ export default {
 					this.$emit('show-not-found', notFoundAddress);
           return
         }
-      });
+      });*/
+			this.$store.dispatch("GetMarkerByCoords", arg);
     },
     OnInputFocus(arg){
       this.isInputFocused = arg;
@@ -88,8 +87,31 @@ export default {
     ClearSearchRequest(){
       let autocomplete = document.getElementById('autocomplete');
       autocomplete.value = ''
-    }
-  }
+    },
+  },
+	computed : {
+		selectedMarkerData(){
+			return this.$store.state.selectedMarkerData;
+		},
+		notFoundedMarkerData(){
+			return this.$store.state.notFoundedMarkerData;
+		}
+	},
+	watch : {
+		selectedMarkerData: function (newVal){
+			if(newVal !== null)
+				this.$router.push("/main");
+		},
+		notFoundedMarkerData: function (newVal){
+			if(newVal !== null)
+				this.$router.push("/main");
+		}
+	},
+	mounted(){
+		if(this.$store.state.selectedMarkerData !==null || this.$store.state.notFoundedMarkerData !==null)
+			this.$router.replace("/main");
+	}
+
 }
 </script>
 

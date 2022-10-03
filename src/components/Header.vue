@@ -25,10 +25,10 @@
         	<option value="Ukrainian">Українська</option>
 			  	<option value="English">English</option>
 				</select>
-		  	<p class="h-min my-auto
+		  	<router-link to="/login" class="h-min my-auto
 						screen-950:ml-[37px] screen-950:ml-[25px]">
-			  Увійти
-			</p>
+			  	Увійти
+				</router-link>
 		</div>
 	</header>
 </template>

@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import { SelectedDataItem } from "../Scripts/DataProvider.js";
 import Overview from "./Overview.vue";
 import History from "./History.vue";
 
@@ -48,14 +47,8 @@ export default {
 	    this.selectedTabItem = tabName;
 	  }
   },
-  watch: {
-    /*selectedMarker: function (newMark) {
-      this.selectedItem = newMark
-    }*/
-  },
   data : function () {
 	  return {
-	    /*selectedItem: null,*/
 	    selectedTabItem : "Overview"
 	  }
   }

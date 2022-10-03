@@ -228,7 +228,6 @@ export default {
   data : function () {
 	  return {
 	    selectedDataItem: SelectedDataItem,
-      // markerReports: {},
 	    breakpoints: {
 		    100: {
 		      itemsToShow: 3,
