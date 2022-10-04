@@ -15,19 +15,18 @@
         <img src="/search.svg" class="h-full w-full object-scale-down">
       </div>
       <GMapAutocomplete
-          v-model="searchRequest"
           id="autocomplete"
           ref="autocomplete"
           placeholder="Пошук..."
-          @place_changed="setPlace"
+          @place_changed="GetMarkerByCoords"
           class="w-full bg-transparent outline-none block text-overview-item"
           :options="{
 							  fields: [`geometry`, `name`]
 						  }"
           @focusin="OnInputFocus(true)"
           @focusout="OnInputFocus(false)"
-          :v-model="this.searchRequest"
-      />
+					:v-model="this.searchRequest"
+			/>
       <div class="w-[40px] cursor-pointer rounded-xl" @click="this.ClearSearchRequest">
         <img src="/close.svg" class="h-full w-full object-scale-down">
       </div>
@@ -45,7 +44,7 @@
 <script>
 import Header from "./Header.vue";
 import Test from "./Test.vue"
-import api from "../api/index.js";
+import { mapState, mapActions } from "vuex";
 export default {
   name: "WelcomeScreen",
   components: {
@@ -59,28 +58,7 @@ export default {
     }
   },
   methods: {
-		setPlace (arg) {
-     /* this.center = arg.geometry.location;
-      let payload = {
-        lat: arg.geometry.location.lat(),
-        lng: arg.geometry.location.lng()
-      }
-      await api.locations.exactSearch(payload.lat, payload.lng).then((response) => {
-        this.$emit('changeMarkerView', response.data);
-      }).catch((err) => {
-        if (err.response.status === 400) {
-          let notFoundAddress = {
-            position: payload,
-            address: arg.name
-          }
-          this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
-					this.$store.commit('setNoDataMarkerMarker', notFoundAddress);
-					this.$emit('show-not-found', notFoundAddress);
-          return
-        }
-      });*/
-			this.$store.dispatch("GetMarkerByCoords", arg);
-    },
+		...mapActions(["GetMarkerByCoords"]),
     OnInputFocus(arg){
       this.isInputFocused = arg;
     },
@@ -90,12 +68,7 @@ export default {
     },
   },
 	computed : {
-		selectedMarkerData(){
-			return this.$store.state.selectedMarkerData;
-		},
-		notFoundedMarkerData(){
-			return this.$store.state.notFoundedMarkerData;
-		}
+		...mapState(["selectedMarkerData","notFoundedMarkerData"])
 	},
 	watch : {
 		selectedMarkerData: function (newVal){
@@ -108,7 +81,7 @@ export default {
 		}
 	},
 	mounted(){
-		if(this.$store.state.selectedMarkerData !==null || this.$store.state.notFoundedMarkerData !==null)
+		if(this.selectedMarkerData !==null || this.notFoundedMarkerData !==null)
 			this.$router.replace("/main");
 	}
 

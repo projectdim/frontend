@@ -5,9 +5,9 @@
 			screen-949:text-sidebar-address-mobile
 			screen-475:px-4
 			screen-949:px-4">
-				{{this.$store.state.selectedMarkerData.address }},
-				{{ this.$store.state.selectedMarkerData.index }},
-				{{ this.$store.state.selectedMarkerData.city }}
+				{{ selectedMarkerData.address }},
+				{{ selectedMarkerData.index }},
+				{{ selectedMarkerData.city }}
 		</h1>
 	  <div class="flex flex-nowrap text-center text-overview-item
 			screen-475:text-overview-item-mobile
@@ -26,7 +26,7 @@
 			</div>
 	  </div>
 	  <div class="pt-6">
-		  <Overview v-if="this.selectedTabItem === `Overview` && this.$store.state.selectedMarkerData" />
+		  <Overview v-if="this.selectedTabItem === `Overview` && selectedMarkerData" />
 		  <History v-if="this.selectedTabItem===`History`"/>
 	  </div>
 	</div>
@@ -35,13 +35,17 @@
 <script>
 import Overview from "./Overview.vue";
 import History from "./History.vue";
+import { mapState } from "vuex";
 
 export default {
   name: "SideBar",
   props: {
     selectedMarker: Object
   },
-  components: { History, Overview },
+  components : {
+		History,
+		Overview,
+	},
   methods : {
 	  setSelectedTab(tabName){
 	    this.selectedTabItem = tabName;
@@ -51,7 +55,10 @@ export default {
 	  return {
 	    selectedTabItem : "Overview"
 	  }
-  }
+  },
+	computed : {
+		...mapState(["selectedMarkerData"])
+	}
 }
 </script>
 

@@ -8,7 +8,7 @@ import PhotoViewerModal from "./components/PhotoViewerModal.vue";
 import {createStore} from "vuex";
 import {storePrototype} from "./store/mainStore.js"
 import {mainRouter} from "./router/mainRouter.js";
-import {createRouter, createWebHashHistory} from "vue-router";
+import {createRouter, createWebHistory} from "vue-router";
 
 
 const app = createApp(App);
@@ -16,7 +16,7 @@ const store = createStore(storePrototype);
 const router = createRouter(
   {
     routes : mainRouter,
-    history : createWebHashHistory()
+    history : createWebHistory()
   }
 );
 

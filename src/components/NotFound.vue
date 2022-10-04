@@ -2,12 +2,13 @@
   <div class="flex flex-col justify-between overflow-y-auto h-full shadow-1cs
 		text-overview-item screen-475:text-overview-item-mobile screen-949:text-overview-item">
     <div class="p-6">
-      <p class="font-semibold text-4xl">На жаль, "{{ address }}" немає в нашій базі даних</p>
+      <p class="font-semibold text-4xl">На жаль, "{{ notFoundedMarkerData.address }}" немає в нашій базі даних</p>
       <p class="mt-2.5 text-base-grey ">
-				Ви можете запитати інформацію за цією адресою, і наша команда постарається приїхати туди якомога швидше.
+				Можливо варто вказати точнішу адресу.
+				Ви також можете запитати інформацію за цією адресою, і наша команда постарається приїхати туди якомога швидше.
 			</p>
       <button class="bg-base-blue rounded-lg px-10 py-2 text-white w-full my-6 font-medium">
-				Надислати запит на перевірку адреси
+				Надіслати запит на перевірку адреси
 			</button>
       <p class="text-base-grey">
 				Буде корисно, якщо ви повідомите нам через цю форму про будь-які проблеми, пов’язані з використанням нашого сервісу.
@@ -49,6 +50,8 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
+
 export default {
   name: "NotFound",
 	data : function () {
@@ -56,13 +59,11 @@ export default {
 			issueMessage: "",
 		}
 	},
-  props: {
-    address: String
-  },
 	computed : {
+		...mapState(["notFoundedMarkerData"]),
 		isDisabled(){
 			return this.issueMessage.length < 10;
-		}
+		},
 	},
 	methods : {
 		Show(string) {

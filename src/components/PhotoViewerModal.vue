@@ -1,5 +1,5 @@
 <template>
-  <teleport to="#container">
+  <teleport to="#app">
   <div v-if="isVisible" class="overflow-y-hidden z-50 h-screen w-screen bg-black/30 absolute top-0"
   		@click="closeModal">
 	<div class="mx-auto my-[5vh] lg:my-[10vh] modal-container w-11/12 lg:w-8/12 h-[90vh] lg:h-4/5 bg-white
@@ -73,28 +73,28 @@ export default {
   },
   name: "PhotoViewerModal",
   components: {
-	Carousel,
-	Slide,
-	Pagination,
-	Navigation,
+		Carousel,
+		Slide,
+		Pagination,
+		Navigation,
   },
   props : {
-	isVisible : Boolean,
-	onModalClose : Function
+		isVisible : Boolean,
+		onModalClose : Function
   },
   computed : {
-	mainImageSrc(){
-	  return this.mainImageSrcURL.length > 0 ?
-		  this.mainImageSrcURL : this.selectedDataItem.photo[0];
-	}
+		mainImageSrc(){
+			return this.mainImageSrcURL.length > 0 ?
+				this.mainImageSrcURL : this.selectedDataItem.photo[0];
+		}
   },
   methods : {
-	closeModal(event){
-	  	this.onModalClose()
-	},
-	setMainImageSrc(url){
-	  this.mainImageSrcURL = url;
-	}
+		closeModal(event){
+				this.onModalClose()
+		},
+		setMainImageSrc(url){
+			this.mainImageSrcURL = url;
+		}
   },
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-	<PhotoViewerModal :is-visible="this.isModalView" :on-modal-close="OnModalClose"/>
+<!--	<PhotoViewerModal :is-visible="this.isModalView" :on-modal-close="OnModalClose"/>-->
 	<div id="Overview" class="px-6">
 		<h3 class="font-semibold text-sidebar-title
 			screen-475:text-sidebar-title-mobile">
@@ -214,6 +214,7 @@ import {SelectedDataItem} from "../Scripts/DataProvider.js";
 import SVG_status_list from "./ComponentsSVG/SVG_status_list.vue";
 import 'vue3-carousel/dist/carousel.css';
 import {getSVGColorClass, getTextColorClass} from "../Scripts/Helper.js";
+import {mapState} from "vuex";
 
 
 export default {
@@ -248,12 +249,12 @@ export default {
 	  }
   },
   computed : {
+		...mapState({
+			markerReports: state => state.selectedMarkerData.reports
+		}),
 	  isDisabled(){
 	    return this.issueMessage.length < 10;
 	  },
-		markerReports(){
-			return this.$store.state.selectedMarkerData.reports;
-		}
   },
   methods : {
 	  Show(string){

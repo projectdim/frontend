@@ -37,21 +37,21 @@
 export default {
   name: "Header",
   data : function (){
-	return {
-	  imageSrc : "UA_flag.svg"
-	}
+		return {
+			imageSrc : "UA_flag.svg"
+		}
   },
   methods : {
-	onSelectChange(event){
-		switch (event.target.value){
-		  	case "English":
-				this.imageSrc = "USA_flag.svg"
-				break;
-		  	case "Ukrainian":
-				this.imageSrc = "UA_flag.svg"
-				break;
+		onSelectChange(event){
+			switch (event.target.value){
+				case "English":
+					this.imageSrc = "USA_flag.svg"
+					break;
+				case "Ukrainian":
+					this.imageSrc = "UA_flag.svg"
+					break;
+			}
 		}
-	}
   }
 }
 </script>
