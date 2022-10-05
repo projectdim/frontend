@@ -4,12 +4,15 @@ import './index.css'
 import 'vue3-carousel/dist/carousel.css';
 import App from './App.vue'
 import {API_KEY} from "./Scripts/MapScripts.js"
-import PhotoViewerModal from "./components/PhotoViewerModal.vue";
+import PhotoViewerModal from "./components/Modals/PhotoViewerModal.vue";
+import LoginModal from "./components/Modals/LoginModal.vue";
 import {createStore} from "vuex";
 import {storePrototype} from "./store/mainStore.js"
 import {mainRouter} from "./router/mainRouter.js";
 import {createRouter, createWebHistory} from "vue-router";
-
+import ComponentsList from "./components/ComponentsList.js";
+import {vfmPlugin} from "vue-final-modal";
+import loginModal from "./components/Modals/LoginModal.vue";
 
 const app = createApp(App);
 const store = createStore(storePrototype);
@@ -27,7 +30,14 @@ app.use(VueGoogleMaps,{
             libraries: "places"
         },
     });
+
+app.use(vfmPlugin);
 app.use(store);
 app.use(router);
+
+ComponentsList.forEach(component=>{
+  app.component(component.name, component);
+})
 app.component("PhotoViewerModal", PhotoViewerModal);
+app.component(loginModal.name, loginModal)
 app.mount('#app');

@@ -1,6 +1,6 @@
 <template>
   <div>
-<!--	<PhotoViewerModal :is-visible="this.isModalView" :on-modal-close="OnModalClose"/>-->
+	<PhotoViewerModal :is-visible="this.isModalView" :on-modal-close="OnModalClose"/>
 	<div id="Overview" class="px-6">
 		<h3 class="font-semibold text-sidebar-title
 			screen-475:text-sidebar-title-mobile">

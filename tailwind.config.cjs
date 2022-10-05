@@ -19,7 +19,13 @@ module.exports = {
         'gray-light-400' :'#91A2BD',
         'gray-light-500' :'#64748C',
         'gray-light-600' :'#495466',
-        'yellow-custom-400' : '#E4CA00'
+        'yellow-custom-400' : '#E4CA00',
+        'blue-c-100' : '#F2F7FF',
+        'blue-c-200' : '#CCDFFF',
+        'blue-c-300' : '#80B0FF',
+        'blue-c-400' : '#3C7CE6',
+        'blue-c-500' : '#2E60B2',
+        'blue-c-600' : '#214580',
       },
       boxShadow: {
         '1cs': '1px 0px 0px rgba(181, 181, 181, 0.25), 2px 0px 20px rgba(207, 205, 205, 0.25);',

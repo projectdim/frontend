@@ -16,29 +16,43 @@
 	  	</div>
 
 		<div class="flex font-medium text-base-blue
-					screen-950:p-2">
-		  	<img v-bind:src="'./Flags/'+this.imageSrc"
-						 class="h-[18px] w-[24px] my-auto" alt="Flag">
-				<select name="lang-selector" id="lang-selector"
-					class="h-min my-auto bg-transparent ml-[5px] text-right"
-					@change="onSelectChange">
-        	<option value="Ukrainian">Українська</option>
-			  	<option value="English">English</option>
-				</select>
-		  	<router-link to="/login" class="h-min my-auto
-						screen-950:ml-[37px] screen-950:ml-[25px]">
-			  	Увійти
-				</router-link>
+					screen-950:p-2
+					text-overview-item
+					screen-475:text-overview-item-mobile
+    			screen-949:text-overview-item-mobile">
+			<img v-bind:src="'./Flags/'+this.imageSrc"
+					 class="h-[18px] w-[24px] my-auto" alt="Flag">
+			<select name="lang-selector" id="lang-selector"
+							class="h-min my-auto bg-transparent ml-[5px] text-right
+							cursor-pointer"
+							@change="onSelectChange">
+				<option value="Ukrainian">Українська</option>
+				<option value="English">English</option>
+			</select>
+			<button-text-1 class="h-min my-auto
+				screen-950:ml-[37px] screen-950:ml-[25px]" role="link"
+				@click="showLogInModal"
+			>
+				LogIn
+			</button-text-1>
 		</div>
-	</header>
+			<LoginModal :is-modal-visible="isModal"
+									:close-func="closeModal">
+			</LoginModal>
+		</header>
 </template>
 
 <script>
+import LoginModal from "./Modals/LoginModal.vue";
 export default {
   name: "Header",
-  data : function (){
+	components: {
+		LoginModal
+	},
+	data : function (){
 		return {
-			imageSrc : "UA_flag.svg"
+			imageSrc : "UA_flag.svg",
+			isModal : false
 		}
   },
   methods : {
@@ -51,8 +65,15 @@ export default {
 					this.imageSrc = "UA_flag.svg"
 					break;
 			}
+		},
+		showLogInModal(){
+			this.isModal = true;
+		},
+		closeModal(){
+			this.isModal = false;
 		}
-  }
+  },
+
 }
 </script>
 

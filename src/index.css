@@ -2,24 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-/*:root {
-    --text-blue: #2E60B3;
-    --text-grey: #64748C;
-}*/
-
-/**{
-    font-family: Inter;
-    font-style: normal;
-}*/
-
-/*.text-blue{
-    color: var(--text-blue);
-}
-.text-grey{
-    color: var(--text-grey);
-}*/
-
 @layer utilities {
     ::-webkit-scrollbar {
         width: 8px; /* ширина для вертикального скролла */
