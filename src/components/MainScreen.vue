@@ -31,7 +31,7 @@ export default {
 		NotFound,
 		GoogleMap
 	},
-	computed : {
+  computed : {
 		...mapState(["selectedMarkerData", "notFoundedMarkerData"])
 	}
 }

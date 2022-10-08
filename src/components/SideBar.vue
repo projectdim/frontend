@@ -26,8 +26,12 @@
 			</div>
 	  </div>
 	  <div class="pt-6">
-		  <Overview v-if="this.selectedTabItem === `Overview` && selectedMarkerData" />
-		  <History v-if="this.selectedTabItem===`History`"/>
+      <keep-alive>
+		    <Overview v-if="this.selectedTabItem === `Overview` && selectedMarkerData" />
+      </keep-alive>
+      <keep-alive>
+		    <History v-if="this.selectedTabItem===`History`"/>
+      </keep-alive>
 	  </div>
 	</div>
 </template>

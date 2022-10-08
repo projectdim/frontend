@@ -2,14 +2,19 @@
   <div class="flex flex-col justify-between overflow-y-auto h-full shadow-1cs
 		text-overview-item screen-475:text-overview-item-mobile screen-949:text-overview-item">
     <div class="p-6">
-      <p class="font-semibold text-4xl">На жаль, "{{ notFoundedMarkerData.address }}" немає в нашій базі даних</p>
-      <p class="mt-2.5 text-base-grey ">
-				Можливо варто вказати точнішу адресу.
-				Ви також можете запитати інформацію за цією адресою, і наша команда постарається приїхати туди якомога швидше.
-			</p>
-      <button class="bg-base-blue rounded-lg px-10 py-2 text-white w-full my-6 font-medium">
+      <div v-if="notFoundedMarkerData">
+        <p class="font-semibold text-4xl">На жаль, "{{ notFoundedMarkerData.address }}" немає в нашій базі даних</p>
+        <p class="mt-2.5 text-base-grey ">
+          Можливо варто вказати точнішу адресу.
+          Ви також можете запитати інформацію за цією адресою, і наша команда постарається приїхати туди якомога швидше.
+        </p>
+      </div>
+      <div v-else>
+        <p class="font-semibold text-4xl">Виберіть на карті місце, яке Вас цікавить.</p>
+      </div>
+      <button-1 class="w-full my-6">
 				Надіслати запит на перевірку адреси
-			</button>
+			</button-1>
       <p class="text-base-grey">
 				Буде корисно, якщо ви повідомите нам через цю форму про будь-які проблеми, пов’язані з використанням нашого сервісу.
 			</p>
@@ -60,7 +65,14 @@ export default {
 		}
 	},
 	computed : {
-		...mapState(["notFoundedMarkerData"]),
+		/*...mapState({
+      notFoundedMarkerData : state =>{
+        return state.notFoundedMarkerData ? state.notFoundedMarkerData : {
+          address : "asd"
+        }
+      }
+    }),*/
+    ...mapState(["notFoundedMarkerData"]),
 		isDisabled(){
 			return this.issueMessage.length < 10;
 		},

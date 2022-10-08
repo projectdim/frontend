@@ -1,8 +1,14 @@
 <template>
-  <p>Count {{this.count}}</p>
+<!--  <p>Count {{this.count}}</p>
 	<p>Getter count {{this.countGetters}}</p>
   <button @click="Inc()">Increment</button>
-	<button @click="IncAsync()">Increment async</button>
+	<button @click="IncAsync()">Increment async</button>-->
+  <transition name="fade">
+    <p v-if="anim">akscfodiksan</p>
+  </transition>
+  <button @click="toogle">
+    toggle
+  </button>
 </template>
 
 <script>
@@ -25,13 +31,19 @@ export default {
 		},
 		IncAsync(){
 			this.$store.dispatch('increment');
-		}
+		},
+    toogle(){
+      setTimeout(()=>{
+        this.anim = !this.anim;
+      }, 2000)
+    }
   },
   data : function () {
 		return {
 	  	key1 : "key1",
 	  	key2 : "key2",
 	  	key3 : "key3",
+      anim : true
 		}
   },
   watch : {
@@ -50,6 +62,14 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+.fade-enter-active {
+  transition: all, 2s, ease;
+}
+.fade-enter-from {
+  opacity: 0;
+}
+.fade-enter-to {
+  opacity: 1;
+}
 </style>

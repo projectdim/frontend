@@ -4,10 +4,15 @@
 							hover:border-blue-c-400 focus:border-blue-c-500
 							disabled:bg-gray-light-100 disabled:hover:border-gray-light-300
 							disabled:text-gray-light-500 flex overflow-hidden"
-			 :class="{'border-blue-c-500': isInputFocused}">
+			 :class="{'border-blue-c-500': isInputFocused}"
+       @focusin="OnDivFocus(true)"
+       @focusout="OnDivFocus(false)">
 		<input ref="pass" class="w-full outline-none px-4 py-2" :type="inputType" placeholder="Pass"
 					 @focusin="OnInputFocus(true)"
-					 @focusout="OnInputFocus(false)"/>
+					 @focusout="OnInputFocus(false)"
+           @input="OnValueChange"
+    />
+
 		<div class="w-[40px] cursor-pointer rounded-lg px-1" @click="toggleInputType">
 			<svg class="block h-full w-full" viewBox="0 0 24 14" fill="none" xmlns="http://www.w3.org/2000/svg"
 			:class="{
@@ -23,10 +28,13 @@
 <script>
 export default {
 	name: "Input-pass",
+  prop : {
+    modelValue : String,
+  },
 	data(){
 		return {
 			isInputFocused: false,
-			inputType : "password"
+			inputType : "password",
 		}
 	},
 	methods : {
@@ -36,7 +44,15 @@ export default {
 		},
 		OnInputFocus(arg){
 			this.isInputFocused = arg;
-		}
+		},
+    OnDivFocus(arg){
+      this.isInputFocused = arg;
+      if(arg)
+        this.$refs.pass.focus();
+    },
+    OnValueChange(event){
+      this.$emit("update:modelValue", event.target.value);
+    }
 	},
 }
 </script>

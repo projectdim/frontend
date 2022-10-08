@@ -35,24 +35,35 @@
 			>
 				LogIn
 			</button-text-1>
+
+      <button-text-1 class="h-min my-auto
+				screen-950:ml-[37px] screen-950:ml-[25px]" role="link"
+                     @click="showSettingModal"
+      >
+        Setting
+      </button-text-1>
+
 		</div>
-			<LoginModal :is-modal-visible="isModal"
+			<LoginModal :is-modal-visible="isLoginModal"
 									:close-func="closeModal">
 			</LoginModal>
+      <UserSetting :is-setting-visible="isSettingModal"
+			@close="closeModal"/>
 		</header>
 </template>
 
 <script>
-import LoginModal from "./Modals/LoginModal.vue";
+import UserSetting from "./UserSetting.vue";
 export default {
   name: "Header",
-	components: {
-		LoginModal
-	},
-	data : function (){
+  components : {
+    UserSetting
+  },
+  data : function (){
 		return {
 			imageSrc : "UA_flag.svg",
-			isModal : false
+			isLoginModal : false,
+      isSettingModal : false
 		}
   },
   methods : {
@@ -67,10 +78,14 @@ export default {
 			}
 		},
 		showLogInModal(){
-			this.isModal = true;
+			this.isLoginModal = true;
 		},
+    showSettingModal(){
+      this.isSettingModal = true;
+    },
 		closeModal(){
-			this.isModal = false;
+			this.isLoginModal = false;
+      this.isSettingModal = false
 		}
   },
 

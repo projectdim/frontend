@@ -21,3 +21,16 @@
         background-color: #363940;
     }
 }
+
+@layer components {
+    .title {
+        @apply text-sidebar-address screen-475:text-sidebar-address-mobile
+        font-semibold
+    }
+    .subTitle {
+        @apply font-semibold text-sidebar-title screen-475:text-sidebar-title-mobile
+    }
+    .label {
+        @apply text-overview-item screen-475:text-overview-item-mobile
+    }
+}

@@ -26,6 +26,11 @@ module.exports = {
         'blue-c-400' : '#3C7CE6',
         'blue-c-500' : '#2E60B2',
         'blue-c-600' : '#214580',
+        'red-c-200' : '#FDDFD8',
+        'red-c-300' : '#E36144',
+        'red-c-500' : '#C02C0B',
+        'red-c-600' : '#992309',
+        'red-c-700' : '#661706',
       },
       boxShadow: {
         '1cs': '1px 0px 0px rgba(181, 181, 181, 0.25), 2px 0px 20px rgba(207, 205, 205, 0.25);',
@@ -51,6 +56,32 @@ module.exports = {
         'sidebar-title-mobile': ['18px', '32px'],
         'sidebar-address-mobile': ['24px', '38px'],
         'sidebar-address': ['32px', '51px'],
+      },
+      keyframes: {
+        appear: {
+          '0%': {
+            opacity : '0',
+            marginTop : '50px'
+          },
+          '100%': {
+            opacity : '1',
+            marginTop : '0px'
+          },
+        },
+        disappear: {
+          '100%': {
+            opacity : '0',
+            marginTop : '50px'
+          },
+          '0%': {
+            opacity : '1',
+            marginTop : '0px'
+          },
+        }
+      },
+      animation:{
+        appear : 'appear 0.5s ease',
+        disappear : 'disappear 0.5s ease'
       }
     },
     screens : {
