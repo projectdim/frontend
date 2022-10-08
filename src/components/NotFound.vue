@@ -7,7 +7,7 @@
 				Можливо варто вказати точнішу адресу.
 				Ви також можете запитати інформацію за цією адресою, і наша команда постарається приїхати туди якомога швидше.
 			</p>
-      <button class="bg-base-blue rounded-lg px-10 py-2 text-white w-full my-6 font-medium">
+      <button class="bg-base-blue rounded-lg px-10 py-2 text-white w-full my-6 font-medium" @click="requestReview">
 				Надіслати запит на перевірку адреси
 			</button>
       <p class="text-base-grey">
@@ -51,6 +51,9 @@
 
 <script>
 import {mapState} from "vuex";
+import axios from "axios";
+import {API_KEY} from "../Scripts/MapScripts";
+import api from "../api/index.js"
 
 export default {
   name: "NotFound",
@@ -69,6 +72,42 @@ export default {
 		Show(string) {
 			alert(string);
 		},
+    async requestReview () {
+      const { address, coords } = await this.getPlaceData(
+          this.notFoundedMarkerData.position.lat,
+          this.notFoundedMarkerData.position.lng
+      );
+      await api.locations.requestAddressReview(
+          {
+            address: address.route.long_name + ',' + address.street_number.long_name,
+            index: address.postal_code.long_name,
+            country: address.country.long_name,
+            city: address.locality.long_name,
+            lat: coords.location.lat,
+            lng: coords.location.lng
+          }
+      ).then((response) => {
+        console.log(response)
+      }).catch((err) => {
+        console.log(err.response)
+      });
+    },
+    async getPlaceData (lat, lng) {
+      let placeData = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat + ',' + lng}&key=${API_KEY}`)
+          .then((res => res.data))
+          .catch((err) => console.log(JSON.stringify(err)));
+      if (!placeData) return
+      let addressData = placeData.results[0].address_components;
+      let coordsData = placeData.results[0].geometry;
+      let formattedAddress = {};
+      for (var i = 0; i < addressData.length; i++) {
+        var c = addressData[i];
+        formattedAddress[c.types[0]] = c;
+      }
+      return {
+        address: formattedAddress, coords: coordsData
+      }
+    }
 	}
 }
 </script>

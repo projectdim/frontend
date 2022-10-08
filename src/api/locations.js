@@ -3,6 +3,9 @@ export default function (instance) {
         addLocation (payload) {
             return instance.post('locations/create', payload);
         },
+        requestAddressReview (payload) {
+            return instance.post('locations/request-info', payload)
+        },
         searchByCoords (payload) {
             return instance.post('locations/cord_search', payload)
         },
