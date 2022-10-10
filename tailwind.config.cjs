@@ -56,9 +56,10 @@ module.exports = {
         'sidebar-title-mobile': ['18px', '32px'],
         'sidebar-address-mobile': ['24px', '38px'],
         'sidebar-address': ['32px', '51px'],
+        'body-3': ['12px', '19px']
       },
       keyframes: {
-        appear: {
+        appear : {
           '0%': {
             opacity : '0',
             marginTop : '50px'
@@ -68,7 +69,7 @@ module.exports = {
             marginTop : '0px'
           },
         },
-        disappear: {
+        disappear : {
           '100%': {
             opacity : '0',
             marginTop : '50px'
@@ -77,11 +78,29 @@ module.exports = {
             opacity : '1',
             marginTop : '0px'
           },
+        },
+        userSettingsAppear : {
+          '0%': {
+            marginRight : '-100%'
+          },
+          '100%': {
+            marginRight : '0%'
+          },
+        },
+        userSettingsDisappear : {
+          '100%': {
+            marginRight: '-100%'
+          },
+          '0%': {
+            marginRight: '0%'
+          },
         }
       },
       animation:{
         appear : 'appear 0.5s ease',
-        disappear : 'disappear 0.5s ease'
+        disappear : 'disappear 0.5s ease',
+        userSettingsAppear : 'userSettingsAppear 0.1s ease',
+        userSettingsDisappear : 'userSettingsDisappear 0.1s ease'
       }
     },
     screens : {

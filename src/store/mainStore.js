@@ -7,7 +7,9 @@ export const storePrototype = {
       markers : [],
       selectedMarkerData : null,
       selectedMarkerHistoryData : null,
-      notFoundedMarkerData : null
+      notFoundedMarkerData : null,
+      loggedUserInfo : null,
+      loggedUserCredentials : null
     }
   },
   mutations : { // функції для зміни даних мають бути СИНХРОННИМИ
@@ -25,9 +27,26 @@ export const storePrototype = {
     setNoDataMarkerMarker(state, marker){
       state.selectedMarkerData = null;
       state.notFoundedMarkerData = marker;
+    },
+    setLoggedUserInfo(state, user){
+      state.loggedUserInfo = user;
+    },
+    setLoggedUserCredentials(state, credentials){
+      state.loggedUserCredentials = credentials;
     }
   },
   getters : { // функцію для отримання даних зі state з можливістю здійснювати попередні обрахунки
+    getToken(state){
+      if(state.loggedUserCredentials === null )
+        return null;
+      return `${state.loggedUserCredentials['token_type']} ${state.loggedUserCredentials['access_token']}`;
+    },
+    isAuth(state){
+      return state.loggedUserCredentials !== null && state.loggedUserInfo !== null
+    },
+    getUser(state){
+      return state.loggedUserInfo;
+    }
   },
   actions : { // функції для зміни даних шляхом ініціалізації мутацій можуть бути АСИНХРОННИМИ
     async getMarkersByScreenBounds(context, payload){

@@ -16,7 +16,7 @@
 <script>
 export default {
   name: "Button-options",
-  emits : ["changed"],
+  emits : ["valueChange"],
   props : {
     buttonColor : {
       type : String,
@@ -33,7 +33,7 @@ export default {
   methods : {
     toggleValue(){
       this.isChecked = !this.isChecked;
-      this.$emit("changed", this.isChecked)
+      this.$emit("valueChange", this.isChecked)
     }
   }
 }

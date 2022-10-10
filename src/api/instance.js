@@ -1,4 +1,5 @@
 import axios from "axios";
+import state from "vuex";
 
 
 const instance = axios.create({
@@ -9,6 +10,8 @@ const instance = axios.create({
         accept: 'application/json'
     }
 });
+
+
 
 
 export default instance;

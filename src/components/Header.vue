@@ -7,13 +7,34 @@
   	screen-949:px-4 screen-949:py-2.5
   	screen-950:px-2.5 screen-950:py-0
   	shadow-2cs flex flex-nowrap place-content-between bg-white">
-	  	<div class="cursor-pointer h-min my-auto">
+
+			<div v-if="isAuth" class="cursor-pointer h-min my-auto flex text-body-3 items-center">
+				<img src="src/assets/Logo_2.svg" class="
+				screen-475:h-6
+	  		screen-949:h-6
+				h-10 w-auto mr-4 screen-475:hidden">
+				<div class="screen-475:hidden">
+					<p class="font-semibold">
+						<img src="src/assets/User.svg" class="h-4 w-auto inline">
+						{{ userName }}
+					</p>
+					<p class="text-gray-light-500">
+						{{ userOrganization }}
+					</p>
+				</div>
+				<img src="src/assets/Logo.svg" class="
+				screen-475:h-6
+	  		screen-949:h-6
+				h-10 w-auto mr-4 hidden screen-475:block">
+			</div>
+			<div v-else class="cursor-pointer h-min my-auto">
 	  		<img src="../assets/Logo.svg" alt="" class="block
-	  		screen-475:h-6 screen-475:w-[88px]
-	  		screen-949:h-6 screen-949:w-[88px]
-	  		screen-950:h-10 screen-950:w-[148px]
-	  		w-[147px]">
+	  		screen-475:h-6
+	  		screen-949:h-6
+	  		screen-950:h-10
+	  		w-auto">
 	  	</div>
+
 
 		<div class="flex font-medium text-base-blue
 					screen-950:p-2
@@ -29,21 +50,31 @@
 				<option value="Ukrainian">Українська</option>
 				<option value="English">English</option>
 			</select>
-			<button-text-1 class="h-min my-auto
+			<button-text-1 v-if="!isAuth" class="h-min my-auto
 				screen-950:ml-[37px] screen-950:ml-[25px]" role="link"
-				@click="showLogInModal"
-			>
+				@click="showLogInModal">
 				LogIn
 			</button-text-1>
 
-      <button-text-1 class="h-min my-auto
-				screen-950:ml-[37px] screen-950:ml-[25px]" role="link"
-                     @click="showSettingModal"
-      >
-        Setting
-      </button-text-1>
 
+			<div v-if="isAuth" class="h-full flex items-center gap-x-6
+				screen-475:gap-x-1 ml-7 screen-475:ml-1">
+				<div class="hover:bg-blue-c-200 rounded-lg p-1">
+					<img @click="showSettingModal" src="/src/assets/Settings.svg" class="block h-6 w-auto cursor-pointer">
+				</div>
+				<div class="hover:bg-blue-c-200 rounded-lg p-1 relative">
+					<div class="absolute bg-red-c-500 rounded-[32px] py-0.5 px-1 font-semibold
+							text-body-3 text-white top-[-10px] right-[-5px] h-6 w-[22px] text-center">
+						15
+					</div>
+					<img src="/src/assets/Aid-worker-actions.svg" class="block h-6 w-auto cursor-pointer">
+				</div>
+				<button-text1 @click="logOut">
+					LogOut
+				</button-text1>
+			</div>
 		</div>
+
 			<LoginModal :is-modal-visible="isLoginModal"
 									:close-func="closeModal">
 			</LoginModal>
@@ -54,9 +85,13 @@
 
 <script>
 import UserSetting from "./UserSetting.vue";
+import {mapGetters, mapMutations} from "vuex";
+import ButtonText1 from "./Buttons/Button_text_1.vue";
+
 export default {
   name: "Header",
   components : {
+		ButtonText1,
     UserSetting
   },
   data : function (){
@@ -67,6 +102,7 @@ export default {
 		}
   },
   methods : {
+		...mapMutations(['setLoggedUserInfo', 'setLoggedUserCredentials']),
 		onSelectChange(event){
 			switch (event.target.value){
 				case "English":
@@ -86,9 +122,21 @@ export default {
 		closeModal(){
 			this.isLoginModal = false;
       this.isSettingModal = false
+		},
+		logOut(){
+			this.setLoggedUserInfo(null)
+			this.setLoggedUserCredentials(null);
 		}
   },
-
+	computed : {
+		...mapGetters(['getUser', 'isAuth']),
+		userName(){
+			return this.getUser.full_name
+		},
+		userOrganization(){
+			return "Some organization"
+		}
+	}
 }
 </script>
 

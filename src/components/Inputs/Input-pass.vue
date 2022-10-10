@@ -7,7 +7,7 @@
 			 :class="{'border-blue-c-500': isInputFocused}"
        @focusin="OnDivFocus(true)"
        @focusout="OnDivFocus(false)">
-		<input ref="pass" class="w-full outline-none px-4 py-2" :type="inputType" placeholder="Pass"
+		<input ref="pass" class="w-full outline-none px-4 py-2 bg-transparent" :type="inputType" placeholder="Pass"
 					 @focusin="OnInputFocus(true)"
 					 @focusout="OnInputFocus(false)"
            @input="OnValueChange"
