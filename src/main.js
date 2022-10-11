@@ -9,7 +9,7 @@ import {storePrototype} from "./store/mainStore.js"
 import {mainRouter} from "./router/mainRouter.js";
 import {createRouter, createWebHistory} from "vue-router";
 import ComponentsList from "./components/ComponentsList.js";
-import {vfmPlugin} from "vue-final-modal";
+import vfmPlugin from "vue-final-modal";
 
 const app = createApp(App);
 const store = createStore(storePrototype);

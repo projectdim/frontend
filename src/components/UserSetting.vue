@@ -19,9 +19,11 @@
         <label for="setting-mail">E-mail</label>
         <input1 id="setting-mail" placeholder="E-mail" v-model="email"
 								class="w-full text-black mt-1" disabled></input1>
-				<div class="flex flex-row-reverse">
-					<ButtonOptions :button-color="'blue'" @valueChange="changePassVisibility"
-						class="my-6">
+				<div class="flex flex-row-reverse gap-3 py-6">
+					<Button1 :disabled="isSaveButtonDisabled">
+						Зберегти
+					</Button1>
+					<ButtonOptions :button-color="'blue'" @valueChange="changePassVisibility">
 						Змінити пароль...
 					</ButtonOptions>
 				</div>
@@ -34,13 +36,12 @@
 					<input-pass id="setting-new-pass" placeholder="Новий пароль" class="text-black mt-1 mb-6"
 						v-model="newPass"></input-pass>
 					<div class="flex flex-row-reverse">
-						<button1>
+						<button1 :disabled="isChangePassButtonDisabled">
 							Зберегти
 						</button1>
 					</div>
 				</div>
       </div>
-
     </div>
 	</ModalTemplate>
 </template>
@@ -53,6 +54,7 @@ import ButtonOptions from "./Buttons/Button-options.vue";
 import ModalTemplate from "./Modals/ModalTemplate.vue";
 import Button1 from "./Buttons/Button_1.vue";
 import {mapGetters} from "vuex";
+
 export default {
   name: "UserSetting",
 	emits : ["close"],
@@ -66,10 +68,12 @@ export default {
 	data () {
 		return {
 			isPassChangeVisible : false,
+			isSaveButtonDisabled : true,
+			isChangePassButtonDisabled : true,
 			oldPass : "",
 			newPass : "",
-			username : this.uName,
-			email : this.uEmail
+			username : "",
+			email : ""
 		}
 	},
 	methods : {
@@ -79,21 +83,52 @@ export default {
 		},
 		changePassVisibility(isVisible){
 			this.isPassChangeVisible = isVisible;
-			/*if(!this.isPassChangeVisible){
-				this.oldPass = "";
-				this.newPass = "";
-			}*/
+		},
+		updateSaveButDisable(){
+			if(this.username !== this.getUser.full_name ||
+				this.email !== this.getUser.email)
+				this.isSaveButtonDisabled = false;
+			else
+				this.isSaveButtonDisabled = true;
+		},
+		updateSavePassDisable(){
+			if(this.oldPass.length >= 8 &&
+				this.newPass.length >=8)
+				this.isChangePassButtonDisabled = false;
+			else
+				this.isChangePassButtonDisabled = true;
 		}
 	},
 	computed : {
 		...mapGetters(['getUser']),
-		uName(){
-			return this.getUser.username;
+	},
+	watch : {
+		getUser(newValue){
+			if(this.getUser) {
+				this.username = this.getUser.full_name;
+				this.email = this.getUser.email;
+			}
 		},
-		uEmail(){
-			return this.getUser.email;
+		username(newVal){
+			this.updateSaveButDisable()
+		},
+		email(newVal){
+			this.updateSaveButDisable()
+		},
+		newPass(newVal){
+			this.updateSavePassDisable()
+		},
+		oldPass(newVal){
+			this.updateSavePassDisable()
+		}
+	},
+	mounted(){
+		if(this.getUser) {
+			this.username = this.getUser.full_name;
+			this.email = this.getUser.email;
 		}
 	}
+
 }
 </script>
 

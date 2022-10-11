@@ -1,26 +1,32 @@
 <template>
-<!--  <p>Count {{this.count}}</p>
-	<p>Getter count {{this.countGetters}}</p>
-  <button @click="Inc()">Increment</button>
-	<button @click="IncAsync()">Increment async</button>-->
+
   <transition name="fade">
     <p v-if="anim">akscfodiksan</p>
   </transition>
+
+	<test-modal v-model="modal"></test-modal>
   <button @click="toogle">
     toggle
   </button>
+	<button @click="Foo">
+		modal
+	</button>
 </template>
 
 <script>
+import testModal from "./Modals/testModal.vue";
 export default {
   name: "Test",
-  props: {
+	components: {
+		testModal
+	},
+	props: {
 		msg : String,
 		msg2 : String,
   },
   methods : {
 		Foo(){
-	  	return this.msg + "Foo";
+	  	this.$vfm.show('testModal');
 		},
 		Foo2(){
 	  	this.key1 = "TestKey";
@@ -43,7 +49,8 @@ export default {
 	  	key1 : "key1",
 	  	key2 : "key2",
 	  	key3 : "key3",
-      anim : true
+      anim : true,
+			modal : false
 		}
   },
   watch : {
