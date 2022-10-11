@@ -2,8 +2,9 @@
 	<ModalTemplate :classList="'grid place-items-end'" :close-func="closeModal"
 	:is-modal-visible="isSettingVisible">
     <div class="w-[600px] h-screen overflow-y-auto bg-white p-9
-    screen-475:p-2 screen-949:p-2 animate-userSettingsAppear" @click.stop
+    screen-475:p-2 screen-949:p-2 animate-userSettingsAppear relative" @click.stop
 		:class="{'animate-userSettingsAppear' : isSettingVisible}">
+			<Loader v-if="isShowLoader"></Loader>
 <!--      Header-->
       <div class="flex justify-between mb-6">
         <h1 class="title">Settings</h1>
@@ -20,7 +21,7 @@
         <input1 id="setting-mail" placeholder="E-mail" v-model="email"
 								class="w-full text-black mt-1" disabled></input1>
 				<div class="flex flex-row-reverse gap-3 py-6">
-					<Button1 :disabled="isSaveButtonDisabled">
+					<Button1 :disabled="isSaveButtonDisabled" @click="updateUserData">
 						Зберегти
 					</Button1>
 					<ButtonOptions :button-color="'blue'" @valueChange="changePassVisibility">
@@ -36,7 +37,8 @@
 					<input-pass id="setting-new-pass" placeholder="Новий пароль" class="text-black mt-1 mb-6"
 						v-model="newPass"></input-pass>
 					<div class="flex flex-row-reverse">
-						<button1 :disabled="isChangePassButtonDisabled">
+						<button1 :disabled="isChangePassButtonDisabled"
+							@click="updateUserPassword">
 							Зберегти
 						</button1>
 					</div>
@@ -53,12 +55,14 @@ import InputPass from "./Inputs/Input-pass.vue";
 import ButtonOptions from "./Buttons/Button-options.vue";
 import ModalTemplate from "./Modals/ModalTemplate.vue";
 import Button1 from "./Buttons/Button_1.vue";
-import {mapGetters} from "vuex";
+import {mapGetters, mapMutations} from "vuex";
+import api from "../api/index.js";
+import Loader from "./Loader.vue";
 
 export default {
   name: "UserSetting",
 	emits : ["close"],
-  components: {Button1, ModalTemplate, InputPass, Input1, ButtonText1, ButtonOptions},
+  components: {Loader, Button1, ModalTemplate, InputPass, Input1, ButtonText1, ButtonOptions},
   props : {
     isSettingVisible : {
       type : Boolean,
@@ -70,6 +74,7 @@ export default {
 			isPassChangeVisible : false,
 			isSaveButtonDisabled : true,
 			isChangePassButtonDisabled : true,
+			isShowLoader : false,
 			oldPass : "",
 			newPass : "",
 			username : "",
@@ -77,6 +82,7 @@ export default {
 		}
 	},
 	methods : {
+		...mapMutations(['setLoggedUserInfo']),
 		closeModal(){
 			this.isPassChangeVisible = false;
 			this.$emit("close");
@@ -85,7 +91,7 @@ export default {
 			this.isPassChangeVisible = isVisible;
 		},
 		updateSaveButDisable(){
-			if(this.username !== this.getUser.full_name ||
+			if(this.username !== this.getUser.username ||
 				this.email !== this.getUser.email)
 				this.isSaveButtonDisabled = false;
 			else
@@ -93,10 +99,43 @@ export default {
 		},
 		updateSavePassDisable(){
 			if(this.oldPass.length >= 8 &&
-				this.newPass.length >=8)
+				this.newPass.length >= 8)
 				this.isChangePassButtonDisabled = false;
 			else
 				this.isChangePassButtonDisabled = true;
+		},
+		async updateUserData(){
+			let updatedData = {
+				"username": this.username,
+				"email": this.email,
+				"full_name": "Ivan Oliunyk",
+			}
+			this.isShowLoader = true;
+			await api.user.UpdateUserData(updatedData).then(res=>{
+				this.setLoggedUserInfo(res.data);
+				alert("Оновлення даних успішне")
+			}).catch(err=>{
+				alert("Помилка оновлення даних")
+			}).finally(()=>{
+				this.isShowLoader = false;
+			})
+		},
+		async updateUserPassword(){
+			let updatedPass = {
+				"old_password": this.oldPass,
+				"new_password": this.newPass
+			}
+			console.log(updatedPass)
+			this.isShowLoader = true;
+			await api.user.UpdateUserPass(updatedPass).then(res=>{
+				alert("Оновлення паролю успішне")
+			}).catch(err=>{
+				alert("Помилка оновлення паролю")
+			}).finally(()=>{
+				this.newPass = "";
+				this.oldPass = "";
+				this.isShowLoader = false;
+			})
 		}
 	},
 	computed : {
@@ -105,7 +144,7 @@ export default {
 	watch : {
 		getUser(newValue){
 			if(this.getUser) {
-				this.username = this.getUser.full_name;
+				this.username = this.getUser.username;
 				this.email = this.getUser.email;
 			}
 		},
@@ -124,7 +163,7 @@ export default {
 	},
 	mounted(){
 		if(this.getUser) {
-			this.username = this.getUser.full_name;
+			this.username = this.getUser.username;
 			this.email = this.getUser.email;
 		}
 	}

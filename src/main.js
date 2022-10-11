@@ -4,15 +4,12 @@ import './index.css'
 import 'vue3-carousel/dist/carousel.css';
 import App from './App.vue'
 import {API_KEY} from "./Scripts/MapScripts.js"
-import {createStore} from "vuex";
-import {storePrototype} from "./store/mainStore.js"
+import {store}  from "./store/mainStore.js"
 import {mainRouter} from "./router/mainRouter.js";
 import {createRouter, createWebHistory} from "vue-router";
 import ComponentsList from "./components/ComponentsList.js";
-import vfmPlugin from "vue-final-modal";
 
 const app = createApp(App);
-const store = createStore(storePrototype);
 const router = createRouter(
   {
     routes : mainRouter,
@@ -28,7 +25,6 @@ app.use(VueGoogleMaps,{
         },
     });
 
-app.use(vfmPlugin);
 app.use(store);
 app.use(router);
 

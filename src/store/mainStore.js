@@ -1,6 +1,7 @@
 import api from "../api/index.js"
+import {createStore} from "vuex";
 
-export const storePrototype = {
+const storePrototype = {
 /*  strict: process.env.NODE_ENV !== 'production',*/
   state() {   /// данні можна отримати, але не варто змінювати на пряму
     return {
@@ -24,6 +25,7 @@ export const storePrototype = {
     setSelectedMarkerHistory(state, markerHistory){
       state.selectedMarkerHistoryData = markerHistory;
     },
+    // marker : {position: coords, address: name}
     setNoDataMarkerMarker(state, marker){
       state.selectedMarkerData = null;
       state.notFoundedMarkerData = marker;
@@ -88,6 +90,8 @@ export const storePrototype = {
       catch (err){
         throw err;
       }
-    }
+    },
   }
 }
+
+export const store = createStore(storePrototype);

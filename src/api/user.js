@@ -1,5 +1,3 @@
-import state from "vuex";
-
 
 export default function (instance){
   return {
@@ -7,14 +5,14 @@ export default function (instance){
       return instance.post('/auth/login/token', payload,
         {headers : {'Content-Type': 'multipart/form-data'}});
     },
-    GetInfo(credentials){
-      /*let credentials = {...mapGetters(['getToken'])}.getToken;
-      if(credentials === null)
-        throw new Error("Credentials is null");
-      else {
-        console.log(credentials)*/
-        return instance.get('/users/me', {headers: {'Authorization': credentials}})
-      //}
+    GetInfo(){
+        return instance.get('/users/me')
+    },
+    UpdateUserData(payload){
+      return instance.put('/users/info', payload);
+    },
+    UpdateUserPass(payload){
+      return instance.put('/users/password', payload)
     }
   }
 }

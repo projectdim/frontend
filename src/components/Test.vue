@@ -14,19 +14,16 @@
 </template>
 
 <script>
-import testModal from "./Modals/testModal.vue";
 export default {
   name: "Test",
-	components: {
-		testModal
-	},
+
 	props: {
 		msg : String,
 		msg2 : String,
   },
   methods : {
 		Foo(){
-	  	this.$vfm.show('testModal');
+
 		},
 		Foo2(){
 	  	this.key1 = "TestKey";

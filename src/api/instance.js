@@ -1,5 +1,5 @@
 import axios from "axios";
-import state from "vuex";
+import {store} from "../store/mainStore.js";
 
 
 const instance = axios.create({
@@ -11,7 +11,12 @@ const instance = axios.create({
     }
 });
 
-
+instance.interceptors.request.use((config)=>{
+    let token =store.getters.getToken;
+    if(token)
+        config.headers.Authorization = token;
+    return config;
+});
 
 
 export default instance;

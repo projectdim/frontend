@@ -99,11 +99,9 @@ export default {
 				credentials.append('username', this.email);
 				credentials.append('password', this.pass);
 				await api.user.LogIn(credentials).then(res=>{
-					console.log(res);
 					this.setLoggedUserCredentials(res.data);
 					this.getInfo();
 				}).catch(err=>{
-					console.log(err);
 					this.logInErrorMessage = err;
 					this.isLogInFailed = true;
 					this.isLoaderVisible = false;
@@ -115,7 +113,7 @@ export default {
 				this.logInErrorMessage = "Проблеми з токеном";
 				this.isLogInFailed = true;
 			}
-			api.user.GetInfo(this.getToken).then(res=>{
+			api.user.GetInfo().then(res=>{
 				this.setLoggedUserInfo(res.data);
 			}).catch(err=>{
 				this.logInErrorMessage = err;

@@ -75,7 +75,6 @@
 					]
 				}
 			]
-
    		}"
 	>
 	  <GMapMarker
@@ -122,6 +121,7 @@
 import axios from "axios";
 import api from "../../api/index.js";
 import {API_KEY, URL_PROXY_PLACE_REQUEST} from "../../Scripts/MapScripts.js";
+import {mapMutations} from "vuex";
 
 export default {
   name: "GoogleMap",
@@ -153,6 +153,7 @@ export default {
 		}
 	},
 	methods : {
+		...mapMutations(["setNoDataMarkerMarker"]),
 	  	ClickHandler(event) {
 		  if(event.placeId) {
 		  	  this.GetPlaceDetails(event.placeId);
@@ -169,9 +170,7 @@ export default {
 				this.$store.dispatch("getMarkersByScreenBounds", {bounds});
     	},
     	getMarkerInfo(marker) {
-    	  //this.$emit('changeMarkerView', marker);
 				this.$store.commit("setSelectedMarker", marker);
-		    //this.center = marker.position;
         this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
     	},
 		async GetPlaceDetails(placeId){
@@ -187,14 +186,26 @@ export default {
 		    });
     	},
 		SetMarker(coords){
-		  this.ifClickMarker = true;
+			if(coords !== this.ClickMarkerCoords)
+				this.getPlaceInfo(coords)
+			this.ifClickMarker = true;
 		  this.ClickMarkerCoords = coords;
-    	//this.getPlaceInfo(coords)
 		},
     	async getPlaceInfo (coords) {
-    	  await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.lat() + ',' + coords.lng()}&key=${API_KEY}`)
-    	      .then((res => this.currentPlaceData = res.data))
-    	      .catch((err) => console.log(JSON.stringify(err)));
+				await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.lat()},${coords.lng()}&key=${API_KEY}`)
+    	      .then((res =>{
+							let notFoundedMarker = {
+								position :
+									{
+										lat: coords.lat(),
+										lng: coords.lng()
+									},
+								address : res.data.results[0].formatted_address
+							}
+							this.setNoDataMarkerMarker(notFoundedMarker);
+							this.currentPlaceData = res.data
+						}))
+    	      .catch((err) => console.log(err));
 
     	  let addressData = this.currentPlaceData.results[0].address_components;
     	  let coordsData = this.currentPlaceData.results[0].geometry;

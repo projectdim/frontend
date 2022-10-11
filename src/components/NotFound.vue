@@ -12,8 +12,13 @@
       <div v-else>
         <p class="font-semibold text-4xl">Виберіть на карті місце, яке Вас цікавить.</p>
       </div>
-      <button-1 class="w-full my-6" @click="requestReview">
-				Надіслати запит на перевірку адреси
+      <button-1 class="w-full my-6" @click="requestReview" :disabled="notFoundedMarkerData===null">
+				<span v-if="notFoundedMarkerData">
+					Надіслати запит на перевірку адреси
+				</span>
+				<span v-else>
+					Виберіть адресу для запиту
+				</span>
 			</button-1>
       <p class="text-base-grey">
 				Буде корисно, якщо ви повідомите нам через цю форму про будь-які проблеми, пов’язані з використанням нашого сервісу.

@@ -131,7 +131,7 @@ export default {
 	computed : {
 		...mapGetters(['getUser', 'isAuth']),
 		userName(){
-			return this.getUser.full_name
+			return this.getUser.username
 		},
 		userOrganization(){
 			return "Some organization"
