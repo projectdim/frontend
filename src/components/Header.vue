@@ -9,26 +9,26 @@
   	shadow-2cs flex flex-nowrap place-content-between bg-white">
 
 			<div v-if="isAuth" class="cursor-pointer h-min my-auto flex text-body-3 items-center">
-				<img src="src/assets/Logo_2.svg" class="
+				<img src="/src/assets/Logo_2.svg" class="
 				screen-475:h-6
 	  		screen-949:h-6
 				h-10 w-auto mr-4 screen-475:hidden">
 				<div class="screen-475:hidden">
 					<p class="font-semibold">
-						<img src="src/assets/User.svg" class="h-4 w-auto inline">
+						<img src="/src/assets/User.svg" class="h-4 w-auto inline">
 						{{ userName }}
 					</p>
 					<p class="text-gray-light-500">
 						{{ userOrganization }}
 					</p>
 				</div>
-				<img src="src/assets/Logo.svg" class="
+				<img src="/src/assets/Logo.svg" class="
 				screen-475:h-6
 	  		screen-949:h-6
 				h-10 w-auto mr-4 hidden screen-475:block">
 			</div>
 			<div v-else class="cursor-pointer h-min my-auto">
-	  		<img src="../assets/Logo.svg" alt="" class="block
+	  		<img src="/src/assets/Logo.svg" alt="" class="block
 	  		screen-475:h-6
 	  		screen-949:h-6
 	  		screen-950:h-10
