@@ -164,8 +164,8 @@ export default {
 		  },
 			getBounds ( arg ) {
     	  let bounds = {
-    	    lat: { hi: arg.Cb.hi, lo: arg.Cb.lo },
-    	    lng: { hi: arg.Va.hi, lo: arg.Va.lo }
+    	    lat: { hi: arg.getNorthEast().lat(), lo: arg.getSouthWest().lat() },
+    	    lng: { hi: arg.getNorthEast().lng(), lo: arg.getSouthWest().lng() }
     	  }
 				this.$store.dispatch("getMarkersByScreenBounds", {bounds});
     	},
@@ -229,18 +229,18 @@ export default {
     	  //     }
     	  // )
 
-    	  await api.locations.searchByCoords(
-    	      {
-    	        lat: coordsData.location.lat,
-    	        lng: coordsData.location.lng
-    	      }
-    	  ).then((response) => {
-    	    this.markers = []
-    	    response.data.forEach((loc) => {
-    	      this.markers.push(loc)
-    	    })
-    	    console.log(this.markers)
-    	  });
+    	  // await api.locations.searchByCoords(
+    	  //     {
+    	  //       lat: coordsData.location.lat,
+    	  //       lng: coordsData.location.lng
+    	  //     }
+    	  // ).then((response) => {
+    	  //   this.markers = []
+    	  //   response.data.forEach((loc) => {
+    	  //     this.markers.push(loc)
+    	  //   })
+    	  //   console.log(this.markers)
+    	  // });
     	},
 		OnMapZoomChanged(arg){
 			console.log(arg);
