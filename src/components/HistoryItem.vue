@@ -17,29 +17,29 @@
 				{{new Date(log.created_at).toTimeString().split(' ')[0]}}
 			</div>
 			<div class="w-full">
-				<div v-for="change in Object.keys(log.old_flags)" class="my-2.5 flex flex-wrap gap-2 font-semibold">
-					<div class="flex gap-2">
+				<div v-for="change in changedFlags" class="my-2.5 flex flex-wrap gap-2 font-semibold">
+					<div class="flex gap-2" v-if="log.old_flags">
 						<p class="w-4 h-6">
-							<SVG_status_list :icon='change' :classList="getSVGColorClass(change, log.old_flags[change])"/>
+							<SVG_status_list :icon='change' :classList="getSVGColorClass(change, log.old_flags[change].flag)"/>
 						</p>
 						<p class="grow my-auto uppercase
 							text-overview-item
 							screen-475:text-overview-item-mobile
-							screen-949:text-overview-item-mobile" :class="getTextColorClass(change,log.old_flags[change])">
-							{{log.old_flags[change]}}
+							screen-949:text-overview-item-mobile" :class="getTextColorClass(change,log.old_flags[change].flag)">
+							{{log.old_flags[change].flag}}
 						</p>
 					</div>
 					<img src="/src/assets/change-arrow.svg" class="h-6 w-6">
 					<div class="flex gap-2">
 						<p class="w-4 h-6">
-							<SVG_status_list :icon='change' :classList="getSVGColorClass(change, log.new_flags[change])"/>
+							<SVG_status_list :icon='change' :classList="getSVGColorClass(change, log.new_flags[change].flag)"/>
 						</p>
 						<p class="grow my-auto uppercase text-base
 							text-overview-item
 							screen-475:text-overview-item-mobile
 							screen-949:text-overview-item-mobile"
-							:class="getTextColorClass(change, log.new_flags[change])">
-							{{log.new_flags[change]}}
+							:class="getTextColorClass(change, log.new_flags[change].flag)">
+							{{log.new_flags[change].flag}}
 						</p>
 				</div>
 				</div>
@@ -59,7 +59,17 @@ export default {
 	props : {
 		log : Object
   },
-	methods : {
+  computed: {
+    changedFlags () {
+      if (!this.log.old_flags) {
+        return Object.keys(this.log.new_flags)
+      }
+      return Object.keys(this.log.old_flags).filter((flag) => {
+        return this.log.old_flags[flag].flag !== this.log.new_flags[flag].flag
+      });
+    }
+  },
+  methods : {
 		getDate(strDate){
 			return getDayDate(strDate).replace(' ', ", ");
 		},

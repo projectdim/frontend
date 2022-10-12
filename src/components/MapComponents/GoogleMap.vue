@@ -112,6 +112,16 @@
 				:draggable="false"
 				@click="getMarkerInfo(m)"
 			/>
+<!--      Синие маркера -->
+      <GMapMarker
+          v-for="(m, index) in this.$store.state.unreviewedMarkers"
+          :key="index"
+          :position="m.position"
+          icon="/question-map-pin.svg"
+          :clickable="false"
+          :draggable="false"
+          @click="getMarkerInfo(m)"
+      />
 	  </GMapCluster>
 	</GMapMap>
   	</div>

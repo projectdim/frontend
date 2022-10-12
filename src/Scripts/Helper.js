@@ -74,11 +74,11 @@ export function GetStateColor(field, status){
             'Стабільна' : green,
             "Нестабільна" : red},
         fuelStation : {
-            'зачинено' : red,
-            'відчинено' : green},
+            'Зачинено' : red,
+            'Відчинено' : green},
         hospital : {
-            'зачинено' : red,
-            'відчинено' : green},
+            'Зачинено' : red,
+            'Відчинено' : green},
     }
 
     return a[field][status];

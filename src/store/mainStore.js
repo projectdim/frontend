@@ -6,6 +6,7 @@ const storePrototype = {
   state() {   /// данні можна отримати, але не варто змінювати на пряму
     return {
       markers : [],
+      unreviewedMarkers: [],
       selectedMarkerData : null,
       selectedMarkerHistoryData : null,
       notFoundedMarkerData : null,
@@ -15,7 +16,8 @@ const storePrototype = {
   },
   mutations : { // функції для зміни даних мають бути СИНХРОННИМИ
     setMarkerList(state, markers){
-      state.markers = markers;
+      state.markers = markers.filter((mark) => mark.status === 3);
+      state.unreviewedMarkers = markers.filter((mark) => mark.status === 1 || mark.status === 2);
     },
     setSelectedMarker(state, marker){
       state.selectedMarkerData = marker;
