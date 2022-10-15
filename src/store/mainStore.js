@@ -1,8 +1,12 @@
 import api from "../api/index.js"
 import {createStore} from "vuex";
+import ReportLocationState from "./ReportedLocationStore.js";
 
 const storePrototype = {
 /*  strict: process.env.NODE_ENV !== 'production',*/
+  modules:{
+    reports : ReportLocationState
+  },
   state() {   /// данні можна отримати, але не варто змінювати на пряму
     return {
       markers : [],

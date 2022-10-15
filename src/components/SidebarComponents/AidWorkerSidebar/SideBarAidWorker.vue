@@ -21,7 +21,7 @@
 				Мої запити
 			</div>
 	  </div>
-	  <div class="pt-6">
+	  <div class="py-6">
 			<keep-alive>
 				<ReportsRequestsList v-if="selectedTabItem===`All requests`"/>
 			</keep-alive>

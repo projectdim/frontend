@@ -1,7 +1,10 @@
 <template>
-		<div class="px-6">
+		<div class="px-6" ref="viewport">
 			<ReportRequestListItem v-for="item in unreviewedMarkers" :key="`request${item.id}`"
 				:location-request="item"/>
+			<div ref="scrollObserver" class="relative h-[80px]" v-if="pageMax<0">
+				<Loader v-show="isLoaderVisible"/>
+			</div>
 		</div>
 </template>
 
@@ -9,16 +12,20 @@
 import ReportRequestListItem from "./ReportRequestListItem.vue";
 import api from "../../../api/index.js";
 import {mapGetters} from "vuex";
+import Loader from "../../Loader.vue";
 
 export default {
 	name: "ReportsRequestsList",
 	components: {
-		ReportRequestListItem
+		ReportRequestListItem,
+		Loader
 	},
 	data(){
 		return {
 			unreviewedMarkers: [],
-			page: 1
+			page: 0,
+			pageMax: -1,
+			isLoaderVisible : false
 		}
 	},
 	methods : {
@@ -26,18 +33,38 @@ export default {
 			if(!this.isAuth)
 				return;
 			let payload = {
-				'page' : this.page,
+				'page' : ++this.page,
 				'limit' : 20
 			}
+			this.isLoaderVisible = true;
+
+			//TODO Безкінечна лєнта демострація
+			//await new Promise(resolve => setTimeout(resolve, 3000));
+
 			await api.locations.getReportsRequests(payload).then(res=>{
-				console.log(res.data);
-				this.unreviewedMarkers = res.data;
+				if(res.data.length === 0)
+					this.pageMax = --this.page;
+				else if(res.data.length < 20)
+					this.pageMax = this.page;
+				this.unreviewedMarkers = [...this.unreviewedMarkers, ...res.data];
 			}).catch(err=>{
 				alert(err);
+			}).finally(()=>{
+				this.isLoaderVisible = false
 			})
 		}
 	},
 	mounted() {
+		let options = {
+			threshold: 0,
+		}
+		let callback = (entries, observer) => {
+			if(entries[0].isIntersecting && !this.isLoaderVisible && this.pageMax<0) {
+				this.GetReportsRequest();
+			}
+		};
+		let observer = new IntersectionObserver(callback, options);
+		observer.observe(this.$refs.scrollObserver, );
 		this.GetReportsRequest();
 	},
 	computed : {

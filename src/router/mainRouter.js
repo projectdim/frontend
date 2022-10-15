@@ -4,6 +4,7 @@ import ErrorPage from "../components/ErrorPage.vue";
 import Test from "../components/Test.vue";
 import SideBar from "../components/SidebarComponents/UserSidebar/SideBar.vue";
 import SideBarAidWorker from "../components/SidebarComponents/AidWorkerSidebar/SideBarAidWorker.vue";
+import ReportTools from "../components/SidebarComponents/AidWorkerSidebar/ReportTools.vue";
 
 
 export const mainRouter = [
@@ -21,9 +22,14 @@ export const mainRouter = [
         component : SideBar
       },
       {
-        path: "requests",
-        component: SideBarAidWorker,
+        path : "requests",
+        component : SideBarAidWorker,
         /*meta : {requiresAuth : true}*/
+      },
+      {
+        path: "submit-report",
+        component : ReportTools
+        /*meta : {SelectedRequestLocation  : true}*/
       }
     ]
   },
@@ -31,3 +37,6 @@ export const mainRouter = [
   /*{ path : "*", component: ErrorPage}*/
 ]
 
+export const Path ={
+  updateReport : '/main/submit-report'
+}

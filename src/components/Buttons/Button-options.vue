@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: "Button-options",
+  name: "ButtonOptions",
   emits : ["valueChange"],
   props : {
     buttonColor : {
