@@ -11,7 +11,8 @@ const storePrototype = {
       selectedMarkerHistoryData : null,
       notFoundedMarkerData : null,
       loggedUserInfo : null,
-      loggedUserCredentials : null
+      loggedUserCredentials : null,
+      mapCenter : null
     }
   },
   mutations : { // функції для зміни даних мають бути СИНХРОННИМИ
@@ -21,6 +22,7 @@ const storePrototype = {
     },
     setSelectedMarker(state, marker){
       state.selectedMarkerData = marker;
+      state.mapCenter = marker.position;
       state.selectedMarkerHistoryData = null;
       state.notFoundedMarkerData = null;
     },
@@ -31,12 +33,16 @@ const storePrototype = {
     setNoDataMarkerMarker(state, marker){
       state.selectedMarkerData = null;
       state.notFoundedMarkerData = marker;
+      state.mapCenter = marker.position;
     },
     setLoggedUserInfo(state, user){
       state.loggedUserInfo = user;
     },
     setLoggedUserCredentials(state, credentials){
       state.loggedUserCredentials = credentials;
+    },
+    setMapCenter(state, position){
+      state.mapCenter = position;
     }
   },
   getters : { // функцію для отримання даних зі state з можливістю здійснювати попередні обрахунки
@@ -50,11 +56,14 @@ const storePrototype = {
     },
     getUser(state){
       return state.loggedUserInfo;
+    },
+    getMapCenter(state){
+      return state.mapCenter ? state.mapCenter : {lat: 49.23414701332752, lng: 28.46228865225255}
     }
   },
   actions : { // функції для зміни даних шляхом ініціалізації мутацій можуть бути АСИНХРОННИМИ
     async getMarkersByScreenBounds(context, payload){
-      await api.locations.searchByCoords(payload.bounds)
+      await api.locations.searchByCoords(payload)
         .then((response) => {
           context.commit('setMarkerList', [...response.data]);
         });

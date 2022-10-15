@@ -6,34 +6,36 @@
   	screen-475:px-4 screen-475:py-2.5
   	screen-949:px-4 screen-949:py-2.5
   	screen-950:px-2.5 screen-950:py-0
-  	shadow-2cs flex flex-nowrap place-content-between bg-white">
+  	shadow-cs2 flex flex-nowrap place-content-between bg-white">
 
-			<div v-if="isAuth" class="cursor-pointer h-min my-auto flex text-body-3 items-center">
-				<img src="/src/assets/Logo_2.svg" class="
-				screen-475:h-6
-	  		screen-949:h-6
-				h-10 w-auto mr-4 screen-475:hidden">
-				<div class="screen-475:hidden">
-					<p class="font-semibold">
-						<img src="/src/assets/User.svg" class="h-4 w-auto inline">
-						{{ userName }}
-					</p>
-					<p class="text-gray-light-500">
-						{{ userOrganization }}
-					</p>
+			<div class="cursor-pointer h-min my-auto" @click="goToMain">
+				<div v-if="isAuth" class="flex text-body-3 items-center">
+					<img src="/src/assets/Logo_2.svg" class="
+					screen-475:h-6
+					screen-949:h-6
+					h-10 w-auto mr-4 screen-475:hidden">
+					<div class="screen-475:hidden">
+						<p class="font-semibold">
+							<img src="/src/assets/User.svg" class="h-4 w-auto inline">
+							{{ userName }}
+						</p>
+						<p class="text-gray-light-500">
+							{{ userOrganization }}
+						</p>
+					</div>
+					<img src="/src/assets/Logo.svg" class="
+					screen-475:h-6
+					screen-949:h-6
+					h-10 w-auto mr-4 hidden screen-475:block">
 				</div>
-				<img src="/src/assets/Logo.svg" class="
-				screen-475:h-6
-	  		screen-949:h-6
-				h-10 w-auto mr-4 hidden screen-475:block">
+				<div v-else>
+					<img src="/src/assets/Logo.svg" alt="" class="block
+					screen-475:h-6
+					screen-949:h-6
+					screen-950:h-10
+					w-auto">
+				</div>
 			</div>
-			<div v-else class="cursor-pointer h-min my-auto">
-	  		<img src="/src/assets/Logo.svg" alt="" class="block
-	  		screen-475:h-6
-	  		screen-949:h-6
-	  		screen-950:h-10
-	  		w-auto">
-	  	</div>
 
 
 		<div class="flex font-medium text-base-blue
@@ -41,7 +43,7 @@
 					text-overview-item
 					screen-475:text-overview-item-mobile
     			screen-949:text-overview-item-mobile">
-			<img v-bind:src="'./Flags/'+this.imageSrc"
+			<img v-bind:src="'/Flags/'+this.imageSrc"
 					 class="h-[18px] w-[24px] my-auto" alt="Flag">
 			<select name="lang-selector" id="lang-selector"
 							class="h-min my-auto bg-transparent ml-[5px] text-right
@@ -62,13 +64,17 @@
 				<div class="hover:bg-blue-c-200 rounded-lg p-1">
 					<img @click="showSettingModal" src="/src/assets/Settings.svg" class="block h-6 w-auto cursor-pointer">
 				</div>
+
 				<div class="hover:bg-blue-c-200 rounded-lg p-1 relative">
+					<router-link to="/main/requests">
 					<div class="absolute bg-red-c-500 rounded-[32px] py-0.5 px-1 font-semibold
 							text-body-3 text-white top-[-10px] right-[-5px] h-6 w-[22px] text-center">
 						15
 					</div>
 					<img src="/src/assets/Aid-worker-actions.svg" class="block h-6 w-auto cursor-pointer">
+					</router-link>
 				</div>
+
 				<button-text1 @click="logOut">
 					LogOut
 				</button-text1>
@@ -126,6 +132,9 @@ export default {
 		logOut(){
 			this.setLoggedUserInfo(null)
 			this.setLoggedUserCredentials(null);
+		},
+		goToMain(){
+			this.$router.push("/main/overview")
 		}
   },
 	computed : {

@@ -73,11 +73,11 @@ export default {
 	watch : {
 		selectedMarkerData: function (newVal){
 			if(newVal !== null)
-				this.$router.push("/main");
+				this.$router.push("/main/overview");
 		},
 		notFoundedMarkerData: function (newVal){
 			if(newVal !== null)
-				this.$router.push("/main");
+				this.$router.push("/main/overview");
 		}
 	},
 	mounted(){

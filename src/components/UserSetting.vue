@@ -1,16 +1,23 @@
 <template>
-	<ModalTemplate :classList="'grid place-items-end'" :close-func="closeModal"
+	<ModalTemplate :classList="'grid place-items-end screen-475:place-items-center' +
+	 ' screen-475:px-4'" :close-func="closeModal"
 	:is-modal-visible="isSettingVisible">
     <div class="w-[600px] h-screen overflow-y-auto bg-white p-9
-    screen-475:p-2 screen-949:p-2 animate-userSettingsAppear relative" @click.stop
+    screen-475:p-4 screen-949:p-4 animate-userSettingsAppear relative
+		screen-475:w-full screen-949:w-[480px]
+		screen-475:h-min screen-475:rounded-lg" @click.stop
 		:class="{'animate-userSettingsAppear' : isSettingVisible}">
 			<Loader v-if="isShowLoader"></Loader>
 <!--      Header-->
-      <div class="flex justify-between mb-6">
-        <h1 class="title">Settings</h1>
-        <button-text1 class="w-[100px] block" @click="closeModal">Close</button-text1>
+      <div class="mb-6 text-sidebar-address screen-475:text-sidebar-title screen-475:text-center relative
+			font-semibold">
+        Налаштування
+				<img class="w-min h-min absolute top-0 screen-475:right-0 hidden screen-475:block " @click="closeModal"
+						 src="/close.svg">
       </div>
-
+			<button-text1 class="w-[100px] absolute top-9 right-9 screen-475:hidden" @click="closeModal">
+				Закрити
+			</button-text1>
 <!--    FORM-->
       <div class="text-overview-item-mobile text-gray-light-500">
 

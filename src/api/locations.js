@@ -14,6 +14,9 @@ export default function (instance) {
         },
         getLocationChangeLog (locationId) {
             return instance.get(`locations/changelogs?location_id=${locationId}`)
+        },
+        getReportsRequests(payload){
+            return instance.get("/locations/location-requests", payload)
         }
     }
 }

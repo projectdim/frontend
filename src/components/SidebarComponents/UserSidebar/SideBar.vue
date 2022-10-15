@@ -1,5 +1,5 @@
 <template>
-	<div id="sideBar" class="overflow-y-auto h-full shadow-1cs">
+	<div v-if="selectedMarkerData !== null" id="sideBar" class="overflow-y-auto h-full shadow-cs1">
 	  <h1 class="px-6 font-semibold my-6 text-sidebar-address
 			screen-475:text-sidebar-address-mobile
 			screen-949:text-sidebar-address-mobile
@@ -34,12 +34,14 @@
       </keep-alive>
 	  </div>
 	</div>
+	<NotFound v-else/>
 </template>
 
 <script>
 import Overview from "./Overview.vue";
 import History from "./History.vue";
 import { mapState } from "vuex";
+import NotFound from "./NotFound.vue";
 
 export default {
   name: "SideBar",
@@ -49,6 +51,7 @@ export default {
   components : {
 		History,
 		Overview,
+		NotFound
 	},
   methods : {
 	  setSelectedTab(tabName){

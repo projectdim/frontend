@@ -33,8 +33,9 @@ module.exports = {
         'red-c-700' : '#661706',
       },
       boxShadow: {
-        '1cs': '1px 0px 0px rgba(181, 181, 181, 0.25), 2px 0px 20px rgba(207, 205, 205, 0.25);',
-        '2cs': '0px 1px 0px rgba(197, 208, 227, 0.4);'
+        'cs1': '1px 0px 0px rgba(181, 181, 181, 0.25), 2px 0px 20px rgba(207, 205, 205, 0.25);',
+        'cs2': '0px 1px 0px rgba(197, 208, 227, 0.4);',
+        'cs3': '2px 2px 10px 0px rgba(115, 118, 128, 0.11);'
       },
       height: {
         '1/12': '8.333334%',
@@ -50,7 +51,7 @@ module.exports = {
         '11/12': '91.666667%',
       },
       fontSize: {
-        'overview-item': ['16px', '26px'],
+        'overview-item': ['16px', '24px'],
         'overview-item-mobile': ['14px', '22px'],
         'sidebar-title': ['20px', '32px'],
         'sidebar-title-mobile': ['18px', '32px'],

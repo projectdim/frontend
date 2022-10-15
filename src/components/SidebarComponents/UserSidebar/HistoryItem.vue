@@ -1,6 +1,6 @@
 <template>
 	<div v-if="log.action_type === 1">
-		<div class="bg-gray-light-100 py-2 px-6 w-full shadow-2cs">
+		<div class="bg-gray-light-100 py-2 px-6 w-full shadow-cs2">
 			<p class="font-semibold text-black capitalize
 			text-sidebar-title
 			screen-475:text-sidebar-address-mobile
@@ -8,7 +8,7 @@
 				{{getDate(log.created_at)}}
 			</p>
 		</div>
-		<div class="py-4 px-6 flex gap-x-4 shadow-2cs">
+		<div class="py-4 px-6 flex gap-x-4 shadow-cs2">
 			<div class="text-base-grey font-normal pt-2.5
 				text-overview-item
 				screen-475:text-overview-item-mobile
@@ -51,8 +51,8 @@
 </template>
 
 <script>
-import {getDayDate, getTextColorClass, getSVGColorClass} from "../Scripts/Helper.js";
-import SVG_status_list from "./ComponentsSVG/SVG_status_list.vue";
+import {getDayDate, getTextColorClass, getSVGColorClass} from "../../../Scripts/Helper.js";
+import SVG_status_list from "../../ComponentsSVG/SVG_status_list.vue";
 export default {
 	name: "HistoryItem",
 	components : {SVG_status_list},

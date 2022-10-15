@@ -9,7 +9,7 @@ export function getDayDate(dateStr){
         if(isToday(date))
             return "сьогодні";
         else if(isYesterday(date))
-            return "завтра"
+            return "вчора"
         else {
             return `${months[date.getMonth()]} ${date.getDate()}`
         }
@@ -55,16 +55,15 @@ export function getRndInteger(min, max) {
 export function GetStateColor(field, status){
     let red = 'red';
     let green = 'green';
-    let yellow = 'yellow';
     let a = {
         buildingCondition : {
             'Неушкоджена' : green,
-            'Пошкоджена' : yellow,
+            'Пошкоджена' : red,
             'Зруйнована' : red
         },
         electricity : {
             'Стабільна' : green,
-            'Переривчаста' : yellow,
+            'Переривчаста' : red,
             'Відсутня' : red},
         carEntrance : {
             "Доступне" : green,

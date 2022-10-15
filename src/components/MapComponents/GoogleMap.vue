@@ -31,7 +31,7 @@
 	<GMapMap
 		class="z-0"
 		ref="map"
-		:center="center"
+		:center="getMapCenter"
  		:zoom="this.currentMapZoom"
 		map-type-id="roadmap"
 		style="width: 100%; height: 100%"
@@ -131,16 +131,12 @@
 import axios from "axios";
 import api from "../../api/index.js";
 import {API_KEY, URL_PROXY_PLACE_REQUEST} from "../../Scripts/MapScripts.js";
-import {mapMutations} from "vuex";
+import {mapActions, mapGetters, mapMutations} from "vuex";
 
 export default {
   name: "GoogleMap",
-  /*props: {
-    center: Object
-  },*/
   data : function (){
 	  return {
-		  //center: {lat: 49.23414701332752, lng: 28.46228865225255},
 		  currentMapZoom : 17,
 		  ifClickMarker : false,
 		  ClickMarkerCoords : {lat: Number, lng: Number},
@@ -150,20 +146,23 @@ export default {
 	  }
   },
 	computed : {
-		center(){
+		...mapGetters(["getMapCenter"]),
+
+		/*center(){
 			if(this.$store.state.selectedMarkerData)
 				return this.$store.state.selectedMarkerData.position;
 			else if(this.$store.state.notFoundedMarkerData)
 				return this.$store.state.notFoundedMarkerData.position
 			else
 				return {lat: 49.23414701332752, lng: 28.46228865225255};
-		},
+		},*/
 		notFoundMarker(){
 			return this.$store.state.notFoundedMarkerData;
 		}
 	},
 	methods : {
-		...mapMutations(["setNoDataMarkerMarker"]),
+		...mapMutations(["setNoDataMarkerMarker", "setSelectedMarker"]),
+		...mapActions(["getMarkersByScreenBounds","GetMarkerByCoords"]),
 	  	ClickHandler(event) {
 		  if(event.placeId) {
 		  	  this.GetPlaceDetails(event.placeId);
@@ -177,11 +176,14 @@ export default {
     	    lat: { hi: arg.getNorthEast().lat(), lo: arg.getSouthWest().lat() },
     	    lng: { hi: arg.getNorthEast().lng(), lo: arg.getSouthWest().lng() }
     	  }
-				this.$store.dispatch("getMarkersByScreenBounds", {bounds});
+				//this.$store.dispatch("getMarkersByScreenBounds", {bounds});
+				this.getMarkersByScreenBounds(bounds);
     	},
     	getMarkerInfo(marker) {
-				this.$store.commit("setSelectedMarker", marker);
-        this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
+				this.setSelectedMarker(marker);
+				setTimeout(()=>{
+        	this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
+				}, 1000)
     	},
 		async GetPlaceDetails(placeId){
 		    await axios.get(URL_PROXY_PLACE_REQUEST,{
@@ -260,7 +262,8 @@ export default {
 		  this.isInputFocused = arg;
 		},
 		setPlace(arg) {
-			this.$store.dispatch("GetMarkerByCoords", arg);
+			//this.$store.dispatch("GetMarkerByCoords", arg);
+			this.GetMarkerByCoords(arg);
 		},
 		ClearSearchRequest(){
 		  let autocomplete = document.getElementById('autocomplete');
@@ -271,6 +274,11 @@ export default {
 		notFoundMarker : function (newValue) {
 			if(newValue)
 				this.SetMarker(newValue.position)
+		},
+		getMapCenter : function (newValue) {
+			setTimeout(()=>{
+				this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
+			}, 1000)
 		}
 	}
 }

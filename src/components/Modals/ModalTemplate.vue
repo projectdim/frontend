@@ -1,7 +1,6 @@
 <template>
   <teleport to="body">
-    <div v-if="isModalVisible" class="overflow-hidden z-50 h-screen w-screen bg-black/30 absolute top-0
-			screen-475:px-2"
+    <div v-if="isModalVisible" class="overflow-hidden z-50 h-screen w-screen bg-black/30 absolute top-0"
          :class="classList"
          @click="hide">
       <slot></slot>

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col justify-between overflow-y-auto h-full shadow-1cs
+  <div class="flex flex-col justify-between overflow-y-auto h-full shadow-cs1
 		text-overview-item screen-475:text-overview-item-mobile screen-949:text-overview-item">
     <div class="p-6">
       <div v-if="notFoundedMarkerData">
@@ -39,7 +39,7 @@
     </div>
     <div id="contact" class=" p-6 bg-gray-light-100">
       <div class="font-semibold ">Урядові контакти</div>
-      <div class="flex flex-wrap justify-between py-1 shadow-2cs mt-2">
+      <div class="flex flex-wrap justify-between py-1 shadow-cs2 mt-2">
         <p>Служба безпеки України</p>
         <p class="text-right font-semibold text-base-blue">
           <a href="tel: +380800501482">
@@ -62,8 +62,8 @@
 <script>
 import {mapState} from "vuex";
 import axios from "axios";
-import {API_KEY} from "../Scripts/MapScripts";
-import api from "../api/index.js"
+import {API_KEY} from "../../../Scripts/MapScripts.js";
+import api from "../../../api/index.js"
 
 export default {
   name: "NotFound",
@@ -94,16 +94,22 @@ export default {
           this.notFoundedMarkerData.position.lat,
           this.notFoundedMarkerData.position.lng
       );
-      await api.locations.requestAddressReview(
-          {
-            address: address.route.long_name + ',' + address.street_number.long_name,
-            index: address.postal_code.long_name,
-            country: address.country.long_name,
-            city: address.locality.long_name,
-            lat: coords.location.lat,
-            lng: coords.location.lng
-          }
-      ).then((response) => {
+			let Query;
+			try {
+				Query = {
+					address: address.route.long_name + ',' + address.street_number.long_name,
+					index: address.postal_code.long_name,
+					country: address.country.long_name,
+					city: address.locality.long_name,
+					lat: coords.location.lat,
+					lng: coords.location.lng
+				}
+			}
+			catch (err){
+				alert("Не вдалося створити запит, вкажіть точнішу адресу")
+				return;
+			}
+      await api.locations.requestAddressReview(Query).then((response) => {
         console.log(response)
       }).catch((err) => {
         console.log(err.response)
