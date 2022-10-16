@@ -11,12 +11,12 @@
 			screen-475:text-overview-item-mobile
 			screen-949:text-overview-item-mobile">
 			<div class="basis-1/2 pb-2.5 cursor-pointer hover:bg-gray-200 box-border"
-				 :class="this.selectedTabItem === `All requests`? `text-base-blue border-base-blue border-b-2` : `text-base-grey border-base-grey border-b`"
+				 :class="this.selectedTabItem === `All requests`? `text-blue-c-500 border-blue-c-500 border-b-2` : `text-gray-c-500 border-gray-c-500 border-b`"
 				 @click="setSelectedTab(`All requests`)">
 				Всі запити
 			</div>
 			<div class="basis-1/2 pb-2.5 cursor-pointer hover:bg-gray-200 box-border"
-				 :class="this.selectedTabItem === `My requests`? `text-base-blue border-base-blue border-b-2` : `text-base-grey border-base-grey border-b`"
+				 :class="this.selectedTabItem === `My requests`? `text-blue-c-500 border-blue-c-500 border-b-2` : `text-gray-c-500 border-gray-c-500 border-b`"
 				 @click="setSelectedTab(`My requests`)">
 				Мої запити
 			</div>
@@ -25,9 +25,7 @@
 			<keep-alive>
 				<ReportsRequestsList v-if="selectedTabItem===`All requests`"/>
 			</keep-alive>
-			<keep-alive>
 				<MyReportRequestList v-if="selectedTabItem===`My requests`"/>
-			</keep-alive>
 	  </div>
 	</div>
 </template>

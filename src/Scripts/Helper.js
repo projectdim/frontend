@@ -87,18 +87,52 @@ export function GetStateColor(field, status){
 export function getTextColorClass(field, status){
     let color = GetStateColor(field,status);
     if(color === "red")
-        return 'text-dangerous-red';
+        return 'text-red-c-500';
     else if(color === "green")
-        return 'text-safety-green';
+        return 'text-green-c-500';
     else if(color === "yellow")
         return 'text-yellow-custom-400';
 }
 export function getSVGColorClass(field, status){
     let color = GetStateColor(field,status);
     if(color === "red")
-        return 'fill-dangerous-red';
+        return 'fill-red-c-500';
     else if(color === "green")
-        return 'fill-safety-green';
+        return 'fill-green-c-500';
     else if(color === "yellow")
         return 'fill-yellow-custom-400';
+}
+
+export const ReportsState = {
+    buildingCondition : {
+        Intact : 'Неушкоджена',
+        Damaged : 'Пошкоджена',
+        Destroyed : 'Зруйнована',
+        NoData : 'Невідомо'
+    },
+    electricity : {
+        Stable : 'Стабільна',
+        Intermittent : 'Переривчаста',
+        NoData : 'Невідомо'
+    },
+    carEntrance : {
+        Accessible : "Доступне",
+        Inaccessible : "Недоступне",
+        NoData : 'Невідомо'
+    },
+    water: {
+        Stable : 'Стабільна',
+        Intermittent : "Нестабільна",
+        NoData : 'Невідомо'
+    },
+    fuelStation : {
+        Closed : 'Зачинено',
+        Open : 'Відчинено',
+        NoData : 'Невідомо'
+    },
+    hospital : {
+        Closed : 'Зачинено',
+        Open : 'Відчинено',
+        NoData : 'Невідомо'
+    },
 }

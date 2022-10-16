@@ -19,7 +19,7 @@
 				Закрити
 			</button-text1>
 <!--    FORM-->
-      <div class="text-overview-item-mobile text-gray-light-500">
+      <div class="text-overview-item-mobile text-gray-c-500">
 
         <label for="setting-name">Ім'я</label>
         <input1 id="setting-name" placeholder="Ім'я" v-model="username"

@@ -63,6 +63,9 @@ const storePrototype = {
     },
     getMapCenter(state){
       return state.mapCenter ? state.mapCenter : {lat: 49.23414701332752, lng: 28.46228865225255}
+    },
+    getSelectedLocationRequest(state){
+      return state.reports.selectedLocationRequest
     }
   },
   actions : { // функції для зміни даних шляхом ініціалізації мутацій можуть бути АСИНХРОННИМИ

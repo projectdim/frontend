@@ -3,9 +3,9 @@
 		<div class="absolute z-10 w-full
 			screen-475:top-3.5
 			top-6">
-			<div class="border bg-white rounded-xl border-gray-light-300 border-2 h-10 flex flex-nowrap
+			<div class="border bg-white rounded-xl border-gray-c-300 border-2 h-10 flex flex-nowrap
 				screen-475:mx-4 mx-[30px]"
-				:class="{'border-base-blue': isInputFocused}"
+				:class="{'border-blue-c-500': isInputFocused}"
 			>
 				<div class="w-[44px] cursor-pointer rounded-xl">
 					<img src="/search.svg" class="h-full w-full object-scale-down">
@@ -101,7 +101,7 @@
      	]"
 		  :minimumClusterSize="2"
 		  :zoomOnClick="true"
-		  :maxZoom="11"
+		  :maxZoom="13"
 	  >
 			<GMapMarker
 				v-for="(m, index) in this.$store.state.markers"

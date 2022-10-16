@@ -17,6 +17,9 @@ export default function (instance) {
         },
         getReportsRequests(payload){
             return instance.get("/locations/location-requests",{params : payload})
+        },
+        submitLocationReport(payload){
+            return instance.put('locations/submit-report', payload);
         }
     }
 }

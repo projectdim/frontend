@@ -1,9 +1,9 @@
 <template>
-	<div class="border border-gray-light-300 font-normal
+	<div class="border border-gray-c-300 font-normal
 							rounded-lg outline-none text-overview-item
 							hover:border-blue-c-400 focus:border-blue-c-500
-							disabled:bg-gray-light-100 disabled:hover:border-gray-light-300
-							disabled:text-gray-light-500 flex overflow-hidden"
+							disabled:bg-gray-c-100 disabled:hover:border-gray-c-300
+							disabled:text-gray-c-500 flex overflow-hidden"
 			 :class="{'border-blue-c-500': isInputFocused}"
        @focusin="OnDivFocus(true)"
        @focusout="OnDivFocus(false)">

@@ -5,11 +5,11 @@
 			screen-475:text-overview-item-mobile
 			text-overview-item">
     <img src="/src/assets/fullLogo.svg">
-    <p class="text-base-grey  mt-9 text-justify">
+    <p class="text-gray-c-500  mt-9 text-justify">
 			Шукайте адресу, щоб переглянути краудсорсингові звіти про своє місто
 		</p>
-    <div class="mx-[2.5%] w-full border bg-white rounded-xl border-gray-light-300 border-[2px] h-10 flex flex-nowrap mt-6"
-         :class="{'border-base-blue': isInputFocused}"
+    <div class="mx-[2.5%] w-full border bg-white rounded-xl border-gray-c-300 border-[2px] h-10 flex flex-nowrap mt-6"
+         :class="{'border-blue-c-500': isInputFocused}"
     >
       <div class="w-[44px] cursor-pointer rounded-xl">
         <img src="/search.svg" class="h-full w-full object-scale-down">
@@ -31,7 +31,7 @@
         <img src="/close.svg" class="h-full w-full object-scale-down">
       </div>
     </div>
-    <div class="bg-gray-light-200 p-6 mt-12">
+    <div class="bg-gray-c-200 p-6 mt-12">
       <p class="font-semibold text-black">Приклади: </p>
       <p class="mt-4 font-normal">проспект Незалежності, Харків, Харківська область, Україна, 61000</p>
       <p class="mt-2 font-normal">Жилянська,12 , Київ, Україна, 02000</p>

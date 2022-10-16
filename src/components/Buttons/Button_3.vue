@@ -1,14 +1,14 @@
 <template>
-  <button class="text-gray-light-600 p-2
+  <button class="text-gray-c-600 p-2
     text-center align-middle rounded-lg
     text-overview-item font-medium
     screen-475:text-overview-item-mobile
     screen-949:text-overview-item-mobile
-    bg-gray-light-200
-    hover:text-gray-light-500
-    disabled:text-gray-light-400
-    active:text-gray-light-600
-    active:bg-gray-light-300
+    bg-gray-c-200
+    hover:text-gray-c-500
+    disabled:text-gray-c-400
+    active:text-gray-c-600
+    active:bg-gray-c-300
     ">
 		<slot></slot>
   </button>

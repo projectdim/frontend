@@ -22,11 +22,16 @@ export default {
     },
     classList : {
       type : String
-    }
+    },
+		isHideOnClick : {
+			type : Boolean,
+			default: true
+		}
   },
   methods : {
     hide(){
-      this.closeFunc();
+			if(this.isHideOnClick)
+      	this.closeFunc();
     },
   },
 }

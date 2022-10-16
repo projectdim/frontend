@@ -23,7 +23,7 @@
 			<div class="h-3/12">
 			<Carousel :breakpoints="breakpoints" class="h-full">
 				<Slide v-for="slide in this.selectedDataItem.photo" :key="this.selectedDataItem.photo.indexOf(slide)">
-				<div class="p-1 h-full cursor-pointer hover:bg-safety-green rounded-sm"
+				<div class="p-1 h-full cursor-pointer hover:bg-green-c-500 rounded-sm"
 					@click="this.setMainImageSrc(slide)">
 					<img :src="slide" alt="" class="w-full h-full object-cover rounded-lg">
 				</div>

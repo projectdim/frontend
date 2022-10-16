@@ -19,7 +19,7 @@
 							<img src="/src/assets/User.svg" class="h-4 w-auto inline">
 							{{ userName }}
 						</p>
-						<p class="text-gray-light-500">
+						<p class="text-gray-c-500">
 							{{ userOrganization }}
 						</p>
 					</div>
@@ -38,7 +38,7 @@
 			</div>
 
 
-		<div class="flex font-medium text-base-blue
+		<div class="flex font-medium text-blue-c-500
 					screen-950:p-2
 					text-overview-item
 					screen-475:text-overview-item-mobile

@@ -3,10 +3,10 @@
 		:class="{'bg-blue-c-100' : isSelected}">
 		<div>
 			<div class="flex justify-between mb-3">
-				<div class="text-overview-item-mobile text-gray-light-500">
+				<div class="text-overview-item-mobile text-gray-c-500">
 					{{getDateStr()}}
 				</div>
-				<div class="text-overview-item-mobile text-gray-light-500">
+				<div class="text-overview-item-mobile text-gray-c-500">
 					{{locationRequest.city}}
 					<img src="/Marker-gray.svg" class="inline-block">
 					500m
@@ -18,10 +18,14 @@
 				{{locationRequest.address}}
 			</div>
 			<div class="flex justify-between mt-4">
+
 				<button-1 @click="this.Reporting">
 					Розглянути
 				</button-1>
-				<button-text-1>
+				<div>
+					sadfsdfsd
+				</div>
+				<button-text-1 @click="AddToMyRequests">
 					Додати до "Моїх запитів"
 				</button-text-1>
 			</div>
@@ -51,11 +55,16 @@ export default {
 		Reporting(){
 			this.setSelectedRequest(this.locationRequest);
 			this.$router.push(Path.updateReport)
+		},
+		//TODO
+		AddToMyRequests(){
+			this.locationRequest.reported_by = this.AidWorker.id;
 		}
 	},
 	computed : {
 		...mapState({
-			selectedLocationRequest : state => state.reports.selectedLocationRequest
+			selectedLocationRequest : state => state.reports.selectedLocationRequest,
+			AidWorker : state => state.loggedUserInfo
 		}),
 		isSelected(){
 			if(!this.selectedLocationRequest || !this.locationRequest)

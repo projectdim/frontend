@@ -5,6 +5,7 @@ import Test from "../components/Test.vue";
 import SideBar from "../components/SidebarComponents/UserSidebar/SideBar.vue";
 import SideBarAidWorker from "../components/SidebarComponents/AidWorkerSidebar/SideBarAidWorker.vue";
 import ReportTools from "../components/SidebarComponents/AidWorkerSidebar/ReportTools.vue";
+import RequestComplitedPreview from "../components/SidebarComponents/AidWorkerSidebar/RequestComplitedPreview.vue";
 
 
 export const mainRouter = [
@@ -30,7 +31,12 @@ export const mainRouter = [
         path: "submit-report",
         component : ReportTools
         /*meta : {SelectedRequestLocation  : true}*/
-      }
+      },
+      {
+        path: "submit-report-preview",
+        component : RequestComplitedPreview
+        /*meta : {SelectedRequestLocation  : true}*/
+      },
     ]
   },
   { path : "/test", component : Test},

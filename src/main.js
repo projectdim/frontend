@@ -8,6 +8,7 @@ import {store}  from "./store/mainStore.js"
 import {mainRouter} from "./router/mainRouter.js";
 import {createRouter, createWebHistory} from "vue-router";
 import ComponentsList from "./components/ComponentsList.js";
+import ResizeTextarea from 'resize-textarea-vue3'
 
 const app = createApp(App);
 const router = createRouter(
@@ -25,11 +26,12 @@ app.use(VueGoogleMaps,{
         },
     });
 
+
 app.use(store);
 app.use(router);
 
 ComponentsList.forEach(component=>{
   app.component(component.name, component);
 })
-
+app.use(ResizeTextarea);
 app.mount('#app');

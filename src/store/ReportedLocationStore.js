@@ -20,7 +20,8 @@ export default {
         return;
       state.commit("setSelectedRequestMutation" ,SelectedRequest);
       state.commit('setMapCenter', SelectedRequest.position)
-    }}
+    },
+  },
 }
 
 //export const ReportLocationState = createStore(storePrototype);

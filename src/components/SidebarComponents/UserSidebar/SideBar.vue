@@ -13,13 +13,13 @@
 			screen-475:text-overview-item-mobile
 			screen-949:text-overview-item-mobile">
 			<div class="basis-1/2 pb-2.5 cursor-pointer hover:bg-gray-200 box-border"
-				 :class="this.selectedTabItem === `Overview`? `text-base-blue border-base-blue border-b-2` : `text-base-grey border-base-grey border-b`"
+				 :class="this.selectedTabItem === `Overview`? `text-blue-c-500 border-blue-c-500 border-b-2` : `text-gray-c-500 border-gray-c-500 border-b`"
 				 @click="setSelectedTab(`Overview`)"
 			>
 				Огляд
 			</div>
 			<div class="basis-1/2 pb-2.5 cursor-pointer hover:bg-gray-200 box-border"
-				 :class="this.selectedTabItem === `History`? `text-base-blue border-base-blue border-b-2` : `text-base-grey border-base-grey border-b`"
+				 :class="this.selectedTabItem === `History`? `text-blue-c-500 border-blue-c-500 border-b-2` : `text-gray-c-500 border-gray-c-500 border-b`"
 				 @click="setSelectedTab(`History`)"
 			>
 				Історія змін

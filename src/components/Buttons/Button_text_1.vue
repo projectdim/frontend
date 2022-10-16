@@ -7,8 +7,8 @@
     bg-transparent
     hover:bg-blue-c-100
     active:bg-blue-c-200
-    disabled:bg-gray-light-100
-    disabled:text-gray-light-400
+    disabled:bg-gray-c-100
+    disabled:text-gray-c-400
     ">
 		<slot></slot>
   </button>

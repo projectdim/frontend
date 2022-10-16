@@ -6,8 +6,8 @@
     screen-949:text-overview-item-mobile
     bg-blue-c-500
     hover:bg-blue-c-400
-    disabled:bg-gray-light-200
-    disabled:text-gray-light-400
+    disabled:bg-gray-c-200
+    disabled:text-gray-c-400
     active:bg-blue-c-600
     ">
 		<slot></slot>

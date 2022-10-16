@@ -33,4 +33,14 @@
     .label {
         @apply text-overview-item screen-475:text-overview-item-mobile
     }
+    .textArea{
+        @apply min-h-[68px] resize-none w-full border-gray-c-300 border rounded-lg px-4 py-2 text-overview-item
+    }
+
+    /*Дизайн скролла для Firefox*/
+    .overflow-y-auto{
+        overflow-y: auto;
+        scrollbar-color: rgba(73, 84, 102, 0.51) transparent;
+        scrollbar-width : thin;
+    }
 }

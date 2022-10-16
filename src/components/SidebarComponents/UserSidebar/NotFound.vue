@@ -4,7 +4,7 @@
     <div class="p-6">
       <div v-if="notFoundedMarkerData">
         <p class="font-semibold text-4xl">На жаль, "{{ notFoundedMarkerData.address }}" немає в нашій базі даних</p>
-        <p class="mt-2.5 text-base-grey ">
+        <p class="mt-2.5 text-gray-c-500 ">
           Можливо варто вказати точнішу адресу.
           Ви також можете запитати інформацію за цією адресою, і наша команда постарається приїхати туди якомога швидше.
         </p>
@@ -20,28 +20,28 @@
 					Виберіть адресу для запиту
 				</span>
 			</button-1>
-      <p class="text-base-grey">
+      <p class="text-gray-c-500">
 				Буде корисно, якщо ви повідомите нам через цю форму про будь-які проблеми, пов’язані з використанням нашого сервісу.
 			</p>
       <div class="h-min">
 		  	<textarea id="issueMessage"
-                  class="min-h-[68px] resize-none h-max w-full border-gray-light-300 border rounded-lg px-4 py-2 my-4"
+                  class="min-h-[68px] resize-none h-max w-full border-gray-c-300 border rounded-lg px-4 py-2 my-4"
                   placeholder="Залишити повідомлення..." v-model="issueMessage"></textarea>
 				<button @click="this.Show(issueMessage)"
 								:disabled="this.isDisabled"
-								:class="{'bg-gray-light-200 text-gray-light-400' : isDisabled,
-											'bg-gray-light-200 text-gray-light-600 ' : !isDisabled,
-											'hover:text-gray-light-500 active:bg-gray-light-300 active:text-gray-light-600' : !isDisabled}"
+								:class="{'bg-gray-c-200 text-gray-c-400' : isDisabled,
+											'bg-gray-c-200 text-gray-c-600 ' : !isDisabled,
+											'hover:text-gray-c-500 active:bg-gray-c-300 active:text-gray-c-600' : !isDisabled}"
 								class="block border rounded-lg px-[50px] py-2 font-medium">
 					Відправити
 				</button>
       </div>
     </div>
-    <div id="contact" class=" p-6 bg-gray-light-100">
+    <div id="contact" class=" p-6 bg-gray-c-100">
       <div class="font-semibold ">Урядові контакти</div>
       <div class="flex flex-wrap justify-between py-1 shadow-cs2 mt-2">
         <p>Служба безпеки України</p>
-        <p class="text-right font-semibold text-base-blue">
+        <p class="text-right font-semibold text-blue-c-500">
           <a href="tel: +380800501482">
             0 800 501 482
           </a>
@@ -49,7 +49,7 @@
       </div>
       <div class="flex flex-wrap justify-between py-1">
         <p>Державна прикордонна служба України</p>
-        <p class="text-right font-semibold text-base-blue">
+        <p class="text-right font-semibold text-blue-c-500">
           <a href="tel: +380445276363">
             +38 (044) 527-63-63
           </a>

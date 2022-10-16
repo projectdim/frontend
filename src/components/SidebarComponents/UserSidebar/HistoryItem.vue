@@ -1,6 +1,6 @@
 <template>
 	<div v-if="log.action_type === 1">
-		<div class="bg-gray-light-100 py-2 px-6 w-full shadow-cs2">
+		<div class="bg-gray-c-100 py-2 px-6 w-full shadow-cs2">
 			<p class="font-semibold text-black capitalize
 			text-sidebar-title
 			screen-475:text-sidebar-address-mobile
@@ -9,7 +9,7 @@
 			</p>
 		</div>
 		<div class="py-4 px-6 flex gap-x-4 shadow-cs2">
-			<div class="text-base-grey font-normal pt-2.5
+			<div class="text-gray-c-500 font-normal pt-2.5
 				text-overview-item
 				screen-475:text-overview-item-mobile
 				screen-949:text-overview-item-mobile"
@@ -44,7 +44,7 @@
 				</div>
 				</div>
 				<div class="text-overview-item screen-475:text-overview-item-mobile
-				screen-949:text-overview-item-mobile text-base-grey font-semibold">Організація</div>
+				screen-949:text-overview-item-mobile text-gray-c-500 font-semibold">Організація</div>
 			</div>
 		</div>
 	</div>
