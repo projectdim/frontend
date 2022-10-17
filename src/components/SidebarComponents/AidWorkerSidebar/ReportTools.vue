@@ -1,4 +1,5 @@
 <template>
+
  <div class="py-4 px-6 overflow-y-auto h-full">
 <!--	 <h3 class="font-semibold text-sidebar-title
 			screen-475:text-sidebar-title-mobile">
@@ -186,10 +187,11 @@ import Button3 from "../../Buttons/Button_3.vue";
 import Button1 from "../../Buttons/Button_1.vue";
 import ButtonTag from "../../Buttons/ButtonTag.vue";
 import {ReportsState} from "../../../Scripts/Helper.js";
+import ModalTemplate from "../../Modals/ModalTemplate.vue";
 
 export default {
 	name: "ReportTools",
-	components: {ButtonTag, Button1, Button3},
+	components: {ModalTemplate, ButtonTag, Button1, Button3},
 	data(){
 		return {
 			report : {
@@ -389,6 +391,10 @@ export default {
 			else
 				return "default"
 		}
+	},
+	beforeRouteLeave(to, from, next){
+
+		next();
 	}
 }
 </script>
