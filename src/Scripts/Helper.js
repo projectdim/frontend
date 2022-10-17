@@ -55,32 +55,48 @@ export function getRndInteger(min, max) {
 export function GetStateColor(field, status){
     let red = 'red';
     let green = 'green';
-    let a = {
-        buildingCondition : {
-            'Неушкоджена' : green,
-            'Пошкоджена' : red,
-            'Зруйнована' : red
-        },
-        electricity : {
-            'Стабільна' : green,
-            'Переривчаста' : red,
-            'Відсутня' : red},
-        carEntrance : {
-            "Доступне" : green,
-            "Недоступне" : red
-        },
-        water: {
-            'Стабільна' : green,
-            "Нестабільна" : red},
-        fuelStation : {
-            'Зачинено' : red,
-            'Відчинено' : green},
-        hospital : {
-            'Зачинено' : red,
-            'Відчинено' : green},
+    let gray = 'gray';
+    try {
+        let a = {
+            buildingCondition: {
+                'Неушкоджена': green,
+                'Пошкоджена': red,
+                'Зруйнована': red,
+                'Невідомо': gray
+            },
+            electricity: {
+                'Стабільна': green,
+                'Переривчаста': red,
+                'Відсутня': red,
+                'Невідомо': gray
+            },
+            carEntrance: {
+                "Доступне": green,
+                "Недоступне": red,
+                'Невідомо': gray
+            },
+            water: {
+                'Стабільна': green,
+                "Нестабільна": red,
+                'Невідомо': gray
+            },
+            fuelStation: {
+                'Зачинено': red,
+                'Відчинено': green,
+                'Невідомо': gray
+            },
+            hospital: {
+                'Зачинено': red,
+                'Відчинено': green,
+                'Невідомо': gray
+            },
+        }
+        return a[field][status];
     }
-
-    return a[field][status];
+    catch (err){
+        console.error(`Поля ${field} зі статусом ${status} не знайдено`)
+        return red;
+    }
 }
 
 
@@ -92,6 +108,10 @@ export function getTextColorClass(field, status){
         return 'text-green-c-500';
     else if(color === "yellow")
         return 'text-yellow-custom-400';
+    else if(color === "gray")
+        return 'text-gray-c-500';
+    else
+        return 'text-red-c-500';
 }
 export function getSVGColorClass(field, status){
     let color = GetStateColor(field,status);
@@ -101,6 +121,15 @@ export function getSVGColorClass(field, status){
         return 'fill-green-c-500';
     else if(color === "yellow")
         return 'fill-yellow-custom-400';
+    else if(color === "gray")
+        return 'fill-gray-c-500';
+    else
+        return 'fill-red-c-500';
+}
+
+export async function Wait(milliseconds){
+    await new Promise(res=> setTimeout(()=>{},
+      milliseconds));
 }
 
 export const ReportsState = {

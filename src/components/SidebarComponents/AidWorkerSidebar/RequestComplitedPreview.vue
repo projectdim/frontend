@@ -1,5 +1,12 @@
 <template>
 
+	<ConfirmModal :is-bg-click-close=false :is-visible="isLeaveModalVisible"
+								cancel-button-text="Повернутись" accept-button-text="Покинути сторінку"
+								title="Дані не збережено" :question="question"
+								:close-func="closeLeavePageConfirmModal"
+								:accept-button-func="ModalAccept"
+								:cancel-button-func="ModalCancel"/>
+
 	<ModalTemplate :isModalVisible="isPushingMessageVisible"
 								 class-list="grid place-items-center screen-475:px-6"
 		:closeFunc="closePushingModal" :isHideOnClick=false>
@@ -250,7 +257,7 @@
 
 <script>
 import SVG_status_list from "../../ComponentsSVG/SVG_status_list.vue";
-import {getSVGColorClass, getTextColorClass} from "../../../Scripts/Helper.js";
+import {getSVGColorClass, getTextColorClass, Wait} from "../../../Scripts/Helper.js";
 import {mapGetters, mapMutations, mapState} from "vuex";
 import Button2 from "../../Buttons/Button_2.vue";
 import api from "../../../api/index.js";
@@ -268,7 +275,11 @@ export default {
 		return {
 			issueMessage: "",
 			isPushingMessageVisible : false,
-			isResultMessageVisible : false
+			isResultMessageVisible : false,
+			isLeaveModalVisible : false,
+			question: "Ви не зберегли інформацію. Якщо ви покинете сторінку інформацію буде втрачено.",
+			isPageLeaveConfirmed : false,
+			targetLeaveRef : ""
 		}
 	},
 	computed : {
@@ -296,7 +307,7 @@ export default {
 					this.isResultMessageVisible = true;
 				})
 				.catch(err=>{
-					alert("Помилка при завантаженні даних");
+					this.PushingErrorHandler(err)
 				})
 		},
 		closePushingModal(){
@@ -304,6 +315,7 @@ export default {
 		},
 		closeResultModal(){
 			this.isResultMessageVisible = false;
+			this.isPageLeaveConfirmed = true;
 			this.$router.push('overview');
 		},
 		Show(string){
@@ -315,6 +327,32 @@ export default {
 		getSVGColorClass(field, status){
 			return getSVGColorClass(field, status)
 		},
+		closeLeavePageConfirmModal(){
+			this.isLeaveModalVisible = false;
+		},
+		ModalAccept(){
+			this.isPageLeaveConfirmed = true;
+			this.$router.push(this.targetLeaveRef);
+		},
+		ModalCancel(){
+			this.isPageLeaveConfirmed = false;
+			this.targetLeaveRef = ""
+		},
+		async PushingErrorHandler(err){
+			this.closePushingModal();
+			setTimeout(()=> {
+				alert("Помилка при завантаженні даних");
+			}, 1)
+		}
+	},
+	beforeRouteLeave(to, from, next){
+		if(this.isPageLeaveConfirmed)
+			next();
+		else {
+			this.isLeaveModalVisible = true;
+			this.targetLeaveRef = to.fullPath;
+			next(false);
+		}
 	}
 }
 </script>

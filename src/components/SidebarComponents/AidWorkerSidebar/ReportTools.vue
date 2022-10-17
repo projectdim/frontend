@@ -1,5 +1,10 @@
 <template>
-
+	<ConfirmModal :is-bg-click-close=false :is-visible="isLeaveModalVisible"
+		cancel-button-text="Повернутись" accept-button-text="Покинути сторінку"
+		title="Дані не збережено" :question="question"
+		:close-func="closeLeavePageConfirmModal"
+		:accept-button-func="ModalAccept"
+		:cancel-button-func="ModalCancel"/>
  <div class="py-4 px-6 overflow-y-auto h-full">
 <!--	 <h3 class="font-semibold text-sidebar-title
 			screen-475:text-sidebar-title-mobile">
@@ -20,24 +25,31 @@
 		 </div>
 	 </div>
 
-	 <div class="flex justify-between shadow-cs2 py-3">
-			<div class="text-overview-item text-gray-c-600 py-2">
-					Стан будівлі
-			</div>
-			<div class="flex gap-2">
-				<ButtonTag :button-state="isBuildIntact"
-										@click="SetBuildingCondition(ReportState.buildingCondition.Intact)">
-					Ціла
-				</ButtonTag>
-				<ButtonTag :button-state="isBuildDamaged"
-									 @click="SetBuildingCondition(ReportState.buildingCondition.Damaged)">
-					Пошкоджена
-				</ButtonTag>
-				<ButtonTag :button-state="isBuildNoData"
-									 @click="SetBuildingCondition(ReportState.buildingCondition.NoData)">
-					Невідомо
-				</ButtonTag>
-			</div>
+	 <div class="shadow-cs2 py-4">
+		 <div class="flex justify-between mb-3 h-[34px]">
+				<div class="text-overview-item text-gray-c-600 py-2">
+						Стан будівлі
+				</div>
+				<div class="flex gap-2">
+					<ButtonTag :button-state="isBuildIntact"
+											@click="SetBuildingCondition(ReportState.buildingCondition.Intact)">
+						Ціла
+					</ButtonTag>
+					<ButtonTag :button-state="isBuildDamaged"
+										 @click="SetBuildingCondition(ReportState.buildingCondition.Damaged)">
+						Пошкоджена
+					</ButtonTag>
+					<ButtonTag :button-state="isBuildNoData"
+										 @click="SetBuildingCondition(ReportState.buildingCondition.NoData)">
+						Невідомо
+					</ButtonTag>
+				</div>
+		 </div>
+		 <resize-textarea
+			 class="textArea"
+			 placeholder="Опишіть ситуацію (опціонально)"
+			 @update:modelValue="SetBuildingConditionDescription"
+			 :v-model="report.buildingCondition.description"/>
 	 </div>
 
 	 <div class="shadow-cs2 py-4">
@@ -188,10 +200,11 @@ import Button1 from "../../Buttons/Button_1.vue";
 import ButtonTag from "../../Buttons/ButtonTag.vue";
 import {ReportsState} from "../../../Scripts/Helper.js";
 import ModalTemplate from "../../Modals/ModalTemplate.vue";
+import ConfirmModal from "../../Modals/ConfirmModal.vue";
 
 export default {
 	name: "ReportTools",
-	components: {ModalTemplate, ButtonTag, Button1, Button3},
+	components: {ConfirmModal, ModalTemplate, ButtonTag, Button1, Button3},
 	data(){
 		return {
 			report : {
@@ -221,7 +234,11 @@ export default {
 					description: "",
 					distance: 0
 				}
-			}
+			},
+			isLeaveModalVisible : false,
+			question: "Ви не зберегли інформацію. Якщо ви покинете сторінку інформацію буде втрачено.",
+			isPageLeaveConfirmed : false,
+			targetLeaveRef : ""
 		}
 	},
 	methods : {
@@ -231,7 +248,6 @@ export default {
 			this.report.buildingCondition.flag = value;
 		},
 		SetBuildingConditionDescription(value){
-			console.log(value)
 			this.report.buildingCondition.description = value
 		},
 		SetElectricityState(value){
@@ -269,7 +285,19 @@ export default {
 			RequestLocationMarker.reports = this.report;
 			RequestLocationMarker.status = 8;
 			this.setSelectedRequest(RequestLocationMarker);
+			this.isPageLeaveConfirmed = true;
 			this.$router.push("submit-report-preview");
+		},
+		closeLeavePageConfirmModal(){
+			this.isLeaveModalVisible = false;
+		},
+		ModalAccept(){
+			this.isPageLeaveConfirmed = true;
+			this.$router.push(this.targetLeaveRef);
+		},
+		ModalCancel(){
+			this.isPageLeaveConfirmed = false;
+			this.targetLeaveRef = ""
 		}
 	},
 	computed : {
@@ -393,8 +421,13 @@ export default {
 		}
 	},
 	beforeRouteLeave(to, from, next){
-
-		next();
+		if(this.isPageLeaveConfirmed)
+			next();
+		else {
+			this.isLeaveModalVisible = true;
+			this.targetLeaveRef = to.fullPath;
+			next(false);
+		}
 	}
 }
 </script>
