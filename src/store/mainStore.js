@@ -12,7 +12,7 @@ const storePrototype = {
       markers : [],
       unreviewedMarkers: [],
       selectedMarkerData : null,
-      selectedMarkerHistoryData : null,
+      selectedMarkerHistoryData : [],
       notFoundedMarkerData : null,
       loggedUserInfo : null,
       loggedUserCredentials : null,
@@ -27,7 +27,7 @@ const storePrototype = {
     setSelectedMarker(state, marker){
       state.selectedMarkerData = marker;
       state.mapCenter = marker.position;
-      state.selectedMarkerHistoryData = null;
+      state.selectedMarkerHistoryData = [];
       state.notFoundedMarkerData = null;
     },
     setSelectedMarkerHistory(state, markerHistory){
@@ -79,7 +79,6 @@ const storePrototype = {
     async getSelectedDataHistory(context){
       if(!context.state.selectedMarkerData)
         return;
-      console.log(context.state.selectedMarkerData);
       await api.locations.getLocationChangeLog(context.state.selectedMarkerData.id)
         .then((response) => {
           context.commit('setSelectedMarkerHistory', response.data);

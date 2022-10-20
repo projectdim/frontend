@@ -40,7 +40,7 @@
 			</p>
 			<Button2 class="flex flex-nowrap gap-1"
 				@click="SaveAndPublish">
-				<img src="/public/complited.svg" class="inline-block">
+				<img src="/public/completed.svg" class="inline-block">
 				<p>
 					Опублікувати
 				</p>
@@ -342,7 +342,7 @@ export default {
 			this.closePushingModal();
 			setTimeout(()=> {
 				alert("Помилка при завантаженні даних");
-			}, 1)
+			}, 10)
 		}
 	},
 	beforeRouteLeave(to, from, next){

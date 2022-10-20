@@ -3,8 +3,8 @@
 		cancel-button-text="Повернутись" accept-button-text="Покинути сторінку"
 		title="Дані не збережено" :question="question"
 		:close-func="closeLeavePageConfirmModal"
-		:accept-button-func="ModalAccept"
-		:cancel-button-func="ModalCancel"/>
+		:accept-button-func="PageLeaveAccepted"
+		:cancel-button-func="PageLeaveCanceled"/>
  <div class="py-4 px-6 overflow-y-auto h-full">
 <!--	 <h3 class="font-semibold text-sidebar-title
 			screen-475:text-sidebar-title-mobile">
@@ -16,7 +16,7 @@
 			 <span class="align-middle">Оновлення стану</span>
 		 </div>
 		 <div class="flex gap-2 h-[42px]">
-			 <Button3 @click="this.$router.push('requests')">
+			 <Button3 @click="this.$router.go(-1)">
 				 Відміна
 			 </Button3>
 			 <Button1 @click="PreviewFinishedReport">
@@ -49,7 +49,7 @@
 			 class="textArea"
 			 placeholder="Опишіть ситуацію (опціонально)"
 			 @update:modelValue="SetBuildingConditionDescription"
-			 :v-model="report.buildingCondition.description"/>
+			 v-model="report.buildingCondition.description"/>
 	 </div>
 
 	 <div class="shadow-cs2 py-4">
@@ -76,7 +76,7 @@
 			 class="textArea"
 			 placeholder="Опишіть ситуацію (опціонально)"
 			 @update:modelValue="SetElectricityStateDescription"
-			 :v-model="report.electricity.description"/>
+			 v-model="report.electricity.description"/>
 	 </div>
 
 	 <div class="shadow-cs2 py-4">
@@ -103,7 +103,7 @@
 							 class="textArea"
 							 placeholder="Опишіть ситуацію (опціонально)"
 							 @update:modelValue="SetCarEntranceDescription"
-							 :v-model="report.carEntrance.description"/>
+							 v-model="report.carEntrance.description"/>
 	 </div>
 
 	 <div class="shadow-cs2 py-4">
@@ -130,7 +130,7 @@
 			 class="textArea"
 			 placeholder="Опишіть ситуацію (опціонально)"
 			 @update:modelValue="SetWaterStateDescription"
-			 :v-model="report.water.description"/>
+			 v-model="report.water.description"/>
 	 </div>
 
 	 <div class="shadow-cs2 py-4">
@@ -157,7 +157,7 @@
 			 class="textArea"
 			 placeholder="Опишіть ситуацію (опціонально)"
 			 @update:modelValue="SetFuelStationDescription"
-			 :v-model="report.fuelStation.description"/>
+			 v-model="report.fuelStation.description"/>
 	 </div>
 
 	 <div class="shadow-cs2 py-4">
@@ -184,7 +184,7 @@
 			 class="textArea"
 			 placeholder="Опишіть ситуацію (опціонально)"
 			 @update:modelValue="SetHospitalDescription"
-			 :v-model="report.hospital.description"
+			 v-model="report.hospital.description"
 		 />
 	 </div>
 
@@ -280,6 +280,7 @@ export default {
 		SetHospitalDescription(value){
 			this.report.hospital.description = value
 		},
+
 		PreviewFinishedReport(){
 			let RequestLocationMarker = this.getSelectedLocationRequest;
 			RequestLocationMarker.reports = this.report;
@@ -291,11 +292,11 @@ export default {
 		closeLeavePageConfirmModal(){
 			this.isLeaveModalVisible = false;
 		},
-		ModalAccept(){
+		PageLeaveAccepted(){
 			this.isPageLeaveConfirmed = true;
 			this.$router.push(this.targetLeaveRef);
 		},
-		ModalCancel(){
+		PageLeaveCanceled(){
 			this.isPageLeaveConfirmed = false;
 			this.targetLeaveRef = ""
 		}
@@ -418,9 +419,13 @@ export default {
 				return "no-data";
 			else
 				return "default"
-		}
+		},
+
 	},
 	beforeRouteLeave(to, from, next){
+		if(this.getSelectedLocationRequest.reports !== null &&
+		this.getSelectedLocationRequest.reports === this.report)
+			next();
 		if(this.isPageLeaveConfirmed)
 			next();
 		else {
@@ -428,6 +433,10 @@ export default {
 			this.targetLeaveRef = to.fullPath;
 			next(false);
 		}
+	},
+	created() {
+		if(this.getSelectedLocationRequest.reports !== null)
+			this.report = this.getSelectedLocationRequest.reports;
 	}
 }
 </script>

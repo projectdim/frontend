@@ -98,7 +98,6 @@ export default {
 				let credentials = new FormData();
 				credentials.append('username', this.email);
 				credentials.append('password', this.pass);
-				console.log(credentials)
 				await api.user.LogIn(credentials).then(res=>{
 					this.setLoggedUserCredentials(res.data);
 					this.getInfo();

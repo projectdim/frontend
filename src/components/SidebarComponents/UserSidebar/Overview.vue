@@ -1,59 +1,16 @@
 <template>
   <div>
-	<PhotoViewerModal :is-visible="this.isModalView" :on-modal-close="OnModalClose"/>
 	<div id="Overview" class="px-6 screen-475:px-4">
-<!--		<h3 class="font-semibold text-sidebar-title
-			screen-475:text-sidebar-title-mobile">
-			Фото ({{this.selectedDataItem.photo.length || 'none'}})
-		</h3>
-	  	<div class="mt-2 mb-6 w-full h-[132px] screen-475:h-[90px]">
-		  	<Carousel  :breakpoints="breakpoints">
-					<Slide class="cursor-pointer" v-for="slide in this.selectedDataItem.photo" :key="this.selectedDataItem.photo.indexOf(slide)"
-						@click="ShowModal">
-			  		<div class="mx-1 bg-gray-50 rounded-lg">
-			  			<img :src="slide" alt="Photo" class="w-[132px] h-[132px] object-cover rounded-lg
-			  			screen-475:h-[90px] screen-475:min-w-[90px]">
-			  		</div>
-					</Slide>
-					<template #addons>
-			  		<Navigation/>
-					</template>
-		  	</Carousel>
-		</div>-->
-
 	  <h3 class="font-semibold text-sidebar-title
 			screen-475:text-sidebar-title-mobile">
 			Загальний стан
 		</h3>
-
-<!--	  <div class="my-2 w-full min-h-[134px] bg-blue-c-100 rounded-lg p-6 flex">
-			  <img
-				  src="https://www.techspring.nl/wp-content/uploads/2021/10/k1g-N8J-thai-nguyen-3xezLdRLdHw-unsplash-scaled.jpg"
-				  alt="Test picture"
-				  class="h-[86px] w-[86px] rounded-xl object-cover"
-			  >
-			<div class="text-overview-item ml-4 screen-475:text-overview-item-mobile">
-				<p>
-          Тут ви можете знайти важливі новини про ваш регіон.
-				</p>
-			  	<p class="text-blue font-medium mt-2">
-				  <span class="cursor-pointer"
-				  	@click="this.Show(`Go to news`)">
-					Переглянути новини (9)
-				  	<svg class="inline" width="9" height="14" viewBox="0 0 9 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-				 		 <path fill-rule="evenodd" clip-rule="evenodd" d="M0.292893 13.7071C-0.0976311 13.3166 -0.0976312 12.6834 0.292893 12.2929L5.58579 7L0.292893 1.70711C-0.0976317 1.31658 -0.0976317 0.683417 0.292893 0.292893C0.683417 -0.0976315 1.31658 -0.0976315 1.70711 0.292893L8.41421 7L1.70711 13.7071C1.31658 14.0976 0.683418 14.0976 0.292893 13.7071Z" fill="#2E60B3"/>
-					</svg>
-				  </span>
-				</p>
-			</div>
-	  </div>-->
-
 <!--	#region  Build status-->
 		<div class="screen-475:text-overview-item-mobile text-overview-item" >
 
 			<div class="py-4 shadow-cs2">
 				<div class="flex flex-nowrap">
-					<svg :class="getSVGColorClass('buildingCondition', markerReports.buildingCondition.flag)"
+					<svg :class="getSVGColorClass('buildingCondition', selectedMarker.reports.buildingCondition.flag)"
 							 class="mr-1.5 my-auto w-6" width="22" height="20" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path fill-rule="evenodd" clip-rule="evenodd" d="M11 0.654663L21.669 10.2567C22.0795 10.6262 22.1128 11.2585 21.7433 11.669C21.3738 12.0795 20.7416 12.1128 20.331 11.7433L19 10.5454V21H3.00001V10.5454L1.66897 11.7433C1.25846 12.1128 0.626173 12.0795 0.256714 11.669C-0.112745 11.2585 -0.079466 10.6262 0.331044 10.2567L11 0.654663ZM5.00001 8.74539V19H17V8.74538L11 3.34539L5.00001 8.74539Z"/>
 					</svg>
@@ -61,19 +18,18 @@
 						 :class="getTextColorClass('buildingCondition', markerReports.buildingCondition.flag)">
 						{{markerReports.buildingCondition.flag}}
 					</p>
-					<p class="text-gray-c-500 my-auto font-normal px-1">
+					<div class="text-gray-c-500 my-auto font-normal px-1 ">
 						{{(new Date(selectedMarker.updated_at)).toLocaleString()}}
-					</p>
+					</div>
 				</div>
-				<div class="min-h-min bg-gray-c-200 text-gray-c-500 p-2 rounded-sm mt-2"
-             v-if="markerReports.buildingCondition.description">
-			  	<span>
-			  		{{ markerReports.buildingCondition.description }}
-			  	</span>
-				</div>
+
+
+				<Expander v-if="markerReports.buildingCondition.description">
+					{{ markerReports.buildingCondition.description }}
+				</Expander>
 			</div>
 
-			<div class=" py-4 shadow-cs2">
+			<div class="py-4 shadow-cs2">
 				<div class="flex flex-nowrap">
 					<svg :class="getSVGColorClass('electricity', markerReports.electricity.flag)"
 							 width="14" height="22" viewBox="0 0 14 22" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -92,11 +48,11 @@
 						{{(new Date(selectedMarker.updated_at)).toLocaleString()}}
 					</p>
 				</div>
-				<div class="min-h-min bg-gray-c-200 text-gray-c-500 p-2 rounded-sm mt-2" v-if="markerReports.electricity.description">
-						<span>
-							{{ markerReports.electricity.description }}
-						</span>
-				</div>
+
+				<Expander v-if="markerReports.electricity.description">
+					{{ markerReports.electricity.description }}
+				</Expander>
+
 			</div>
 
 			<div class="py-4 shadow-cs2">
@@ -114,11 +70,9 @@
 						{{(new Date(selectedMarker.updated_at)).toLocaleString()}}
 					</p>
 				</div>
-				<div class="min-h-min bg-gray-c-200 text-gray-c-500 p-2 rounded-sm mt-2" v-if="markerReports.carEntrance.description">
-						<span>
+				<Expander v-if="markerReports.carEntrance.description">
 							{{ markerReports.carEntrance.description }}
-						</span>
-				</div>
+				</Expander>
 			</div>
 
 			<div class="py-4 shadow-cs2">
@@ -136,11 +90,11 @@
 						{{(new Date(selectedMarker.updated_at)).toLocaleString()}}
 					</p>
 				</div>
-				<div class="min-h-min bg-gray-c-200 text-gray-c-500 p-2 rounded-sm mt-2" v-if="markerReports.water.description">
-						<span>
-							{{ markerReports.water.description }}
-						</span>
-				</div>
+
+				<Expander v-if="markerReports.water.description">
+					{{ markerReports.water.description }}
+				</Expander>
+
 			</div>
 
 			<div class="py-4 shadow-cs2">
@@ -161,11 +115,9 @@
 						{{(new Date(selectedMarker.updated_at)).toLocaleString()}}
 					</p>
 				</div>
-				<div class="min-h-min bg-gray-c-200 text-gray-c-500 p-2 rounded-sm  mt-2" v-if="markerReports.fuelStation.description">
-						<span>
-							{{ markerReports.fuelStation.description }}
-						</span>
-				</div>
+				<Expander v-if="markerReports.fuelStation.description">
+					{{ markerReports.fuelStation.description }}
+				</Expander>
 			</div>
 
 			<div class="py-4 shadow-cs2">
@@ -186,17 +138,14 @@
 						{{(new Date(selectedMarker.updated_at)).toLocaleString()}}
 					</p>
 				</div>
-				<div class="min-h-min bg-gray-c-200 text-gray-c-500 p-2 rounded-sm mt-2"
-						 v-if="markerReports.hospital.description">
-						<span>
+				<Expander v-if="markerReports.hospital.description">
 							{{ markerReports.hospital.description }}
-						</span>
-				</div>
+				</Expander>
 			</div>
 		</div>
 <!--	  #endRegion-->
 
-		<button-1 v-if="isAuth" class="mt-4 w-full">
+		<button-1 v-if="isAuth" class="mt-4 w-full" @click="UpdateSelectedMarkerReports">
 			Повідомити про статус
 		</button-1>
 <!--	  #region Form-->
@@ -246,41 +195,20 @@
 </template>
 
 <script>
-import { Carousel, Navigation, Pagination, Slide } from 'vue3-carousel';
-import {SelectedDataItem} from "../../../Scripts/DataProvider.js";
 import SVG_status_list from "../../ComponentsSVG/SVG_status_list.vue";
-import 'vue3-carousel/dist/carousel.css';
 import {getSVGColorClass, getTextColorClass} from "../../../Scripts/Helper.js";
-import {mapGetters, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
+import Expander from "../../Other/Expander.vue";
 
 
 export default {
   name: "Overview",
   components: {
+		Expander,
 		SVG_status_list,
-	  Carousel,
-	  Slide,
-	  Pagination,
-	  Navigation,
   },
   data : function () {
 	  return {
-	    selectedDataItem: SelectedDataItem,
-	    breakpoints: {
-		    100: {
-		      itemsToShow: 3,
-		      snapAlign: 'start',
-		    },
-		    600: {
-		      itemsToShow: 4,
-		      snapAlign: 'start',
-		    },
-		    // 1024 and up
-		    1024: {
-		      itemsToShow: 4,
-		      snapAlign: 'start',
-		    },
-	  },
 	    issueMessage: "",
 	    isModalView : false
 	  }
@@ -296,14 +224,13 @@ export default {
 	  },
   },
   methods : {
+		...mapActions(["setSelectedRequest"]),
+		UpdateSelectedMarkerReports(){
+			this.setSelectedRequest(this.selectedMarker);
+			this.$router.push("submit-report");
+		},
 	  Show(string){
 	    alert(string);
-	  },
-	  ShowModal(){
-	  	this.isModalView = true;
-	  },
-	  OnModalClose(){
-	    this.isModalView = false;
 	  },
 		getTextColorClass(field, status){
 			return getTextColorClass(field, status)

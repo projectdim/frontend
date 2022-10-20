@@ -1,7 +1,12 @@
 <template>
 		<div class="px-6" ref="viewport">
-			<ReportRequestListItem v-for="item in unreviewedMarkers" :key="`request${item.id}`"
-				:location-request="item"/>
+			<ReportRequestListItem v-if="unreviewedMarkers.length > 0"
+				v-for="item in unreviewedMarkers"
+				:key="`request${item.id}`"
+				:location-request="item" itemUsageTabName='requestsList'/>
+			<div v-else class="mt-6 text-center text-overview-item text-gray-c-800">
+				Зараз немає запитів на адресу
+			</div>
 			<div ref="scrollObserver" class="relative h-[80px]" v-if="pageMax<0">
 				<Loader v-show="isLoaderVisible"/>
 			</div>

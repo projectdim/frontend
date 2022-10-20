@@ -1,5 +1,5 @@
 <template>
-	<div class="shadow-cs3 p-4 rounded-lg mb-4"
+	<div class="shadow-cs3 p-4 rounded-lg mb-4 relative"
 		:class="{'bg-blue-c-100' : isSelected}">
 		<div>
 			<div class="flex justify-between mb-3">
@@ -17,48 +17,95 @@
 				<img src="/Marker-blue.svg" class="inline-block mr-1">
 				{{locationRequest.address}}
 			</div>
-			<div class="flex justify-between mt-4">
+			<div class="flex justify-between mt-4 items-baseline">
 
-				<button-1 @click="this.Reporting">
-					Розглянути
-				</button-1>
 				<div>
-					sadfsdfsd
+					<button-1 @click="this.Reporting">
+						Розглянути
+					</button-1>
+					<button-2 v-if="isMyRequest && itemUsageTabName==='myRequestsList'"
+										class="ml-3" @click="RemoveFromMyRequests">
+						Видалити
+					</button-2>
 				</div>
-				<button-text-1 @click="AddToMyRequests">
+
+				<button-text-1 @click="AddToMyRequests" v-if="!isMyRequest
+					&& itemUsageTabName==='requestsList'">
 					Додати до "Моїх запитів"
 				</button-text-1>
+
+				<div v-else-if="isMyRequest && itemUsageTabName==='requestsList'"
+						 class="text-overview-item font-medium text-blue-c-500 p-2">
+					<img src="/completed2.svg" class="inline-block mr-2">
+					Мій запит
+				</div>
+
 			</div>
 		</div>
+		<Loader v-if="isLoaderVisible"/>
 	</div>
 </template>
 
 <script>
 
-import {getDayDate} from "../../../Scripts/Helper.js";
+import {getDayDateString} from "../../../Scripts/Helper.js";
 import {mapActions, mapState} from "vuex";
 import {Path} from "../../../router/mainRouter.js";
+import api from "../../../api/index.js";
+import Loader from "../../Loader.vue";
 
 export default {
 	name: "ReportRequestListItem",
+	components: {Loader},
+	emits : ["remove-from-my-list"],
 	props : {
 		locationRequest : {
 			type : Object,
 			required : true
+		},
+		itemUsageTabName : {
+			type : String,
+			default : "requestsList",
+			validator: function (value){
+				return ["requestsList", "myRequestsList"].includes(value);
+			}
+		}
+	},
+	data () {
+		return {
+			isMyRequest: false,
+			isLoaderVisible : false
 		}
 	},
 	methods :{
 		...mapActions(["setSelectedRequest"]),
 		getDateStr(){
-			return getDayDate(this.locationRequest.created_at);
+			return getDayDateString(this.locationRequest.created_at);
 		},
 		Reporting(){
 			this.setSelectedRequest(this.locationRequest);
 			this.$router.push(Path.updateReport)
 		},
-		//TODO
-		AddToMyRequests(){
-			this.locationRequest.reported_by = this.AidWorker.id;
+		async AddToMyRequests(){
+			this.isLoaderVisible = true;
+			await api.locations.assignRequest(this.locationRequest.id).then(res=>{
+				this.locationRequest.reported_by = res.data.reported_by
+			}).catch(err=>{
+				console.log(err)
+			}).finally(()=>{
+				this.isLoaderVisible = false;
+			})
+		},
+		async RemoveFromMyRequests(){
+			this.isLoaderVisible = true;
+			await api.locations.removeAssignRequest(this.locationRequest.id).then(res=>{
+				this.locationRequest.reported_by = res.data.reported_by
+				this.$emit("remove-from-my-list", this.locationRequest.id)
+			}).catch(err=>{
+				console.log(err)
+			}).finally(()=>{
+				this.isLoaderVisible = false;
+			})
 		}
 	},
 	computed : {
@@ -72,6 +119,9 @@ export default {
 			else
 				return this.locationRequest.id === this.selectedLocationRequest.id
 		},
+		isMyRequest(){
+			return this.locationRequest.reported_by === this.AidWorker.id;
+		}
 	}
 }
 </script>

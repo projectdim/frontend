@@ -1,7 +1,7 @@
 <template>
   <button class="border
     border-blue-c-500 bg-white
-    text-blue-c-500 p-2
+    text-blue-c-500 px-2 py-1.5
     text-center align-middle rounded-lg
     text-overview-item font-medium
     screen-475:text-overview-item-mobile

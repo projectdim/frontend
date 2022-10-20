@@ -3,7 +3,7 @@
 const months = ["січень", "лютий", "березень", "квітень", "травень", "червень",
 "липень", "серпень", "вересень", "жовтень", "листопад", "грудень"];
 
-export function getDayDate(dateStr){
+export function getDayDateString(dateStr){
     try {
         let date = new Date(dateStr);
         if(isToday(date))
@@ -42,6 +42,19 @@ export function isYesterday(date) {
     if (tomorrow.toDateString() === date.toDateString())
         return true;
     return false;
+}
+
+export function isSameDay(date1, date2){
+    try {
+        return date1.getDate() === date2.getDate() &&
+          date1.getMonth() === date2.getMonth() &&
+          date1.getFullYear() === date2.getFullYear()
+    }
+    catch (err){
+        console.error("isSameDay func error")
+        throw err;
+        return false
+    }
 }
 
 export function GetRandomElement(array){
@@ -98,8 +111,6 @@ export function GetStateColor(field, status){
         return red;
     }
 }
-
-
 export function getTextColorClass(field, status){
     let color = GetStateColor(field,status);
     if(color === "red")
@@ -126,7 +137,6 @@ export function getSVGColorClass(field, status){
     else
         return 'fill-red-c-500';
 }
-
 export async function Wait(milliseconds){
     await new Promise(res=> setTimeout(()=>{},
       milliseconds));

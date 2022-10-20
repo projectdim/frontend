@@ -28,6 +28,8 @@
 				</div>
       </div>
 		</div>
+<!--		:click="true"
+		@click="ClickHandler"-->
 	<GMapMap
 		class="z-0"
 		ref="map"
@@ -35,8 +37,6 @@
  		:zoom="this.currentMapZoom"
 		map-type-id="roadmap"
 		style="width: 100%; height: 100%"
-		:click="true"
-		@click="ClickHandler"
 		@bounds_changed="getBounds"
 		@zoom_changed="OnMapZoomChanged"
 		:options="{
@@ -92,17 +92,18 @@
 		  :styles="[
       	{
 			   	textColor: 'black',
-			   	url: `/m1.png`,
-			   	height: 52,
-			   	width: 53,
 			   	textSize: 16,
-			   	textLineHeight: 52,
+			   	textLineHeight: 40,
+			   	textColor : 'white',
+			   	url : '/clusters/m3.png',
+					height: 44,
+					width: 40,
+					boxShadow : '2px 2px 10px 0px rgba(115, 118, 128, 0.11)'
         },
      	]"
 		  :minimumClusterSize="2"
 		  :zoomOnClick="true"
-		  :maxZoom="13"
-	  >
+		  :maxZoom="13">
 			<GMapMarker
 				v-for="(m, index) in this.$store.state.markers"
 				:key="index"
@@ -142,20 +143,11 @@ export default {
 		  ClickMarkerCoords : {lat: Number, lng: Number},
 		  currentPlaceData: [],
 		  isInputFocused : false,
-		  searchRequest : ""
+		  searchRequest : "",
 	  }
   },
 	computed : {
 		...mapGetters(["getMapCenter"]),
-
-		/*center(){
-			if(this.$store.state.selectedMarkerData)
-				return this.$store.state.selectedMarkerData.position;
-			else if(this.$store.state.notFoundedMarkerData)
-				return this.$store.state.notFoundedMarkerData.position
-			else
-				return {lat: 49.23414701332752, lng: 28.46228865225255};
-		},*/
 		notFoundMarker(){
 			return this.$store.state.notFoundedMarkerData;
 		}
@@ -180,10 +172,13 @@ export default {
 				this.getMarkersByScreenBounds(bounds);
     	},
     	getMarkerInfo(marker) {
+				if(this.$router.path !== "/main/overview")
+					this.$router.push("/main/overview");
 				this.setSelectedMarker(marker);
+
 				setTimeout(()=>{
         	this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
-				}, 1000)
+				}, 500)
     	},
 		async GetPlaceDetails(placeId){
 		    await axios.get(URL_PROXY_PLACE_REQUEST,{
@@ -218,41 +213,6 @@ export default {
 							this.currentPlaceData = res.data
 						}))
     	      .catch((err) => console.log(err));
-
-    	  let addressData = this.currentPlaceData.results[0].address_components;
-    	  let coordsData = this.currentPlaceData.results[0].geometry;
-
-    	  // let formattedAddress = {};
-        //
-    	  // for (var i = 0; i < addressData.length; i++) {
-    	  //   var c = addressData[i];
-    	  //   formattedAddress[c.types[0]] = c;
-    	  // }
-        //
-    	  // await api.locations.addLocation(
-    	  //     {
-    	  //       address: formattedAddress.route.long_name + "," + formattedAddress.street_number.long_name,
-    	  //       index: formattedAddress.postal_code.long_name,
-    	  //       country: formattedAddress.country.long_name,
-    	  //       city: formattedAddress.locality.long_name,
-    	  //       // coordinates: coordsData.location.lat + "," + coordsData.location.lng,
-    	  //       lat: coordsData.location.lat,
-    	  //       lng: coordsData.location.lng
-    	  //     }
-    	  // )
-
-    	  // await api.locations.searchByCoords(
-    	  //     {
-    	  //       lat: coordsData.location.lat,
-    	  //       lng: coordsData.location.lng
-    	  //     }
-    	  // ).then((response) => {
-    	  //   this.markers = []
-    	  //   response.data.forEach((loc) => {
-    	  //     this.markers.push(loc)
-    	  //   })
-    	  //   console.log(this.markers)
-    	  // });
     	},
 		OnMapZoomChanged(arg){
 			console.log(arg);
