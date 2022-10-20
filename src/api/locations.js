@@ -12,6 +12,9 @@ export default function (instance) {
         exactSearch (lat, lng) {
             return instance.get(`locations/search?lat=${lat}&lng=${lng}`)
         },
+        searchById (locationId) {
+            return instance.get(`locations/location-info?location_id=${locationId}`)
+        },
         getLocationChangeLog (locationId) {
             return instance.get(`locations/changelogs?location_id=${locationId}`)
         },

@@ -25,6 +25,7 @@ const storePrototype = {
       state.unreviewedMarkers = markers.filter((mark) => mark.status === 1 || mark.status === 2);
     },
     setSelectedMarker(state, marker){
+      console.log(marker)
       state.selectedMarkerData = marker;
       state.mapCenter = marker.position;
       state.selectedMarkerHistoryData = [];
@@ -108,6 +109,11 @@ const storePrototype = {
         throw err;
       }
     },
+    async getMarkerById (context, locationId) {
+      await api.locations.searchById(locationId).then((response) => {
+        context.commit("setSelectedMarker", response.data)
+      })
+    }
   }
 }
 

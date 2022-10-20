@@ -37,8 +37,8 @@
  		:zoom="this.currentMapZoom"
 		map-type-id="roadmap"
 		style="width: 100%; height: 100%"
-		@bounds_changed="getBounds"
 		@zoom_changed="OnMapZoomChanged"
+    @center_changed="onCenterChanged"
 		:options="{
 			zoomControl: false,
 			mapTypeControl: false,
@@ -154,7 +154,7 @@ export default {
 	},
 	methods : {
 		...mapMutations(["setNoDataMarkerMarker", "setSelectedMarker"]),
-		...mapActions(["getMarkersByScreenBounds","GetMarkerByCoords"]),
+		...mapActions(["getMarkersByScreenBounds","GetMarkerByCoords", "getMarkerById"]),
 	  	ClickHandler(event) {
 		  if(event.placeId) {
 		  	  this.GetPlaceDetails(event.placeId);
@@ -171,10 +171,19 @@ export default {
 				//this.$store.dispatch("getMarkersByScreenBounds", {bounds});
 				this.getMarkersByScreenBounds(bounds);
     	},
+      onCenterChanged (coords) {
+        let payload = {
+          lat: coords.lat(),
+          lng: coords.lng(),
+          zoom: this.currentMapZoom
+        }
+        this.getMarkersByScreenBounds(payload);
+      },
     	getMarkerInfo(marker) {
 				if(this.$router.path !== "/main/overview")
 					this.$router.push("/main/overview");
-				this.setSelectedMarker(marker);
+				// this.setSelectedMarker(marker);
+        this.getMarkerById(marker.location_id);
 
 				setTimeout(()=>{
         	this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
@@ -198,31 +207,29 @@ export default {
 			this.ifClickMarker = true;
 		  this.ClickMarkerCoords = coords;
 		},
-    	async getPlaceInfo (coords) {
-				await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.lat()},${coords.lng()}&key=${API_KEY}`)
-    	      .then((res =>{
-							let notFoundedMarker = {
-								position :
-									{
-										lat: coords.lat(),
-										lng: coords.lng()
-									},
-								address : res.data.results[0].formatted_address
-							}
-							this.setNoDataMarkerMarker(notFoundedMarker);
-							this.currentPlaceData = res.data
-						}))
-    	      .catch((err) => console.log(err));
-    	},
+    async getPlaceInfo (coords) {
+			await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.lat()},${coords.lng()}&key=${API_KEY}`)
+          .then((res =>{
+						let notFoundedMarker = {
+							position :
+								{
+									lat: coords.lat(),
+									lng: coords.lng()
+								},
+							address : res.data.results[0].formatted_address
+						}
+						this.setNoDataMarkerMarker(notFoundedMarker);
+						this.currentPlaceData = res.data
+					}))
+          .catch((err) => console.log(err));
+    },
 		OnMapZoomChanged(arg){
-			console.log(arg);
 			this.currentMapZoom = arg;
 		},
 		OnInputFocus(arg){
 		  this.isInputFocused = arg;
 		},
 		setPlace(arg) {
-			//this.$store.dispatch("GetMarkerByCoords", arg);
 			this.GetMarkerByCoords(arg);
 		},
 		ClearSearchRequest(){
