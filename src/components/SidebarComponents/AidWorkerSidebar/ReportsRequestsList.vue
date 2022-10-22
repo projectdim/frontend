@@ -25,6 +25,9 @@ export default {
 		ReportRequestListItem,
 		Loader
 	},
+  props: {
+    userLocation: Object
+  },
 	data(){
 		return {
 			unreviewedMarkers: [],
@@ -34,30 +37,47 @@ export default {
 		}
 	},
 	methods : {
-		async GetReportsRequest(){
+		async GetReportsRequest() {
 			if(!this.isAuth)
 				return;
+
 			let payload = {
-				'page' : ++this.page,
-				'limit' : 20
+				page: ++this.page,
+				limit: 20,
 			}
 			this.isLoaderVisible = true;
 
 			//TODO Безкінечна лєнта демострація
 			//await new Promise(resolve => setTimeout(resolve, 3000));
 
-			await api.locations.getReportsRequests(payload).then(res=>{
-				if(res.data.length === 0)
-					this.pageMax = --this.page;
-				else if(res.data.length < 20)
-					this.pageMax = this.page;
-				this.unreviewedMarkers = [...this.unreviewedMarkers, ...res.data];
-			}).catch(err=>{
-				alert(err);
-			}).finally(()=>{
-				this.isLoaderVisible = false
-			})
-		}
+      navigator.geolocation.getCurrentPosition(async (pos) => {
+        payload.user_lat = pos.coords.latitude
+        payload.user_lng = pos.coords.longitude
+        await api.locations.getReportsRequests(payload).then(res=>{
+          if(res.data.length === 0)
+            this.pageMax = --this.page;
+          else if(res.data.length < 20)
+            this.pageMax = this.page;
+          this.unreviewedMarkers = [...this.unreviewedMarkers, ...res.data];
+        }).catch(err=>{
+          alert(err);
+        }).finally(()=>{
+          this.isLoaderVisible = false
+        })
+      }, async (err) => {
+        await api.locations.getReportsRequests(payload).then(res=>{
+          if(res.data.length === 0)
+            this.pageMax = --this.page;
+          else if(res.data.length < 20)
+            this.pageMax = this.page;
+          this.unreviewedMarkers = [...this.unreviewedMarkers, ...res.data];
+        }).catch(err=>{
+          alert(err);
+        }).finally(()=>{
+          this.isLoaderVisible = false
+        })
+      }, {timeout: 5000})
+		},
 	},
 	mounted() {
 		let options = {

@@ -37,11 +37,12 @@ import MyReportRequestList from "./MyReportRequestList.vue";
 
 export default {
   name: "SideBarAidWorker",
-	components: {MyReportRequestList, ReportsRequestsList},
+	components: {
+    MyReportRequestList, ReportsRequestsList
+  },
 	props: {
     selectedMarker: Object
   },
-
   methods : {
 	  setSelectedTab(tabName){
 	    this.selectedTabItem = tabName;
@@ -49,7 +50,7 @@ export default {
   },
   data : function () {
 	  return {
-	    selectedTabItem : "All requests"
+	    selectedTabItem : "All requests",
 	  }
   },
 	computed : {

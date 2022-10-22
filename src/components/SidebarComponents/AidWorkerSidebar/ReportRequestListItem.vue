@@ -9,7 +9,7 @@
 				<div class="text-overview-item-mobile text-gray-c-500">
 					{{locationRequest.city}}
 					<img src="/Marker-gray.svg" class="inline-block">
-					500m
+          {{ locationRequest.distance ? locationRequest.distance.toFixed(0) + " km" : 'Невідомо' }}
 				</div>
 			</div>
 			<div class="text-overview-item text-blue-c-500 font-semibold pb-2 shadow-cs2 cursor-pointer"
