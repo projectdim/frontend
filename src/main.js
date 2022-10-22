@@ -5,19 +5,12 @@ import 'vue3-carousel/dist/carousel.css';
 import App from './App.vue'
 import {API_KEY} from "./Scripts/MapScripts.js"
 import {store}  from "./store/mainStore.js"
-import {mainRouter} from "./router/mainRouter.js";
-import {createRouter, createWebHistory} from "vue-router";
+import {Router} from "./router/mainRouter.js";
 import ComponentsList from "./components/ComponentsList.js";
 import ResizeTextarea from 'resize-textarea-vue3'
 
 const app = createApp(App);
-const router = createRouter(
-  {
-    routes : mainRouter,
-    history : createWebHistory()
-  }
-);
-
+const  router = Router;
 app.use(VueGoogleMaps,{
         load: {
             key: API_KEY,
@@ -25,7 +18,6 @@ app.use(VueGoogleMaps,{
             libraries: "places"
         },
     });
-
 
 app.use(store);
 app.use(router);

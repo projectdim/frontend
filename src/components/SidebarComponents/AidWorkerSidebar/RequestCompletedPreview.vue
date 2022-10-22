@@ -265,7 +265,7 @@ import ModalTemplate from "../../Modals/ModalTemplate.vue";
 
 
 export default {
-	name: "Overview",
+	name: "RequestCompletedPreview",
 	components: {
 		ModalTemplate,
 		Button2,

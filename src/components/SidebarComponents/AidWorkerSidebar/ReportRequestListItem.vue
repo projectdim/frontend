@@ -50,7 +50,6 @@
 
 import {getDayDateString} from "../../../Scripts/Helper.js";
 import {mapActions, mapState} from "vuex";
-import {Path} from "../../../router/mainRouter.js";
 import api from "../../../api/index.js";
 import Loader from "../../Loader.vue";
 
@@ -84,7 +83,7 @@ export default {
 		},
 		Reporting(){
 			this.setSelectedRequest(this.locationRequest);
-			this.$router.push(Path.updateReport)
+			this.$router.push("/main/submit-report")
 		},
 		async AddToMyRequests(){
 			this.isLoaderVisible = true;

@@ -5,10 +5,14 @@ import Test from "../components/Test.vue";
 import SideBar from "../components/SidebarComponents/UserSidebar/SideBar.vue";
 import SideBarAidWorker from "../components/SidebarComponents/AidWorkerSidebar/SideBarAidWorker.vue";
 import ReportTools from "../components/SidebarComponents/AidWorkerSidebar/ReportTools.vue";
-import RequestComplitedPreview from "../components/SidebarComponents/AidWorkerSidebar/RequestComplitedPreview.vue";
+import RequestCompletedPreview from "../components/SidebarComponents/AidWorkerSidebar/RequestCompletedPreview.vue";
+
+import {store} from "../store/mainStore.js";
+
+import {createRouter, createWebHistory} from "vue-router";
 
 
-export const mainRouter = [
+const mainRouter = [
   { path : "/", component : WelcomeScreen},
   {
     path : "/main",
@@ -25,24 +29,40 @@ export const mainRouter = [
       {
         path : "requests",
         component : SideBarAidWorker,
-        /*meta : {requiresAuth : true}*/
+        meta : {requiresAuth : true}
       },
       {
         path: "submit-report",
-        component : ReportTools
-        /*meta : {SelectedRequestLocation  : true}*/
+        component : ReportTools,
+        meta : {requiresAuth  : true}
       },
       {
         path: "submit-report-preview",
-        component : RequestComplitedPreview
-        /*meta : {SelectedRequestLocation  : true}*/
+        component : RequestCompletedPreview,
+        meta : {requiresAuth  : true}
       },
     ]
   },
   { path : "/test", component : Test},
-  /*{ path : "*", component: ErrorPage}*/
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: to=>{
+      return {
+        path : "/main"
+      }
+    }
+  },
 ]
 
-export const Path ={
-  updateReport : '/main/submit-report'
-}
+export const Router = createRouter({
+  routes : mainRouter,
+  history : createWebHistory()
+});
+
+Router.beforeEach((to, form)=>{
+  if(to.meta.requiresAuth && !store.getters.isAuth){
+    return {
+      path : "/"
+    }
+  }
+})

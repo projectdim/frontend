@@ -182,7 +182,6 @@ export default {
     	getMarkerInfo(marker) {
 				if(this.$router.path !== "/main/overview")
 					this.$router.push("/main/overview");
-				// this.setSelectedMarker(marker);
         this.getMarkerById(marker.location_id);
 
 				setTimeout(()=>{

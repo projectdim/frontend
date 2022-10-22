@@ -207,34 +207,7 @@ export default {
 	components: {ConfirmModal, ModalTemplate, ButtonTag, Button1, Button3},
 	data(){
 		return {
-			report : {
-				buildingCondition: {
-					flag: "Неушкоджена",
-					description: ""
-				},
-				electricity: {
-					flag: "Стабільна",
-					description: ""
-				},
-				carEntrance: {
-					flag: "Доступне",
-					description: ""
-				},
-				water: {
-					flag: "Стабільна",
-					description: ""
-				},
-				fuelStation: {
-					flag: "Відчинено",
-					description: "",
-					distance: 0
-				},
-				hospital: {
-					flag: "Відчинено",
-					description: "",
-					distance: 0
-				}
-			},
+			report : {},
 			isLeaveModalVisible : false,
 			question: "Ви не зберегли інформацію. Якщо ви покинете сторінку інформацію буде втрачено.",
 			isPageLeaveConfirmed : false,
@@ -305,6 +278,36 @@ export default {
 		...mapGetters(["getSelectedLocationRequest"]),
 		ReportState() {
 			return ReportsState;
+		},
+		reportStateDefault () {
+			return {
+				buildingCondition: {
+					flag: ReportsState.buildingCondition.NoData,
+					description: ""
+				},
+				electricity: {
+					flag: ReportsState.electricity.NoData,
+					description: ""
+				},
+				carEntrance: {
+					flag: ReportsState.carEntrance.NoData,
+					description: ""
+				},
+				water: {
+					flag: ReportsState.water.NoData,
+					description: ""
+				},
+				fuelStation: {
+					flag: ReportsState.fuelStation.NoData,
+					description: "",
+					distance: 0
+				},
+				hospital: {
+					flag: ReportsState.hospital.NoData,
+					description: "",
+					distance: 0
+				}
+			}
 		},
 		//TODO це для пропсів
 		isHospitalOpen(){
@@ -435,8 +438,10 @@ export default {
 		}
 	},
 	created() {
-		if(this.getSelectedLocationRequest.reports !== null)
+		if(this.getSelectedLocationRequest.reports)
 			this.report = this.getSelectedLocationRequest.reports;
+		else
+			this.report = this.reportStateDefault;
 	}
 }
 </script>

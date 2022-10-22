@@ -9,8 +9,8 @@
 			</p>
 		</div>
 
-		<div v-for="log in logs" class="py-4 px-6 flex gap-x-4 shadow-cs2 w-full">
-				<div  class="flex gap-9">
+		<div v-for="log in logs" class="py-4 px-6 flex gap-x-4 shadow-cs2 w-full" >
+				<div class="flex gap-9 w-full">
 					<div class="text-gray-c-500 font-normal pt-2.5
 						text-overview-item
 						screen-475:text-overview-item-mobile
@@ -18,33 +18,38 @@
 						{{new Date(log.created_at).toTimeString().split(' ')[0]}}
 					</div>
 
-					<div>
-						<div v-for="change in getChangedLogs(log)" class="my-2.5 flex flex-wrap gap-2 font-semibold">
-						<div class="flex gap-2" v-if="log.old_flags">
-							<p class="w-4 h-6">
-								<SVG_status_list :icon='change' :classList="getSVGColorClass(change, log.old_flags[change].flag)"/>
-							</p>
-							<p class="grow my-auto uppercase
-							text-overview-item
-							screen-475:text-overview-item-mobile
-							screen-949:text-overview-item-mobile" :class="getTextColorClass(change,log.old_flags[change].flag)">
-								{{log.old_flags[change].flag}}
-							</p>
+					<div class="w-4/5">
+						<div v-for="item in getChangedLogs(log)" class="my-2.5 font-semibold">
+							<div class="flex flex-nowrap gap-2">
+								<div class="flex gap-2" v-if="item.old_value">
+									<p class="w-4 h-6">
+										<SVG_status_list :icon='item.flag' :classList="getSVGColorClass(item.flag, item.old_value)"/>
+									</p>
+									<p class="grow my-auto uppercase
+								text-overview-item
+								screen-475:text-overview-item-mobile
+								screen-949:text-overview-item-mobile" :class="getTextColorClass(item.flag, item.old_value)">
+										{{item.old_value}}
+									</p>
+								</div>
+								<img src="/src/assets/change-arrow.svg" class="h-6 w-6">
+								<div class="flex gap-2">
+									<p class="w-4 h-6">
+										<SVG_status_list :icon='item.flag' :classList="getSVGColorClass(item.flag, item.new_value)"/>
+									</p>
+									<p class="grow my-auto uppercase text-base
+								text-overview-item
+								screen-475:text-overview-item-mobile
+								screen-949:text-overview-item-mobile"
+										 :class="getTextColorClass(item.flag, item.new_value)">
+										{{item.new_value}}
+									</p>
+								</div>
+							</div>
+							<Expander v-if="item.description" class="relative">
+								{{item.description}}
+							</Expander>
 						</div>
-						<img src="/src/assets/change-arrow.svg" class="h-6 w-6">
-						<div class="flex gap-2">
-							<p class="w-4 h-6">
-								<SVG_status_list :icon='change' :classList="getSVGColorClass(change, log.new_flags[change].flag)"/>
-							</p>
-							<p class="grow my-auto uppercase text-base
-							text-overview-item
-							screen-475:text-overview-item-mobile
-							screen-949:text-overview-item-mobile"
-								 :class="getTextColorClass(change, log.new_flags[change].flag)">
-								{{log.new_flags[change].flag}}
-							</p>
-						</div>
-					</div>
 
 						<div class="text-overview-item screen-475:text-overview-item-mobile
 							screen-949:text-overview-item-mobile text-gray-c-500 font-semibold">
@@ -60,9 +65,10 @@
 <script>
 import {getDayDateString, getTextColorClass, getSVGColorClass} from "../../../Scripts/Helper.js";
 import SVG_status_list from "../../ComponentsSVG/SVG_status_list.vue";
+import Expander from "../../Other/Expander.vue";
 export default {
 	name: "HistoryItem",
-	components : {SVG_status_list},
+	components : {Expander, SVG_status_list},
 	props : {
 		log : Object,
 		logs : []
@@ -78,20 +84,54 @@ export default {
 		 	return getSVGColorClass(field, status)
 		},
 		getChangedLogs(log){
+			let result = []
 			if (!log.old_flags) {
-				return Object.keys(log.new_flags)
+				Object.keys(log.new_flags).forEach(flag=>{
+					result.push({
+						flag : flag,
+						old_value : null,
+						new_value : log.new_flags[flag].flag,
+						description : log.new_flags.description
+					})
+				})
+				return result;
 			}
-			let res = Object.keys(log.old_flags).filter((flag) => {
-				return log.old_flags[flag].flag !== log.new_flags[flag].flag
-			});
 
-			let resdesc = Object.keys(log.old_flags).filter((flag) => {
+			Object.keys(log.old_flags).map((flag) => {
+				if(log.old_flags[flag].flag !== log.new_flags[flag].flag) {
+					result.push({
+						flag : flag,
+						old_value : log.old_flags[flag].flag,
+						new_value : log.new_flags[flag].flag,
+						description : ""
+					})
+				}
+
+				if(log.old_flags[flag].description !==log.new_flags[flag].description){
+					let el = result.find(el=>el.flag == flag)
+					if(!el){
+						result.push({
+							flag : flag,
+							old_value : log.old_flags[flag].flag,
+							new_value : log.new_flags[flag].flag,
+							description : log.new_flags[flag].description
+						})
+					}
+					else {
+						el.description = log.new_flags[flag].description
+					}
+				}
+
+				/*console.log("**********************************")
+				console.log("Old")
 				console.log(log.old_flags[flag].description)
+				console.log("New")
 				console.log(log.new_flags[flag].description)
-				return log.old_flags[flag].description !== log.new_flags[flag].description
-			});
+				console.log("**********************************")*/
 
-			return res;
+			});
+			console.log(result);
+			return result;
 		}
 	}
 

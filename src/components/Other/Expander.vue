@@ -1,6 +1,6 @@
 <template>
 	<div class="bg-gray-c-200 text-gray-c-500 p-2 rounded-sm mt-2
-				text-ellipsis overflow-hidden relative leading-[26px]"
+				text-ellipsis overflow-hidden relative leading-[26px] w-full"
 				:class="{'h-[40px] pr-[70px]': !isExpanded}">
 
 				<button class="absolute text-blue-500 right-2 top-2 font-medium"
@@ -9,7 +9,7 @@
 						Деталі
 				</button>
 
-		<div>
+		<div class="break-words">
 			<slot></slot>
 		</div>
 		<div class="text-blue-500 text-center p-1 font-medium"
