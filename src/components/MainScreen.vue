@@ -7,8 +7,6 @@
 	  	screen-475:overflow-y-auto
 			screen-949:overflow-y-auto">
 		<div class="shrink-0 screen-950:w-[600px]">
-<!--			<SideBar v-if="selectedMarkerData !== null"/>
-			<NotFound v-else/>-->
 			<router-view></router-view>
 		</div>
 		<div class="w-full p-0 min-h-[456px]">

@@ -50,10 +50,10 @@ export default {
 			//TODO Безкінечна лєнта демострація
 			//await new Promise(resolve => setTimeout(resolve, 3000));
 
-      navigator.geolocation.getCurrentPosition(async (pos) => {
+      await navigator.geolocation.getCurrentPosition( (pos) => {
         payload.user_lat = pos.coords.latitude
         payload.user_lng = pos.coords.longitude
-        await api.locations.getReportsRequests(payload).then(res=>{
+				api.locations.getReportsRequests(payload).then(res=>{
           if(res.data.length === 0)
             this.pageMax = --this.page;
           else if(res.data.length < 20)
@@ -64,8 +64,8 @@ export default {
         }).finally(()=>{
           this.isLoaderVisible = false
         })
-      }, async (err) => {
-        await api.locations.getReportsRequests(payload).then(res=>{
+      },  (err) => {
+         api.locations.getReportsRequests(payload).then(res=>{
           if(res.data.length === 0)
             this.pageMax = --this.page;
           else if(res.data.length < 20)

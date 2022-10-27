@@ -23,7 +23,12 @@ export default {
       validator (value){
         return ['red', 'blue'].includes(value)
       }
-    }
+    },
+		checked : {
+			type : Boolean,
+			default : false
+		}
+
   },
   data () {
     return {
@@ -35,7 +40,13 @@ export default {
       this.isChecked = !this.isChecked;
       this.$emit("valueChange", this.isChecked)
     }
-  }
+  },
+	mounted() {
+		this.isChecked = this.checked;
+	},
+	updated() {
+		this.isChecked = this.checked;
+	}
 }
 </script>
 

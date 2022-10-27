@@ -34,11 +34,11 @@
 	</ModalTemplate>
 
 	<div class="overflow-y-auto h-full">
-		<div class="bg-blue-c-500 flex justify-between p-6">
+		<div class="bg-blue-c-500 flex flex-wrap gap-2 justify-between p-6">
 			<p class="text-white text-overview-item font-semibold align-middle grid content-center">
 				Зробіть цю інформацію публічною
 			</p>
-			<Button2 class="flex flex-nowrap gap-1"
+			<Button2 class="flex flex-nowrap items-center gap-1"
 				@click="SaveAndPublish">
 				<img src="/public/completed.svg" class="inline-block">
 				<p>
@@ -206,9 +206,9 @@
 			</div>
 			<!--	  #endRegion-->
 
-			<button-1 v-if="isAuth" class="mt-4 w-full">
+<!--			<button-1 v-if="isAuth" class="mt-4 w-full">
 				Повідомити про статус
-			</button-1>
+			</button-1>-->
 			<!--	  #region Form-->
 			<div class="my-6 text-overview-item screen-475:text-overview-item-mobile">
 				<label for="issueMessage" class="text-grey font-normal text-justify block">
@@ -230,28 +230,7 @@
 			</div>
 			<!--	  #endregion-->
 		</div>
-		<!--	  region Contact-->
-		<div id="contact" class="p-6 bg-gray-c-100 text-overview-item
-		screen-475:text-overview-item-mobile screen-949:text-overview-item">
-			<div class="font-semibold">Урядові контакти</div>
-			<div class="flex flex-wrap justify-between py-1 shadow-cs2 mt-2">
-				<p >Служба безпеки України</p>
-				<p class="text-right font-semibold text-blue-c-500">
-					<a href="tel: +380800501482">
-						0 800 501 482
-					</a>
-				</p>
-			</div>
-			<div class="flex flex-wrap justify-between py-1">
-				<p >Державна прикордонна служба України</p>
-				<p class="text-right font-semibold text-blue-c-500">
-					<a href="tel: +380445276363">
-						+38 (044) 527-63-63
-					</a>
-				</p>
-			</div>
-		</div>
-		<!--	  endregion-->
+		<Contacts/>
 	</div>
 </template>
 
@@ -262,11 +241,13 @@ import {mapGetters, mapMutations, mapState} from "vuex";
 import Button2 from "../../Buttons/Button_2.vue";
 import api from "../../../api/index.js";
 import ModalTemplate from "../../Modals/ModalTemplate.vue";
+import Contacts from "../UserSidebar/Contacts.vue";
 
 
 export default {
 	name: "RequestCompletedPreview",
 	components: {
+		Contacts,
 		ModalTemplate,
 		Button2,
 		SVG_status_list,

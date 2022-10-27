@@ -19,19 +19,25 @@
 				Закрити
 			</button-text1>
 <!--    FORM-->
-      <div class="text-overview-item-mobile text-gray-c-500">
+      <div class="text-overview-item-mobile text-gray-c-500"
+				:class="{'screen-475:flex screen-475:flex-col-reverse' : isPassChangeVisible}">
 
-        <label for="setting-name">Ім'я</label>
-        <input1 id="setting-name" placeholder="Ім'я" v-model="username"
-								class="w-full text-black mt-1 mb-6"></input1>
-        <label for="setting-mail">E-mail</label>
-        <input1 id="setting-mail" placeholder="E-mail" v-model="email"
-								class="w-full text-black mt-1" disabled></input1>
-				<div class="flex flex-row-reverse gap-3 py-6">
+				<div :class="{'screen-475:hidden' : isPassChangeVisible}">
+					<label for="setting-name">Ім'я</label>
+					<input1 id="setting-name" placeholder="Ім'я" v-model="username"
+									class="w-full text-black mt-1 mb-6"/>
+					<label for="setting-mail">E-mail</label>
+					<input1 id="setting-mail" placeholder="E-mail" v-model="email"
+									class="w-full text-black mt-1" disabled/>
+				</div>
+
+				<div class="flex flex-row-reverse gap-3 py-6"
+					:class="{'screen-475:hidden' : isPassChangeVisible}">
 					<Button1 :disabled="isSaveButtonDisabled" @click="updateUserData">
 						Зберегти
 					</Button1>
-					<ButtonOptions :button-color="'blue'" @valueChange="changePassVisibility">
+					<ButtonOptions :button-color="'blue'" @valueChange="changePassVisibility"
+						:checked="isPassChangeVisible">
 						Змінити пароль...
 					</ButtonOptions>
 				</div>
@@ -39,15 +45,20 @@
 				<div v-show="isPassChangeVisible">
 					<label for="setting-pass">Пароль</label>
 					<input-pass id="setting-pass" placeholder="Пароль" class="text-black mt-1 mb-6"
-						v-model="oldPass"></input-pass>
+						v-model="oldPass"/>
 					<label for="setting-new-pass">Новий пароль</label>
-					<input-pass id="setting-new-pass" placeholder="Новий пароль" class="text-black mt-1 mb-6"
-						v-model="newPass"></input-pass>
-					<div class="flex flex-row-reverse">
+					<input-pass id="setting-new-pass" placeholder="Новий пароль" class="text-black mt-1"
+						v-model="newPass"/>
+
+					<div class="flex flex-row-reverse gap-3 py-6">
 						<button1 :disabled="isChangePassButtonDisabled"
 							@click="updateUserPassword">
 							Зберегти
 						</button1>
+						<ButtonOptions :button-color="'blue'"  class="hidden screen-475:block"
+													 @valueChange="changePassVisibility" :checked="isPassChangeVisible">
+							Змінити пароль...
+						</ButtonOptions>
 					</div>
 				</div>
       </div>

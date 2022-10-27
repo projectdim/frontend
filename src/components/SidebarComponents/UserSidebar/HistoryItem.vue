@@ -3,8 +3,8 @@
 		<div class="bg-gray-c-100 py-2 px-6 w-full shadow-cs2">
 			<p class="font-semibold text-black capitalize
 			text-sidebar-title
-			screen-475:text-sidebar-address-mobile
-			screen-949:text-sidebar-address-mobile">
+			screen-475:text-overview-item
+			screen-949:text-overview-item">
 				{{getDate(logs[0].created_at)}}
 			</p>
 		</div>
@@ -18,9 +18,9 @@
 						{{new Date(log.created_at).toTimeString().split(' ')[0]}}
 					</div>
 
-					<div class="w-4/5">
+					<div class="w-4/5 screen-475:pr-6" >
 						<div v-for="item in getChangedLogs(log)" class="my-2.5 font-semibold">
-							<div class="flex flex-nowrap gap-2">
+							<div class="flex flex-wrap gap-2">
 								<div class="flex gap-2" v-if="item.old_value">
 									<p class="w-4 h-6">
 										<SVG_status_list :icon='item.flag' :classList="getSVGColorClass(item.flag, item.old_value)"/>
@@ -46,7 +46,7 @@
 									</p>
 								</div>
 							</div>
-							<Expander v-if="item.description" class="relative">
+							<Expander v-if="item.description" class="font-normal">
 								{{item.description}}
 							</Expander>
 						</div>

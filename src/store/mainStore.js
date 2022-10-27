@@ -1,11 +1,24 @@
+import VuexPersistence from "vuex-persist";
 import api from "../api/index.js"
 import {createStore} from "vuex";
 import ReportLocationState from "./ReportedLocationStore.js";
+import UserStore from "./UserStore.js";
+
+const vuexCookie = new VuexPersistence({
+  restoreState: (key, storage) => getCookie(key),
+  saveState: (key, state, storage) =>
+    setCookie(key, state, 1),
+  modules: ['user'],
+  filter: (mutation) => mutation.type == 'setLoggedUserInfo' ||
+    mutation.type == "setLoggedUserCredentials"
+});
+
 
 const storePrototype = {
 /*  strict: process.env.NODE_ENV !== 'production',*/
   modules:{
-    reports : ReportLocationState
+    reports : ReportLocationState,
+    user : UserStore
   },
   state() {   /// данні можна отримати, але не варто змінювати на пряму
     return {
@@ -39,18 +52,18 @@ const storePrototype = {
       state.notFoundedMarkerData = marker;
       state.mapCenter = marker.position;
     },
-    setLoggedUserInfo(state, user){
+   /* setLoggedUserInfo(state, user){
       state.loggedUserInfo = user;
     },
     setLoggedUserCredentials(state, credentials){
       state.loggedUserCredentials = credentials;
-    },
+    },*/
     setMapCenter(state, position){
       state.mapCenter = position;
     }
   },
   getters : { // функцію для отримання даних зі state з можливістю здійснювати попередні обрахунки
-    getToken(state){
+    /*getToken(state){
       if(state.loggedUserCredentials === null )
         return null;
       return `${state.loggedUserCredentials['token_type']} ${state.loggedUserCredentials['access_token']}`;
@@ -60,7 +73,7 @@ const storePrototype = {
     },
     getUser(state){
       return state.loggedUserInfo;
-    },
+    },*/
     getMapCenter(state){
       return state.mapCenter ? state.mapCenter : {lat: 49.23414701332752, lng: 28.46228865225255}
     },
@@ -113,7 +126,31 @@ const storePrototype = {
         context.commit("setSelectedMarker", response.data)
       })
     }
-  }
+  },
+  plugins : [vuexCookie.plugin]
 }
 
 export const store = createStore(storePrototype);
+
+function setCookie(cname, cvalue, exdays = 0) {
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  let expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + JSON.stringify(cvalue) + ";" + expires + ";path=/";
+}
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return JSON.parse(c.substring(name.length, c.length));
+    }
+  }
+  return {};
+}
+

@@ -37,14 +37,13 @@ export default {
 			if(!this.isAuth)
 				return;
 			this.isLoaderVisible = true;
-
 			await api.locations.getAssignedRequests().then(res=>{
-				this.myUnreviewedMarkers = res.data;
-			}).catch(err=>{
-				alert(err);
-			}).finally(()=>{
-				this.isLoaderVisible = false
-			})
+					this.myUnreviewedMarkers = res.data;
+				}).catch(err=>{
+					alert(err);
+				}).finally(()=>{
+					this.isLoaderVisible = false
+				})
 		},
 		OnRemoveFromMyList(locationId){
 			this.myUnreviewedMarkers = this.myUnreviewedMarkers

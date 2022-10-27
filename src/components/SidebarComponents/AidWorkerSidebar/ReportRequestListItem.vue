@@ -110,7 +110,7 @@ export default {
 	computed : {
 		...mapState({
 			selectedLocationRequest : state => state.reports.selectedLocationRequest,
-			AidWorker : state => state.loggedUserInfo
+			AidWorker : state => state.user.loggedUserInfo
 		}),
 		isSelected(){
 			if(!this.selectedLocationRequest || !this.locationRequest)

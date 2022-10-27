@@ -10,27 +10,28 @@
 			screen-475:text-sidebar-title-mobile">
 		 {{getSelectedLocationRequest.address}}
 	 </h3>-->
+
 <!--	 Header-->
-	 <div class="flex justify-between mb-2">
+	 <div class="flex flex-wrap justify-between mb-2">
 		 <div class="font-semibold text-sidebar-title">
 			 <span class="align-middle">Оновлення стану</span>
 		 </div>
-		 <div class="flex gap-2 h-[42px]">
-			 <Button3 @click="this.$router.go(-1)">
+		 <div class="flex flex-wrap gap-2 h-[42px]">
+			 <Button3 @click="this.$router.go(-1)" class="min-w-[80px]">
 				 Відміна
 			 </Button3>
-			 <Button1 @click="PreviewFinishedReport">
-				 Зберегти
+			 <Button1 @click="PreviewFinishedReport" class="min-w-[80px]">
+				 Далі
 			 </Button1>
 		 </div>
 	 </div>
 
 	 <div class="shadow-cs2 py-4">
-		 <div class="flex justify-between mb-3 h-[34px]">
+		 <div class="flex flex-wrap justify-between mb-3 min-h-[34px]">
 				<div class="text-overview-item text-gray-c-600 py-2">
 						Стан будівлі
 				</div>
-				<div class="flex gap-2">
+				<div class="flex flex-wrap gap-2">
 					<ButtonTag :button-state="isBuildIntact"
 											@click="SetBuildingCondition(ReportState.buildingCondition.Intact)">
 						Ціла
@@ -53,11 +54,11 @@
 	 </div>
 
 	 <div class="shadow-cs2 py-4">
-		 <div class="flex justify-between mb-3 h-[34px]">
+		 <div class="flex flex-wrap justify-between mb-3 min-h-[34px]">
 			 <div class="text-overview-item text-gray-c-600 py-2">
 				 Електроенергія
 			 </div>
-			 <div class="flex gap-2">
+			 <div class="flex flex-wrap gap-2">
 				 <ButtonTag :button-state="isElectricityStable"
 										@click="SetElectricityState(ReportState.electricity.Stable)">
 					 Стабільна
@@ -80,11 +81,11 @@
 	 </div>
 
 	 <div class="shadow-cs2 py-4">
-		 <div class="flex justify-between mb-3 h-[34px]">
+		 <div class="flex flex-wrap justify-between mb-3 min-h-[34px]">
 			 <div class="text-overview-item text-gray-c-600 py-2">
 				 Під'їзд
 			 </div>
-			 <div class="flex gap-2">
+			 <div class="flex flex-wrap gap-2">
 				 <ButtonTag :button-state="isCarEntranceAccessible"
 				 						@click="SetCarEntrance(ReportState.carEntrance.Accessible)">
 					 Доступний
@@ -107,11 +108,11 @@
 	 </div>
 
 	 <div class="shadow-cs2 py-4">
-		 <div class="flex justify-between mb-3 h-[34px]">
+		 <div class="flex flex-wrap justify-between mb-3 min-h-[34px]">
 			 <div class="text-overview-item text-gray-c-600 py-2">
 				 Чиста вода
 			 </div>
-			 <div class="flex gap-2">
+			 <div class="flex flex-wrap gap-2">
 				 <ButtonTag :button-state="isWaterStable"
 				 						@click="SetWaterState(ReportState.water.Stable)">
 					 Стабільна
@@ -134,11 +135,11 @@
 	 </div>
 
 	 <div class="shadow-cs2 py-4">
-		 <div class="flex justify-between mb-3 h-[34px]">
+		 <div class="flex flex-wrap justify-between mb-3 min-h-[34px]">
 			 <div class="text-overview-item text-gray-c-600 py-2">
 				 Заправка
 			 </div>
-			 <div class="flex gap-2">
+			 <div class="flex flex-wrap gap-2">
 				 <ButtonTag :button-state="isFuelStationOpen"
 				 						@click="SetFuelStationState(ReportState.fuelStation.Open)">
 					 Працює
@@ -161,11 +162,11 @@
 	 </div>
 
 	 <div class="shadow-cs2 py-4">
-		 <div class="flex justify-between mb-3 h-[34px]">
+		 <div class="flex flex-wrap justify-between mb-3 min-h-[34px]">
 			 <div class="text-overview-item text-gray-c-600 py-2">
 				 Лікарня
 			 </div>
-			 <div class="flex gap-2">
+			 <div class="flex flex-wrap gap-2">
 				 <ButtonTag :button-state="isHospitalOpen"
 										@click="SetHospitalState(ReportState.hospital.Open)">
 					 Працює

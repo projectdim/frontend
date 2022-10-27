@@ -43,14 +43,14 @@ export default {
 	props: {
     selectedMarker: Object
   },
+	data : function () {
+		return {
+			selectedTabItem : "All requests",
+		}
+	},
   methods : {
 	  setSelectedTab(tabName){
 	    this.selectedTabItem = tabName;
-	  }
-  },
-  data : function () {
-	  return {
-	    selectedTabItem : "All requests",
 	  }
   },
 	computed : {
