@@ -15,7 +15,6 @@ module.exports = {
         'gray-c-600' :'#495466',
         'gray-c-700' :'#37404D',
         'gray-c-800' :'#1D2229',
-        'yellow-custom-400' : '#E4CA00',
         'blue-c-100' : '#F2F7FF',
         'blue-c-200' : '#CCDFFF',
         'blue-c-300' : '#80B0FF',
@@ -52,12 +51,12 @@ module.exports = {
         '11/12': '91.666667%',
       },
       fontSize: {
-        'overview-item': ['16px', '24px'],
-        'overview-item-mobile': ['14px', '22px'],
+        'sidebar-address': ['32px', '51px'],
+        'sidebar-address-mobile': ['24px', '38px'],
         'sidebar-title': ['20px', '32px'],
         'sidebar-title-mobile': ['18px', '32px'],
-        'sidebar-address-mobile': ['24px', '38px'],
-        'sidebar-address': ['32px', '51px'],
+        'overview-item': ['16px', '24px'],
+        'overview-item-mobile': ['14px', '22px'],
         'body-3': ['12px', '19px']
       },
       keyframes: {

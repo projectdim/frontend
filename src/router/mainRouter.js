@@ -10,6 +10,8 @@ import RequestCompletedPreview from "../components/SidebarComponents/AidWorkerSi
 import {store} from "../store/mainStore.js";
 
 import {createRouter, createWebHistory} from "vue-router";
+import MainPlatformAdministration from "../components/PlatformAdministration/MainPlatformAdministration.vue";
+import OrganizationsList from "../components/PlatformAdministration/OrganizationsList.vue";
 
 
 const mainRouter = [
@@ -19,11 +21,8 @@ const mainRouter = [
     component : MainScreen,
     children : [
       {
-        path : "",
-        component : SideBar
-      },
-      {
         path : "overview",
+        alias : [""],
         component : SideBar
       },
       {
@@ -43,6 +42,17 @@ const mainRouter = [
       },
     ]
   },
+  {
+    path : "/admin",
+    component: MainPlatformAdministration,
+    children: [
+      {
+        path: "organizations",
+        alias: [""],
+        component: OrganizationsList
+      }
+    ]
+  },
   { path : "/test", component : Test},
   {
     path: '/:pathMatch(.*)*',
@@ -56,7 +66,10 @@ const mainRouter = [
 
 export const Router = createRouter({
   routes : mainRouter,
-  history : createWebHistory()
+  history : createWebHistory(),
+  scrollBehavior(to, from, savedPosition) {
+    return { top: 0 }
+  },
 });
 
 Router.beforeEach((to, form)=>{

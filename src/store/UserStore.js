@@ -1,3 +1,5 @@
+import userRoles from "../mixins/userRoles.js";
+
 export default {
   state(){
     return{
@@ -25,6 +27,13 @@ export default {
     getUser(state){
       return state.loggedUserInfo;
     },
+    getRole(state){
+      if(!state.loggedUserInfo) {
+        return userRoles.data().userRoles.user;
+      }
+      else
+        return state.loggedUserInfo["role"];
+    }
   },
   actions : {},
 }
