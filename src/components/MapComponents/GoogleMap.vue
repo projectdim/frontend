@@ -131,7 +131,7 @@
 <script>
 import axios from "axios";
 import api from "../../api/index.js";
-import {API_KEY, URL_PROXY_PLACE_REQUEST} from "../../Scripts/MapScripts.js";
+import {URL_PROXY_PLACE_REQUEST} from "../../Scripts/MapScripts.js";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 
 export default {
@@ -192,7 +192,7 @@ export default {
 		    await axios.get(URL_PROXY_PLACE_REQUEST,{
 		  	  params : {
 		  	    placeId: placeId,
-		  	    key : API_KEY
+		  	    key : import.meta.env.VITE_GMAPS_APIKEY
 		  	  }
 		    }).then( res => {
 		  	  console.log(res);
@@ -207,7 +207,7 @@ export default {
 		  this.ClickMarkerCoords = coords;
 		},
     async getPlaceInfo (coords) {
-			await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.lat()},${coords.lng()}&key=${API_KEY}`)
+			await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.lat()},${coords.lng()}&key=${import.meta.env.VITE_GMAPS_APIKEY}`)
           .then((res =>{
 						let notFoundedMarker = {
 							position :

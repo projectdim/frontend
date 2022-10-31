@@ -46,7 +46,6 @@
 <script>
 import {mapState} from "vuex";
 import axios from "axios";
-import {API_KEY} from "../../../Scripts/MapScripts.js";
 import api from "../../../api/index.js"
 import Loader from "../../Loader.vue";
 import Contacts from "./Contacts.vue";
@@ -109,7 +108,7 @@ export default {
       });
     },
     async getPlaceData (lat, lng) {
-      let placeData = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat + ',' + lng}&key=${API_KEY}`)
+      let placeData = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat + ',' + lng}&key=${import.meta.env.VITE_GMAPS_APIKEY}`)
           .then((res => res.data))
           .catch((err) => console.log(JSON.stringify(err)));
       if (!placeData) return
