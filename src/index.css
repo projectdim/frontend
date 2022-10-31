@@ -24,17 +24,21 @@
 
 @layer components {
     .title {
-        @apply text-sidebar-address screen-475:text-sidebar-address-mobile
+        @apply text-h1 screen-475:text-h1-m
         font-semibold
     }
     .subTitle {
-        @apply font-semibold text-sidebar-title screen-475:text-sidebar-title-mobile
+        @apply font-semibold text-h2 screen-475:text-h2-m
     }
     .label {
-        @apply text-overview-item screen-475:text-overview-item-mobile
+        @apply text-h3 screen-475:text-h4
     }
     .textArea{
-        @apply min-h-[68px] resize-none w-full border-gray-c-300 border rounded-lg px-4 py-2 text-overview-item
+        @apply min-h-[68px] resize-none w-full border-gray-c-300 border rounded-lg px-4 py-2 text-h3
+    }
+
+    .text-body-1{
+        @apply text-h3
     }
 
     /*Дизайн скролла для Firefox*/
@@ -43,4 +47,5 @@
         scrollbar-color: rgba(73, 84, 102, 0.51) transparent;
         scrollbar-width : thin;
     }
+
 }

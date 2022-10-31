@@ -15,7 +15,7 @@
 					ref="autocomplete"
 					placeholder="Пошук..."
 					@place_changed="setPlace"
-					class="w-full bg-transparent outline-none block text-overview-item"
+					class="w-full bg-transparent outline-none block text-h3"
 					:options="{
 							  fields: [`geometry`, `name`]
 						  }"

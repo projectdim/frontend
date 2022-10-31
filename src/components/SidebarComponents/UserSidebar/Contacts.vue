@@ -1,6 +1,6 @@
 <template>
-	<div class="p-6 bg-gray-c-100 text-overview-item
-		screen-475:text-overview-item-mobile screen-949:text-overview-item">
+	<div class="p-6 bg-gray-c-100 text-h3
+		screen-475:text-h4 screen-949:text-h3">
 		<div class="font-semibold">Урядові контакти</div>
 		<div class="screen-475:block flex justify-between py-1 shadow-cs2 mt-2">
 			<p class="screen-475:mb-1">Служба безпеки України</p>

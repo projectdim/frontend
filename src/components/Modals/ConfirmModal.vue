@@ -4,7 +4,7 @@
 		<div class="bg-white w-[480px] mx-auto screen-475:w-full relative p-6 rounded-lg">
 			<img src="/src/assets/close.svg" class="absolute top-6 right-6 cursor-pointer"
 					 @click="cancelButtonClick">
-			<div class="text-sidebar-title text-center font-semibold">{{ title }}</div>
+			<div class="text-h2 text-center font-semibold">{{ title }}</div>
 			<div class="mt-2 mb-6 text-center text-gray-c-500">
 				{{question}}
 			</div>

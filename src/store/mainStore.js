@@ -10,7 +10,7 @@ const vuexCookie = new VuexPersistence({
     setCookie(key, state, 1),
   modules: ['user'],
   filter: (mutation) => mutation.type == 'setLoggedUserInfo' ||
-    mutation.type == "setLoggedUserCredentials"
+    mutation.type == "setLoggedUserCredentials" || mutation.type == "setUserOrganization"
 });
 
 

@@ -9,7 +9,7 @@
 		:class="{'animate-userSettingsAppear' : isSettingVisible}">
 			<Loader v-if="isShowLoader"></Loader>
 <!--      Header-->
-      <div class="mb-6 text-sidebar-address screen-475:text-sidebar-title screen-475:text-center relative
+      <div class="mb-6 text-h1 screen-475:text-h2 screen-475:text-center relative
 			font-semibold">
         Налаштування
 				<img class="w-min h-min absolute top-0 screen-475:right-0 hidden screen-475:block " @click="closeModal"
@@ -19,7 +19,7 @@
 				Закрити
 			</button-text1>
 <!--    FORM-->
-      <div class="text-overview-item-mobile text-gray-c-500"
+      <div class="text-h4 text-gray-c-500"
 				:class="{'screen-475:flex screen-475:flex-col-reverse' : isPassChangeVisible}">
 
 				<div :class="{'screen-475:hidden' : isPassChangeVisible}">

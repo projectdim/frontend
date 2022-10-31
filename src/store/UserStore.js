@@ -1,10 +1,12 @@
-import userRoles from "../mixins/userRoles.js";
+import userRoles from "../components/mixins/userRoles.js";
+import api from "../api/index.js";
 
 export default {
   state(){
     return{
       loggedUserInfo : null,
       loggedUserCredentials : null,
+      userOrganization : null
     }
   },
   mutations : {
@@ -14,6 +16,9 @@ export default {
     setLoggedUserCredentials(state, credentials){
       state.loggedUserCredentials = credentials;
     },
+    setUserOrganization(state, organization){
+      state.userOrganization = organization
+    }
   },
   getters : {
     getToken(state){
@@ -27,6 +32,9 @@ export default {
     getUser(state){
       return state.loggedUserInfo;
     },
+    getUserOrganization(state){
+      return state.userOrganization;
+    },
     getRole(state){
       if(!state.loggedUserInfo) {
         return userRoles.data().userRoles.user;
@@ -35,5 +43,23 @@ export default {
         return state.loggedUserInfo["role"];
     }
   },
-  actions : {},
+  actions : {
+    async GetUserOrganization(context) {
+      await api.organizations.getOrganizationsById(context.state.loggedUserInfo.organization)
+        .then(res => {
+          console.log(res.data)
+          context.commit("setUserOrganization",
+            {
+              name : res.data.name,
+              id : res.data.id,
+              site : "http://peopleinneed.net/",
+              email : "here organization email",
+              created_at : (new Date()).toLocaleString()
+            })
+        })
+        .catch(err=>{
+          console.log(err)
+        })
+    },
+  }
 }

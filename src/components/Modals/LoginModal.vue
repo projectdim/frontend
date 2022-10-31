@@ -7,8 +7,8 @@
           h-min min-h-[320px] bg-white animate-appear relative overflow-hidden"
           :class="{'animate-disappear' : isClosedClick}"
         @click.stop>
-          <div v-if="!isLogInFailed" class="text-sidebar-title font-semibold relative py-1 text-center
-            screen-475:text-sidebar-title-mobile screen-949:text-sidebar-title-mobile">
+          <div v-if="!isLogInFailed" class="text-h2 font-semibold relative py-1 text-center
+            screen-475:text-h2-m screen-949:text-h2-m">
             Вхід
             <button class="absolute top-0 right-0 h-4 w-4 i-can-close-it"
                     @click="hide">
@@ -55,7 +55,7 @@
 </template>
 <script>
 import api from "../../api/index.js";
-import {mapMutations, mapGetters} from 'vuex';
+import {mapMutations, mapGetters, mapActions} from 'vuex';
 import Button1 from "../Buttons/Button_1.vue";
 import Loader from "../Loader.vue";
 
@@ -74,8 +74,8 @@ export default {
 	},
 	data(){
 		return {
-			email : "user@example.com",
-			pass : "Asd112233",
+			email : "admin@admin.com",
+			pass : "asd112233",
       isClosedClick : false,
 			isLogInFailed : false,
 			logInErrorMessage : "",
@@ -84,6 +84,7 @@ export default {
 	},
 	methods : {
 		...mapMutations(['setLoggedUserCredentials', 'setLoggedUserInfo']),
+		...mapActions(["GetUserOrganization"]),
 		hide(){
       this.isClosedClick = true;
       setTimeout( ()=> {
@@ -115,6 +116,7 @@ export default {
 			}
 			api.user.GetInfo().then(res=>{
 				this.setLoggedUserInfo(res.data);
+				this.GetUserOrganization();
 			}).catch(err=>{
 				this.logInErrorMessage = err;
 				this.isLogInFailed = true;

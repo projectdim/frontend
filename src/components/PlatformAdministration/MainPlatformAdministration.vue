@@ -9,17 +9,18 @@
 			<div class="w-full h-[200px] flex flex-col gap-2 place-items-center place-content-center
 				shadow-cs2">
 				<div class="w-[60px] h-[60px] rounded-full bg-blue-c-100 px-5 py-3">
-					<img class="w-full h-full" src="src/assets/Organizations/Emblem.svg">
+					<img class="w-full h-full" src="/src/assets/Organizations/Emblem.svg">
 				</div>
-				<p class="w-min text-overview-item text-gray-c-600 font-semibold">
+				<p class="w-min text-h3 text-gray-c-600 font-semibold">
 					Адміністратор
 				</p>
 			</div>
 
 			<div class="font-semibold text-blue-c-500">
 				<div class="hover:bg-blue-c-100 p-1 w-full cursor-pointer h-[58px] flex gap-4
-				items-center px-10">
-					<img  src="/src/assets/Organizations/List.svg"
+				items-center px-10"
+					:class="{'bg-blue-c-200' : isPathMatched('/admin/organizations')}">
+					<img src="/src/assets/Organizations/List.svg"
 								class="h-5 w-5 block">
 					<p class="h-min">Організації</p>
 				</div>
@@ -41,8 +42,10 @@
 
 <script>
 import Header from "../Header.vue";
+import helper from "../mixins/helper.js";
 export default {
 	name: "MainPlatformAdministration",
+	mixins : [helper],
 	components : {
 		Header
 	},
@@ -59,7 +62,7 @@ export default {
 		},
 		hideSettings(value){
 			this.isSettingModalVisible = value;
-		}
+		},
 	}
 }
 </script>

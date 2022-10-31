@@ -1,10 +1,11 @@
 <template>
-	<div class="border border-gray-c-300 font-normal
-							rounded-lg outline-none text-overview-item
+	<div class="border font-normal
+							rounded-lg outline-none text-h3
 							hover:border-blue-c-400 focus:border-blue-c-500
 							disabled:bg-gray-c-100 disabled:hover:border-gray-c-300
 							disabled:text-gray-c-500 flex overflow-hidden"
-			 :class="{'border-blue-c-500': isInputFocused}"
+			 :class="{'border-blue-c-500': isInputFocused,
+			 					'border-gray-c-300' : !isInputFocused}"
        @focusin="OnDivFocus(true)"
        @focusout="OnDivFocus(false)">
 		<input ref="pass" class="w-full outline-none px-4 py-2 bg-transparent"

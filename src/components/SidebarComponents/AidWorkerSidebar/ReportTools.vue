@@ -6,14 +6,14 @@
 		:accept-button-func="PageLeaveAccepted"
 		:cancel-button-func="PageLeaveCanceled"/>
  <div class="py-4 px-6 overflow-y-auto h-full">
-<!--	 <h3 class="font-semibold text-sidebar-title
-			screen-475:text-sidebar-title-mobile">
+<!--	 <h3 class="font-semibold text-h2
+			screen-475:text-h2-m">
 		 {{getSelectedLocationRequest.address}}
 	 </h3>-->
 
 <!--	 Header-->
 	 <div class="flex flex-wrap justify-between mb-2">
-		 <div class="font-semibold text-sidebar-title">
+		 <div class="font-semibold text-h2">
 			 <span class="align-middle">Оновлення стану</span>
 		 </div>
 		 <div class="flex flex-wrap gap-2 h-[42px]">
@@ -28,7 +28,7 @@
 
 	 <div class="shadow-cs2 py-4">
 		 <div class="flex flex-wrap justify-between mb-3 min-h-[34px]">
-				<div class="text-overview-item text-gray-c-600 py-2">
+				<div class="text-h3 text-gray-c-600 py-2">
 						Стан будівлі
 				</div>
 				<div class="flex flex-wrap gap-2">
@@ -55,7 +55,7 @@
 
 	 <div class="shadow-cs2 py-4">
 		 <div class="flex flex-wrap justify-between mb-3 min-h-[34px]">
-			 <div class="text-overview-item text-gray-c-600 py-2">
+			 <div class="text-h3 text-gray-c-600 py-2">
 				 Електроенергія
 			 </div>
 			 <div class="flex flex-wrap gap-2">
@@ -82,7 +82,7 @@
 
 	 <div class="shadow-cs2 py-4">
 		 <div class="flex flex-wrap justify-between mb-3 min-h-[34px]">
-			 <div class="text-overview-item text-gray-c-600 py-2">
+			 <div class="text-h3 text-gray-c-600 py-2">
 				 Під'їзд
 			 </div>
 			 <div class="flex flex-wrap gap-2">
@@ -109,7 +109,7 @@
 
 	 <div class="shadow-cs2 py-4">
 		 <div class="flex flex-wrap justify-between mb-3 min-h-[34px]">
-			 <div class="text-overview-item text-gray-c-600 py-2">
+			 <div class="text-h3 text-gray-c-600 py-2">
 				 Чиста вода
 			 </div>
 			 <div class="flex flex-wrap gap-2">
@@ -136,7 +136,7 @@
 
 	 <div class="shadow-cs2 py-4">
 		 <div class="flex flex-wrap justify-between mb-3 min-h-[34px]">
-			 <div class="text-overview-item text-gray-c-600 py-2">
+			 <div class="text-h3 text-gray-c-600 py-2">
 				 Заправка
 			 </div>
 			 <div class="flex flex-wrap gap-2">
@@ -163,7 +163,7 @@
 
 	 <div class="shadow-cs2 py-4">
 		 <div class="flex flex-wrap justify-between mb-3 min-h-[34px]">
-			 <div class="text-overview-item text-gray-c-600 py-2">
+			 <div class="text-h3 text-gray-c-600 py-2">
 				 Лікарня
 			 </div>
 			 <div class="flex flex-wrap gap-2">

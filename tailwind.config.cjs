@@ -51,12 +51,12 @@ module.exports = {
         '11/12': '91.666667%',
       },
       fontSize: {
-        'sidebar-address': ['32px', '51px'],
-        'sidebar-address-mobile': ['24px', '38px'],
-        'sidebar-title': ['20px', '32px'],
-        'sidebar-title-mobile': ['18px', '32px'],
-        'overview-item': ['16px', '24px'],
-        'overview-item-mobile': ['14px', '22px'],
+        'h1': ['32px', '51px'],
+        'h1-m': ['24px', '38px'],
+        'h2': ['20px', '32px'],
+        'h2-m': ['18px', '32px'],
+        'h3': ['16px', '24px'],
+        'h4': ['14px', '22px'],
         'body-3': ['12px', '19px']
       },
       keyframes: {

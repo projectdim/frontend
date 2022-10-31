@@ -1,9 +1,9 @@
 <template>
   <button class="text-blue-c-500 p-2
     text-center align-middle rounded-lg
-    text-overview-item font-medium
-    screen-475:text-overview-item-mobile
-    screen-949:text-overview-item-mobile
+    text-h3 font-medium
+    screen-475:text-h4
+    screen-949:text-h4
     bg-transparent
     hover:bg-blue-c-100
     active:bg-blue-c-200

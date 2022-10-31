@@ -24,7 +24,7 @@ export default {
 @layer components {
   .input-1 {
     @apply border border-gray-c-300 font-normal
-    rounded-lg outline-none text-overview-item px-4 py-2
+    rounded-lg outline-none text-h3 px-4 py-2
     hover:border-blue-c-400 focus:border-blue-c-500
     disabled:bg-gray-c-100 disabled:hover:border-gray-c-300
     disabled:text-gray-c-500

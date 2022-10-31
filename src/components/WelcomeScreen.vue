@@ -2,8 +2,8 @@
 	<Header/>
   <div class=" flex flex-col items-center px-4 pt-24
   		max-w-[600px] mx-auto
-			screen-475:text-overview-item-mobile
-			text-overview-item">
+			screen-475:text-h4
+			text-h3">
     <img src="/src/assets/fullLogo.svg">
     <p class="text-gray-c-500  mt-9 text-justify">
 			Шукайте адресу, щоб переглянути краудсорсингові звіти про своє місто
@@ -19,7 +19,7 @@
           ref="autocomplete"
           placeholder="Пошук..."
           @place_changed="GetMarkerByCoords"
-          class="w-full bg-transparent outline-none block text-overview-item"
+          class="w-full bg-transparent outline-none block text-h3"
           :options="{
 							  fields: [`geometry`, `name`]
 						  }"

@@ -1,9 +1,9 @@
 <template>
 	<button class="py-1 px-2
     text-center align-middle rounded-lg
-    text-overview-item font-medium
-    screen-475:text-overview-item-mobile
-    screen-949:text-overview-item-mobile border bg-transparent
+    text-h3 font-medium
+    screen-475:text-h4
+    screen-949:text-h4 border bg-transparent
     hover:bg-gray-c-100
  		disabled:border-gray-c-200 disabled:text-gray-c-400"
 		:class="{

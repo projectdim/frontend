@@ -7,7 +7,7 @@
 			itemUsageTabName="myRequestsList"
 			@remove-from-my-list="OnRemoveFromMyList"
 		/>
-		<div v-else class="mt-6 text-center text-overview-item text-gray-c-800">
+		<div v-else class="mt-6 text-center text-h3 text-gray-c-800">
 			Список Ваших запитів порожній
 		</div>
 		<Loader v-show="isLoaderVisible"/>

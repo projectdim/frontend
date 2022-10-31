@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col justify-between overflow-y-auto h-full shadow-cs1
-		text-overview-item screen-475:text-overview-item-mobile screen-949:text-overview-item">
+		text-h3 screen-475:text-h4 screen-949:text-h3">
     <div class="p-6">
       <div v-if="notFoundedMarkerData">
         <p class="font-semibold text-4xl">На жаль, "{{ notFoundedMarkerData.address }}" немає в нашій базі даних</p>

@@ -3,16 +3,16 @@
 		:class="{'bg-blue-c-100' : isSelected}">
 		<div>
 			<div class="flex justify-between mb-3">
-				<div class="text-overview-item-mobile text-gray-c-500">
+				<div class="text-h4 text-gray-c-500">
 					{{getDateStr()}}
 				</div>
-				<div class="text-overview-item-mobile text-gray-c-500">
+				<div class="text-h4 text-gray-c-500">
 					{{locationRequest.city}}
 					<img src="/Marker-gray.svg" class="inline-block">
           {{ locationRequest.distance ? locationRequest.distance.toFixed(0) + " km" : 'Невідомо' }}
 				</div>
 			</div>
-			<div class="text-overview-item text-blue-c-500 font-semibold pb-2 shadow-cs2 cursor-pointer"
+			<div class="text-h3 text-blue-c-500 font-semibold pb-2 shadow-cs2 cursor-pointer"
 				@click="this.setSelectedRequest(locationRequest)">
 				<img src="/Marker-blue.svg" class="inline-block mr-1">
 				{{locationRequest.address}}
@@ -35,7 +35,7 @@
 				</button-text-1>
 
 				<div v-else-if="isMyRequest && itemUsageTabName==='requestsList'"
-						 class="text-overview-item font-medium text-blue-c-500 p-2">
+						 class="text-h3 font-medium text-blue-c-500 p-2">
 					<img src="/completed2.svg" class="inline-block mr-2">
 					Мій запит
 				</div>

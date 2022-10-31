@@ -13,7 +13,7 @@
 		<div class="bg-white rounded-lg p-6 w-[480px]
 		screen-475:w-full" @click.stop>
 			<img src="/src/assets/Loader.svg" class="animate-spin mx-auto">
-			<p class="text-sidebar-title text-center mt-4 font-semibold">
+			<p class="text-h2 text-center mt-4 font-semibold">
 				Публікування...
 			</p>
 		</div>
@@ -27,7 +27,7 @@
 			<img src="/src/assets/close.svg" class="absolute top-6 right-6 cursor-pointer"
 					 @click="closeResultModal">
 			<img src="/src/assets/Completed.svg" class="mx-auto">
-			<p class="text-sidebar-title text-center mt-5 font-medium text-green-c-500">
+			<p class="text-h2 text-center mt-5 font-medium text-green-c-500">
 				Дані успішно опубліковані!
 			</p>
 		</div>
@@ -35,7 +35,7 @@
 
 	<div class="overflow-y-auto h-full">
 		<div class="bg-blue-c-500 flex flex-wrap gap-2 justify-between p-6">
-			<p class="text-white text-overview-item font-semibold align-middle grid content-center">
+			<p class="text-white text-h3 font-semibold align-middle grid content-center">
 				Зробіть цю інформацію публічною
 			</p>
 			<Button2 class="flex flex-nowrap items-center gap-1"
@@ -48,20 +48,20 @@
 		</div>
 
 		<div id="RequestPreview" class="px-6 screen-475:px-4 ">
-			<h1 class="font-semibold my-6 text-sidebar-address
-			screen-475:text-sidebar-address-mobile
-			screen-949:text-sidebar-address-mobile">
+			<h1 class="font-semibold my-6 text-h1
+			screen-475:text-h1-m
+			screen-949:text-h1-m">
 				{{ this.requestedMarker.address }},
 				{{ this.requestedMarker.index }},
 				{{ this.requestedMarker.city }}
 			</h1>
 
-			<h3 class="font-semibold text-sidebar-title
-			screen-475:text-sidebar-title-mobile">
+			<h3 class="font-semibold text-h2
+			screen-475:text-h2-m">
 				Загальний стан
 			</h3>
 			<!--	#region  Build status-->
-			<div class="screen-475:text-overview-item-mobile text-overview-item mt-2" >
+			<div class="screen-475:text-h4 text-h3 mt-2" >
 
 				<div class="py-4 shadow-cs2">
 					<div class="flex flex-nowrap">
@@ -210,7 +210,7 @@
 				Повідомити про статус
 			</button-1>-->
 			<!--	  #region Form-->
-			<div class="my-6 text-overview-item screen-475:text-overview-item-mobile">
+			<div class="my-6 text-h3 screen-475:text-h4">
 				<label for="issueMessage" class="text-grey font-normal text-justify block">
 					Буде корисно, якщо ви повідомите нам через цю форму про будь-які проблеми, пов’язані з використанням нашого сервісу.
 				</label>

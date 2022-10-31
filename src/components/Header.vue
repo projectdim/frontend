@@ -40,7 +40,7 @@
 								screen-475:h-[76px] screen-475:p-4 screen-475:shadow-cs2
 								screen-475:grid screen-475:content-center"
 							 @click="goToMain">
-						<div v-if="isAuth" class="flex text-overview-item-mobile items-center">
+						<div v-if="isAuth" class="flex text-h4 items-center">
 							<img src="/src/assets/Logo_2.svg" class="
 							screen-475:h-6
 							screen-949:h-6
@@ -67,7 +67,7 @@
 
 					<div class="flex screen-475:flex-col font-medium text-blue-c-500
 								screen-950:p-2
-								text-overview-item">
+								text-h3">
 
 						<div class="flex screen-475:order-3 screen-475:rounded-none
 							screen-475:px-4 screen-475:w-full
@@ -176,7 +176,7 @@
 import UserSetting from "./UserSetting.vue";
 import {mapGetters, mapMutations} from "vuex";
 import ButtonText1 from "./Buttons/Button_text_1.vue";
-import userRoles from "../mixins/userRoles.js";
+import userRoles from "./mixins/userRoles.js";
 
 export default {
   name: "Header",
@@ -245,12 +245,12 @@ export default {
 
   },
 	computed : {
-		...mapGetters(['getUser', 'isAuth', "getRole"]),
+		...mapGetters(['getUser', 'isAuth', "getRole", "getUserOrganization"]),
 		userName(){
 			return this.getUser.username
 		},
 		userOrganization(){
-			return "Some organization"
+			return this.getUserOrganization.name
 		},
 		isAdminPage(){
 			return this.$route.matched.some(x=>x.path == '/admin');

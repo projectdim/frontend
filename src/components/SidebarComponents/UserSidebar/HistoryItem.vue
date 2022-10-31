@@ -2,9 +2,9 @@
 	<div class="mb-6">
 		<div class="bg-gray-c-100 py-2 px-6 w-full shadow-cs2">
 			<p class="font-semibold text-black capitalize
-			text-sidebar-title
-			screen-475:text-overview-item
-			screen-949:text-overview-item">
+			text-h2
+			screen-475:text-h3
+			screen-949:text-h3">
 				{{getDate(logs[0].created_at)}}
 			</p>
 		</div>
@@ -12,9 +12,9 @@
 		<div v-for="log in logs" class="py-4 px-6 flex gap-x-4 shadow-cs2 w-full" >
 				<div class="flex gap-9 w-full">
 					<div class="text-gray-c-500 font-normal pt-2.5
-						text-overview-item
-						screen-475:text-overview-item-mobile
-						screen-949:text-overview-item-mobile">
+						text-h3
+						screen-475:text-h4
+						screen-949:text-h4">
 						{{new Date(log.created_at).toTimeString().split(' ')[0]}}
 					</div>
 
@@ -26,9 +26,9 @@
 										<SVG_status_list :icon='item.flag' :classList="getSVGColorClass(item.flag, item.old_value)"/>
 									</p>
 									<p class="grow my-auto uppercase
-								text-overview-item
-								screen-475:text-overview-item-mobile
-								screen-949:text-overview-item-mobile" :class="getTextColorClass(item.flag, item.old_value)">
+								text-h3
+								screen-475:text-h4
+								screen-949:text-h4" :class="getTextColorClass(item.flag, item.old_value)">
 										{{item.old_value}}
 									</p>
 								</div>
@@ -38,9 +38,9 @@
 										<SVG_status_list :icon='item.flag' :classList="getSVGColorClass(item.flag, item.new_value)"/>
 									</p>
 									<p class="grow my-auto uppercase text-base
-								text-overview-item
-								screen-475:text-overview-item-mobile
-								screen-949:text-overview-item-mobile"
+								text-h3
+								screen-475:text-h4
+								screen-949:text-h4"
 										 :class="getTextColorClass(item.flag, item.new_value)">
 										{{item.new_value}}
 									</p>
@@ -51,8 +51,8 @@
 							</Expander>
 						</div>
 
-						<div class="text-overview-item screen-475:text-overview-item-mobile
-							screen-949:text-overview-item-mobile text-gray-c-500 font-semibold">
+						<div class="text-h3 screen-475:text-h4
+							screen-949:text-h4 text-gray-c-500 font-semibold">
 							Організація
 						</div>
 

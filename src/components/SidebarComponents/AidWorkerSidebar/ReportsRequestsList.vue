@@ -4,7 +4,7 @@
 				v-for="item in unreviewedMarkers"
 				:key="`request${item.id}`"
 				:location-request="item" itemUsageTabName='requestsList'/>
-			<div v-else class="mt-6 text-center text-overview-item text-gray-c-800">
+			<div v-else class="mt-6 text-center text-h3 text-gray-c-800">
 				Зараз немає запитів на адресу
 			</div>
 			<div ref="scrollObserver" class="relative h-[80px]" v-if="pageMax<0">

@@ -45,10 +45,18 @@ const mainRouter = [
   {
     path : "/admin",
     component: MainPlatformAdministration,
+    meta : {requiresAuth  : true},
     children: [
       {
+        path: "",
+        redirect: to=>{
+          return {
+            path : "/admin/organizations"
+          }
+        }
+      },
+      {
         path: "organizations",
-        alias: [""],
         component: OrganizationsList
       }
     ]

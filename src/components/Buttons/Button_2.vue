@@ -3,9 +3,9 @@
     border-blue-c-500 bg-white
     text-blue-c-500 px-2 py-1.5
     text-center align-middle rounded-lg
-    text-overview-item font-medium
-    screen-475:text-overview-item-mobile
-    screen-949:text-overview-item-mobile
+    text-h3 font-medium
+    screen-475:text-h4
+    screen-949:text-h4
     hover:text-blue-c-400
     hover:border-blue-c-400
     disabled:text-gray-c-300
