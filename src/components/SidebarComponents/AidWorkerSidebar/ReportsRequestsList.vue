@@ -89,7 +89,7 @@ export default {
 			}
 		};
 		let observer = new IntersectionObserver(callback, options);
-		observer.observe(this.$refs.scrollObserver, );
+		observer.observe(this.$refs.scrollObserver);
 		this.GetReportsRequest();
 	},
 	computed : {

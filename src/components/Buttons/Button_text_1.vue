@@ -1,15 +1,12 @@
 <template>
-  <button class="text-blue-c-500 p-2
-    text-center align-middle rounded-lg
+  <button class=" text-center align-middle rounded-lg
     text-h3 font-medium
     screen-475:text-h4
     screen-949:text-h4
     bg-transparent
-    hover:bg-blue-c-100
-    active:bg-blue-c-200
     disabled:bg-gray-c-100
     disabled:text-gray-c-400
-    ">
+    cursor-pointer" :class="buttonColor">
 		<slot></slot>
   </button>
 </template>
@@ -18,10 +15,22 @@
 export default {
   name : "button-text-1",
   props : {
-    value : {
-      default : "Button Text 1"
-    }
-  }
+    color : {
+			type : String,
+			default : "blue",
+			validator(value){
+				return ["blue", "red"].some(x=>x===value)
+			}
+		}
+  },
+	data () {
+		return {
+			buttonColor : {
+				'text-blue-c-500 hover:bg-blue-c-100 active:bg-blue-c-200' : this.color == "blue",
+				'text-red-c-500 hover:bg-red-c-100 active:bg-red-c-200'  : this.color == "red"
+			}
+		}
+	}
 }
 </script>
 

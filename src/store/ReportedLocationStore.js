@@ -5,22 +5,38 @@ import {createStore} from "vuex";
 export default {
   state(){
     return{
-      selectedLocationRequest : null
+      selectedLocationRequest : null,
+      requestsCount : 0
     }
   },
   mutations : {
     setSelectedRequestMutation (state, SelectedRequest) {
       state.selectedLocationRequest = SelectedRequest
+    },
+    setRequestsCount(state, count){
+      // console.log(`Request count is ${count}`)
+      state.requestsCount = count;
     }
   },
-  getters : {},
+  getters : {
+    RequestsCount(state){
+      return state.requestsCount
+    }
+  },
   actions : {
-    setSelectedRequest (state, SelectedRequest){
+    setSelectedRequest (context, SelectedRequest){
       if(!SelectedRequest)
         return;
-      state.commit("setSelectedRequestMutation" ,SelectedRequest);
-      state.commit('setMapCenter', SelectedRequest.position)
+      context.commit("setSelectedRequestMutation" ,SelectedRequest);
+      context.commit('setMapCenter', SelectedRequest.position)
     },
+    async getRequestsCount(context){
+      await api.locations.getRequestCount().then(res=>{
+        context.commit("setRequestsCount", res.data.count);
+      }).catch(er=>{
+        console.error(er);
+      })
+    }
   },
 }
 

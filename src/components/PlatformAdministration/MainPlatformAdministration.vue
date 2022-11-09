@@ -34,7 +34,7 @@
 
 			</div>
  		</div>
-		<div class="w-full">
+		<div class="w-full h-full">
 			<router-view></router-view>
 		</div>
 	</div>

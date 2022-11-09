@@ -11,6 +11,7 @@
 			'border-green-c-200 text-green-c-500' : buttonState === 'positive',
 			'border-red-c-200 text-red-c-500' : buttonState === 'negative',
 			'border-gray-c-500 text-gray-c-800' : buttonState === 'no-data',
+			'border-gray-c-200 text-gray-c-500' : buttonState === 'inactive',
 		}">
 		<slot></slot>
 	</button>
@@ -24,7 +25,7 @@ export default {
 			type: String,
 			default: "default",
 			validator: function (value) {
-				return ["default", "positive", "negative", "no-data"].includes(value)
+				return ["default", "positive", "negative", "no-data", "inactive"].includes(value)
 			}
 		}
 	}

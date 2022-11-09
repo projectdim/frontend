@@ -3,7 +3,7 @@
 		:class="{'bg-blue-c-100' : isSelected}">
 		<div>
 			<div class="flex justify-between mb-3">
-				<div class="text-h4 text-gray-c-500">
+				<div class="text-h4 text-gray-c-500 capitalize">
 					{{getDateStr()}}
 				</div>
 				<div class="text-h4 text-gray-c-500">

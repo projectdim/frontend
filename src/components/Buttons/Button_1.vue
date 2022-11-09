@@ -5,7 +5,10 @@
     screen-475:text-h4
     screen-949:text-h4
     bg-blue-c-500
+    border border-blue-c-500
     hover:bg-blue-c-400
+    hover:border-blue-c-400
+    disabled:border-gray-c-200
     disabled:bg-gray-c-200
     disabled:text-gray-c-400
     active:bg-blue-c-600

@@ -6,7 +6,7 @@ export default {
     return{
       loggedUserInfo : null,
       loggedUserCredentials : null,
-      userOrganization : null
+      userOrganization : {name : "..."}
     }
   },
   mutations : {

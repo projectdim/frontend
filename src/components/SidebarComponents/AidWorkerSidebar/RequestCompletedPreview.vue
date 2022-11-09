@@ -7,34 +7,15 @@
 								:accept-button-func="ModalAccept"
 								:cancel-button-func="ModalCancel"/>
 
-	<ModalTemplate :isModalVisible="isPushingMessageVisible"
-								 class-list="grid place-items-center screen-475:px-6"
-		:closeFunc="closePushingModal" :isHideOnClick=false>
-		<div class="bg-white rounded-lg p-6 w-[480px]
-		screen-475:w-full" @click.stop>
-			<img src="/src/assets/Loader.svg" class="animate-spin mx-auto">
-			<p class="text-h2 text-center mt-4 font-semibold">
-				Публікування...
-			</p>
-		</div>
-	</ModalTemplate>
 
-	<ModalTemplate :isModalVisible="isResultMessageVisible"
-								 class-list="grid place-items-center screen-475:px-6"
-								 :closeFunc="closeResultModal">
-		<div class="bg-white rounded-lg p-6 w-[480px]
-		screen-475:w-full relative" @click.stop>
-			<img src="/src/assets/close.svg" class="absolute top-6 right-6 cursor-pointer"
-					 @click="closeResultModal">
-			<img src="/src/assets/Completed.svg" class="mx-auto">
-			<p class="text-h2 text-center mt-5 font-medium text-green-c-500">
-				Дані успішно опубліковані!
-			</p>
-		</div>
-	</ModalTemplate>
+	<AwaitModal :isVisible="isPushingMessageVisible" :closeFunc="closePushingModal"
+							message="Публікування..."/>
 
-	<div class="overflow-y-auto h-full">
-		<div class="bg-blue-c-500 flex flex-wrap gap-2 justify-between p-6">
+	<SuccessMessage :isVisible="isResultMessageVisible" :closeFunc="closeResultModal"
+	:closeTimeout="3000" message="Дані успішно опубліковані!"/>
+
+	<div class="overflow-y-auto h-full relative">
+		<div class="bg-blue-c-500 flex flex-wrap gap-2 justify-between p-6 sticky top-0 right-0 left-0">
 			<p class="text-white text-h3 font-semibold align-middle grid content-center">
 				Зробіть цю інформацію публічною
 			</p>
@@ -242,11 +223,17 @@ import Button2 from "../../Buttons/Button_2.vue";
 import api from "../../../api/index.js";
 import ModalTemplate from "../../Modals/ModalTemplate.vue";
 import Contacts from "../UserSidebar/Contacts.vue";
+import SuccessMessage from "../../Modals/SuccessMessage.vue";
+import AwaitModal from "../../Modals/AwaitModal.vue";
+import ErrorModal from "../../Modals/ErrorModal.vue";
 
 
 export default {
 	name: "RequestCompletedPreview",
 	components: {
+		ErrorModal,
+		AwaitModal,
+		SuccessMessage,
 		Contacts,
 		ModalTemplate,
 		Button2,

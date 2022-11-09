@@ -32,6 +32,9 @@ export default function (instance) {
         },
         removeAssignRequest(location_id){
             return instance.put(`/locations/remove-assignment?location_id=${location_id}`)
+        },
+        getRequestCount(){
+            return instance.get("/locations/pending-count")
         }
     }
 }

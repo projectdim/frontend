@@ -38,7 +38,10 @@
     }
 
     .text-body-1{
-        @apply text-h3
+        @apply text-h3 text-gray-c-800
+    }
+    .text-body-2{
+        @apply text-h2 text-gray-c-800
     }
 
     /*Дизайн скролла для Firefox*/

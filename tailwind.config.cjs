@@ -21,6 +21,7 @@ module.exports = {
         'blue-c-400' : '#3C7CE6',
         'blue-c-500' : '#2E60B2',
         'blue-c-600' : '#214580',
+        'red-c-100' : '#FFEEEA',
         'red-c-200' : '#FDDFD8',
         'red-c-300' : '#E36144',
         'red-c-500' : '#C02C0B',
@@ -57,7 +58,7 @@ module.exports = {
         'h2-m': ['18px', '32px'],
         'h3': ['16px', '24px'],
         'h4': ['14px', '22px'],
-        'body-3': ['12px', '19px']
+        'b3': ['12px', '19px']
       },
       keyframes: {
         appear : {

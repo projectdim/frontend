@@ -1,14 +1,17 @@
 <template>
-	<div class="p-6">
-		<ButtonTag @click="logCookie">
-			Text
-		</ButtonTag>
+	<div>
+		<RemoveOrgModal
+			:organization="{name : 'Organization'}"
+			is-visible="true"
+		/>
 	</div>
 </template>
 
 <script>
+import RemoveOrgModal from "./PlatformAdministration/RemoveOrgModal.vue";
 export default {
   name: "Test",
+	components: {RemoveOrgModal},
 	methods : {
 		getCookie(cname) {
 			let name = cname + "=";

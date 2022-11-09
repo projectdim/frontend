@@ -13,6 +13,15 @@ export default function (instance){
     },
     UpdateUserPass(payload){
       return instance.put('/users/password', payload)
-    }
+    },
+    RegistrationUser(username, email, full_name, organization, password){
+      return instance.post("/users/register",{
+        username,
+        email,
+        full_name,
+        organization : 34,
+        password
+      })
+    },
   }
 }

@@ -3,6 +3,7 @@ import api from "../api/index.js"
 import {createStore} from "vuex";
 import ReportLocationState from "./ReportedLocationStore.js";
 import UserStore from "./UserStore.js";
+import OrganizationStore from "./OrganizationStore.js";
 
 const vuexCookie = new VuexPersistence({
   restoreState: (key, storage) => getCookie(key),
@@ -18,7 +19,8 @@ const storePrototype = {
 /*  strict: process.env.NODE_ENV !== 'production',*/
   modules:{
     reports : ReportLocationState,
-    user : UserStore
+    user : UserStore,
+    organizations: OrganizationStore
   },
   state() {   /// данні можна отримати, але не варто змінювати на пряму
     return {

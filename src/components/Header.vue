@@ -98,9 +98,9 @@
 							screen-475:h-[58px] flex gap-4 items-center screen-475:rounded-none screen-475:px-4"
 							@click="goToRequests">
 									<div class="relative">
-										<div class="absolute bg-red-c-500 rounded-[32px] py-0.5 px-1 font-semibold
-											text-body-3 text-white top-[-15px] right-[-5px] h-6 w-[22px] text-center">
-											15
+										<div v-if="RequestsCount>0" class="absolute bg-red-c-500 rounded-[32px] py-0.5 px-1 font-semibold
+											text-b3 text-white top-[-15px] right-[-5px] h-6 w-[22px] text-center">
+											{{ RequestsCount }}
 										</div>
 										<img src="/src/assets/Aid-worker-actions.svg" class="h-6 w-auto ">
 									</div>
@@ -174,7 +174,7 @@
 
 <script>
 import UserSetting from "./UserSetting.vue";
-import {mapGetters, mapMutations} from "vuex";
+import {mapActions, mapGetters, mapMutations} from "vuex";
 import ButtonText1 from "./Buttons/Button_text_1.vue";
 import userRoles from "./mixins/userRoles.js";
 
@@ -202,6 +202,7 @@ export default {
   },
   methods : {
 		...mapMutations(['setLoggedUserInfo', 'setLoggedUserCredentials']),
+		...mapActions(["getRequestsCount"]),
 		onSelectChange(event){
 			switch (event.target.value){
 				case "English":
@@ -235,6 +236,7 @@ export default {
 			this.$router.push("/main/overview")
 		},
 		goToRequests(){
+			this.getRequestsCount()
 			this.isMenuVisibleOnMobile = false;
 			this.$router.push("/main/requests")
 		},
@@ -245,7 +247,8 @@ export default {
 
   },
 	computed : {
-		...mapGetters(['getUser', 'isAuth', "getRole", "getUserOrganization"]),
+		...mapGetters(['getUser', 'isAuth',
+			"getRole", "getUserOrganization", "RequestsCount"]),
 		userName(){
 			return this.getUser.username
 		},

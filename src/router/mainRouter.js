@@ -12,10 +12,16 @@ import {store} from "../store/mainStore.js";
 import {createRouter, createWebHistory} from "vue-router";
 import MainPlatformAdministration from "../components/PlatformAdministration/MainPlatformAdministration.vue";
 import OrganizationsList from "../components/PlatformAdministration/OrganizationsList.vue";
+import OrganizationProfile from "../components/PlatformAdministration/OrganizationProfile.vue";
+import UserRegistration from "../components/UserRegistration.vue";
 
 
 const mainRouter = [
-  { path : "/", component : WelcomeScreen},
+  {
+    path : "/",
+    alias :["/welcome"],
+    component : WelcomeScreen
+  },
   {
     path : "/main",
     component : MainScreen,
@@ -57,9 +63,17 @@ const mainRouter = [
       },
       {
         path: "organizations",
-        component: OrganizationsList
+        component: OrganizationsList,
+      },
+      {
+        path : "organization-profile/:id",
+        component : OrganizationProfile,
       }
     ]
+  },
+  {
+    path: "/registration",
+    component: UserRegistration
   },
   { path : "/test", component : Test},
   {
