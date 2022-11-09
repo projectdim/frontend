@@ -2,8 +2,8 @@
   <button class="text-white p-2
     text-center align-middle rounded-lg
     text-h3 font-medium
-    screen-475:text-h4
-    screen-949:text-h4
+    mobile:text-h4
+    tablet:text-h4
     bg-blue-c-500
     border border-blue-c-500
     hover:bg-blue-c-400

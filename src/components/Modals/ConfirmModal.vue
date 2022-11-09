@@ -1,7 +1,7 @@
 <template>
 	<ModalTemplate :is-modal-visible="isVisible" :closeFunc="cancelButtonClick"
 								 :isHideOnClick="isBgClickClose" class-list="grid items-center px-6">
-		<div class="bg-white w-[480px] mx-auto screen-475:w-full relative p-6 rounded-lg">
+		<div class="bg-white w-[480px] mx-auto mobile:w-full relative p-6 rounded-lg">
 			<img src="/src/assets/close.svg" class="absolute top-6 right-6 cursor-pointer"
 					 @click="cancelButtonClick">
 			<div class="text-h2 text-center font-semibold">{{ title }}</div>

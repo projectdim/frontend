@@ -3,8 +3,8 @@
 		<div class="bg-gray-c-100 py-2 px-6 w-full shadow-cs2">
 			<p class="font-semibold text-black capitalize
 			text-h2
-			screen-475:text-h3
-			screen-949:text-h3">
+			mobile:text-h3
+			tablet:text-h3">
 				{{getDate(logs[0].created_at)}}
 			</p>
 		</div>
@@ -13,12 +13,12 @@
 				<div class="flex gap-9 w-full">
 					<div class="text-gray-c-500 font-normal pt-2.5
 						text-h3
-						screen-475:text-h4
-						screen-949:text-h4">
+						mobile:text-h4
+						tablet:text-h4">
 						{{new Date(log.created_at).toTimeString().split(' ')[0]}}
 					</div>
 
-					<div class="w-4/5 screen-475:pr-6" >
+					<div class="w-4/5 mobile:pr-6" >
 						<div v-for="item in getChangedLogs(log)" class="my-2.5 font-semibold">
 							<div class="flex flex-wrap gap-2">
 								<div class="flex gap-2" v-if="item.old_value">
@@ -27,8 +27,8 @@
 									</p>
 									<p class="grow my-auto uppercase
 								text-h3
-								screen-475:text-h4
-								screen-949:text-h4" :class="getTextColorClass(item.flag, item.old_value)">
+								mobile:text-h4
+								tablet:text-h4" :class="getTextColorClass(item.flag, item.old_value)">
 										{{item.old_value}}
 									</p>
 								</div>
@@ -39,8 +39,8 @@
 									</p>
 									<p class="grow my-auto uppercase text-base
 								text-h3
-								screen-475:text-h4
-								screen-949:text-h4"
+								mobile:text-h4
+								tablet:text-h4"
 										 :class="getTextColorClass(item.flag, item.new_value)">
 										{{item.new_value}}
 									</p>
@@ -51,8 +51,8 @@
 							</Expander>
 						</div>
 
-						<div class="text-h3 screen-475:text-h4
-							screen-949:text-h4 text-gray-c-500 font-semibold">
+						<div class="text-h3 mobile:text-h4
+							tablet:text-h4 text-gray-c-500 font-semibold">
 							Організація
 						</div>
 

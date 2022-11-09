@@ -3,9 +3,7 @@
     <div v-if="isModalVisible" class="overflow-hidden z-[1500] h-screen w-screen bg-black/30 absolute top-0"
          :class="classList"
          @click="hide">
-			<div @click.stop>
-      	<slot></slot>
-			</div>
+      <slot></slot>
     </div>
   </teleport>
 </template>

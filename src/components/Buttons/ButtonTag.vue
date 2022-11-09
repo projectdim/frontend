@@ -2,8 +2,8 @@
 	<button class="py-1 px-2
     text-center align-middle rounded-lg
     text-h3 font-medium
-    screen-475:text-h4
-    screen-949:text-h4 border bg-transparent
+    mobile:text-h4
+    tablet:text-h4 border bg-transparent
     hover:bg-gray-c-100
  		disabled:border-gray-c-200 disabled:text-gray-c-400"
 		:class="{

@@ -1,12 +1,12 @@
 <template>
 	<Header/>
 	<div class="flex h-[calc(100vh-62px)]
-	  	screen-950:h-[calc(100vh-74px)]
-	  	screen-475:flex-col-reverse
-	  	screen-949:flex-col-reverse
-	  	screen-475:overflow-y-auto
-			screen-949:overflow-y-auto">
-		<div class="shrink-0 screen-950:w-[600px]">
+	  	comp:h-[calc(100vh-74px)]
+	  	mobile:flex-col-reverse
+	  	tablet:flex-col-reverse
+	  	mobile:overflow-y-auto
+			tablet:overflow-y-auto">
+		<div class="shrink-0 comp:w-[600px]">
 			<router-view></router-view>
 		</div>
 		<div class="w-full p-0 min-h-[456px]">

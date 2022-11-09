@@ -4,8 +4,8 @@
     text-blue-c-500 px-2 py-2
     text-center align-middle rounded-lg
     text-h3 font-medium
-    screen-475:text-h4
-    screen-949:text-h4
+    mobile:text-h4
+    tablet:text-h4
     hover:text-blue-c-400
     hover:border-blue-c-400
     disabled:text-gray-c-300

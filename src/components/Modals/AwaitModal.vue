@@ -1,9 +1,9 @@
 <template>
 	<ModalTemplate :isModalVisible="isVisible"
-								 class-list="grid place-items-center screen-475:px-6"
+								 class-list="grid place-items-center mobile:px-6"
 								 :closeFunc="closeFunc" :isHideOnClick=false>
 		<div class="bg-white rounded-lg p-6 w-[480px]
-		screen-475:w-full" @click.stop>
+		mobile:w-full" @click.stop>
 			<img src="/src/assets/Loader.svg" class="animate-spin mx-auto">
 			<p class="text-h2 text-center mt-4 font-semibold">
 				{{ message }}

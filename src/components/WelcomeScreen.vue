@@ -2,7 +2,7 @@
 	<Header/>
   <div class=" flex flex-col items-center px-4 pt-24
   		max-w-[600px] mx-auto
-			screen-475:text-h4
+			mobile:text-h4
 			text-h3">
     <img src="/src/assets/fullLogo.svg">
     <p class="text-gray-c-500  mt-9 text-justify">

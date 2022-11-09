@@ -1,10 +1,10 @@
 <template>
  <Header :is-show-setting="isSettingModalVisible" v-on:settingClose="hideSettings"/>
 	<div class="flex h-[calc(100vh-62px)]
-	  	screen-950:h-[calc(100vh-74px)]
-	  	screen-475:overflow-y-auto
-			screen-949:overflow-y-auto">
-		<div class="shrink-0 screen-950:w-[320px] shadow-cs1">
+	  	comp:h-[calc(100vh-74px)]
+	  	mobile:overflow-y-auto
+			tablet:overflow-y-auto">
+		<div class="shrink-0 comp:w-[320px] shadow-cs1 mobile:hidden">
 
 			<div class="w-full h-[200px] flex flex-col gap-2 place-items-center place-content-center
 				shadow-cs2">

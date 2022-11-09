@@ -1,11 +1,11 @@
 <template>
-	<div class="p-9 h-full overflow-y-auto">
-		<h1 class="font-semibold text-gray-c-800 text-h1">
+	<div class="p-9 mobile:py-6 mobile:px-4 h-full overflow-y-auto">
+		<h1 class="font-semibold text-gray-c-800 text-h1 mobile:text-h1-m">
 			Організації
 		</h1>
 
 		<div v-if="organizationsList.length<=0" class="mt-[215px]">
-			<img class="w-[205px] h-[234px] screen-475:w-[157px] screen-475:h-[179px] mx-auto" src="/src/assets/Organizations/Picture.png">
+			<img class="w-[205px] h-[234px] mobile:w-[157px] mobile:h-[179px] mx-auto" src="/src/assets/Organizations/Picture.png">
 			<p class="text-body-1 text-center mt-5 mb-6">Список порожній</p>
 			<button-1 class="block mx-auto flex items-center" @click="showAddOrgModal">
 				<img src="/src/assets/plus.svg" class="inline-block mr-2.5">
@@ -13,12 +13,12 @@
 			</button-1>
 		</div>
 		<div v-else class="mt-9">
-			<div class="flex justify-start gap-3">
+			<div class="flex flex-wrap justify-start gap-3">
 				<div class="border font-normal
 							rounded-lg outline-none text-h3
 							hover:border-blue-c-400 focus:border-blue-c-500
 							disabled:bg-gray-c-100 disabled:hover:border-gray-c-300
-							disabled:text-gray-c-500 flex overflow-hidden px-5 flex items-center min-w-[400px]"
+							disabled:text-gray-c-500 flex overflow-hidden px-5 flex items-center min-w-[400px] mobile:min-w-full"
 						 :class="{'border-blue-c-500' : isInputFocused,
 						 					'border-gray-c-300' : !isInputFocused}"
 						 @focusin="OnDivFocus(true)"
@@ -31,7 +31,7 @@
 					</svg>
 
 
-					<input ref="inp" class="w-full outline-none px-4 py-2 bg-transparent"
+					<input ref="inp" class="w-full outline-none px-4 py-2 bg-transparent text-h3"
 								 @focusin="OnInputFocus(true)"
 								 @focusout="OnInputFocus(false)"
 								 @click.stop
@@ -40,29 +40,29 @@
 					/>
 				</div>
 
-				<button-1 class="block items-center px-9" :disabled="SearchedOrgName.length < 3"
+				<button-1 class="block items-center px-9 mobile:w-full" :disabled="SearchedOrgName.length < 3"
 					@click="GetOrganizationByName">
-
 					Пошук
 				</button-1>
-				<button-2 class="block flex items-center" @click="showAddOrgModal">
-					<img src="/src/assets/plusBlue.svg" class="inline-block mr-2.5">
+
+				<button-2 class="block flex items-center mobile:w-full justify-center" @click="showAddOrgModal">
+					<img src="/src/assets/plusBlue.svg" class="inline-block mr-2.5 mobile:mt-0.5">
 					<p>Додати організацію</p>
 				</button-2>
 
 			</div>
-			<div v-if="this.isSearchedOrgResult"  class="py-6 flex flex-wrap gap-4">
-				<div class="w-full">
-					<span v-if="this.SearchedOrganizationsList.length<=0">За запитом "{{this.SearchedOrgName}}" збігів не знайдено.</span>
-					<span v-if="this.SearchedOrganizationsList.length>0">Результити за запитом "{{this.SearchedOrgName}}".</span>
-					<button-1 class="mx-4" @click="ResetSearchResult">
+			<div v-if="this.isSearchedOrgResult"  class="py-6 flex flex-wrap gap-4 justify-center">
+				<div class="w-full flex gap-4 items-center">
+					<div class="h-min" v-if="this.SearchedOrganizationsList.length<=0">За запитом "{{this.SearchedOrgName}}" збігів не знайдено.</div>
+					<div class="h-min" v-if="this.SearchedOrganizationsList.length>0">Результати за запитом "{{this.SearchedOrgName}}".</div>
+					<button-1 class="block mobile:grow w-min" @click="ResetSearchResult">
 						Оновити
 					</button-1>
 				</div>
 				<OrganizationListItem v-for="(item, index) in SearchedOrganizationsList"
 						:key="`org${index}`" :organization="item" @remove="onRemoveClick"/>
 			</div>
-			<div v-else class="py-6 flex flex-wrap gap-4">
+			<div v-else class="py-6 flex flex-wrap gap-4 justify-center">
 				<OrganizationListItem v-for="(item, index) in organizationsList"
 				:key="`org${index}`" :organization="item" @remove="onRemoveClick"/>
 			</div>
@@ -74,7 +74,7 @@
 
 		<ModalTemplate class-list="grid place-items-center" :is-modal-visible="isCreateModalVisible"
 		:close-func="closeCreateOrgModal" :isHideOnClick="false">
-			<div class="bg-white w-[480px] mx-auto screen-475:w-full relative p-6 rounded-lg">
+			<div class="bg-white w-[480px] mx-auto mobile:w-full relative p-6 rounded-lg">
 				<img src="/src/assets/close.svg" class="absolute top-6 right-6 cursor-pointer"
 						 @click="closeCreateOrgModal">
 				<div class="text-h2 text-center font-semibold ">Додати організацію</div>

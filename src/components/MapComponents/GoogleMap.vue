@@ -1,10 +1,10 @@
 <template>
 	<div id="mapContainer" class="h-full relative">
 		<div class="absolute z-10 w-full
-			screen-475:top-3.5
+			mobile:top-3.5
 			top-6">
 			<div class="border bg-white rounded-xl border-gray-c-300 border-2 h-10 flex flex-nowrap
-				screen-475:mx-4 mx-[30px]"
+				mobile:mx-4 mx-[30px]"
 				:class="{'border-blue-c-500': isInputFocused}"
 			>
 				<div class="w-[44px] cursor-pointer rounded-xl">

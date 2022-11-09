@@ -24,14 +24,14 @@
 
 @layer components {
     .title {
-        @apply text-h1 screen-475:text-h1-m
+        @apply text-h1 mobile:text-h1-m
         font-semibold
     }
     .subTitle {
-        @apply font-semibold text-h2 screen-475:text-h2-m
+        @apply font-semibold text-h2 mobile:text-h2-m
     }
     .label {
-        @apply text-h3 screen-475:text-h4
+        @apply text-h3 mobile:text-h4
     }
     .textArea{
         @apply min-h-[68px] resize-none w-full border-gray-c-300 border rounded-lg px-4 py-2 text-h3

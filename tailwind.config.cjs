@@ -106,23 +106,14 @@ module.exports = {
       }
     },
     screens : {
-      'screen-1600' : {
-        'min': '1600px',
-      },
-      'screen-1440' : {
-        'min': '1440px',
-      },
-      'screen-1200' : {
-        'min': '1200px',
-      },
-      'screen-950' : {
+      'comp' : {
         'min': '950px',
       },
-      'screen-949' : {
+      'tablet' : {
         'min': '480px',
         'max' : '949px'
       },
-      'screen-475' : { 'max' : '480px'},
+      'mobile' : { 'max' : '480px'},
      }
   },
   plugins: [],

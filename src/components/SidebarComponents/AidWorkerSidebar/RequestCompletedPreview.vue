@@ -28,21 +28,21 @@
 			</Button2>
 		</div>
 
-		<div id="RequestPreview" class="px-6 screen-475:px-4 ">
+		<div id="RequestPreview" class="px-6 mobile:px-4 ">
 			<h1 class="font-semibold my-6 text-h1
-			screen-475:text-h1-m
-			screen-949:text-h1-m">
+			mobile:text-h1-m
+			tablet:text-h1-m">
 				{{ this.requestedMarker.address }},
 				{{ this.requestedMarker.index }},
 				{{ this.requestedMarker.city }}
 			</h1>
 
 			<h3 class="font-semibold text-h2
-			screen-475:text-h2-m">
+			mobile:text-h2-m">
 				Загальний стан
 			</h3>
 			<!--	#region  Build status-->
-			<div class="screen-475:text-h4 text-h3 mt-2" >
+			<div class="mobile:text-h4 text-h3 mt-2" >
 
 				<div class="py-4 shadow-cs2">
 					<div class="flex flex-nowrap">
@@ -191,7 +191,7 @@
 				Повідомити про статус
 			</button-1>-->
 			<!--	  #region Form-->
-			<div class="my-6 text-h3 screen-475:text-h4">
+			<div class="my-6 text-h3 mobile:text-h4">
 				<label for="issueMessage" class="text-grey font-normal text-justify block">
 					Буде корисно, якщо ви повідомите нам через цю форму про будь-які проблеми, пов’язані з використанням нашого сервісу.
 				</label>

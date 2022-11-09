@@ -1,54 +1,47 @@
 <template>
   	<header class="w-full
-  	screen-475:h-[62px]
-  	screen-949:h-[62px]
-  	screen-950:h-[74px]
-  	screen-475:px-4 screen-475:py-2.5
-  	screen-949:px-4 screen-949:py-2.5
-  	screen-950:px-6 screen-950:py-0
-  	screen-475:sticky screen-475:top-0
-  	shadow-cs2 bg-white z-[1000] flex items-center gap-3 screen-475:justify-between">
+  	mobile:h-[62px]
+  	tablet:h-[62px]
+  	comp:h-[74px]
+  	mobile:px-4 mobile:py-2.5
+  	tablet:px-4 tablet:py-2.5
+  	comp:px-6 comp:py-0
+  	mobile:sticky mobile:top-0
+  	shadow-cs2 bg-white z-[1000] flex items-center gap-3 mobile:justify-between">
 
-			<div class="w-min h-full place-content-center hidden screen-475:grid">
+			<div class="w-min h-full place-content-center hidden mobile:grid">
 				<div class="w-6 h-5 py-1" @click="toggleMenu">
 					<div class="bg-black w-full h-0.5 rounded-xl"></div>
 					<div class="bg-black w-full h-0.5 rounded-xl my-1"></div>
 					<div class="bg-black w-full h-0.5 rounded-xl"></div>
 				</div>
 			</div>
-<!--			<div v-else class="hidden screen-475:grid content-center">
-				<img src="/src/assets/Logo.svg" alt="" class="block
-							screen-475:h-6
-							screen-949:h-6
-							screen-950:h-10
-							w-auto">
-			</div>-->
-			<div class="hidden absolute top-[62px] left-0 screen-475:h-[calc(100vh-62px)] w-full bg-black/30"
-					 :class="{	'screen-475:block' : isMenuVisibleOnMobile,
-											'screen-475:hidden' : !isMenuVisibleOnMobile}"
+			<div class="hidden absolute top-[62px] left-0 mobile:h-[calc(100vh-62px)] w-full bg-black/30"
+					 :class="{	'mobile:block' : isMenuVisibleOnMobile,
+											'mobile:hidden' : !isMenuVisibleOnMobile}"
 					 @click="toggleMenu"
 				></div>
 
 			<div class="flex flex-nowrap h-full justify-between bg-white grow
-				screen-475:flex-col screen-475:absolute screen-475:h-[calc(100vh-62px)]
-				screen-475:top-[62px] screen-475:w-[300px] screen-475:shadow-inner
-				screen-475:justify-start screen-475:gap-3 screen-475:transition-[left] screen-475:duration-200"
-				:class="{	'screen-475:left-0' : isMenuVisibleOnMobile,
-									'screen-475:left-[-300px]' : !isMenuVisibleOnMobile}">
+				mobile:flex-col mobile:absolute mobile:h-[calc(100vh-62px)]
+				mobile:top-[62px] mobile:w-[300px] mobile:shadow-inner
+				mobile:justify-start mobile:gap-3 mobile:transition-[left] mobile:duration-200"
+				:class="{	'mobile:left-0' : isMenuVisibleOnMobile,
+									'mobile:left-[-300px]' : !isMenuVisibleOnMobile}">
 
-					<div class="cursor-pointer h-min my-auto screen-475:my-0
-								screen-475:h-[76px] screen-475:p-4 screen-475:shadow-cs2
-								screen-475:grid screen-475:content-center"
+					<div class="cursor-pointer h-min my-auto mobile:my-0
+								mobile:h-[76px] mobile:p-4 mobile:shadow-cs2
+								mobile:grid mobile:content-center"
 							 @click="goToMain">
 						<div v-if="isAuth" class="flex text-h4 items-center">
 							<img src="/src/assets/Logo_2.svg" class="
-							screen-475:h-6
-							screen-949:h-6
-							h-10 w-auto mr-4 screen-475:hidden">
-							<img :src="currentUserIconLink" class="h-6 w-auto screen-475:block hidden mr-3.5">
+							mobile:h-6
+							tablet:h-6
+							h-10 w-auto mr-4 mobile:hidden">
+							<img :src="currentUserIconLink" class="h-6 w-auto mobile:block hidden mr-3.5">
 							<div>
 								<p class="font-semibold">
-									<img :src="currentUserIconLink" class="h-4 w-auto inline screen-475:hidden">
+									<img :src="currentUserIconLink" class="h-4 w-auto inline mobile:hidden">
 									{{ userName }}
 								</p>
 								<p class="text-gray-c-500">
@@ -58,20 +51,20 @@
 						</div>
 						<div v-else>
 							<img src="/src/assets/Logo.svg" alt="" class="block
-							screen-475:h-6
-							screen-949:h-6
-							screen-950:h-10
+							mobile:h-6
+							tablet:h-6
+							comp:h-10
 							w-auto">
 						</div>
 					</div>
 
-					<div class="flex screen-475:flex-col font-medium text-blue-c-500
-								screen-950:p-2
+					<div class="flex mobile:flex-col font-medium text-blue-c-500
+								comp:p-2
 								text-h3">
 
-						<div class="flex screen-475:order-3 screen-475:rounded-none
-							screen-475:px-4 screen-475:w-full
-							screen-475:h-[58px]">
+						<div class="flex mobile:order-3 mobile:rounded-none
+							mobile:px-4 mobile:w-full
+							mobile:h-[58px]">
 							<img v-bind:src="'/Flags/'+this.imageSrc"
 									 class="h-[18px] w-[24px] my-auto" alt="Flag">
 
@@ -85,17 +78,17 @@
 						</div>
 
 						<div v-if="isAuth" class="h-full flex items-center gap-x-6
-							screen-475:gap-x-1 ml-7 screen-475:ml-0 screen-475:flex-col">
+							mobile:gap-x-1 ml-7 mobile:ml-0 mobile:flex-col-reverse">
 
-							<div class="hover:bg-blue-c-200 rounded-lg p-1 screen-475:w-full cursor-pointer
-							screen-475:h-[58px] flex gap-4 items-center screen-475:rounded-none screen-475:px-4" @click="showSettingModal">
+							<div class="hover:bg-blue-c-200 rounded-lg p-1 mobile:w-full cursor-pointer
+							mobile:h-[58px] flex gap-4 items-center mobile:rounded-none mobile:px-4" @click="showSettingModal">
 								<img  src="/src/assets/Settings.svg"
 										 class="h-6 w-auto  block">
-								<p class="h-min hidden screen-475:block">Налаштування</p>
+								<p class="h-min hidden mobile:block">Налаштування</p>
 							</div>
 
-							<div class="hover:bg-blue-c-200 rounded-lg p-1 cursor-pointer screen-475:w-full
-							screen-475:h-[58px] flex gap-4 items-center screen-475:rounded-none screen-475:px-4"
+							<div class="hover:bg-blue-c-200 rounded-lg p-1 cursor-pointer mobile:w-full
+							mobile:h-[58px] flex gap-4 items-center mobile:rounded-none mobile:px-4"
 							@click="goToRequests">
 									<div class="relative">
 										<div v-if="RequestsCount>0" class="absolute bg-red-c-500 rounded-[32px] py-0.5 px-1 font-semibold
@@ -104,20 +97,29 @@
 										</div>
 										<img src="/src/assets/Aid-worker-actions.svg" class="h-6 w-auto ">
 									</div>
-									<p class="h-min hidden screen-475:block">Запити</p>
+									<p class="h-min hidden mobile:block">Запити</p>
 							</div>
+
+							<router-link to="/admin/organizations" class="w-full h-[58px] gap-4 items-center px-4 hidden mobile:flex hover:bg-blue-c-200"
+													 v-if="isPlatformAdmin">
+								<div class="relative">
+									<img src="/src/assets/Organizations/List.svg" class="h-4 ml-1 w-auto ">
+								</div>
+								<p class="h-min hidden mobile:block">Організації</p>
+							</router-link>
+
 						</div>
 					</div>
 				</div>
 
 			<div class="flex flex-nowrap gap-3">
-				<div class="h-min font-medium text-gray-c-600">
+				<div class="h-min font-medium text-gray-c-600" v-if="this.isPlatformAdmin">
 					<router-link to="/main">
 						<button class="px-3 py-2 rounded-l-lg border"
 							:class="{'border-blue-c-500 bg-blue-c-500 text-white' : !isAdminPage,
 												'border-gray-c-300' : isAdminPage}">
 
-							<svg class="screen-475:inline hidden" width="20" height="20" viewBox="0 0 20 20"
+							<svg class="mobile:inline hidden" width="20" height="20" viewBox="0 0 20 20"
 									 :class="{'fill-white' : !isAdminPage,
 												'fill-gray-c-600' : isAdminPage}">
 								<path fill-rule="evenodd" clip-rule="evenodd" d="M7.58471 0.188765C7.84548 0.376716 8 0.678564 8 1.00001V17C8 17.4304 7.72457 17.8126 7.31623 17.9487L1.31623 19.9487C1.01128 20.0503 0.676058 19.9992 0.41529 19.8113C0.154521 19.6233 0 19.3215 0 19V3.00001C0 2.56958 0.27543 2.18744 0.683772 2.05132L6.68377 0.051324C6.98872 -0.0503253 7.32394 0.000813857 7.58471 0.188765ZM2 3.72077V17.6126L6 16.2792V2.38743L2 3.72077Z"/>
@@ -125,7 +127,7 @@
 								<path fill-rule="evenodd" clip-rule="evenodd" d="M6.41529 0.188765C6.15452 0.376716 6 0.678564 6 1.00001V17C6 17.4304 6.27543 17.8126 6.68377 17.9487L12.6838 19.9487C12.9887 20.0503 13.3239 19.9992 13.5847 19.8113C13.8455 19.6233 14 19.3215 14 19V3.00001C14 2.56958 13.7246 2.18744 13.3162 2.05132L7.31623 0.051324C7.01128 -0.0503253 6.67606 0.000813857 6.41529 0.188765ZM12 3.72077V17.6126L8 16.2792V2.38743L12 3.72077Z"/>
 							</svg>
 
-							<span class="screen-475:hidden">
+							<span class="mobile:hidden">
 								Карта
 							</span>
 						</button>
@@ -135,7 +137,7 @@
 										:class="{'border-blue-c-500 bg-blue-c-500 text-white' : isAdminPage,
 												'border-gray-c-300' : !isAdminPage}">
 
-							<svg class="screen-475:inline hidden" width="20" height="20" viewBox="0 0 20 20"
+							<svg class="mobile:inline hidden" width="20" height="20" viewBox="0 0 20 20"
 									 :class="{'fill-white' : isAdminPage,
 												'fill-gray-c-600' : !isAdminPage}">
 								<path fill-rule="evenodd" clip-rule="evenodd" d="M0 2C0 0.895432 0.89543 0 2 0H18C19.1046 0 20 0.89543 20 2V19C20 19.5523 19.5523 20 19 20H1C0.447715 20 0 19.5523 0 19V2ZM18 2L2 2V18H18V2Z"/>
@@ -145,7 +147,7 @@
 								<path fill-rule="evenodd" clip-rule="evenodd" d="M0 7C0 6.44772 0.447715 6 1 6H19C19.5523 6 20 6.44772 20 7C20 7.55228 19.5523 8 19 8H1C0.447715 8 0 7.55228 0 7Z"/>
 							</svg>
 
-							<span class="screen-475:hidden">
+							<span class="mobile:hidden">
 								Кабінет
 							</span>
 						</button>
@@ -269,6 +271,9 @@ export default {
 					return "/src/assets/User.svg";
 
 			}
+		},
+		isPlatformAdmin(){
+			return this.isAuth && this.getRole===this.userRoles.platformAdmin
 		}
 	},
 	watch : {

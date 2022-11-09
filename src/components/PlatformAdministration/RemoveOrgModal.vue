@@ -1,8 +1,8 @@
 <template>
 	<div v-if="isVisible">
 		<ModalTemplate :is-modal-visible="isModalVisible" :is-hide-on-click="false"
-									 :close-func="closeThisComponent" class-list="grid place-items-center">
-			<div class="bg-white w-[480px] rounded-lg relative screen-475:w-full relative p-6 mx-auto max-h-screen overflow-y-auto">
+									 :close-func="closeThisComponent" class-list="grid place-items-center p-2">
+			<div class="bg-white w-[480px] rounded-lg relative mobile:w-full relative p-6 mx-auto max-h-screen overflow-y-auto">
 				<button class="absolute top-6 right-6 cursor-pointer"
 								@click="closeThisComponent">
 					<img src="/src/assets/close.svg">

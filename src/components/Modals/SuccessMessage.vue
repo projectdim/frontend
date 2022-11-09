@@ -1,10 +1,10 @@
 <template>
-	<ModalTemplate class-list="grid place-items-center screen-475:px-6"
+	<ModalTemplate class-list="grid place-items-center mobile:px-6"
 								 :closeFunc="closeFunc"
 								 :isModalVisible="isVisible"
 								 :isHideOnClick="hideOnBgClick">
 		<div class="bg-white rounded-lg p-6 w-[480px]
-		screen-475:w-full relative" @click.stop>
+		mobile:w-full relative" @click.stop>
 			<img src="/src/assets/close.svg" class="absolute top-6 right-6 cursor-pointer"
 					 @click="closeFunc">
 			<img src="/src/assets/Completed.svg" class="mx-auto">
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+
 export default {
 	name: "SuccessMessage",
 	props : {

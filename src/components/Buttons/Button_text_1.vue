@@ -1,8 +1,8 @@
 <template>
   <button class=" text-center align-middle rounded-lg
     text-h3 font-medium
-    screen-475:text-h4
-    screen-949:text-h4
+    mobile:text-h4
+    tablet:text-h4
     bg-transparent
     disabled:bg-gray-c-100
     disabled:text-gray-c-400

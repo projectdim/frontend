@@ -1,8 +1,8 @@
 <template>
 	<div class="flex flex-col h-screen">
 	<Header class="grow-0"/>
-		<div class="grow flex items-center justify-center">
-				<div class="w-[480px]">
+		<div class="grow flex items-center justify-center mobile:p-4">
+				<div class="w-[480px] mobile:w-full  overflow-y-auto">
 					<div class="text-center text-h1 font-semibold mb-9 text-gray-c-800">Вітаємо в DIM!</div>
 					<div class="text-center text-body-2 font-semibold mb-6">Створіть свій профіль</div>
 					<div>

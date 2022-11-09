@@ -7,7 +7,7 @@
 		:cancel-button-func="PageLeaveCanceled"/>
  <div class="py-4 px-6 overflow-y-auto h-full">
 <!--	 <h3 class="font-semibold text-h2
-			screen-475:text-h2-m">
+			mobile:text-h2-m">
 		 {{getSelectedLocationRequest.address}}
 	 </h3>-->
 

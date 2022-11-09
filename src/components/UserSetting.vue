@@ -1,28 +1,28 @@
 <template>
-	<ModalTemplate :classList="'grid place-items-end screen-475:place-items-center' +
-	 ' screen-475:px-4'" :close-func="closeModal"
+	<ModalTemplate :classList="'grid place-items-end mobile:place-items-center' +
+	 ' mobile:px-4'" :close-func="closeModal"
 	:is-modal-visible="isSettingVisible">
     <div class="w-[600px] h-screen overflow-y-auto bg-white p-9
-    screen-475:p-4 screen-949:p-4 animate-userSettingsAppear relative
-		screen-475:w-full screen-949:w-[480px]
-		screen-475:h-min screen-475:rounded-lg" @click.stop
+    mobile:p-4 tablet:p-4 animate-userSettingsAppear relative
+		mobile:w-full tablet:w-[480px]
+		mobile:h-min mobile:rounded-lg" @click.stop
 		:class="{'animate-userSettingsAppear' : isSettingVisible}">
 			<Loader v-if="isShowLoader"></Loader>
 <!--      Header-->
-      <div class="mb-6 text-h1 screen-475:text-h2 screen-475:text-center relative
+      <div class="mb-6 text-h1 mobile:text-h2 mobile:text-center relative
 			font-semibold">
         Налаштування
-				<img class="w-min h-min absolute top-0 screen-475:right-0 hidden screen-475:block " @click="closeModal"
+				<img class="w-min h-min absolute top-0 mobile:right-0 hidden mobile:block " @click="closeModal"
 						 src="/close.svg">
       </div>
-			<button-text1 class="w-[100px] absolute top-9 right-9 screen-475:hidden" @click="closeModal">
+			<button-text1 class="w-[100px] absolute top-9 right-9 mobile:hidden" @click="closeModal">
 				Закрити
 			</button-text1>
 <!--    FORM-->
       <div class="text-h4 text-gray-c-500"
-				:class="{'screen-475:flex screen-475:flex-col-reverse' : isPassChangeVisible}">
+				:class="{'mobile:flex mobile:flex-col-reverse' : isPassChangeVisible}">
 
-				<div :class="{'screen-475:hidden' : isPassChangeVisible}">
+				<div :class="{'mobile:hidden' : isPassChangeVisible}">
 					<label for="setting-name">Ім'я</label>
 					<input1 id="setting-name" placeholder="Ім'я" v-model="username"
 									class="w-full text-black mt-1 mb-6"/>
@@ -32,7 +32,7 @@
 				</div>
 
 				<div class="flex flex-row-reverse gap-3 py-6"
-					:class="{'screen-475:hidden' : isPassChangeVisible}">
+					:class="{'mobile:hidden' : isPassChangeVisible}">
 					<Button1 :disabled="isSaveButtonDisabled" @click="updateUserData">
 						Зберегти
 					</Button1>
@@ -55,7 +55,7 @@
 							@click="updateUserPassword">
 							Зберегти
 						</button1>
-						<ButtonOptions :button-color="'blue'"  class="hidden screen-475:block"
+						<ButtonOptions :button-color="'blue'"  class="hidden mobile:block"
 													 @valueChange="changePassVisibility" :checked="isPassChangeVisible">
 							Змінити пароль...
 						</ButtonOptions>
