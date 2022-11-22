@@ -9,7 +9,7 @@
         @click.stop>
           <div v-if="!isLogInFailed" class="text-h2 font-semibold relative py-1 text-center
             mobile:text-h2-m tablet:text-h2-m">
-            Вхід
+            {{ $t('login.header') }}
             <button class="absolute top-0 right-0 h-4 w-4 i-can-close-it"
                     @click="hide">
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -21,10 +21,10 @@
               <Input-1 ref="emailInput" class="w-full my-6" placeholder="Email" v-model="email"/>
               <Input-pass class="w-full" v-model="pass"/>
               <button-text-1 class="font-semibold block my-3">
-                Відновити пароль...
+                {{ $t('login.resetPassword') }}
               </button-text-1>
               <button-1 class="block w-full" :disabled="isButtonDisabled" @click="login">
-                Увійти
+                {{ $t('login.logIn') }}
               </button-1>
             </div>
           </div>
@@ -38,14 +38,14 @@
 							</div>
 							<div class="px-4">
 								<p class="font-semibold text-blue-c-500">
-									Нажаль Ви не можете продовжувати стоворювати звіти, оскільки Вашу організацію заблоковано.
+                  {{ $t('login.organizationBlocked') }}
 								</p>
-								<p class="py-2">Причина: <span class="font-semibold text-red-c-500">{{ logInErrorMessage }}</span></p>
-								<p>Ми проінформуємо Вас, коли проблему буде вирішено. Дякуємо за Вашу роботу.</p>
+								<p class="py-2">{{ $t('general.cause')}} <span class="font-semibold text-red-c-500">{{ logInErrorMessage }}</span></p>
+								<p>{{ $t('login.organizationBlockedInfo') }}</p>
 							</div>
 						</div>
 
-						<button1 @click="failedStateToDefault" class="w-full mt-6">Зрозумів, дякую</button1>
+						<button1 @click="failedStateToDefault" class="w-full mt-6">{{ $t('login.understood') }}</button1>
 					</div>
 
 					<Loader v-if="isLoaderVisible"></Loader>

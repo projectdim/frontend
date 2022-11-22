@@ -5,7 +5,7 @@
 			tablet:text-h1-m
 			mobile:px-4
 			tablet:px-4 ">
-				Запити на розгляд (тут їх кількість)
+        {{$t('aidWorkerSideBar.header')}}
 		</h1>
 	  <div class="flex flex-nowrap text-center text-h3
 			mobile:text-h4
@@ -13,12 +13,12 @@
 			<div class="basis-1/2 pb-2.5 cursor-pointer hover:bg-gray-200 box-border"
 				 :class="this.selectedTabItem === `All requests`? `text-blue-c-500 border-blue-c-500 border-b-2` : `text-gray-c-500 border-gray-c-500 border-b`"
 				 @click="setSelectedTab(`All requests`)">
-				Всі запити
+        {{$t('aidWorkerSideBar.allRequests')}}
 			</div>
 			<div class="basis-1/2 pb-2.5 cursor-pointer hover:bg-gray-200 box-border"
 				 :class="this.selectedTabItem === `My requests`? `text-blue-c-500 border-blue-c-500 border-b-2` : `text-gray-c-500 border-gray-c-500 border-b`"
 				 @click="setSelectedTab(`My requests`)">
-				Мої запити
+        {{$t('aidWorkerSideBar.myRequests')}}
 			</div>
 	  </div>
 	  <div class="py-6">

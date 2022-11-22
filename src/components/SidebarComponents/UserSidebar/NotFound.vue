@@ -10,23 +10,23 @@
         </p>
       </div>
       <div v-else>
-        <p class="font-semibold text-4xl">Виберіть на карті місце, яке Вас цікавить.</p>
+        <p class="font-semibold text-4xl">{{ $t('userSideBar.choose-location') }}</p>
       </div>
       <button-1 class="w-full my-6" @click="requestReview" :disabled="notFoundedMarkerData===null">
 				<span v-if="notFoundedMarkerData">
-					Надіслати запит на перевірку адреси
+					{{ $t('userSideBar.choose-location-button') }}
 				</span>
 				<span v-else>
-					Виберіть адресу для запиту
+					{{ $t('userSideBar.choose-location-button') }}
 				</span>
 			</button-1>
       <p class="text-gray-c-500">
-				Буде корисно, якщо ви повідомите нам через цю форму про будь-які проблеми, пов’язані з використанням нашого сервісу.
+        {{ $t('userSideBar.formHelperText') }}
 			</p>
       <div class="h-min">
 		  	<textarea id="issueMessage"
                   class="min-h-[68px] resize-none h-max w-full border-gray-c-300 border rounded-lg px-4 py-2 my-4"
-                  placeholder="Залишити повідомлення..." v-model="issueMessage"></textarea>
+                  :placeholder="$t('userSideBar.formTextAreaPlaceholder')" v-model="issueMessage"></textarea>
 				<button @click="this.Show(issueMessage)"
 								:disabled="this.isDisabled"
 								:class="{'bg-gray-c-200 text-gray-c-400' : isDisabled,

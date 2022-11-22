@@ -8,7 +8,7 @@
 			@remove-from-my-list="OnRemoveFromMyList"
 		/>
 		<div v-else class="mt-6 text-center text-h3 text-gray-c-800">
-			Список Ваших запитів порожній
+      {{ $t('aidWorkerSideBar.myListEmpty') }}
 		</div>
 		<Loader v-show="isLoaderVisible"/>
 	</div>

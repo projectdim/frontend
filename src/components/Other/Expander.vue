@@ -6,7 +6,7 @@
 				<button class="absolute text-blue-500 right-2 top-2 font-medium"
 								:class="{'hidden' : isExpanded}"
 					@click="Expand">
-						Деталі
+          {{ $t('general.details') }}
 				</button>
 
 		<div class="break-words">
@@ -15,7 +15,7 @@
 		<div class="text-blue-500 text-center p-1 font-medium"
 				 :class="{'hidden' : !isExpanded}">
 			<button @click="Minimize">
-				Закрити
+        {{ $t('general.close')}}
 			</button>
 		</div>
 	</div>

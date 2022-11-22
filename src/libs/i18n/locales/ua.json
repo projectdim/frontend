@@ -1,0 +1,86 @@
+{
+  "welcomeScreen": {
+    "helperText": "Шукайте адресу, щоб переглянути краудсорсингові звіти про своє місто.",
+    "searchPlaceholder": "Пошук",
+    "examples": "Приклади",
+    "firstExample": "проспект Незалежності, Харків, Харківська область, Україна, 61000",
+    "secondExample": "Жилянська, 12 , Київ, Україна, 02000"
+  },
+  "header": {
+    "login": "Увійти",
+    "logout": "Вийти",
+    "map": "Карта",
+    "dashboard": "Кабінет"
+  },
+  "userSideBar": {
+    "choose-location": "Виберіть на карті місце, яке Вас цікавить.",
+    "choose-location-button": "Виберіть адресу для запиту",
+    "formHelperText": "Буде корисно, якщо ви повідомите нам через цю форму про будь-які проблеми, пов’язані з використанням нашого сервісу.",
+    "formTextAreaPlaceholder": "Залишити повідомлення...",
+    "overview": "Огляд",
+    "change-history": "Історія змін",
+    "general-status": "Загальний стан",
+    "gov-contacts": "Урядові контакти",
+    "sbu": "Служба безпеки України",
+    "border-guard": "Державна прикордонна служба України"
+  },
+  "aidWorkerSideBar": {
+    "header": "Запити на розгляд",
+    "allRequests": "Всі запити",
+    "myRequests": "Мої запити",
+    "allListEmpty": "Зараз немає запитів на адресу",
+    "myListEmpty": "Список Ваших запитів порожній",
+    "takeRequest": "Розглянути",
+    "addToMyList": "Додати до 'Моїх запитів'",
+    "myRequest": "Мій запит"
+  },
+  "reportTools": {
+    "header": "Оновлення стану",
+    "buildingCondition": "Стан будівлі",
+    "textAreaPlaceholder": "Опишіть ситуацію (опціонально)",
+    "electricity": "Електроенергія",
+    "accessible": "Стабільна",
+    "intermittent": "Переривчаста",
+    "carEntrance": "Під'їзд",
+    "roadwayAccessible": "Доступний",
+    "inaccessible": "Недоступний",
+    "water": "Чиста вода",
+    "stable": "Стабільна",
+    "fuelStation": "Заправка",
+    "open": "Працює",
+    "closed": "Закрита",
+    "hospital": "Лікарня",
+    "intact": "Ціла",
+    "damaged": "Пошкоджена",
+    "noData": "Невідомо"
+  },
+  "userSettings": {
+    "header": "Налаштування",
+    "name": "Ім'я",
+    "email": "E-mail",
+    "change-password": "Змінити пароль...",
+    "password": "Пароль",
+    "new-password": "Новий пароль"
+  },
+  "login": {
+    "header": "Вхід",
+    "password": "Пароль",
+    "resetPassword": "Відновити пароль...",
+    "logIn": "Увійти",
+    "understood": "Зрозумів, дякую.",
+    "organizationBlocked": "Нажаль Ви не можете продовжувати стоворювати звіти, оскільки Вашу організацію заблоковано.",
+    "organizationBlockedInfo": "Ми проінформуємо Вас, коли проблему буде вирішено. Дякуємо за Вашу роботу."
+  },
+  "general": {
+    "close": "Закрити",
+    "save": "Зберегти",
+    "send": "Send",
+    "details": "Деталі",
+    "cause": "Причина:",
+    "fieldNotValid": "Поле не валідне",
+    "delete": "Видалити",
+    "cancel": "Відміна",
+    "next": "Далі"
+  }
+
+}

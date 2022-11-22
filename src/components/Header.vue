@@ -128,7 +128,7 @@
 							</svg>
 
 							<span class="mobile:hidden">
-								Карта
+								{{ $t('header.map') }}
 							</span>
 						</button>
 					</router-link>
@@ -148,7 +148,7 @@
 							</svg>
 
 							<span class="mobile:hidden">
-								Кабінет
+								{{ $t('header.dashboard') }}
 							</span>
 						</button>
 					</router-link>
@@ -156,10 +156,10 @@
 
 				<button-text-1 v-if="!isAuth" class="h-min my-auto" role="link"
 											 @click="showLogInModal">
-					LogIn
+          {{ $t('header.login') }}
 				</button-text-1>
 				<button-text1 @click="logOut" v-if="isAuth" class="h-min my-auto">
-					LogOut
+          {{ $t('header.logout') }}
 				</button-text1>
 			</div>
 
@@ -209,8 +209,10 @@ export default {
 			switch (event.target.value){
 				case "English":
 					this.imageSrc = "USA_flag.svg"
+          this.$i18n.locale = 'en'
 					break;
 				case "Ukrainian":
+          this.$i18n.locale = 'ua'
 					this.imageSrc = "UA_flag.svg"
 					break;
 			}

@@ -16,13 +16,13 @@
 				 :class="this.selectedTabItem === `Overview`? `text-blue-c-500 border-blue-c-500 border-b-2` : `text-gray-c-500 border-gray-c-500 border-b`"
 				 @click="setSelectedTab(`Overview`)"
 			>
-				Огляд
+        {{ $t('userSideBar.overview') }}
 			</div>
 			<div class="basis-1/2 pb-2.5 cursor-pointer hover:bg-gray-200 box-border"
 				 :class="this.selectedTabItem === `History`? `text-blue-c-500 border-blue-c-500 border-b-2` : `text-gray-c-500 border-gray-c-500 border-b`"
 				 @click="setSelectedTab(`History`)"
 			>
-				Історія змін
+        {{ $t('userSideBar.change-history') }}
 			</div>
 	  </div>
 	  <div class="pt-6">
