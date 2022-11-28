@@ -12,7 +12,7 @@
 					<img class="w-full h-full" src="/src/assets/Organizations/Emblem.svg">
 				</div>
 				<p class="w-min text-h3 text-gray-c-600 font-semibold">
-					Адміністратор
+          {{ $t('dashboard.admin') }}
 				</p>
 			</div>
 
@@ -23,7 +23,7 @@
 						:class="{'bg-blue-c-200' : isPathMatched('/admin/organizations')}">
 						<img src="/src/assets/Organizations/List.svg"
 									class="h-5 w-5 block">
-						<p class="h-min">Організації</p>
+						<p class="h-min">{{ $t('dashboard.organizations') }}</p>
 					</div>
 				</router-link>
 
@@ -31,7 +31,7 @@
 				items-center px-10" @click="showSettings">
 					<img  src="/src/assets/Settings.svg"
 								class="h-5 w-5 block">
-					<p class="h-min">Налаштування</p>
+					<p class="h-min">{{ $t('dashboard.settings') }}</p>
 				</div>
 
 			</div>

@@ -14,12 +14,12 @@
 			<button class="p-1 text-h3 text-blue-c-500
 				cursor-pointer hover:bg-blue-c-100 w-full text-left"
 			@click.stop="goToOrgProfile">
-				Деталі
+        {{ $t('general.details') }}
 			</button>
 			<button class="p-1 text-h3 text-red-c-500
 			cursor-pointer hover:bg-blue-c-100 w-full text-left"
 			@click="removeOrg">
-				Видалити
+				{{ $t('general.delete' )}}
 			</button>
 		</div>
 

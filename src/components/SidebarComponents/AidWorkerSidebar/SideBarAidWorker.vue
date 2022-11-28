@@ -5,18 +5,18 @@
 			tablet:text-h1-m
 			mobile:px-4
 			tablet:px-4 ">
-				Запити на розгляд (тут їх кількість)
+        {{$t('aidWorkerSideBar.header')}}
 		</h1>
 	  <div class="flex flex-nowrap text-center text-h3
 			mobile:text-h4
 			tablet:text-h4">
 
 			<TabItemButton class="w-full" @click="setSelectedTab(`All requests`)" target-tab-value="All requests" :current-tab-value="selectedTabItem">
-				Всі запити
+				{{$t('aidWorkerSideBar.allRequests')}}
 			</TabItemButton>
 
 			<TabItemButton class="w-full" @click="setSelectedTab(`My requests`)" target-tab-value="My requests" :current-tab-value="selectedTabItem">
-				Мої запити
+				{{$t('aidWorkerSideBar.myRequests')}}
 			</TabItemButton>
 
 	  </div>

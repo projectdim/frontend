@@ -21,23 +21,23 @@
 
 				<div>
 					<button-1 @click="this.Reporting">
-						Розглянути
+            {{ $t('aidWorkerSideBar.takeRequest') }}
 					</button-1>
 					<button-2 v-if="isMyRequest && itemUsageTabName==='myRequestsList'"
 										class="ml-3" @click="RemoveFromMyRequests">
-						Видалити
+						{{ $t('general.delete') }}
 					</button-2>
 				</div>
 
 				<button-text-1 @click="AddToMyRequests" v-if="!isMyRequest
 					&& itemUsageTabName==='requestsList'">
-					Додати до "Моїх запитів"
+          {{ $t('aidWorkerSideBar.addToMyList') }}
 				</button-text-1>
 
 				<div v-else-if="isMyRequest && itemUsageTabName==='requestsList'"
 						 class="text-h3 font-medium text-blue-c-500 p-2">
 					<img src="/completed2.svg" class="inline-block mr-2">
-					Мій запит
+          {{ $t('aidWorkerSideBar.myRequest') }}
 				</div>
 
 			</div>

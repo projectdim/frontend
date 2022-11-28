@@ -12,7 +12,7 @@
 				 @focusin="OnDivFocus(true)"
 				 @focusout="OnDivFocus(false)">
 			<input ref="pass" class="w-full outline-none px-4 py-2 bg-transparent"
-						 :type="inputType" :placeholder="placeholder"
+						 :type="inputType" :placeholder="$t('login.password')"
 						 @focusin="OnInputFocus(true)"
 						 @focusout="OnInputFocus(false)"
 						 @input="OnValueChange"
@@ -28,7 +28,7 @@
 				</svg>
 			</button>
 		</div>
-		<div v-if="!isValidStyle && validationMessage" class="text-red-c-500 text-b3 mt-1 text-left px-2">{{validationMessage}}</div>
+		<div v-if="!isValidStyle && validationMessage" class="text-red-c-500 text-b3 mt-1 text-left px-2">{{ $t('general.fieldNotValid') }}</div>
 	</div>
 </template>
 

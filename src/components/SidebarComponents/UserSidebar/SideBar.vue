@@ -14,10 +14,10 @@
 			mobile:text-h4
 			tablet:text-h4">
 			<TabItemButton class="w-full" target-tab-value="Overview" :current-tab-value="selectedTabItem" @click="setSelectedTab('Overview')">
-				Огляд
+				{{ $t('userSideBar.overview') }}
 			</TabItemButton>
 			<TabItemButton class="w-full" target-tab-value="History" :current-tab-value="selectedTabItem" @click="setSelectedTab(`History`)">
-				Історія змін
+				{{ $t('userSideBar.change-history') }}
 			</TabItemButton>
 	  </div>
 	  <div class="pt-6 grow">

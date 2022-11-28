@@ -6,7 +6,7 @@
 					<svg  class="inline-block mr-4 fill-gray-c-800 rotate-180" width="9" height="14" viewBox="0 0 9 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path fill-rule="evenodd" clip-rule="evenodd" d="M0.292893 13.7071C-0.0976311 13.3166 -0.0976312 12.6834 0.292893 12.2929L5.58579 7L0.292893 1.70711C-0.0976317 1.31658 -0.0976317 0.683417 0.292893 0.292893C0.683417 -0.0976315 1.31658 -0.0976315 1.70711 0.292893L8.41421 7L1.70711 13.7071C1.31658 14.0976 0.683418 14.0976 0.292893 13.7071Z"/>
 					</svg>
-					Organization
+					{{ $t('organizationProfile.organization') }}
 				</span>
 			</router-link>
 		</div>
@@ -24,7 +24,7 @@
 					</div>
 				</div>
 				<div class="mt-4 text-body-1 mobile:text-center">
-					<p class="font-semibold mb-1">Долучилися:</p>
+					<p class="font-semibold mb-1">{{ $t('organizationProfile.creationDate') }}</p>
 					<p class="text-gray-c-600">{{GetOrgJoinDate()}}</p>
 				</div>
 			</div>
@@ -33,23 +33,23 @@
 					<svg class="inline-block mt-[-3px] mr-1.5" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path fill-rule="evenodd" clip-rule="evenodd" d="M16.1213 1.70705C14.9497 0.535475 13.0503 0.535477 11.8787 1.70705L0.878679 12.707C0.31607 13.2697 0 14.0327 0 14.8284V18.9999H4.17157C4.96722 18.9999 5.73028 18.6839 6.29289 18.1213L17.2929 7.12126C18.4645 5.94969 18.4645 4.0502 17.2929 2.87862L16.1213 1.70705ZM13.2929 3.12126C13.6834 2.73074 14.3166 2.73074 14.7071 3.12126L15.8787 4.29284C16.2692 4.68336 16.2692 5.31652 15.8787 5.70705L15 6.58573L12.4142 3.99994L13.2929 3.12126ZM11 5.41416L2.29289 14.1213C2.10536 14.3088 2 14.5632 2 14.8284L2 16.9999H4.17157C4.43679 16.9999 4.69114 16.8946 4.87868 16.707L13.5858 7.99994L11 5.41416Z" fill="#2E60B3"/>
 					</svg>
-					Редагувати
+					{{$t('general.edit')}}
 				</button-text-1>
 				<button-text-1 color="red" class="p-2 h-min" @click="RemoveClick">
 					<svg class="inline-block mt-[-3px] mr-1.5 fill-red-c-500" width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
 						<path fill-rule="evenodd" clip-rule="evenodd" d="M13.364 2.04988C13.7545 1.65936 13.7545 1.02619 13.364 0.635667C12.9734 0.245142 12.3403 0.245142 11.9497 0.635667L7.00003 5.58537L2.05033 0.635667C1.6598 0.245142 1.02664 0.245142 0.636113 0.635667C0.245589 1.02619 0.245589 1.65936 0.636113 2.04988L5.58582 6.99959L0.636033 11.9494C0.245509 12.3399 0.245508 12.9731 0.636033 13.3636C1.02656 13.7541 1.65972 13.7541 2.05025 13.3636L7.00003 8.4138L11.9498 13.3636C12.3403 13.7541 12.9735 13.7541 13.364 13.3636C13.7546 12.9731 13.7546 12.3399 13.364 11.9494L8.41425 6.99959L13.364 2.04988Z"/>
 						<path fill-rule="evenodd" clip-rule="evenodd" d="M13.364 2.04988C13.7545 1.65936 13.7545 1.02619 13.364 0.635667C12.9734 0.245142 12.3403 0.245142 11.9497 0.635667L7.00003 5.58537L2.05033 0.635667C1.6598 0.245142 1.02664 0.245142 0.636113 0.635667C0.245589 1.02619 0.245589 1.65936 0.636113 2.04988L5.58582 6.99959L0.636033 11.9494C0.245509 12.3399 0.245508 12.9731 0.636033 13.3636C1.02656 13.7541 1.65972 13.7541 2.05025 13.3636L7.00003 8.4138L11.9498 13.3636C12.3403 13.7541 12.9735 13.7541 13.364 13.3636C13.7546 12.9731 13.7546 12.3399 13.364 11.9494L8.41425 6.99959L13.364 2.04988Z"/>
 					</svg>
-					Видалити
+          {{ $t('general.delete') }}
 				</button-text-1>
 			</div>
 		</div>
 
 		<div class="flex flex-wrap gap-4 items-center">
-			<div class="text-body-2 font-semibold mobile:grow h-min">Працівники ({{organization.participants.length}})</div>
+			<div class="text-body-2 font-semibold mobile:grow h-min">{{ $t('organizationProfile.employees') }} ({{organization.participants.length}})</div>
 			<button-1 class="block mobile:grow h-min" @click.stop="ShowUserInviteModal">
 				<img class="inline-block mb-0.5 mr-1.5" src="/src/assets/Organizations/addUser.svg" alt="">
-				<span>Запросити працівника</span>
+				<span>{{ $t('organizationProfile.addEmployee') }}</span>
 			</button-1>
 		</div>
 
@@ -58,16 +58,16 @@
 				<thead>
 					<tr class="bg-gray-c-100 text-gray-c-400 text-h3">
 						<th class="table-col-head">
-							Ім'я
+              {{ $t('organizationProfile.name') }}
 						</th>
 						<th class="table-col-head">
-							Пошта
+              {{ $t('organizationProfile.email') }}
 						</th>
 						<th class="px-2 py-[17px] font-semibold text-center">
-							Статус
+              {{ $t('organizationProfile.status') }}
 						</th>
 						<th class="table-col-head">
-							Остання активність
+              {{ $t('organizationProfile.lastActivity') }}
 						</th>
 						<th>
 						</th>
@@ -118,21 +118,21 @@
 			</div>
 			<div class="flex flex-col gap-4 mt-4 mb-6">
 				<div>
-					<p class="text-h4 text-gray-c-500">Назва організації</p>
-					<input1 v-model="editingOrgName" class="w-full mt-1 outline-none" placeholder="Назва"/>
+					<p class="text-h4 text-gray-c-500">{{ $t('dashboard.organizationName') }}</p>
+					<input1 v-model="editingOrgName" class="w-full mt-1 outline-none" :placeholder="$t('dashboard.namePlaceholder')"/>
 				</div>
 				<div>
-					<p class="text-h4 text-gray-c-500">Вебсайт</p>
+					<p class="text-h4 text-gray-c-500">{{ $t('dashboard.website') }}</p>
 					<input1 v-model="editingOrgSite" class="w-full mt-1 outline-none" placeholder="organization.com"/>
 				</div>
 			</div>
 
 			<div class="flex gap-4">
 				<button2 class="w-full" @click.stop="CloseEditModal">
-					Скасувати
+          {{ $t('general.cancel') }}
 				</button2>
 				<button-1 class="w-full" @click.stop="EditOrg">
-					Зберегти
+          {{ $t('general.edit') }}
 				</button-1>
 			</div>
 			<Loader v-if="isEditModalLoaderVisible" class="rounded-lg"/>
@@ -155,10 +155,10 @@
 				<img src="/src/assets/close.svg">
 			</button>
 			<div class="text-h2 text-center font-semibold ">
-				Запросити працівників
+        {{ $t('organizationProfile.addEmployee') }}
 			</div>
 			<div class="text-h3 text-gray-c-600 mt-2 mb-4">
-				Надішліть запрошення майбутнім працівникам. Вони отримають запрошення на пошту.
+        {{ $t('organizationProfile.employeeEnvelope') }}
 			</div>
 			<div class="flex flex-col gap-4 mt-4 mb-2">
 				<input1 v-model="organization.name" disabled class="w-full" placeholder="Назва"/>
@@ -170,12 +170,12 @@
 					<svg class="inline-block mr-2" width="14" height="14" viewBox="0 0 14 14" fill="#2E60B2" xmlns="http://www.w3.org/2000/svg">
 						<path fill-rule="evenodd" clip-rule="evenodd" d="M8 1C8 0.447715 7.55228 0 7 0C6.44772 0 6 0.447715 6 1V6H1C0.447715 6 0 6.44771 0 7C0 7.55228 0.447715 8 1 8H6V13C6 13.5523 6.44772 14 7 14C7.55229 14 8 13.5523 8 13V8H13C13.5523 8 14 7.55228 14 7C14 6.44772 13.5523 6 13 6H8V1Z"/>
 					</svg>
-					Додати більше
+          {{ $t('organizationProfile.addMore') }}
 				</button-text-1>
 			</div>
 
 			<button-1 class="w-full mt-6" @click.stop="SendUserInvites" :disabled="!isSendInviteButtEnable">
-				Відправити запрошення
+        {{ $t('organizationProfile.sendInvite') }}
 			</button-1>
 			<Loader v-if="isUserInviteModalLoaderVisible" class="rounded-lg"/>
 		</div>
@@ -230,9 +230,9 @@ export default {
 			editingOrgName : "",
 			editingOrgSite : "",
 			isSuccessMessageVisible : false,
-			successMessage : "Дані успішно оновлено.",
+			successMessage : this.$t('dataRenewed'),
 			isErrorMessageVisible : false,
-			errorMessage : "Упс... Щось пішло не так. Спробуйте ще раз.",
+			errorMessage : this.$t('errorMessage'),
 			invitedUsersList : [""],
 			isUserInviteModalVisible : false,
 			isUserInviteModalLoaderVisible : false,
@@ -264,13 +264,13 @@ export default {
 		},
 		GetCurrentUserStatusText(mailConf, isActive){
 			if(mailConf && isActive)
-				return "Активний";
+				return this.$t('general.active');
 			else if(mailConf && !isActive)
-				return "В бані"
+				return this.$t('general.banned')
 			else if(!mailConf && !isActive)
-				return "В очікуванні";
+				return this.$t('general.pending');
 			else
-				return  "Помилка";
+				return this.$t('general.error');
 		},
 		ShowEditModal(){
 			this.editingOrgName = this.organization.name;
@@ -312,16 +312,16 @@ export default {
 			await api.organizations.editOrganization(this.organization.id, this.editingOrgName, this.editingOrgSite, "")
 				.then(res => {
 					this.organization = res.data;
-					this.SuccessMessage = `Організацію \"${res.data.name}\" оновлено успішно.`;
+					this.SuccessMessage = `${this.$t('organizationProfile.organization')} \"${res.data.name}\" ${this.$t('general.edited')} ${this.$t('general.success')}.`;
 					this.CloseEditModal();
 					this.isSuccessMessageVisible = true;
 				})
 				.catch(err=>{
 					console.log(err.response)
 					if(err.response.status == 400)
-						this.ErrorMessage = `Організація \"${this.createOrgName}\" вже зареєстрована!`
+						this.ErrorMessage = `${this.$t('organizatonProfile.organization')} \"${this.createOrgName}\" ${this.$t('general.exists')}!`
 					else
-						this.ErrorMessage = "Упс.. Щось пішло не так. Спробуйте ще.";
+						this.ErrorMessage = this.$t('general.errorMessage');
 					this.CloseEditModal();
 					this.isErrorMessageVisible = true;
 				})
@@ -331,12 +331,12 @@ export default {
 			await api.organizations.sendUserInvite(this.organization.id, this.invitedUsersList)
 				.then(res=>{
 					this.organization = res.data;
-					this.successMessage = "Запрошення успішно надіслано."
+					this.successMessage = this.$t('organizationProfile.successInvite')
 					this.CloseUserInviteModal()
 					this.invitedUsersList = [""];
 					this.isSuccessMessageVisible = true;
 				}).catch(err =>{
-					this.errorMessage = "Упс... Щось пішло не так. Спробуйте ще раз."
+					this.errorMessage = this.$t('general.errorMessage')
 					this.CloseUserInviteModal();
 					this.isErrorMessageVisible = true;
 					throw err
@@ -352,7 +352,7 @@ export default {
 			this.$router.push("/admin/organizations");
 		},
 		showRemoveUserConfirm(worker){
-			this.ConfirmModal.question = `Видалити користувача ${worker.username}?`
+			this.ConfirmModal.question = `${this.$t('general.delete').toUpperCase()} ${this.$t('general.user').toLowerCase()} ${worker.username}?`
 			this.ConfirmModal.accept = ()=>this.removeWorker(worker);
 			this.ConfirmModal.decline = ()=>this.ConfirmModal.visible = false;
 			this.ConfirmModal.visible = true;
@@ -382,13 +382,13 @@ export default {
 				.then(res=>{
 					console.log(res.data);
 					this.organization.participants = res.data.participants
-					this.successMessage = `Користувача ${worker.username} видалено успішно.`
+					this.successMessage = `${this.$t('general.user')} ${worker.username} ${this.$t('general.deleteSuccess')}.`
 					this.isLoaderVisible = false;
 					this.isSuccessMessageVisible = true;
 				})
 				.catch(err=>{
 					console.log(err);
-					this.errorMessage = `Помилка видалення користувача ${worker.username}`
+					this.errorMessage = `${this.$t('general.deleteError')} ${this.$t('general.user').toLowerCase()} ${worker.username}`
 					this.isLoaderVisible = false;
 					this.isErrorMessageVisible = true;
 				})
