@@ -22,7 +22,8 @@
     "general-status": "Загальний стан",
     "gov-contacts": "Урядові контакти",
     "sbu": "Служба безпеки України",
-    "border-guard": "Державна прикордонна служба України"
+    "border-guard": "Державна прикордонна служба України",
+    "reportButton": "Повідомити про статус"
   },
   "aidWorkerSideBar": {
     "header": "Запити на розгляд",
@@ -36,8 +37,15 @@
   },
   "reportTools": {
     "header": "Оновлення стану",
-    "buildingCondition": "Стан будівлі",
     "textAreaPlaceholder": "Опишіть ситуацію (опціонально)",
+    "beforeLeaveMessage": "Ви не зберегли інформацію. Якщо ви покинете сторінку інформацію буде втрачено.",
+    "cancelButtonText": "Повернутись",
+    "acceptButtonText": "Покинути сторінку",
+    "makePublic": "Зробіть цю інформацію публічною",
+    "buildingCondition": "Стан будівлі",
+    "intact": "Ціла",
+    "damaged": "Пошкоджена",
+    "noData": "Невідомо",
     "electricity": "Електроенергія",
     "accessible": "Стабільна",
     "intermittent": "Переривчаста",
@@ -50,9 +58,36 @@
     "open": "Працює",
     "closed": "Закрита",
     "hospital": "Лікарня",
-    "intact": "Ціла",
-    "damaged": "Пошкоджена",
-    "noData": "Невідомо"
+  },
+  "dashboard": {
+    "admin": "Адміністратор",
+    "organizations": "Організації",
+    "settings": "Налаштування",
+    "organizationListEmpty": "Список порожній",
+    "addOrganization": "Додати організацію",
+    "organizationSearchPlaceholder": "Пошук організації. Від 3 символів...",
+    "forRequest": "За запитом",
+    "noMatches": "збігів не найдено.",
+    "requestResult": "Результати за запитом ",
+    "organizationName": "Назва організації",
+    "namePlaceholder": "Назва",
+    "website": "Вебсайт",
+    "organizationAddSuccess": "Ви успішно додали нову організацію!"
+  },
+  "organizationProfile": {
+    "organization": "Організація",
+    "creationDate": "Долучилися:",
+    "employees": "Працівники",
+    "addEmployee": "Запросити працівника",
+    "employeeEnvelope": "Надішліть запрошення майбутнім працівникам. Вони отримають запрошення на пошту.",
+    "addMore": "Додати більше",
+    "sendInvite": "Відправити запрошення",
+    "successInvite": "Запрошення успішно надіслано",
+    "name": "Ім'я",
+    "email": "Пошта",
+    "status": "Статус",
+    "lastActivity": "Остання активність",
+    "deleteOrganization": "Видалення організації"
   },
   "userSettings": {
     "header": "Налаштування",
@@ -71,6 +106,10 @@
     "organizationBlocked": "Нажаль Ви не можете продовжувати стоворювати звіти, оскільки Вашу організацію заблоковано.",
     "organizationBlockedInfo": "Ми проінформуємо Вас, коли проблему буде вирішено. Дякуємо за Вашу роботу."
   },
+  "validations": {
+    "minLength": "Мінімальна довжина",
+    "characters": "знака"
+  },
   "general": {
     "close": "Закрити",
     "save": "Зберегти",
@@ -80,7 +119,28 @@
     "fieldNotValid": "Поле не валідне",
     "delete": "Видалити",
     "cancel": "Відміна",
-    "next": "Далі"
+    "next": "Далі",
+    "dataNotSaved": "Дані не збережено",
+    "publish": "Опублікувати",
+    "publishing": "Публікування...",
+    "dataPublished": "Дані успішно опубліковані!",
+    "dataRenewed": "Дані успішно оновлено.",
+    "search": "Пошук",
+    "refresh": "Оновити",
+    "errorMessage": "Упс, щось пішло не так. Спробуйте ще.",
+    "edit": "Редагувати",
+    "active": "Активний",
+    "banned": "В бані",
+    "pending": "В очікуванні",
+    "error": "Помилка",
+    "user": "Користувача",
+    "deleteSuccess": "видалено успішно",
+    "deleteError": "Помилка видалення",
+    "exists": "вже існує",
+    "toDeleteType": "Для видалення введіть:",
+    "deleted": "Видалена",
+    "success": "Успішно",
+    "edited": "Оновлено"
   }
 
 }

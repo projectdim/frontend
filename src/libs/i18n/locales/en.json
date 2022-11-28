@@ -22,7 +22,8 @@
     "general-status": "General Status",
     "gov-contacts": "Government Contacts",
     "sbu": "Security Service of Ukraine",
-    "border-guard": "State Border Guard Service of Ukraine"
+    "border-guard": "State Border Guard Service of Ukraine",
+    "reportButton": "Report status"
   },
   "aidWorkerSideBar": {
     "header": "Requests list",
@@ -38,6 +39,10 @@
     "header": "Report status",
     "buildingCondition": "Residence state",
     "textAreaPlaceholder": "Describe the state (optional)",
+    "cancelButtonText": "Back",
+    "acceptButtonText": "Leave page",
+    "beforeLeaveMessage": "You haven't saved your report. If you leave the page, the entered info will be lost.",
+    "makePublic": "Make this report public",
     "electricity": "Electricity",
     "accessible": "ACCESSIBLE",
     "intermittent": "INTERMITTENT",
@@ -53,6 +58,36 @@
     "intact": "INTACT",
     "damaged": "DAMAGED",
     "noData": "NO DATA"
+  },
+  "dashboard": {
+    "admin": "Administrator",
+    "organizations": "Organizations",
+    "settings": "Settings",
+    "organizationListEmpty": "List is empty",
+    "addOrganization": "Add organization",
+    "organizationSearchPlaceholder": "Organization search...",
+    "forRequest": "No records matching ",
+    "noMatches": "",
+    "requestResult": "Records matching ",
+    "organizationName": "Organization name",
+    "namePlaceholder": "Name",
+    "website": "Website",
+    "organizationAddSuccess": "You have successfully added a new organization!"
+  },
+  "organizationProfile": {
+    "organization": "Organization",
+    "creationDate": "Created:",
+    "employees": "Employees",
+    "addEmployee": "Invite employee",
+    "employeeEnvelope": "Send an invite to future employees. They will receive it via email.",
+    "addMore": "Add more",
+    "sendInvite": "Send invite",
+    "successInvite": "The invite was successfully sent.",
+    "name": "Name",
+    "email": "E-mail",
+    "status": "Status",
+    "lastActivity": "Last activity",
+    "deleteOrganization": "Delete organization"
   },
   "userSettings": {
     "header": "Settings",
@@ -71,6 +106,10 @@
     "organizationBlocked": "Unfortunately you cannot submit any more reports, because your organization was blocked.",
     "organizationBlockedInfo": "We will inform you as soon as the problem will be solved. We thank you for your service."
   },
+  "validations": {
+    "minLength": "Minimal length is",
+    "characters": "characters"
+  },
   "general": {
     "close": "Close",
     "save": "Save",
@@ -80,6 +119,27 @@
     "fieldNotValid": "Field is not valid",
     "delete": "Delete",
     "cancel": "Cancel",
-    "next": "Next"
+    "next": "Next",
+    "dataNotSaved": "Data is not saved",
+    "publish": "Publish",
+    "publishing": "Publishing...",
+    "dataPublished": "The data was successfully uploaded!",
+    "dataRenewed": "Data was successfully edited.",
+    "search": "Search",
+    "refresh": "refresh",
+    "errorMessage": "Oops, something went wrong. Please try again.",
+    "edit": "Edit",
+    "active": "Active",
+    "banned": "Banned",
+    "pending": "Pending",
+    "error": "Error",
+    "user": "User",
+    "deleteSuccess": "was successfully deleted",
+    "deleteError": "There was an error deleting",
+    "exists": "exists",
+    "toDeleteType": "To delete type:",
+    "deleted": "Deleted",
+    "success": "Successfully",
+    "edited": "Edited"
   }
 }

@@ -3,7 +3,7 @@
 		<div id="Overview" class="px-6 mobile:px-4">
 			<h3 class="font-semibold text-h2
 				mobile:text-h2-m">
-				Загальний стан
+				{{ $t('userSideBar.general-status') }}
 			</h3>
 	<!--	#region  Build status-->
 			<div class="mobile:text-h4 text-h3" >
@@ -146,24 +146,24 @@
 	<!--	  #endRegion-->
 
 			<button-1 v-if="isAuth" class="mt-4 w-full" @click="UpdateSelectedMarkerReports">
-				Повідомити про статус
+        {{ $t('userSideBar.reportButton') }}
 			</button-1>
 	<!--	  #region Form-->
 		<div class="my-6 text-h3 mobile:text-h4">
 			<label for="issueMessage" class="text-grey font-normal text-justify block">
-				Буде корисно, якщо ви повідомите нам через цю форму про будь-які проблеми, пов’язані з використанням нашого сервісу.
+				{{ $t('userSideBar.formHelperText') }}
 			</label>
 			<div class="h-min">
 					<textarea id="issueMessage"
 					class="min-h-[68px] resize-none h-max w-full border-gray-c-300 border rounded-lg px-4 py-2 my-4"
-					placeholder="Залишити повідомлення..." v-model="issueMessage"></textarea>
+					:placeholder="$t('userSideBar.formTextAreaPlaceholder')" v-model="issueMessage"></textarea>
 				<button @click="this.Show(issueMessage)"
 								:disabled="this.isDisabled"
 								:class="{'bg-gray-c-200 text-gray-c-400' : isDisabled,
 												'bg-gray-c-200 text-gray-c-600 ' : !isDisabled,
 												 'hover:text-gray-c-500 active:bg-gray-c-300 active:text-gray-c-600' : !isDisabled}"
 								class="block border rounded-lg px-[50px] py-2 font-medium">
-					Відправити
+          {{ $t('general.send') }}
 				</button>
 			</div>
 			</div>

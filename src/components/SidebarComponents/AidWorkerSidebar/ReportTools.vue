@@ -1,7 +1,8 @@
 <template>
 	<ConfirmModal :is-bg-click-close=false :is-visible="isLeaveModalVisible"
-		cancel-button-text="Повернутись" accept-button-text="Покинути сторінку"
-		title="Дані не збережено" :question="question"
+		:cancel-button-text="$t('reportTools.cancelButtonText')"
+    :accept-button-text="$t('reportTools.acceptButtonText')"
+		:title="$t('general.dataNotSaved')" :question="question"
 		:close-func="closeLeavePageConfirmModal"
 		:accept-button-func="PageLeaveAccepted"
 		:cancel-button-func="PageLeaveCanceled"/>
@@ -96,7 +97,7 @@ export default {
         }
       },
 			isLeaveModalVisible : false,
-			question: "Ви не зберегли інформацію. Якщо ви покинете сторінку інформацію буде втрачено.",
+			question: this.$t('reportTools.beforeLeaveMessage'),
 			isPageLeaveConfirmed : false,
 			targetLeaveRef : "",
       reports: [

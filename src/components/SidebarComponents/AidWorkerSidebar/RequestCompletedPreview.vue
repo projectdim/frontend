@@ -1,29 +1,30 @@
 <template>
 
 	<ConfirmModal :is-bg-click-close=false :is-visible="isLeaveModalVisible"
-								cancel-button-text="Повернутись" accept-button-text="Покинути сторінку"
-								title="Дані не збережено" :question="question"
+								:cancel-button-text="$t('reportTools.cancelButtonText')"
+                :accept-button-text="$t('reportTools.acceptButtonText')"
+								:title="$t('general.dataNotSaved')" :question="question"
 								:close-func="closeLeavePageConfirmModal"
 								:accept-button-func="ModalAccept"
 								:cancel-button-func="ModalCancel"/>
 
 
 	<AwaitModal :isVisible="isPushingMessageVisible" :closeFunc="closePushingModal"
-							message="Публікування..."/>
+							:message="$t('general.publishing')"/>
 
 	<SuccessMessage :isVisible="isResultMessageVisible" :closeFunc="closeResultModal"
-	:closeTimeout="3000" message="Дані успішно опубліковані!"/>
+	:closeTimeout="3000" :message="$t('general.dataPublished')"/>
 
 	<div class="overflow-y-auto h-full relative">
 		<div class="bg-blue-c-500 flex flex-wrap gap-2 justify-between p-6 sticky top-0 right-0 left-0">
 			<p class="text-white text-h3 font-semibold align-middle grid content-center">
-				Зробіть цю інформацію публічною
+        {{ $t('reportTools.makePublic') }}
 			</p>
 			<Button2 class="flex flex-nowrap items-center gap-1"
 				@click="SaveAndPublish">
 				<img src="/public/completed.svg" class="inline-block">
 				<p>
-					Опублікувати
+          {{ $t('general.publish') }}
 				</p>
 			</Button2>
 		</div>
@@ -39,7 +40,7 @@
 
 			<h3 class="font-semibold text-h2
 			mobile:text-h2-m">
-				Загальний стан
+				{{ $t('userSideBar.general-status')}}
 			</h3>
 			<!--	#region  Build status-->
 			<div class="mobile:text-h4 text-h3 mt-2" >
@@ -193,19 +194,19 @@
 			<!--	  #region Form-->
 			<div class="my-6 text-h3 mobile:text-h4">
 				<label for="issueMessage" class="text-grey font-normal text-justify block">
-					Буде корисно, якщо ви повідомите нам через цю форму про будь-які проблеми, пов’язані з використанням нашого сервісу.
+					{{ $t('userSideBar.formHelperText')}}
 				</label>
 				<div class="h-min">
 		  	<textarea id="issueMessage"
 									class="min-h-[68px] resize-none h-max w-full border-gray-c-300 border rounded-lg px-4 py-2 my-4"
-									placeholder="Залишити повідомлення..." v-model="issueMessage"></textarea>
+									:placeholder="$t('userSideBar.formTextAreaPlaceholder')" v-model="issueMessage"></textarea>
 					<button @click="this.Show(issueMessage)"
 									:disabled="this.isDisabled"
 									:class="{'bg-gray-c-200 text-gray-c-400' : isDisabled,
 											'bg-gray-c-200 text-gray-c-600 ' : !isDisabled,
 											 'hover:text-gray-c-500 active:bg-gray-c-300 active:text-gray-c-600' : !isDisabled}"
 									class="block border rounded-lg px-[50px] py-2 font-medium">
-						Відправити
+						{{ $t('general.send') }}
 					</button>
 				</div>
 			</div>
@@ -245,7 +246,7 @@ export default {
 			isPushingMessageVisible : false,
 			isResultMessageVisible : false,
 			isLeaveModalVisible : false,
-			question: "Ви не зберегли інформацію. Якщо ви покинете сторінку інформацію буде втрачено.",
+			question: this.$t('reportTools.beforeLeaveMessage'),
 			isPageLeaveConfirmed : false,
 			targetLeaveRef : ""
 		}

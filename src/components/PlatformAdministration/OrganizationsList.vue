@@ -1,15 +1,15 @@
 <template>
 	<div class="p-9 mobile:py-6 mobile:px-4 h-full overflow-y-auto">
 		<h1 class="font-semibold text-gray-c-800 text-h1 mobile:text-h1-m">
-			Організації
+      {{ $t('dashboard.organizations') }}
 		</h1>
 
 		<div v-if="organizationsList.length<=0" class="mt-[215px]">
 			<img class="w-[205px] h-[234px] mobile:w-[157px] mobile:h-[179px] mx-auto" src="/src/assets/Organizations/Picture.png">
-			<p class="text-body-1 text-center mt-5 mb-6">Список порожній</p>
+			<p class="text-body-1 text-center mt-5 mb-6">{{ $t('dashboard.organizationListEmpty') }}</p>
 			<button-1 class="block mx-auto flex items-center" @click="showAddOrgModal">
 				<img src="/src/assets/plus.svg" class="inline-block mr-2.5">
-				<p>Додати організацію</p>
+				<p>{{ $t('dashboard.addOrganization') }}</p>
 			</button-1>
 		</div>
 		<div v-else class="mt-9">
@@ -35,28 +35,32 @@
 								 @focusin="OnInputFocus(true)"
 								 @focusout="OnInputFocus(false)"
 								 @click.stop
-								 placeholder="Пошук організації. Від 3 символів..."
+								 :placeholder="$t('dashboard.organizationSearchPlaceholder')"
 								 v-model="SearchedOrgName"
 					/>
 				</div>
 
 				<button-1 class="block items-center px-9 mobile:w-full" :disabled="SearchedOrgName.length < 3"
 					@click="GetOrganizationByName">
-					Пошук
+					{{ $t('general.search') }}
 				</button-1>
 
 				<button-2 class="block flex items-center mobile:w-full justify-center" @click="showAddOrgModal">
 					<img src="/src/assets/plusBlue.svg" class="inline-block mr-2.5 mobile:mt-0.5">
-					<p>Додати організацію</p>
+					<p>{{ $t('dashboard.addOrganization') }}</p>
 				</button-2>
 
 			</div>
 			<div v-if="this.isSearchedOrgResult"  class="py-6 flex flex-wrap gap-4 justify-center">
 				<div class="w-full flex gap-4 items-center">
-					<div class="h-min" v-if="this.SearchedOrganizationsList.length<=0">За запитом "{{this.SearchedOrgName}}" збігів не знайдено.</div>
-					<div class="h-min" v-if="this.SearchedOrganizationsList.length>0">Результати за запитом "{{this.SearchedOrgName}}".</div>
+					<div class="h-min" v-if="this.SearchedOrganizationsList.length<=0">
+            {{ $t('dashboard.forRequest') }} "{{this.SearchedOrgName}}" {{ $t('dashboard.noMatches') }}
+          </div>
+					<div class="h-min" v-if="this.SearchedOrganizationsList.length>0">
+            {{ $t('dashboard.requestResult') }} "{{this.SearchedOrgName}}".
+          </div>
 					<button-1 class="block mobile:grow w-min" @click="ResetSearchResult">
-						Оновити
+						{{ $t('general.refresh') }}
 					</button-1>
 				</div>
 				<OrganizationListItem v-for="(item, index) in SearchedOrganizationsList"
@@ -77,21 +81,21 @@
 			<div class="bg-white w-[480px] mx-auto mobile:w-full relative p-6 rounded-lg">
 				<img src="/src/assets/close.svg" class="absolute top-6 right-6 cursor-pointer"
 						 @click="closeCreateOrgModal">
-				<div class="text-h2 text-center font-semibold ">Додати організацію</div>
+				<div class="text-h2 text-center font-semibold ">{{$t('dashboard.addOrganization')}}</div>
 				<div class="flex flex-col gap-4 mt-4 mb-6">
 					<div>
-						<p class="text-h4 text-gray-c-500">Назва організації</p>
-						<input1 v-model="createOrgName" class="w-full mt-1" placeholder="Назва"/>
+						<p class="text-h4 text-gray-c-500">{{ $t('dashboard.organizationName') }}</p>
+						<input1 v-model="createOrgName" class="w-full mt-1" :placeholder="$t('dashboard.namePlaceholder')"/>
 					</div>
 					<div>
-						<p class="text-h4 text-gray-c-500">Вебсайт</p>
+						<p class="text-h4 text-gray-c-500">{{ $t('dashboard.website') }}</p>
 						<input1 v-model="createOrgSite" class="w-full mt-1" placeholder="organization.com"/>
 					</div>
 				</div>
 
 				<button-1 class="w-full" :disabled="createOrgName.length < 3 || createOrgSite.length < 3"
 				@click.stop="AddOrganizations">
-					Додати
+          {{ $t('general.save') }}
 				</button-1>
 				<Loader v-if="isCreateModalLoaderVisible"/>
 			</div>
@@ -134,9 +138,9 @@ export default {
 			isCreateModalVisible : false,
 			isCreateModalLoaderVisible : false,
 			isSuccessMessageVisible : false,
-			SuccessMessage : "Ви успішно додали нову організацію!",
+			SuccessMessage : this.$t('dashboard.organizationAddSuccess'),
 			isErrorMessageVisible : false,
-			ErrorMessage : "Упс.. Щось пішло не так. Спробуйте ще.",
+			ErrorMessage : this.$t('general.errorMessage'),
 			isLoaderVisible : false,
 			SearchedOrgName : "",
 			SearchedOrganizationsList : [],
@@ -172,7 +176,7 @@ export default {
 		},
 		closeErrorMessage(){
 			this.isErrorMessageVisible = false;
-			this.ErrorMessage = "Упс.. Щось пішло не так. Спробуйте ще.";
+			this.ErrorMessage = this.$t('general.errorMessage');
 		},
 		ResetSearchResult(){
 			this.SearchedOrgName = "";
@@ -224,7 +228,7 @@ export default {
 					if(err.response.status == 400)
 						this.ErrorMessage = `Організація \"${this.createOrgName}\" вже зареєстрована!`
 					else
-						this.ErrorMessage = "Упс.. Щось пішло не так. Спробуйте ще.";
+						this.ErrorMessage = this.$t('general.errorMessage');
 					this.closeCreateOrgModal();
 					this.isErrorMessageVisible = true;
 				})
@@ -234,7 +238,7 @@ export default {
 		},
 		async GetOrganizationByName(){
 			if(this.SearchedOrgName.length < 3){
-				this.ErrorMessage = "Мінімальна довжина запиту 3 символи";
+				this.ErrorMessage = this.$t('validations.minLength') + " 3 " + this.$t('validations.characters');
 				this.isErrorMessageVisible = true;
 				return
 			}

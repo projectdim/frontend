@@ -8,13 +8,13 @@
 					<img src="/src/assets/close.svg">
 				</button>
 				<div class="text-h2 text-center font-semibold ">
-					Видалення організації
+					{{ $t('organizationProfile.deleteOrganization') }}
 					<span class="text-red-c-500 underline">
 						"{{organization.name}}"
 					</span>
 				</div>
 				<div class="text-h3 text-gray-c-600 my-2">
-					Для видалення введіть:
+          {{ $t('general.toDeleteType') }}
 				</div>
 				<div class="text-h3 text-center text-gray-c-800 mt-2 mb-4">
 					{{ organization.name }}
@@ -30,10 +30,10 @@
 			</div>
 		</ModalTemplate>
 		<SuccessMessage :is-visible="isSuccessModalVisible"
-										:message="`Організацію ${organization.name} видалено успішно`"
+										:message="`${this.$t('organizationProfile.organization')} ${organization.name} ${this.$t('general.deleted')} ${this.$t('general.success')}`"
 										:close-func="closeSuccess"/>
 		<ErrorModal :is-visible="isErrorModalVisible"
-								:close-func="closeError"	:message="`Помилка видалення організації ${organization.name}`"/>
+								:close-func="closeError"	:message="`${this.$t('deleteError')} організації ${organization.name}`"/>
 	</div>
 </template>
 
