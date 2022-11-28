@@ -52,7 +52,20 @@ export default {
 		},
 		setLang(item){
 			this.lang = item
-		}
+			this.$i18n.locale = item.code;
+		},
+		onSelectChange(event){
+			switch (event.target.value){
+				case "English":
+					this.imageSrc = "USA_flag.svg"
+					this.$i18n.locale = 'en'
+					break;
+				case "Ukrainian":
+					this.$i18n.locale = 'ua'
+					this.imageSrc = "UA_flag.svg"
+					break;
+			}
+		},
 	},
 	computed : {
 		listStyle (){
@@ -64,7 +77,7 @@ export default {
 		}
 	},
 	mounted(){
-		//TODO component configuration
+		this.lang = this.availableLang.find(x=>x.code == this.$i18n.locale)
 	}
 }
 </script>

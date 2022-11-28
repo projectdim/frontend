@@ -111,8 +111,9 @@ Router.beforeEach((to, form)=>{
       path : "/"
     }
   }
-  if(to.meta.minRole && !userRoles.methods.isRoleHaveAccess(store.getters.getRole))
+  //FIXME
+  /*if(to.meta.minRole && !userRoles.methods.isRoleHaveAccess(store.getters.getRole))
     return {
       path : "/"
-    }
+    }*/
 })

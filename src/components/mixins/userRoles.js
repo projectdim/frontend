@@ -16,9 +16,10 @@ export  default {
         "user" : ["user"],
         "aid_worker" : ["user", "aid_worker"],
         "organization_administrator" : ["user", "aid_worker", "organization_administrator"],
-        "platform_administrator" : ["user", "aid_worker", "organization_administrator"],
+        "platform_administrator" : ["user", "aid_worker", "organization_administrator", "platform_administrator"],
       }
-      return roles[userRole].include(requireRole);
+      console.log(`${userRole} ${requireRole}`)
+      return roles[userRole].includes(requireRole);
     }
   }
 }

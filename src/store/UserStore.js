@@ -40,7 +40,7 @@ export default {
         return userRoles.data().userRoles.user;
       }
       else
-        return state.loggedUserInfo["role"];
+        return state.loggedUserInfo.role;
     }
   },
   actions : {
@@ -52,9 +52,9 @@ export default {
             {
               name : res.data.name,
               id : res.data.id,
-              site : "http://peopleinneed.net/",
+              website : res.data.website,
               email : "here organization email",
-              created_at : (new Date()).toLocaleString()
+              created_at : (new Date(res.data.created_at)).toLocaleString()
             })
         })
         .catch(err=>{

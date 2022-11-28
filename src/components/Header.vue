@@ -194,18 +194,7 @@ export default {
   methods : {
 		...mapMutations(['setLoggedUserInfo', 'setLoggedUserCredentials']),
 		...mapActions(["getRequestsCount"]),
-		onSelectChange(event){
-			switch (event.target.value){
-				case "English":
-					this.imageSrc = "USA_flag.svg"
-          this.$i18n.locale = 'en'
-					break;
-				case "Ukrainian":
-          this.$i18n.locale = 'ua'
-					this.imageSrc = "UA_flag.svg"
-					break;
-			}
-		},
+
 		showLogInModal(){
 			this.isMenuVisibleOnMobile = false;
 			this.isLoginModal = true;

@@ -40,7 +40,7 @@
 					/>
 				</div>
 
-				<button-1 class="block items-center px-9 mobile:w-full" :disabled="SearchedOrgName.length < 3"
+				<button-1 class="block items-center px-9 mobile:w-full" :disabled="searchController.SearchedOrgName.length < 3"
 					@click="GetOrganizationByName">
 					{{ $t('general.search') }}
 				</button-1>
