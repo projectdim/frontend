@@ -1,27 +1,27 @@
 <template>
 	<div v-if="isVisible">
-		<ModalTemplate :is-modal-visible="isModalVisible" :is-hide-on-click="false"
-									 :close-func="closeThisComponent" class-list="grid place-items-center p-2">
-			<div class="bg-white w-[480px] rounded-lg relative mobile:w-full relative p-6 mx-auto max-h-screen overflow-y-auto">
+		<ModalTemplate :is-modal-visible="isModalVisible" :is-hide-on-click="true"
+									 :close-func="closeThisComponent" class-list="grid place-items-center px-4">
+			<div class="bg-white w-[480px] rounded-lg relative mobile:w-full relative p-6 mx-auto max-h-screen overflow-y-auto"
+			@click.stop>
 				<button class="absolute top-6 right-6 cursor-pointer"
 								@click="closeThisComponent">
 					<img src="/src/assets/close.svg">
 				</button>
-				<div class="text-h2 text-center font-semibold ">
+				<div class="text-s1 mb-2">
 					Видалення організації
-					<span class="text-red-c-500 underline">
-						"{{organization.name}}"
-					</span>
+				</div>
+				<div class="text-s1 text-red-c-500 underline">
+					"{{organization.name}}"
 				</div>
 				<div class="text-h3 text-gray-c-600 my-2">
 					Для видалення введіть:
+					<span class="text-h3 text-center text-gray-c-800 font-semibold">
+						{{ organization.name }}
+					</span>
 				</div>
-				<div class="text-h3 text-center text-gray-c-800 mt-2 mb-4">
-					{{ organization.name }}
-				</div>
-				<div class="flex flex-col gap-4 mt-4 mb-2">
-					<input-1 v-model="inputValue" class="w-full"/>
-				</div>
+
+				<input-1 v-model="inputValue" class="w-full"/>
 
 				<button-1 :disabled="!isRemoveAvailable" class="w-full mt-6" @click.stop="removeOrg">
 					Видалити
@@ -114,5 +114,12 @@ export default {
 </script>
 
 <style scoped>
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
+
+.text-s1{
+	@apply text-h2 text-center font-semibold;
+}
 
 </style>

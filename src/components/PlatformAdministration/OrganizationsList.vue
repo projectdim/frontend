@@ -36,14 +36,9 @@
 								 @focusout="OnInputFocus(false)"
 								 @click.stop
 								 placeholder="Пошук організації. Від 3 символів..."
-								 v-model="SearchedOrgName"
+								 v-model="searchController.SearchedOrgName"
 					/>
 				</div>
-
-				<button-1 class="block items-center px-9 mobile:w-full" :disabled="SearchedOrgName.length < 3"
-					@click="GetOrganizationByName">
-					Пошук
-				</button-1>
 
 				<button-2 class="block flex items-center mobile:w-full justify-center" @click="showAddOrgModal">
 					<img src="/src/assets/plusBlue.svg" class="inline-block mr-2.5 mobile:mt-0.5">
@@ -51,15 +46,15 @@
 				</button-2>
 
 			</div>
-			<div v-if="this.isSearchedOrgResult"  class="py-6 flex flex-wrap gap-4 justify-center">
+			<div v-if="this.searchController.isSearchedOrgResult"  class="py-6 flex flex-wrap gap-4 justify-center">
 				<div class="w-full flex gap-4 items-center">
-					<div class="h-min" v-if="this.SearchedOrganizationsList.length<=0">За запитом "{{this.SearchedOrgName}}" збігів не знайдено.</div>
-					<div class="h-min" v-if="this.SearchedOrganizationsList.length>0">Результати за запитом "{{this.SearchedOrgName}}".</div>
+					<div class="h-min" v-if="this.searchController.SearchedOrganizationsList.length<=0">За запитом "{{this.searchController.SearchedOrgName}}" збігів не знайдено.</div>
+					<div class="h-min" v-if="this.searchController.SearchedOrganizationsList.length>0">Результати за запитом "{{this.searchController.SearchedOrgName}}".</div>
 					<button-1 class="block mobile:grow w-min" @click="ResetSearchResult">
 						Оновити
 					</button-1>
 				</div>
-				<OrganizationListItem v-for="(item, index) in SearchedOrganizationsList"
+				<OrganizationListItem v-for="(item, index) in searchController.SearchedOrganizationsList"
 						:key="`org${index}`" :organization="item" @remove="onRemoveClick"/>
 			</div>
 			<div v-else class="py-6 flex flex-wrap gap-4 justify-center">
@@ -72,9 +67,9 @@
 			<Loader v-show="isLoaderVisible"/>
 		</div>
 
-		<ModalTemplate class-list="grid place-items-center" :is-modal-visible="isCreateModalVisible"
-		:close-func="closeCreateOrgModal" :isHideOnClick="false">
-			<div class="bg-white w-[480px] mx-auto mobile:w-full relative p-6 rounded-lg">
+		<ModalTemplate class-list="grid place-items-center p-4" :is-modal-visible="isCreateModalVisible"
+		:close-func="closeCreateOrgModal" isHideOnClick="true">
+			<div class="bg-white w-[480px] mx-auto mobile:w-full relative p-6 rounded-lg" @click.stop>
 				<img src="/src/assets/close.svg" class="absolute top-6 right-6 cursor-pointer"
 						 @click="closeCreateOrgModal">
 				<div class="text-h2 text-center font-semibold ">Додати організацію</div>
@@ -118,6 +113,7 @@ import SuccessMessage from "../Modals/SuccessMessage.vue";
 import ErrorModal from "../Modals/ErrorModal.vue";
 import Button1 from "../Buttons/Button_1.vue";
 import RemoveOrgModal from "./RemoveOrgModal.vue";
+
 export default {
 	name: "OrganizationsList",
 	components: {RemoveOrgModal, Button1, ErrorModal, SuccessMessage, Loader, Input1, ModalTemplate, OrganizationListItem},
@@ -138,12 +134,14 @@ export default {
 			isErrorMessageVisible : false,
 			ErrorMessage : "Упс.. Щось пішло не так. Спробуйте ще.",
 			isLoaderVisible : false,
-			SearchedOrgName : "",
-			SearchedOrganizationsList : [],
-			isSearchedOrgResult : false,
-
 			removedOrganization : null,
-			isRemovedModalVisible : false
+			isRemovedModalVisible : false,
+			searchController : {
+				SearchedOrgName : "",
+				SearchedOrganizationsList : [],
+				isSearchedOrgResult : false,
+				cancelController: null
+			}
 		}
 	},
 	methods : {
@@ -175,9 +173,9 @@ export default {
 			this.ErrorMessage = "Упс.. Щось пішло не так. Спробуйте ще.";
 		},
 		ResetSearchResult(){
-			this.SearchedOrgName = "";
-			this.SearchedOrganizationsList = []
-			this.isSearchedOrgResult = false;
+			this.searchController.SearchedOrgName = "";
+			this.searchController.SearchedOrganizationsList = []
+			this.searchController.isSearchedOrgResult = false;
 			this.isAutoPaginationOn = true;
 		},
 		onRemoveClick(org){
@@ -233,28 +231,44 @@ export default {
 				});
 		},
 		async GetOrganizationByName(){
-			if(this.SearchedOrgName.length < 3){
+			if(this.searchController.SearchedOrgName.length < 3){
 				this.ErrorMessage = "Мінімальна довжина запиту 3 символи";
 				this.isErrorMessageVisible = true;
 				return
 			}
-			api.organizations.getOrganizationByName(this.SearchedOrgName)
+			await api.organizations.getOrganizationByName(this.searchController.SearchedOrgName,
+				{signal : this.searchController.cancelController.signal})
 				.then(res=>{
-					console.log(res.data);
+					console.log(res)
 					this.isAutoPaginationOn = false;
-					this.isSearchedOrgResult = true;
-					this.SearchedOrganizationsList = res.data;
+					this.searchController.isSearchedOrgResult = true;
+					this.searchController.SearchedOrganizationsList = res.data;
 				})
 				.catch(err=>{
 					this.ResetSearchResult();
 					this.isErrorMessageVisible = true;
 					throw  err;
 				});
+		},
+		OrganizationAutoSearch(){
+			if(this.searchController.SearchedOrgName.length<3)
+				return;
+			if(this.searchController.cancelController)
+				this.searchController.cancelController.abort("Запит доповнено")
+			this.searchController.cancelController = new AbortController();
+			this.GetOrganizationByName();
 		}
 	},
-	/*created() {
-		this.GetOrganizationList(1);
-	},*/
+	watch : {
+		"searchController.SearchedOrgName" : {
+			immediate: true,
+			handler(newVal) {
+				if(!newVal)
+					this.ResetSearchResult();
+				this.OrganizationAutoSearch();
+			}
+		}
+	},
 	mounted() {
 		let options = {
 			threshold: 0,

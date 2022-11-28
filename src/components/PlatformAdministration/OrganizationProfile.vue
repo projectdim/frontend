@@ -104,9 +104,11 @@
 		</div>
 	</div>
 
+<!--	Edit organization modal-->
 	<ModalTemplate :is-modal-visible="isEditModalVisible" is-hide-on-click="false"
-								 class-list="grid place-items-center px-4">
-		<div class="bg-white w-[480px] rounded-lg relative mobile:w-full relative p-6 mx-auto max-h-screen overflow-y-auto">
+								 class-list="grid place-items-center px-4" :is-hide-on-click="true"
+								 :close-func="CloseEditModal">
+		<div @click.stop class="bg-white w-[480px] rounded-lg relative mobile:w-full relative p-6 mx-auto max-h-screen overflow-y-auto">
 			<button class="absolute top-6 right-6 cursor-pointer"
 							@click="CloseEditModal">
 				<img src="/src/assets/close.svg">
@@ -136,14 +138,18 @@
 			<Loader v-if="isEditModalLoaderVisible" class="rounded-lg"/>
 		</div>
 	</ModalTemplate>
+<!--	-->
+<!--	Info messages-->
 	<SuccessMessage  :is-visible="isSuccessMessageVisible" :message="successMessage"
-									 :close-func="CloseAllInfoMessageModal"/>
+									 :close-func="CloseAllInfoMessageModal" hide-on-bg-click="true"/>
 	<ErrorModal :is-visible="isErrorMessageVisible" :message="errorMessage"
-							:close-func="CloseAllInfoMessageModal"/>
-
-	<ModalTemplate :is-modal-visible="isUserInviteModalVisible" is-hide-on-click="false"
+							:close-func="CloseAllInfoMessageModal" hide-on-bg-click="true"/>
+<!--	-->
+<!--Invite user modal-->
+	<ModalTemplate :is-modal-visible="isUserInviteModalVisible" is-hide-on-click="true"
 								 :close-func="CloseUserInviteModal" class-list="grid place-items-center px-4">
-		<div class="bg-white w-[480px] rounded-lg relative mobile:w-full relative p-6 mx-auto max-h-screen overflow-y-auto">
+		<div class="bg-white w-[480px] rounded-lg relative mobile:w-full relative p-6 mx-auto max-h-screen overflow-y-auto"
+		@click.stop>
 			<button class="absolute top-6 right-6 cursor-pointer"
 							@click="CloseUserInviteModal">
 				<img src="/src/assets/close.svg">
@@ -174,12 +180,12 @@
 			<Loader v-if="isUserInviteModalLoaderVisible" class="rounded-lg"/>
 		</div>
 	</ModalTemplate>
-
+<!---->
+<!--Remove organization modal-->
 	<RemoveOrgModal :is-visible="isRemovedModalVisible"
 									:organization="organization" :close-func="closeRemoveModal"
-									:on-remove-success="onRemoveSuccess"
-	/>
-
+									:on-remove-success="onRemoveSuccess"/>
+<!---->
 	<ConfirmModal :is-visible="ConfirmModal.visible" :question="ConfirmModal.question"
 	:accept-button-func="ConfirmModal.accept" :cancel-button-func="ConfirmModal.decline"
 	:close-func="ConfirmModal.decline"/>

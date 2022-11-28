@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import VueGoogleMaps from '@fawmi/vue-google-maps'
 import './index.css'
-import 'vue3-carousel/dist/carousel.css';
 import App from './App.vue'
 import {store}  from "./store/mainStore.js"
 import {Router} from "./router/mainRouter.js";

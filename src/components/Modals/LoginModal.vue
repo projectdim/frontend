@@ -4,11 +4,11 @@
 				mobile:px-2 grid place-items-center"
 				 @click="hide">
         <div class="mx-auto rounded-xl p-6 w-[480px] mobile:w-full
-          h-min min-h-[320px] bg-white animate-appear relative overflow-hidden"
+          h-min min-h-[320px] bg-white animate-appear relative overflow-hidden flex"
           :class="{'animate-disappear' : isClosedClick}"
         @click.stop>
           <div v-if="!isLogInFailed" class="text-h2 font-semibold relative py-1 text-center
-            mobile:text-h2-m tablet:text-h2-m">
+            mobile:text-h2-m tablet:text-h2-m w-full">
             Вхід
             <button class="absolute top-0 right-0 h-4 w-4 i-can-close-it"
                     @click="hide">
@@ -18,9 +18,9 @@
               </svg>
             </button>
             <div>
-              <Input-1 ref="emailInput" class="w-full my-6" placeholder="Email" v-model="email"/>
+              <Input-1 ref="emailInput" validation-type="mail" type="email" class="w-full my-6" placeholder="Email" v-model="email"/>
               <Input-pass class="w-full" v-model="pass"/>
-              <button-text-1 class="font-semibold block my-3">
+              <button-text-1 class="font-semibold block mb-6 mt-0.5">
                 Відновити пароль...
               </button-text-1>
               <button-1 class="block w-full" :disabled="isButtonDisabled" @click="login">
@@ -29,8 +29,8 @@
             </div>
           </div>
 
-					<div v-if="isLogInFailed" class="labels flex flex-col">
-						<div class="flex mobile:flex-col">
+					<div v-if="isLogInFailed" class="flex flex-col grow">
+						<div class="grow flex mobile:flex-col ">
 							<div class="w-[30px] mobile:w-full">
 								<svg width="30" height="30" class="fill-blue-c-400 block mx-auto" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path fill-rule="evenodd" clip-rule="evenodd" d="M15 0.333252C6.89986 0.333252 0.333374 6.89974 0.333374 14.9999C0.333374 23.1001 6.89986 29.6666 15 29.6666C23.1002 29.6666 29.6667 23.1001 29.6667 14.9999C29.6667 6.89974 23.1002 0.333252 15 0.333252ZM3.00004 14.9999C3.00004 8.3725 8.37262 2.99992 15 2.99992C21.6275 2.99992 27 8.3725 27 14.9999C27 21.6273 21.6275 26.9999 15 26.9999C8.37262 26.9999 3.00004 21.6273 3.00004 14.9999ZM15 8.33325C15.7364 8.33325 16.3334 8.93021 16.3334 9.66658V16.3333C16.3334 17.0696 15.7364 17.6666 15 17.6666C14.2637 17.6666 13.6667 17.0696 13.6667 16.3333V9.66658C13.6667 8.93021 14.2637 8.33325 15 8.33325ZM15 21.6666C15.7364 21.6666 16.3334 21.0696 16.3334 20.3333C16.3334 19.5969 15.7364 18.9999 15 18.9999C14.2637 18.9999 13.6667 19.5969 13.6667 20.3333C13.6667 21.0696 14.2637 21.6666 15 21.6666Z"/>
@@ -103,7 +103,14 @@ export default {
 					this.setLoggedUserCredentials(res.data);
 					this.getInfo();
 				}).catch(err=>{
-					this.logInErrorMessage = err;
+					switch(err.response.status){
+						case 400:
+							this.logInErrorMessage = "Пошта або пароль не вірні.";
+							break;
+						default:
+							this.logInErrorMessage = "Упс.. Щось пішло не так!";
+							break;
+					}
 					this.isLogInFailed = true;
 					this.isLoaderVisible = false;
 				})

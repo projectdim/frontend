@@ -54,12 +54,6 @@ const storePrototype = {
       state.notFoundedMarkerData = marker;
       state.mapCenter = marker.position;
     },
-   /* setLoggedUserInfo(state, user){
-      state.loggedUserInfo = user;
-    },
-    setLoggedUserCredentials(state, credentials){
-      state.loggedUserCredentials = credentials;
-    },*/
     setMapCenter(state, position){
       state.mapCenter = position;
     }
@@ -107,6 +101,7 @@ const storePrototype = {
           lng: arg.geometry.location.lng()
         }
         await api.locations.exactSearch(payload.lat, payload.lng).then((response) => {
+          console.log(response.data)
           context.commit("setSelectedMarker", response.data);
         }).catch((err) => {
           if (err.response.status === 400) {
@@ -115,7 +110,7 @@ const storePrototype = {
               address: arg.name
             }
             context.commit("setNoDataMarkerMarker", notFoundAddress);
-            throw err;
+            console.log(`Address ${arg.name} not found in our DB`)
           }
         });
       }

@@ -3,10 +3,10 @@
 		<div class="absolute z-10 w-full
 			mobile:top-3.5
 			top-6">
-			<div class="border bg-white rounded-xl border-gray-c-300 border-2 h-10 flex flex-nowrap
+			<div class="border bg-white rounded-xl  border-2 h-10 flex flex-nowrap
 				mobile:mx-4 mx-[30px]"
-				:class="{'border-blue-c-500': isInputFocused}"
-			>
+				:class="{'border-blue-c-500': isInputFocused,
+									'border-gray-c-300': !isInputFocused}">
 				<div class="w-[44px] cursor-pointer rounded-xl">
 					<img src="/search.svg" class="h-full w-full object-scale-down">
 				</div>
@@ -19,6 +19,7 @@
 					:options="{
 							  fields: [`geometry`, `name`]
 						  }"
+					:select-first-on-enter = "true"
 					@focusin="OnInputFocus(true)"
 					@focusout="OnInputFocus(false)"
 					:v-model="this.searchRequest"
@@ -39,6 +40,8 @@
 		style="width: 100%; height: 100%"
 		@zoom_changed="OnMapZoomChanged"
     @center_changed="onCenterChanged"
+		:click="true"
+		@click="ClickHandler"
 		:options="{
 			zoomControl: false,
 			mapTypeControl: false,
@@ -115,6 +118,7 @@
 			/>
 <!--      Синие маркера -->
       <GMapMarker
+					v-if="getRole !== userRoles.user"
           v-for="(m, index) in this.$store.state.unreviewedMarkers"
           :key="index"
           :position="m.position"
@@ -133,9 +137,11 @@ import axios from "axios";
 import api from "../../api/index.js";
 import {URL_PROXY_PLACE_REQUEST} from "../../Scripts/MapScripts.js";
 import {mapActions, mapGetters, mapMutations} from "vuex";
+import userRoles from "../mixins/userRoles.js";
 
 export default {
   name: "GoogleMap",
+	mixins : [userRoles],
   data : function (){
 	  return {
 		  currentMapZoom : 17,
@@ -147,13 +153,14 @@ export default {
 	  }
   },
 	computed : {
-		...mapGetters(["getMapCenter"]),
+		...mapGetters(["getMapCenter", "getRole"]),
 		notFoundMarker(){
+			//this.SetMarker(this.$store.state.notFoundedMarkerData.position)
 			return this.$store.state.notFoundedMarkerData;
 		}
 	},
 	methods : {
-		...mapMutations(["setNoDataMarkerMarker", "setSelectedMarker"]),
+		...mapMutations(["setNoDataMarkerMarker", "setSelectedMarker", "setMapCenter"]),
 		...mapActions(["getMarkersByScreenBounds","GetMarkerByCoords", "getMarkerById"]),
 	  	ClickHandler(event) {
 		  if(event.placeId) {
@@ -168,10 +175,10 @@ export default {
     	    lat: { hi: arg.getNorthEast().lat(), lo: arg.getSouthWest().lat() },
     	    lng: { hi: arg.getNorthEast().lng(), lo: arg.getSouthWest().lng() }
     	  }
-				//this.$store.dispatch("getMarkersByScreenBounds", {bounds});
 				this.getMarkersByScreenBounds(bounds);
     	},
       onCenterChanged (coords) {
+			//this.setMapCenter(coords);
         let payload = {
           lat: coords.lat(),
           lng: coords.lng(),
@@ -180,6 +187,7 @@ export default {
         this.getMarkersByScreenBounds(payload);
       },
     	getMarkerInfo(marker) {
+				this.ifClickMarker = false;
 				if(this.$router.path !== "/main/overview")
 					this.$router.push("/main/overview");
         this.getMarkerById(marker.location_id);
@@ -189,6 +197,7 @@ export default {
 				}, 500)
     	},
 		async GetPlaceDetails(placeId){
+			//TODO Romove proxy
 		    await axios.get(URL_PROXY_PLACE_REQUEST,{
 		  	  params : {
 		  	    placeId: placeId,
@@ -201,12 +210,12 @@ export default {
 		    });
     	},
 		SetMarker(coords){
-			if(coords !== this.ClickMarkerCoords)
 				this.getPlaceInfo(coords)
 			this.ifClickMarker = true;
 		  this.ClickMarkerCoords = coords;
 		},
     async getPlaceInfo (coords) {
+			//FIXME coords fields can be type of Number or type of Function
 			await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.lat()},${coords.lng()}&key=${import.meta.env.VITE_GMAPS_APIKEY}`)
           .then((res =>{
 						let notFoundedMarker = {
@@ -230,6 +239,7 @@ export default {
 		},
 		setPlace(arg) {
 			this.GetMarkerByCoords(arg);
+			this.$router.push("/main/overview")
 		},
 		ClearSearchRequest(){
 		  let autocomplete = document.getElementById('autocomplete');
@@ -238,13 +248,15 @@ export default {
   },
 	watch : {
 		notFoundMarker : function (newValue) {
-			if(newValue)
-				this.SetMarker(newValue.position)
+			if(newValue) {
+				this.ifClickMarker = true;
+				this.ClickMarkerCoords = newValue.position;
+			}
 		},
 		getMapCenter : function (newValue) {
 			setTimeout(()=>{
 				this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
-			}, 1000)
+			}, 500)
 		}
 	}
 }

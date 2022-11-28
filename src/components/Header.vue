@@ -62,51 +62,39 @@
 								comp:p-2
 								text-h3">
 
-						<div class="flex mobile:order-3 mobile:rounded-none
+						<LocalizationDropDown class="w-[160px] mobile:order-3
 							mobile:px-4 mobile:w-full
-							mobile:h-[58px]">
-							<img v-bind:src="'/Flags/'+this.imageSrc"
-									 class="h-[18px] w-[24px] my-auto" alt="Flag">
+							h-full
+							mobile:h-[58px]"/>
 
-							<select name="lang-selector" id="lang-selector"
-											class="h-min my-auto bg-transparent ml-[5px] text-right
-											cursor-pointer"
-											@change="onSelectChange">
-								<option value="Ukrainian">Українська</option>
-								<option value="English">English</option>
-							</select>
-						</div>
-
-						<div v-if="isAuth" class="h-full flex items-center gap-x-6
+						<div v-if="isAuth" class="flex items-center gap-x-6
 							mobile:gap-x-1 ml-7 mobile:ml-0 mobile:flex-col-reverse">
 
-							<div class="hover:bg-blue-c-200 rounded-lg p-1 mobile:w-full cursor-pointer
-							mobile:h-[58px] flex gap-4 items-center mobile:rounded-none mobile:px-4" @click="showSettingModal">
+							<div class="menu-item menu-item-mobile" @click="showSettingModal">
 								<img  src="/src/assets/Settings.svg"
 										 class="h-6 w-auto  block">
 								<p class="h-min hidden mobile:block">Налаштування</p>
 							</div>
 
-							<div class="hover:bg-blue-c-200 rounded-lg p-1 cursor-pointer mobile:w-full
-							mobile:h-[58px] flex gap-4 items-center mobile:rounded-none mobile:px-4"
+							<div class="menu-item menu-item-mobile relative"
 							@click="goToRequests">
-									<div class="relative">
-										<div v-if="RequestsCount>0" class="absolute bg-red-c-500 rounded-[32px] py-0.5 px-1 font-semibold
-											text-b3 text-white top-[-15px] right-[-5px] h-6 w-[22px] text-center">
-											{{ RequestsCount }}
-										</div>
-										<img src="/src/assets/Aid-worker-actions.svg" class="h-6 w-auto ">
-									</div>
-									<p class="h-min hidden mobile:block">Запити</p>
+								<div v-if="RequestsCount>0" class="absolute bg-red-c-500 rounded-[32px] py-0.5 px-1 font-semibold
+									text-b3 text-white top-[-15px] right-[-5px] h-6 min-w-[22px] w-min text-center
+									mobile:static mobile:order-3">
+									{{ RequestsCount }}
+								</div>
+								<img src="/src/assets/Aid-worker-actions.svg" class="h-6 w-auto ">
+								<p class="h-min hidden mobile:block mobile:grow">Запити</p>
 							</div>
 
-							<router-link to="/admin/organizations" class="w-full h-[58px] gap-4 items-center px-4 hidden mobile:flex hover:bg-blue-c-200"
+							<button @click="goToOrgList" class="w-full h-[58px] gap-4
+							items-center px-4 hidden mobile:flex hover:bg-blue-c-200"
 													 v-if="isPlatformAdmin">
 								<div class="relative">
 									<img src="/src/assets/Organizations/List.svg" class="h-4 ml-1 w-auto ">
 								</div>
 								<p class="h-min hidden mobile:block">Організації</p>
-							</router-link>
+							</button>
 
 						</div>
 					</div>
@@ -154,12 +142,12 @@
 					</router-link>
 				</div>
 
-				<button-text-1 v-if="!isAuth" class="h-min my-auto" role="link"
+				<button-text-1 v-if="!isAuth" class="my-auto" role="link"
 											 @click="showLogInModal">
-					LogIn
+					Вхід
 				</button-text-1>
-				<button-text1 @click="logOut" v-if="isAuth" class="h-min my-auto">
-					LogOut
+				<button-text1 @click="logOut" v-if="isAuth" class="my-auto">
+					Вихід
 				</button-text1>
 			</div>
 
@@ -179,10 +167,12 @@ import UserSetting from "./UserSetting.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import ButtonText1 from "./Buttons/Button_text_1.vue";
 import userRoles from "./mixins/userRoles.js";
+import LocalizationDropDown from "./Other/LocalizationDropDown.vue";
 
 export default {
   name: "Header",
   components : {
+		LocalizationDropDown,
 		ButtonText1,
     UserSetting
   },
@@ -196,7 +186,6 @@ export default {
 	mixins: [userRoles],
   data : function (){
 		return {
-			imageSrc : "UA_flag.svg",
 			isLoginModal : false,
       isSettingModal : false,
 			isMenuVisibleOnMobile : false
@@ -205,16 +194,6 @@ export default {
   methods : {
 		...mapMutations(['setLoggedUserInfo', 'setLoggedUserCredentials']),
 		...mapActions(["getRequestsCount"]),
-		onSelectChange(event){
-			switch (event.target.value){
-				case "English":
-					this.imageSrc = "USA_flag.svg"
-					break;
-				case "Ukrainian":
-					this.imageSrc = "UA_flag.svg"
-					break;
-			}
-		},
 		showLogInModal(){
 			this.isMenuVisibleOnMobile = false;
 			this.isLoginModal = true;
@@ -242,6 +221,10 @@ export default {
 			this.isMenuVisibleOnMobile = false;
 			this.$router.push("/main/requests")
 		},
+		goToOrgList(){
+			this.isMenuVisibleOnMobile = false;
+			this.$router.push("/admin/organizations")
+		},
 		toggleMenu(){
 			this.closeModal();
 			this.isMenuVisibleOnMobile = !this.isMenuVisibleOnMobile;
@@ -265,7 +248,7 @@ export default {
 				case this.userRoles.aidWorker:
 					return "/src/assets/User.svg";
 				case this.userRoles.platformAdmin:
-					return "/src/assets/platformAdminIcon.svg";
+					return "/src/assets/platform-adm.svg";
 					break;
 				default:
 					return "/src/assets/User.svg";
@@ -281,10 +264,20 @@ export default {
 			if(newValue===true)
 				this.showSettingModal();
 		}
-	}
+	},
 }
 </script>
 
 <style scoped>
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+.menu-item{
+	@apply hover:bg-blue-c-200 rounded-lg p-1  cursor-pointer
+	 flex gap-4 items-center
+}
+.menu-item-mobile{
+	@apply mobile:rounded-none mobile:px-4 mobile:h-[58px] mobile:w-full
+}
 </style>

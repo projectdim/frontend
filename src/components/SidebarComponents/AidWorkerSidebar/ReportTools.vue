@@ -6,21 +6,22 @@
 		:accept-button-func="PageLeaveAccepted"
 		:cancel-button-func="PageLeaveCanceled"/>
  <div class="py-4 px-6 overflow-y-auto h-full">
-<!--	 <h3 class="font-semibold text-h2
+
+	 <h3 class="font-semibold text-h2
 			mobile:text-h2-m">
 		 {{getSelectedLocationRequest.address}}
-	 </h3>-->
+	 </h3>
 
 <!--	 Header-->
 	 <div class="flex flex-wrap justify-between mb-2">
 		 <div class="font-semibold text-h2">
 			 <span class="align-middle">Оновлення стану</span>
 		 </div>
-		 <div class="flex flex-wrap gap-2 h-[42px]">
-			 <Button3 @click="this.$router.go(-1)" class="min-w-[80px]">
-				 Відміна
-			 </Button3>
-			 <Button1 @click="PreviewFinishedReport" class="min-w-[80px]">
+		 <div class="flex  gap-2 h-[42px] mobile:w-full">
+				<Button3 class="min-w-[80px] mobile:grow" @click="GoBack">
+					 Відміна
+				</Button3>
+			 <Button1 @click="PreviewFinishedReport" class="min-w-[80px] mobile:grow">
 				 Далі
 			 </Button1>
 		 </div>
@@ -202,13 +203,42 @@ import ButtonTag from "../../Buttons/ButtonTag.vue";
 import {ReportsState} from "../../../Scripts/Helper.js";
 import ModalTemplate from "../../Modals/ModalTemplate.vue";
 import ConfirmModal from "../../Modals/ConfirmModal.vue";
+import helper from "../../mixins/helper.js";
 
 export default {
 	name: "ReportTools",
 	components: {ConfirmModal, ModalTemplate, ButtonTag, Button1, Button3},
+	mixins : [helper],
 	data(){
 		return {
-			report : {},
+			report : {
+				buildingCondition: {
+					flag: ReportsState.buildingCondition.NoData,
+					description: ""
+				},
+				electricity: {
+					flag: ReportsState.electricity.NoData,
+					description: ""
+				},
+				carEntrance: {
+					flag: ReportsState.carEntrance.NoData,
+					description: ""
+				},
+				water: {
+					flag: ReportsState.water.NoData,
+					description: ""
+				},
+				fuelStation: {
+					flag: ReportsState.fuelStation.NoData,
+					description: "",
+					distance: 0
+				},
+				hospital: {
+					flag: ReportsState.hospital.NoData,
+					description: "",
+					distance: 0
+				}
+			},
 			isLeaveModalVisible : false,
 			question: "Ви не зберегли інформацію. Якщо ви покинете сторінку інформацію буде втрачено.",
 			isPageLeaveConfirmed : false,
@@ -218,8 +248,12 @@ export default {
 	methods : {
 		...mapMutations(['setSelectedMarker']),
 		...mapActions(['setSelectedRequest']),
+		GoBack(){
+			this.$router.go(-1);
+		},
 		SetBuildingCondition(value){
 			this.report.buildingCondition.flag = value;
+			console.log(JSON.parse(JSON.stringify(this.report)))
 		},
 		SetBuildingConditionDescription(value){
 			this.report.buildingCondition.description = value
@@ -258,7 +292,6 @@ export default {
 		PreviewFinishedReport(){
 			let RequestLocationMarker = this.getSelectedLocationRequest;
 			RequestLocationMarker.reports = this.report;
-			RequestLocationMarker.status = 8;
 			this.setSelectedRequest(RequestLocationMarker);
 			this.isPageLeaveConfirmed = true;
 			this.$router.push("submit-report-preview");
@@ -279,36 +312,6 @@ export default {
 		...mapGetters(["getSelectedLocationRequest"]),
 		ReportState() {
 			return ReportsState;
-		},
-		reportStateDefault () {
-			return {
-				buildingCondition: {
-					flag: ReportsState.buildingCondition.NoData,
-					description: ""
-				},
-				electricity: {
-					flag: ReportsState.electricity.NoData,
-					description: ""
-				},
-				carEntrance: {
-					flag: ReportsState.carEntrance.NoData,
-					description: ""
-				},
-				water: {
-					flag: ReportsState.water.NoData,
-					description: ""
-				},
-				fuelStation: {
-					flag: ReportsState.fuelStation.NoData,
-					description: "",
-					distance: 0
-				},
-				hospital: {
-					flag: ReportsState.hospital.NoData,
-					description: "",
-					distance: 0
-				}
-			}
 		},
 		//TODO це для пропсів
 		isHospitalOpen(){
@@ -427,8 +430,11 @@ export default {
 
 	},
 	beforeRouteLeave(to, from, next){
+/*		console.log(JSON.parse(JSON.stringify(this.getSelectedLocationRequest.reports)))
+		console.log(JSON.parse(JSON.stringify(this.report)))
+		console.log(this.isPageLeaveConfirmed)*/
 		if(this.getSelectedLocationRequest.reports !== null &&
-		this.getSelectedLocationRequest.reports === this.report)
+			this.isEqual(this.getSelectedLocationRequest.reports, this.report))
 			next();
 		if(this.isPageLeaveConfirmed)
 			next();
@@ -440,9 +446,7 @@ export default {
 	},
 	created() {
 		if(this.getSelectedLocationRequest.reports)
-			this.report = this.getSelectedLocationRequest.reports;
-		else
-			this.report = this.reportStateDefault;
+			this.report = JSON.parse(JSON.stringify(this.getSelectedLocationRequest.reports))
 	}
 }
 </script>

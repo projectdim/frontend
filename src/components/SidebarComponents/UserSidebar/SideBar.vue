@@ -1,5 +1,6 @@
 <template>
-	<div v-if="selectedMarkerData !== null" id="sideBar" class="overflow-y-auto h-full shadow-cs1">
+	<div v-if="selectedMarkerData !== null"
+			 id="sideBar" class="overflow-y-auto h-full shadow-cs1 flex flex-col">
 	  <h1 class="px-6 font-semibold my-6 text-h1
 			mobile:text-h1-m
 			tablet:text-h1-m
@@ -12,20 +13,14 @@
 	  <div class="flex flex-nowrap text-center text-h3
 			mobile:text-h4
 			tablet:text-h4">
-			<div class="basis-1/2 pb-2.5 cursor-pointer hover:bg-gray-200 box-border"
-				 :class="this.selectedTabItem === `Overview`? `text-blue-c-500 border-blue-c-500 border-b-2` : `text-gray-c-500 border-gray-c-500 border-b`"
-				 @click="setSelectedTab(`Overview`)"
-			>
+			<TabItemButton class="w-full" target-tab-value="Overview" :current-tab-value="selectedTabItem" @click="setSelectedTab('Overview')">
 				Огляд
-			</div>
-			<div class="basis-1/2 pb-2.5 cursor-pointer hover:bg-gray-200 box-border"
-				 :class="this.selectedTabItem === `History`? `text-blue-c-500 border-blue-c-500 border-b-2` : `text-gray-c-500 border-gray-c-500 border-b`"
-				 @click="setSelectedTab(`History`)"
-			>
+			</TabItemButton>
+			<TabItemButton class="w-full" target-tab-value="History" :current-tab-value="selectedTabItem" @click="setSelectedTab(`History`)">
 				Історія змін
-			</div>
+			</TabItemButton>
 	  </div>
-	  <div class="pt-6">
+	  <div class="pt-6 grow">
       <keep-alive>
 		    <Overview v-if="this.selectedTabItem === `Overview` && selectedMarkerData" />
       </keep-alive>
@@ -42,6 +37,7 @@ import Overview from "./Overview.vue";
 import History from "./History.vue";
 import { mapState } from "vuex";
 import NotFound from "./NotFound.vue";
+import TabItemButton from "../../Other/TabItemButton.vue";
 
 export default {
   name: "SideBar",
@@ -49,6 +45,7 @@ export default {
     selectedMarker: Object
   },
   components : {
+		TabItemButton,
 		History,
 		Overview,
 		NotFound

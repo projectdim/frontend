@@ -1,17 +1,16 @@
 <template>
-	<div>
-		<RemoveOrgModal
-			:organization="{name : 'Organization'}"
-			is-visible="true"
-		/>
+	<h1 class="w-full py-2 text-2xl text-center">Welcome to test screen</h1>
+	<div class="mobile:w-full w-[500px] mx-auto">
+		<LocalizationDropDown class="mx-auto"/>
 	</div>
 </template>
 
 <script>
 import RemoveOrgModal from "./PlatformAdministration/RemoveOrgModal.vue";
+import LocalizationDropDown from "./Other/LocalizationDropDown.vue";
 export default {
   name: "Test",
-	components: {RemoveOrgModal},
+	components: {LocalizationDropDown, RemoveOrgModal},
 	methods : {
 		getCookie(cname) {
 			let name = cname + "=";

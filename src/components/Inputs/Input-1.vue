@@ -1,9 +1,9 @@
 <template>
 	<div>
-		<input @focusin="onFocus" @focusout="onLeave" @invalid="validate"
-					 type="text" class="input-1" :value="modelValue" @input="updateInput" :placeholder="placeholder"
+		<input @focusin="onFocus" @focusout="onLeave"
+					 :type="type" class="input-1" :value="modelValue" @input="updateInput" :placeholder="placeholder"
 		:class="validationStyle" :disabled="disabled">
-		<div v-if="!isValidStyle && validationMessage" class="text-red-c-500 text-b3 mt-1">{{validationMessage}}</div>
+		<div v-if="!isValidStyle && validationMessage" class="text-red-c-500 text-b3 mt-1 text-left px-2">{{validationMessage}}</div>
 	</div>
 </template>
 
@@ -13,7 +13,7 @@ import regex from "../mixins/regex.js";
 export default {
 	name: "Input-1",
 	mixins : [regex],
-	emits : ["validation"],
+	emits : ["validation", "update:modelValue"],
 	props : {
 		modelValue : [String, Number],
 		validationType : {
@@ -27,8 +27,11 @@ export default {
 			default : "Поле не валідне"
 		},
 		placeholder : String,
-		disabled : Boolean
-
+		disabled : Boolean,
+		type : {
+			type : String,
+			default: "text"
+		}
 	},
 	data () {
 		return {

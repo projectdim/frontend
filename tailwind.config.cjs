@@ -34,9 +34,10 @@ module.exports = {
         'green-c-700' : '#094008',
       },
       boxShadow: {
-        'cs1': '1px 0px 0px rgba(181, 181, 181, 0.25), 2px 0px 20px rgba(207, 205, 205, 0.25);',
-        'cs2': '0px 1px 0px rgba(197, 208, 227, 0.4);',
-        'cs3': '2px 2px 10px 0px rgba(115, 118, 128, 0.11);'
+        'cs1' : '1px 0px 0px rgba(181, 181, 181, 0.25), 2px 0px 20px rgba(207, 205, 205, 0.25);',
+        'cs2' : '0px 1px 0px rgba(197, 208, 227, 0.4);',
+        'cs3' : '2px 2px 10px 0px rgba(115, 118, 128, 0.11);',
+        'cs4' : '4px 4px 12px 0px rgba(177, 177, 177, 0.25);'
       },
       height: {
         '1/12': '8.333334%',

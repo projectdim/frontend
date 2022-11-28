@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="h-full flex flex-col justify-between">
 		<div id="Overview" class="px-6 mobile:px-4">
 			<h3 class="font-semibold text-h2
 				mobile:text-h2-m">
@@ -9,17 +9,24 @@
 			<div class="mobile:text-h4 text-h3" >
 
 				<div class="py-4 shadow-cs2">
-					<div class="flex flex-nowrap">
+					<div class="flex flex-nowrap relative cursor-pointer group">
+
 						<svg :class="getSVGColorClass('buildingCondition', selectedMarker.reports.buildingCondition.flag)"
 								 class="mr-1.5 my-auto w-6" width="22" height="20" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path fill-rule="evenodd" clip-rule="evenodd" d="M11 0.654663L21.669 10.2567C22.0795 10.6262 22.1128 11.2585 21.7433 11.669C21.3738 12.0795 20.7416 12.1128 20.331 11.7433L19 10.5454V21H3.00001V10.5454L1.66897 11.7433C1.25846 12.1128 0.626173 12.0795 0.256714 11.669C-0.112745 11.2585 -0.079466 10.6262 0.331044 10.2567L11 0.654663ZM5.00001 8.74539V19H17V8.74538L11 3.34539L5.00001 8.74539Z"/>
 						</svg>
+
 						<p class="grow font-semibold my-auto uppercase"
 							 :class="getTextColorClass('buildingCondition', markerReports.buildingCondition.flag)">
 							{{markerReports.buildingCondition.flag}}
 						</p>
+
 						<div class="text-gray-c-500 my-auto font-normal px-1 ">
 							{{(new Date(selectedMarker.updated_at)).toLocaleString()}}
+						</div>
+
+						<div class="tooltip">
+							Стан будівлі
 						</div>
 					</div>
 
@@ -30,7 +37,7 @@
 				</div>
 
 				<div class="py-4 shadow-cs2">
-					<div class="flex flex-nowrap">
+					<div class="flex flex-nowrap relative cursor-pointer group">
 						<svg :class="getSVGColorClass('electricity', markerReports.electricity.flag)"
 								 width="14" height="22" viewBox="0 0 14 22" fill="none" xmlns="http://www.w3.org/2000/svg"
 								 class="mr-1.5 my-auto w-6" >
@@ -47,6 +54,9 @@
 						<p class="text-gray-c-500 my-auto font-normal px-1">
 							{{(new Date(selectedMarker.updated_at)).toLocaleString()}}
 						</p>
+						<div class="tooltip">
+							Наявність електроенергії
+						</div>
 					</div>
 
 					<Expander v-if="markerReports.electricity.description">
@@ -56,7 +66,7 @@
 				</div>
 
 				<div class="py-4 shadow-cs2">
-					<div class="flex flex-nowrap">
+					<div class="flex flex-nowrap relative cursor-pointer group">
 						<svg :class="getSVGColorClass('carEntrance', markerReports.carEntrance.flag)"
 								 class="mr-1.5 my-auto w-6" width="24" height="20" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path fill-rule="evenodd" clip-rule="evenodd" d="M2.87043 18L8.77812 2H11V3H13V2L15.2219 2L21.1296 18H2.87043ZM7.14327 0.653627C7.2883 0.260846 7.66267 0 8.08137 0H15.9186C16.3373 0 16.7117 0.260845 16.8567 0.653626L23.5029 18.6536C23.744 19.3066 23.2608 20 22.5648 20H1.43521C0.739157 20 0.25602 19.3066 0.497115 18.6536L7.14327 0.653627ZM11 8V5H13V8H11ZM11 10V14H13V10H11Z"/>
@@ -69,6 +79,9 @@
 						<p class="text-gray-c-500 my-auto font-normal px-1">
 							{{(new Date(selectedMarker.updated_at)).toLocaleString()}}
 						</p>
+						<div class="tooltip">
+							Автошляхи
+						</div>
 					</div>
 					<Expander v-if="markerReports.carEntrance.description">
 								{{ markerReports.carEntrance.description }}
@@ -76,7 +89,7 @@
 				</div>
 
 				<div class="py-4 shadow-cs2">
-					<div class="flex flex-nowrap ">
+					<div class="flex flex-nowrap relative cursor-pointer group">
 						<svg :class="getSVGColorClass('water', markerReports.water.flag)"
 								 class="mr-1.5 my-auto w-6" width="16" height="21" viewBox="0 0 16 21" xmlns="http://www.w3.org/2000/svg">
 							<path fill-rule="evenodd" clip-rule="evenodd" d="M8.35538 1.00411C8.12038 0.961683 7.87968 0.961683 7.64467 1.00411C7.04751 1.11193 6.66014 1.51137 6.39808 1.85193C6.14541 2.18028 5.88192 2.62832 5.59219 3.12099L5.59218 3.121L5.5624 3.17164L3.89408 6.00778C2.68525 8.0628 1.74204 10.2629 1.08705 12.5554C-0.122083 16.7873 3.05554 21 7.45684 21H8.54321C12.9445 21 16.1221 16.7873 14.913 12.5554C14.258 10.2629 13.3148 8.0628 12.106 6.00778L10.4377 3.17164L10.4079 3.12098C10.1181 2.62832 9.85464 2.18028 9.60197 1.85193C9.33991 1.51137 8.95254 1.11193 8.35538 1.00411ZM7.28627 4.18568C7.61571 3.62563 7.81605 3.28874 7.98312 3.07162L8.00003 3.04996L8.01693 3.07162C8.18401 3.28874 8.38434 3.62563 8.71379 4.18568L10.3821 7.02182C11.5052 8.93102 12.3814 10.975 12.99 13.1048C13.8341 16.0591 11.6158 19 8.54321 19H7.45684C4.3843 19 2.166 16.0591 3.0101 13.1048C3.61861 10.975 4.49489 8.93102 5.61795 7.02182L7.28627 4.18568ZM7.0341 15.2588C6.89116 14.7253 6.34282 14.4088 5.80936 14.5517C5.27589 14.6946 4.95931 15.243 5.10225 15.7764C5.27317 16.4143 5.64981 16.978 6.17374 17.38C6.69768 17.7821 7.33962 18 8.00003 18C8.55231 18 9.00003 17.5523 9.00003 17C9.00003 16.4477 8.55231 16 8.00003 16C7.77989 16 7.56591 15.9273 7.39127 15.7933C7.21662 15.6593 7.09108 15.4714 7.0341 15.2588Z"/>
@@ -89,6 +102,10 @@
 						<p class="text-gray-c-500 my-auto font-normal px-1">
 							{{(new Date(selectedMarker.updated_at)).toLocaleString()}}
 						</p>
+
+						<div class="tooltip">
+							Вода
+						</div>
 					</div>
 
 					<Expander v-if="markerReports.water.description">
@@ -98,7 +115,7 @@
 				</div>
 
 				<div class="py-4 shadow-cs2">
-					<div class="flex flex-nowrap">
+					<div class="flex flex-nowrap relative cursor-pointer group">
 						<svg :class="getSVGColorClass('fuelStation',markerReports.fuelStation.flag)"
 								 class="mr-1.5 my-auto w-6" width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path fill-rule="evenodd" clip-rule="evenodd" d="M4.2 2C3.88908 2 3.58624 2.12611 3.35937 2.35813C3.13176 2.59091 3 2.91132 3 3.25V8H12V3.25C12 2.91132 11.8682 2.59091 11.6406 2.35813C11.4138 2.12611 11.1109 2 10.8 2H4.2ZM12 10H3V18H12V10ZM1 9V3.25C1 2.39521 1.33181 1.57102 1.92936 0.959892C2.52765 0.347998 3.34396 0 4.2 0H10.8C11.656 0 12.4723 0.347998 13.0706 0.959892C13.6682 1.57102 14 2.39521 14 3.25V7.65217H14.1667C15.0407 7.65217 15.8851 7.98831 16.5124 8.5962C17.1409 9.20512 17.5 10.0378 17.5 10.913V14.3043C17.5 14.4785 17.5711 14.6521 17.7084 14.7852C17.8468 14.9193 18.0411 15 18.25 15C18.4589 15 18.6532 14.9193 18.7916 14.7852C18.9289 14.6521 19 14.4785 19 14.3043V8C18.3088 8 17.7765 7.5888 17.4608 7.11536C17.1456 6.64246 17 6.05963 17 5.5V4.8769L15.8041 3.71817C15.4075 3.33385 15.3975 2.70077 15.7818 2.30413C16.1661 1.9075 16.7992 1.89751 17.1959 2.28183L17.9389 3.00183C17.9591 3.00062 17.9795 3 18 3C18.5523 3 19 3.44772 19 4V4.02993L20.6959 5.67313C20.8903 5.8615 21 6.12062 21 6.3913V7V14.3043C21 15.0296 20.7023 15.7186 20.1833 16.2215C19.6653 16.7234 18.9693 17 18.25 17C17.5307 17 16.8347 16.7234 16.3167 16.2215C15.7977 15.7186 15.5 15.0296 15.5 14.3043V10.913C15.5 10.589 15.3674 10.2716 15.1207 10.0325C14.8729 9.79243 14.5303 9.65217 14.1667 9.65217H14V18C14.5523 18 15 18.4477 15 19C15 19.5523 14.5523 20 14 20H13H2H1C0.447715 20 0 19.5523 0 19C0 18.4477 0.447715 18 1 18V9Z"/>
@@ -114,6 +131,9 @@
 						<p class="text-gray-c-500 my-auto font-normal px-1">
 							{{(new Date(selectedMarker.updated_at)).toLocaleString()}}
 						</p>
+						<div class="tooltip">
+							Заправка
+						</div>
 					</div>
 					<Expander v-if="markerReports.fuelStation.description">
 						{{ markerReports.fuelStation.description }}
@@ -121,7 +141,7 @@
 				</div>
 
 				<div class="py-4 shadow-cs2">
-					<div class="flex flex-nowrap">
+					<div class="flex flex-nowrap relative cursor-pointer group">
 						<svg :class="getSVGColorClass('hospital',markerReports.hospital.flag)"
 								 class="mr-1.5 my-auto w-6" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path fill-rule="evenodd" clip-rule="evenodd" d="M21.1711 0.879974C20.5548 0.242712 19.7023 0.00221022 18.7962 0.0021859H18.796L18.7956 0.00218572L18.7935 0.002185L18.7851 0.00218238L18.7517 0.00217195L18.6216 0.0021319L18.1277 0.0019842L16.365 0.00149431C14.9063 0.00111003 12.9613 0.000648993 11.0165 0.000341552C9.07168 3.41711e-05 7.12694 -0.000119549 5.66866 0.000111002C4.93955 0.000226337 4.33186 0.000437695 3.90652 0.000774103L3.41215 0.00137748L3.27991 0.00176378L3.24164 0.00200989L3.2282 0.00220038C2.35353 0.00429251 1.50754 0.233036 0.881581 0.847944C0.249479 1.46888 0 2.32777 0 3.25471V18.8447C0 19.7123 0.22348 20.5462 0.832797 21.1583C1.44295 21.7713 2.2787 22 3.15779 22H18.841C19.7072 22 20.5461 21.7871 21.1618 21.177C21.7792 20.5651 22 19.7247 22 18.8447V3.25471C22 2.36682 21.7816 1.51118 21.1711 0.879974ZM18.796 2.00219H18.7957L18.796 1.00219C18.7957 2.00219 18.7957 2.00219 18.7955 2.00219L18.795 2.00219L18.7929 2.00218L18.7844 2.00218L18.7511 2.00217L18.621 2.00213L18.1271 2.00198L16.3645 2.00149C14.9058 2.00111 12.9609 2.00065 11.0162 2.00034C9.07141 2.00003 7.12692 1.99988 5.66897 2.00011H5.66749L5.66958 2.00219H3.24033C2.68516 2.00219 2.41591 2.14427 2.28314 2.2747C2.15361 2.40194 2 2.66931 2 3.25471V18.8447C2 19.3917 2.13893 19.6355 2.25027 19.7474C2.36077 19.8584 2.60392 20 3.15779 20H18.841C19.4079 20 19.6485 19.861 19.754 19.7564C19.8578 19.6535 20 19.4163 20 18.8447V3.25471C20 2.66716 19.8555 2.39652 19.7334 2.27033C19.6173 2.15023 19.3679 2.00219 18.796 2.00219ZM10.257 6C9.70468 6 9.25697 6.44771 9.25697 7V9.27167H7C6.44772 9.27167 6 9.71938 6 10.2717V11.7341C6 12.2864 6.44772 12.7341 7 12.7341H9.27017V15C9.27017 15.5523 9.71789 16 10.2702 16H11.7563C12.3086 16 12.7563 15.5523 12.7563 15V12.7341H15C15.5523 12.7341 16 12.2864 16 11.7341V10.2717C16 9.71938 15.5523 9.27167 15 9.27167H12.7298V7C12.7298 6.44772 12.2821 6 11.7298 6H10.257Z"/>
@@ -137,6 +157,9 @@
 						<p class="text-gray-c-500 my-auto font-normal px-1">
 							{{(new Date(selectedMarker.updated_at)).toLocaleString()}}
 						</p>
+						<div class="tooltip">
+							Лікарня
+						</div>
 					</div>
 					<Expander v-if="markerReports.hospital.description">
 								{{ markerReports.hospital.description }}
@@ -148,8 +171,8 @@
 			<button-1 v-if="isAuth" class="mt-4 w-full" @click="UpdateSelectedMarkerReports">
 				Повідомити про статус
 			</button-1>
-	<!--	  #region Form-->
-		<div class="my-6 text-h3 mobile:text-h4">
+	<!--	  #region Form Not remove -->
+<!--		<div class="my-6 text-h3 mobile:text-h4">
 			<label for="issueMessage" class="text-grey font-normal text-justify block">
 				Буде корисно, якщо ви повідомите нам через цю форму про будь-які проблеми, пов’язані з використанням нашого сервісу.
 			</label>
@@ -166,7 +189,7 @@
 					Відправити
 				</button>
 			</div>
-			</div>
+			</div>-->
 	<!--	  #endregion-->
 		</div>
 		<Contacts/>
@@ -224,29 +247,5 @@ export default {
 </script>
 
 <style scoped>
-
-</style>
-
-<style>
-.carousel__prev,
-.carousel__next {
-  box-sizing: content-box;
-  border: 1px solid black;
-  background-color: white;
-	width: 40px;
-	height: 40px;
-}
-
-.carousel__prev--in-active,
-.carousel__next--in-active {
-  display: none;
-}
-
-.carousel__icon{
-  fill: black;
-	width: 40px;
-	height: 40px;
-}
-
 
 </style>

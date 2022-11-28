@@ -1,6 +1,5 @@
 import WelcomeScreen from "../components/WelcomeScreen.vue";
 import MainScreen from "../components/MainScreen.vue";
-import ErrorPage from "../components/ErrorPage.vue";
 import Test from "../components/Test.vue";
 import SideBar from "../components/SidebarComponents/UserSidebar/SideBar.vue";
 import SideBarAidWorker from "../components/SidebarComponents/AidWorkerSidebar/SideBarAidWorker.vue";
@@ -14,6 +13,7 @@ import MainPlatformAdministration from "../components/PlatformAdministration/Mai
 import OrganizationsList from "../components/PlatformAdministration/OrganizationsList.vue";
 import OrganizationProfile from "../components/PlatformAdministration/OrganizationProfile.vue";
 import UserRegistration from "../components/UserRegistration.vue";
+import userRoles from "../components/mixins/userRoles.js";
 
 
 const mainRouter = [
@@ -51,7 +51,10 @@ const mainRouter = [
   {
     path : "/admin",
     component: MainPlatformAdministration,
-    meta : {requiresAuth  : true},
+    meta : {
+      requiresAuth  : true,
+      minRole : userRoles.data().userRoles.organizationAdmin
+    },
     children: [
       {
         path: "",
@@ -64,10 +67,18 @@ const mainRouter = [
       {
         path: "organizations",
         component: OrganizationsList,
+        meta : {
+          requiresAuth  : true,
+          minRole : userRoles.data().userRoles.platformAdmin
+        },
       },
       {
         path : "organization-profile/:id",
         component : OrganizationProfile,
+        meta : {
+          requiresAuth  : true,
+          minRole : userRoles.data().userRoles.organizationAdmin
+        },
       }
     ]
   },
@@ -100,4 +111,8 @@ Router.beforeEach((to, form)=>{
       path : "/"
     }
   }
+  if(to.meta.minRole && !userRoles.methods.isRoleHaveAccess(store.getters.getRole))
+    return {
+      path : "/"
+    }
 })

@@ -14,6 +14,7 @@ export default function (instance){
     UpdateUserPass(payload){
       return instance.put('/users/password', payload)
     },
+    //TODO зміни на "/users/confirm-registration"
     RegistrationUser(username, email, full_name, organization, password){
       return instance.post("/users/register",{
         username,

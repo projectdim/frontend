@@ -2,7 +2,7 @@
 	<ModalTemplate :classList="'grid place-items-end mobile:place-items-center' +
 	 ' mobile:px-4'" :close-func="closeModal"
 	:is-modal-visible="isSettingVisible">
-    <div class="w-[600px] h-screen overflow-y-auto bg-white p-9
+    <div class="w-[600px] h-screen bg-white p-9
     mobile:p-4 tablet:p-4 animate-userSettingsAppear relative
 		mobile:w-full tablet:w-[480px]
 		mobile:h-min mobile:rounded-lg" @click.stop
@@ -15,20 +15,19 @@
 				<img class="w-min h-min absolute top-0 mobile:right-0 hidden mobile:block " @click="closeModal"
 						 src="/close.svg">
       </div>
-			<button-text1 class="w-[100px] absolute top-9 right-9 mobile:hidden" @click="closeModal">
+			<button-text1 class="w-[100px] absolute top-7 right-4 mobile:hidden py-2" @click="closeModal">
 				Закрити
 			</button-text1>
 <!--    FORM-->
-      <div class="text-h4 text-gray-c-500"
+      <div class="text-h4 text-gray-c-500 w-full"
 				:class="{'mobile:flex mobile:flex-col-reverse' : isPassChangeVisible}">
-
 				<div :class="{'mobile:hidden' : isPassChangeVisible}">
 					<label for="setting-name">Ім'я</label>
 					<input1 id="setting-name" placeholder="Ім'я" v-model="username"
-									class="w-full text-black mt-1 mb-6"/>
+									class="block text-black mt-1 mb-6"/>
 					<label for="setting-mail">E-mail</label>
 					<input1 id="setting-mail" placeholder="E-mail" v-model="email"
-									class="w-full text-black mt-1" disabled/>
+									class=" text-black mt-1" disabled/>
 				</div>
 
 				<div class="flex flex-row-reverse gap-3 py-6"

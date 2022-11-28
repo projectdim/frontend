@@ -6,7 +6,7 @@
     bg-transparent
     disabled:bg-gray-c-100
     disabled:text-gray-c-400
-    cursor-pointer" :class="buttonColor">
+    cursor-pointer p-2" :class="buttonColor">
 		<slot></slot>
   </button>
 </template>

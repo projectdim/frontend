@@ -20,7 +20,8 @@
 					Виберіть адресу для запиту
 				</span>
 			</button-1>
-      <p class="text-gray-c-500">
+<!--			form feedback-->
+<!--      <p class="text-gray-c-500">
 				Буде корисно, якщо ви повідомите нам через цю форму про будь-які проблеми, пов’язані з використанням нашого сервісу.
 			</p>
       <div class="h-min">
@@ -35,7 +36,8 @@
 								class="block border rounded-lg px-[50px] py-2 font-medium">
 					Відправити
 				</button>
-      </div>
+      </div>-->
+<!--			end region-->
     </div>
 
     <Contacts/>

@@ -10,4 +10,15 @@ export  default {
       }
     }
   },
+  methods : {
+    isRoleHaveAccess(userRole, requireRole){
+      let roles = {
+        "user" : ["user"],
+        "aid_worker" : ["user", "aid_worker"],
+        "organization_administrator" : ["user", "aid_worker", "organization_administrator"],
+        "platform_administrator" : ["user", "aid_worker", "organization_administrator"],
+      }
+      return roles[userRole].include(requireRole);
+    }
+  }
 }

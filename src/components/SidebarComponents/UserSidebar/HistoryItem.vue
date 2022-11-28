@@ -20,7 +20,7 @@
 
 					<div class="w-4/5 mobile:pr-6" >
 						<div v-for="item in getChangedLogs(log)" class="my-2.5 font-semibold">
-							<div class="flex flex-wrap gap-2">
+							<div class="flex flex-wrap gap-2 relative group cursor-default">
 								<div class="flex gap-2" v-if="item.old_value">
 									<p class="w-4 h-6">
 										<SVG_status_list :icon='item.flag' :classList="getSVGColorClass(item.flag, item.old_value)"/>
@@ -45,6 +45,9 @@
 										{{item.new_value}}
 									</p>
 								</div>
+								<div class="tooltip">
+									{{getTooltipText(item.flag)}}
+								</div>
 							</div>
 							<Expander v-if="item.description" class="font-normal">
 								{{item.description}}
@@ -66,8 +69,10 @@
 import {getDayDateString, getTextColorClass, getSVGColorClass} from "../../../Scripts/Helper.js";
 import SVG_status_list from "../../ComponentsSVG/SVG_status_list.vue";
 import Expander from "../../Other/Expander.vue";
+import dynamicContent from "../../mixins/dynamicContent.js";
 export default {
 	name: "HistoryItem",
+	mixins : [dynamicContent],
 	components : {Expander, SVG_status_list},
 	props : {
 		log : Object,
@@ -114,7 +119,8 @@ export default {
 							flag : flag,
 							old_value : log.old_flags[flag].flag,
 							new_value : log.new_flags[flag].flag,
-							description : log.new_flags[flag].description
+							description : log.new_flags[flag].description.length > 0 ?
+								log.new_flags[flag].description : "Опис видалено."
 						})
 					}
 					else {

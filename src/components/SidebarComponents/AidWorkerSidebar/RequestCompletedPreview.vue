@@ -187,11 +187,13 @@
 			</div>
 			<!--	  #endRegion-->
 
-<!--			<button-1 v-if="isAuth" class="mt-4 w-full">
-				Повідомити про статус
-			</button-1>-->
+			<router-link to="/main/submit-report">
+				<button-1 v-if="isAuth" class="mt-4 w-full">
+					Внести зміни
+				</button-1>
+			</router-link>
 			<!--	  #region Form-->
-			<div class="my-6 text-h3 mobile:text-h4">
+<!--			<div class="my-6 text-h3 mobile:text-h4">
 				<label for="issueMessage" class="text-grey font-normal text-justify block">
 					Буде корисно, якщо ви повідомите нам через цю форму про будь-які проблеми, пов’язані з використанням нашого сервісу.
 				</label>
@@ -208,7 +210,7 @@
 						Відправити
 					</button>
 				</div>
-			</div>
+			</div>-->
 			<!--	  #endregion-->
 		</div>
 		<Contacts/>
@@ -226,6 +228,7 @@ import Contacts from "../UserSidebar/Contacts.vue";
 import SuccessMessage from "../../Modals/SuccessMessage.vue";
 import AwaitModal from "../../Modals/AwaitModal.vue";
 import ErrorModal from "../../Modals/ErrorModal.vue";
+import helper from "../../mixins/helper.js";
 
 
 export default {
@@ -314,7 +317,8 @@ export default {
 		}
 	},
 	beforeRouteLeave(to, from, next){
-		if(this.isPageLeaveConfirmed)
+		console.log(to)
+		if(this.isPageLeaveConfirmed || to.fullPath=="/main/submit-report")
 			next();
 		else {
 			this.isLeaveModalVisible = true;

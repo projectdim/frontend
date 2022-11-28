@@ -10,16 +10,15 @@
 	  <div class="flex flex-nowrap text-center text-h3
 			mobile:text-h4
 			tablet:text-h4">
-			<div class="basis-1/2 pb-2.5 cursor-pointer hover:bg-gray-200 box-border"
-				 :class="this.selectedTabItem === `All requests`? `text-blue-c-500 border-blue-c-500 border-b-2` : `text-gray-c-500 border-gray-c-500 border-b`"
-				 @click="setSelectedTab(`All requests`)">
+
+			<TabItemButton class="w-full" @click="setSelectedTab(`All requests`)" target-tab-value="All requests" :current-tab-value="selectedTabItem">
 				Всі запити
-			</div>
-			<div class="basis-1/2 pb-2.5 cursor-pointer hover:bg-gray-200 box-border"
-				 :class="this.selectedTabItem === `My requests`? `text-blue-c-500 border-blue-c-500 border-b-2` : `text-gray-c-500 border-gray-c-500 border-b`"
-				 @click="setSelectedTab(`My requests`)">
+			</TabItemButton>
+
+			<TabItemButton class="w-full" @click="setSelectedTab(`My requests`)" target-tab-value="My requests" :current-tab-value="selectedTabItem">
 				Мої запити
-			</div>
+			</TabItemButton>
+
 	  </div>
 	  <div class="py-6">
 			<keep-alive>
@@ -34,10 +33,12 @@
 import { mapState } from "vuex";
 import ReportsRequestsList from "./ReportsRequestsList.vue";
 import MyReportRequestList from "./MyReportRequestList.vue";
+import TabItemButton from "../../Other/TabItemButton.vue";
 
 export default {
   name: "SideBarAidWorker",
 	components: {
+		TabItemButton,
     MyReportRequestList, ReportsRequestsList
   },
 	props: {

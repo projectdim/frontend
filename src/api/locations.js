@@ -1,8 +1,5 @@
 export default function (instance) {
     return {
-        /*addLocation (payload) {
-            return instance.post('locations/create', payload);
-        },*/
         requestAddressReview (payload) {
             return instance.post('locations/request-info', payload)
         },
