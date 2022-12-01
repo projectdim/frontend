@@ -127,6 +127,7 @@ const storePrototype = {
   plugins : [vuexCookie.plugin]
 }
 
+export const storeProt = storePrototype;
 export const store = createStore(storePrototype);
 
 function setCookie(cname, cvalue, exdays = 0) {
