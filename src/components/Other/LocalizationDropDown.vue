@@ -1,7 +1,7 @@
 <template>
 	<div @mouseleave="ToggleDrop(false)" @focusout="ToggleDrop(false)"
 	class="relative">
-		<button class="w-full h-full flex text-h3 items-center text-gray-c-500
+		<button id="dropButton" class="w-full h-full flex text-h3 items-center text-gray-c-500
 		font-semibold justify-between" @click="ToggleDrop(!isDropped)">
 			<div class="flex items-center gap-2 pr-3">
 				<img :src="lang.flag" class="w-6 h-4">

@@ -62,7 +62,7 @@
 								comp:p-2
 								text-h3">
 
-						<LocalizationDropDown class="w-[160px] mobile:order-3
+						<LocalizationDropDown id="langDrop" class="w-[160px] mobile:order-3
 							mobile:px-4 mobile:w-full
 							h-full
 							mobile:h-[58px]"/>
