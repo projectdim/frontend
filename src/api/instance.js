@@ -3,8 +3,8 @@ import { store } from "../store/mainStore.js";
 
 
 const instance = axios.create({
-    baseURL: import.meta.env.VITE_BACKEND_DEVELOPMENT,
-    // baseURL: "http://127.0.0.1:7000",
+    // baseURL: import.meta.env.VITE_BACKEND_DEVELOPMENT,
+    baseURL: "http://127.0.0.1:7000/api/v1",
     withCredentials: false,
     headers: {
         accept: 'application/json'

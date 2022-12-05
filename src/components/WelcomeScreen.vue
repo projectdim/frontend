@@ -28,7 +28,7 @@
 					:v-model="this.searchRequest"
 			/>
       <div class="w-[40px] cursor-pointer rounded-xl" @click="this.ClearSearchRequest">
-        <img src="/close.svg" class="h-full w-full object-scale-down">
+        <img id="close-button" src="/close.svg" alt="close" class="h-full w-full object-scale-down">
       </div>
     </div>
     <div class="bg-gray-c-200 p-6 mt-12">

@@ -1,6 +1,6 @@
 <template>
 	<teleport to="body">
-		<div v-if="isModalVisible" class="overflow-y-hidden z-50 h-screen w-screen bg-black/30 absolute top-0
+		<div id="loginModal" v-if="isModalVisible" class="overflow-y-hidden z-50 h-screen w-screen bg-black/30 absolute top-0
 				mobile:px-2 grid place-items-center"
 				 @click="hide">
         <div class="mx-auto rounded-xl p-6 w-[480px] mobile:w-full
@@ -18,12 +18,12 @@
               </svg>
             </button>
             <div>
-              <Input-1 ref="emailInput" validation-type="mail" type="email" class="w-full my-6" placeholder="Email" v-model="email"/>
-              <Input-pass class="w-full" v-model="pass"/>
+              <Input-1 name="email" ref="emailInput" validation-type="mail" type="email" class="w-full my-6" placeholder="Email" v-model="email"/>
+              <Input-pass name="password" class="w-full" v-model="pass"/>
               <button-text-1 class="font-semibold block mb-6 mt-0.5">
                 {{ $t('login.resetPassword') }}
               </button-text-1>
-              <button-1 class="block w-full" :disabled="isButtonDisabled" @click="login">
+              <button-1 id="loginButton" class="block w-full" :disabled="isButtonDisabled" @click="login">
                 {{ $t('login.logIn') }}
               </button-1>
             </div>

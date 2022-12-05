@@ -6,7 +6,7 @@
     mobile:p-4 tablet:p-4 animate-userSettingsAppear relative
 		mobile:w-full tablet:w-[480px]
 		mobile:h-min mobile:rounded-lg" @click.stop
-		:class="{'animate-userSettingsAppear' : isSettingVisible}">
+		:class="{'animate-userSettingsAppear' : isSettingVisible}" id="userSettings">
 			<Loader v-if="isShowLoader"></Loader>
 <!--      Header-->
       <div class="mb-6 text-h1 mobile:text-h2 mobile:text-center relative
@@ -32,7 +32,7 @@
 
 				<div class="flex flex-row-reverse gap-3 py-6"
 					:class="{'mobile:hidden' : isPassChangeVisible}">
-					<Button1 :disabled="isSaveButtonDisabled" @click="updateUserData">
+					<Button1 id="updateData" :disabled="isSaveButtonDisabled" @click="updateUserData">
             {{ $t('general.save') }}
 					</Button1>
 					<ButtonOptions :button-color="'blue'" @valueChange="changePassVisibility"
