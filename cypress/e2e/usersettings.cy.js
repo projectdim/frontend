@@ -1,5 +1,3 @@
-import randomString from "../helpers.js"
-
 describe('user settings', () => {
   before(() => {
     cy.fixture('testUser.json').then((user) => {
@@ -27,9 +25,27 @@ describe('user settings', () => {
     cy.get('#setting-name').find('input').clear().type(testname);
     cy.get('#updateData').should('not.be.disabled');
     cy.get('#updateData').click();
-    cy.intercept('/api/v1/users/info').then((res) => {
-      console.log(res)
-    })
+    cy.intercept('/api/v1/users/info' , (req) => {
+      req.continue((res) => {
+        expect(res.statusCode).to.eq(200);
+      });
+    });
+    cy.get('#updateData').should('be.disabled');
   });
+
+  it('checks if the password change works', () => {
+    cy.get('#passChangeBlock').should('not.be.visible');
+    cy.get('#updatePassword').click();
+    cy.get('#passChangeBlock').should('be.visible');
+    cy.get('#changePassButton').should('be.disabled');
+    cy.get('#setting-pass').type(this.user.password);
+    cy.get('#setting-new-pass').type(this.user.password);
+    cy.get('#changePassButton').should('not.be.disabled').click().should('be.disabled');
+  });
+
+  it('checks that the modal closes', () => {
+    cy.get('#close-settings').click();
+    cy.get('body').find('#userSettings').should('not.exist')
+  })
 
 });

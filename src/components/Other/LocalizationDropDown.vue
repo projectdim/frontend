@@ -5,7 +5,7 @@
 		font-semibold justify-between" @click="ToggleDrop(!isDropped)">
 			<div class="flex items-center gap-2 pr-3">
 				<img :src="lang.flag" class="w-6 h-4">
-				<div>{{lang.value}}</div>
+				<div id="current-language">{{lang.value}}</div>
 			</div>
 			<img src="/src/assets/dropdown-arrow.svg" class="w-3.5 h-2 transition-all duration-300"
 			:class="{
@@ -13,7 +13,7 @@
 				'rotate-180' : isDropped
 			}">
 		</button>
-		<div class="bg-white overflow-hidden transition-all duration-300 absolute top-[58px] w-full
+		<div id="langList" class="bg-white overflow-hidden transition-all duration-300 absolute top-[58px] w-full
 			 shadow-cs4 rounded-lg z-[100] mobile:static mobile:rounded-none mobile:shadow-none"
 		:class="{
 			'h-0' : !isDropped,
@@ -22,7 +22,7 @@
 		}">
 			<div v-for="langItem in availableLang" class="w-full h-[58px] flex text-h3 items-center text-gray-c-500
 				font-semibold p-2 gap-2 hover:bg-blue-c-200 mobile:shadow-cs3 mobile:p-0"
-				:class="{'bg-blue-c-100 text-blue-c-400' : langItem.code == lang.code}"
+				:class="{'bg-blue-c-100 text-blue-c-400' : langItem.code === lang.code}"
 				@click="setLang(langItem)">
 					<img :src="langItem.flag" class="w-6 h-4">
 					<div>{{langItem.value}}</div>
@@ -77,7 +77,7 @@ export default {
 		}
 	},
 	mounted(){
-		this.lang = this.availableLang.find(x=>x.code == this.$i18n.locale)
+		this.lang = this.availableLang.find(x=>x.code === this.$i18n.locale)
 	}
 }
 </script>
