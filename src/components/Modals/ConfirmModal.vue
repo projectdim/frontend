@@ -10,10 +10,10 @@
 			</div>
 			<div class="flex gap-4 flex-nowrap">
 				<button-2 class="w-full" @click="cancelButtonClick">
-					{{cancelButtonText}}
+					{{cancelButtonTextC}}
 				</button-2>
 				<button-1 class="w-full" @click="acceptButtonClick">
-					{{acceptButtonText}}
+					{{acceptButtonTextC}}
 				</button-1>
 			</div>
 		</div>
@@ -45,14 +45,8 @@ export default {
 			type : String,
 			required : true
 		},
-		acceptButtonText : {
-			type : String,
-			default : "Підтвердити"
-		},
-		cancelButtonText : {
-			type : String,
-			default : "Скасувати"
-		},
+		acceptButtonText : String,
+		cancelButtonText : String,
 		acceptButtonFunc : {
 			required : true,
 			type : Function
@@ -71,7 +65,16 @@ export default {
 			this.acceptButtonFunc();
 			this.closeFunc()
 		}
-	}
+	},
+  computed : {
+    acceptButtonTextC(){
+      return this.acceptButtonText ? this.acceptButtonText : this.$t("general.confirm");
+    },
+    cancelButtonTextC(){
+      return this.cancelButtonText ? this.cancelButtonText : this.$t("general.cancel");
+    }
+
+  }
 }
 </script>
 

@@ -23,10 +23,10 @@
 				:class="{'mobile:flex mobile:flex-col-reverse' : isPassChangeVisible}">
 				<div :class="{'mobile:hidden' : isPassChangeVisible}">
 					<label for="setting-name">{{ $t('userSettings.name') }}</label>
-					<input1 id="setting-name" :placeholder="$t('userSettings.name')" v-model="username"
+					<input1 inp-id="setting-name" :placeholder="$t('userSettings.name')" v-model="username"
 									class="block text-black mt-1 mb-6"/>
 					<label for="setting-mail">{{ $t('userSettings.email') }}</label>
-					<input1 id="setting-mail" :placeholder="$t('userSettings.email')" v-model="email"
+					<input1 inp-id="setting-mail" :placeholder="$t('userSettings.email')" v-model="email"
 									class=" text-black mt-1" disabled/>
 				</div>
 
@@ -43,10 +43,10 @@
 
 				<div v-show="isPassChangeVisible">
 					<label for="setting-pass">{{ $t('userSettings.password') }}</label>
-					<input-pass id="setting-pass" :placeholder="$t('userSettings.password')" class="text-black mt-1 mb-6"
+					<input-pass inp-id="setting-pass" :placeholder="$t('userSettings.password')" class="text-black mt-1 mb-6"
 						v-model="oldPass"/>
 					<label for="setting-new-pass">{{ $t('userSettings.new-password') }}</label>
-					<input-pass id="setting-new-pass" :placeholder="$t('userSettings.new-password')" class="text-black mt-1"
+					<input-pass inp-id="setting-new-pass" :placeholder="$t('userSettings.new-password')" class="text-black mt-1"
 						v-model="newPass"/>
 
 					<div class="flex flex-row-reverse gap-3 py-6">

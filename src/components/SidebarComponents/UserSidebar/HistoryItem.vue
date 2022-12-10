@@ -29,10 +29,10 @@
 								text-h3
 								mobile:text-h4
 								tablet:text-h4" :class="getTextColorClass(item.flag, item.old_value)">
-										{{item.old_value}}
+                    {{GetStatusTranslation(item.old_value)}}
 									</p>
 								</div>
-								<img src="/src/assets/change-arrow.svg" class="h-6 w-6">
+								<img src="/src/assets/change-arrow.svg" class="h-6 w-6" alt="arrow">
 								<div class="flex gap-2">
 									<p class="w-4 h-6">
 										<SVG_status_list :icon='item.flag' :classList="getSVGColorClass(item.flag, item.new_value)"/>
@@ -42,7 +42,8 @@
 								mobile:text-h4
 								tablet:text-h4"
 										 :class="getTextColorClass(item.flag, item.new_value)">
-										{{item.new_value}}
+                    {{GetStatusTranslation(item.new_value)}}
+<!--										{{item.new_value}}-->
 									</p>
 								</div>
 								<div class="tooltip">
@@ -66,27 +67,29 @@
 </template>
 
 <script>
-import {getDayDateString, getTextColorClass, getSVGColorClass} from "../../../Scripts/Helper.js";
 import SVG_status_list from "../../ComponentsSVG/SVG_status_list.vue";
 import Expander from "../../Other/Expander.vue";
 import dynamicContent from "../../mixins/dynamicContent.js";
+import reportItemFlags from "../../mixins/reportItemFlags.js";
+import dateFormatter from "../../mixins/dateFormatter.js";
 export default {
 	name: "HistoryItem",
-	mixins : [dynamicContent],
-	components : {Expander, SVG_status_list},
+	mixins : [
+      dynamicContent,
+      reportItemFlags,
+      dateFormatter
+  ],
+	components : {
+    Expander,
+    SVG_status_list
+  },
 	props : {
 		log : Object,
 		logs : []
   },
   methods : {
 		getDate(strDate){
-			return getDayDateString(strDate).replace(' ', ", ");
-		},
-		getTextColorClass(field, status){
-			return getTextColorClass(field, status)
-		},
-		getSVGColorClass(field, status){
-		 	return getSVGColorClass(field, status)
+			return this.getDayDateString(strDate).replace(' ', ", ");
 		},
 		getChangedLogs(log){
 			let result = []
@@ -120,21 +123,13 @@ export default {
 							old_value : log.old_flags[flag].flag,
 							new_value : log.new_flags[flag].flag,
 							description : log.new_flags[flag].description.length > 0 ?
-								log.new_flags[flag].description : "Опис видалено."
+								log.new_flags[flag].description : this.$t("reportTools.descriptionDeleted")
 						})
 					}
 					else {
 						el.description = log.new_flags[flag].description
 					}
 				}
-
-				/*console.log("**********************************")
-				console.log("Old")
-				console.log(log.old_flags[flag].description)
-				console.log("New")
-				console.log(log.new_flags[flag].description)
-				console.log("**********************************")*/
-
 			});
 			console.log(result);
 			return result;

@@ -2,7 +2,7 @@
 	<div>
 		<input @focusin="onFocus" @focusout="onLeave"
 					 :type="type" class="input-1" :value="modelValue" @input="updateInput" :placeholder="placeholder"
-		:class="validationStyle" :disabled="disabled">
+		:class="validationStyle" :disabled="disabled" :id="inpId">
 		<div v-if="!isValidStyle && validationMessage" class="text-red-c-500 text-b3 mt-1 text-left px-2">{{validationMessage}}</div>
 	</div>
 </template>
@@ -31,7 +31,8 @@ export default {
 		type : {
 			type : String,
 			default: "text"
-		}
+		},
+    inpId : String
 	},
 	data () {
 		return {

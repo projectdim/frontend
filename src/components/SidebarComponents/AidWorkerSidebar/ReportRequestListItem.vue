@@ -4,7 +4,7 @@
 		<div>
 			<div class="flex justify-between mb-3">
 				<div class="text-h4 text-gray-c-500 capitalize">
-					{{getDateStr()}}
+					{{getDayDateString(locationRequest.created_at)}}
 				</div>
 				<div class="text-h4 text-gray-c-500">
 					{{locationRequest.city}}
@@ -48,15 +48,16 @@
 
 <script>
 
-import {getDayDateString} from "../../../Scripts/Helper.js";
 import {mapActions, mapState} from "vuex";
 import api from "../../../api/index.js";
 import Loader from "../../Loader.vue";
+import dateFormatter from "../../mixins/dateFormatter.js";
 
 export default {
 	name: "ReportRequestListItem",
 	components: {Loader},
 	emits : ["remove-from-my-list"],
+  mixins : [dateFormatter],
 	props : {
 		locationRequest : {
 			type : Object,
@@ -78,9 +79,6 @@ export default {
 	},
 	methods :{
 		...mapActions(["setSelectedRequest"]),
-		getDateStr(){
-			return getDayDateString(this.locationRequest.created_at);
-		},
 		Reporting(){
 			this.setSelectedRequest(this.locationRequest);
 			this.$router.push("/main/submit-report")

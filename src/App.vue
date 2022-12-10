@@ -16,6 +16,7 @@ export default {
 	},
 	methods : {
 		...mapActions(["getRequestsCount"]),
+		...mapGetters(["getLocalization"]),
 		UpdateRequestCount(){
 			if(this.isAuth){
 				this.getRequestsCount();
@@ -30,7 +31,7 @@ export default {
 	},
 	created() {
 		this.UpdateRequestCount();
-	}
+	},
 }
 </script>
 <style>

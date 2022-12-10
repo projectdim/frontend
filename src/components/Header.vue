@@ -62,7 +62,7 @@
 								comp:p-2
 								text-h3">
 
-						<LocalizationDropDown class="w-[160px] mobile:order-3
+						<LocalizationDropDown class="min-w-min w-[150px] mobile:order-3
 							mobile:px-4 mobile:w-full
 							h-full
 							mobile:h-[58px]"/>
@@ -247,12 +247,12 @@ export default {
 		currentUserIconLink(){
 			switch (this.getRole){
 				case this.userRoles.aidWorker:
-					return "/src/assets/User.svg";
+					return "/userIcons/User.svg";
 				case this.userRoles.platformAdmin:
-					return "/src/assets/platform-adm.svg";
+					return "/userIcons/platform-adm.svg";
 					break;
 				default:
-					return "/src/assets/User.svg";
+					return "/userIcons/User.svg";
 
 			}
 		},

@@ -6,7 +6,8 @@ export default {
     return{
       loggedUserInfo : null,
       loggedUserCredentials : null,
-      userOrganization : {name : "..."}
+      userOrganization : {name : "..."},
+      lang : 'ua'
     }
   },
   mutations : {
@@ -18,6 +19,9 @@ export default {
     },
     setUserOrganization(state, organization){
       state.userOrganization = organization
+    },
+    setLocalization(state, lang){
+      state.lang = lang;
     }
   },
   getters : {
@@ -41,6 +45,9 @@ export default {
       }
       else
         return state.loggedUserInfo.role;
+    },
+    getLocalization(state){
+      return state.lang
     }
   },
   actions : {

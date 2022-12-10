@@ -2,7 +2,7 @@
 	<div @mouseleave="ToggleDrop(false)" @focusout="ToggleDrop(false)"
 	class="relative">
 		<button class="w-full h-full flex text-h3 items-center text-gray-c-500
-		font-semibold justify-between" @click="ToggleDrop(!isDropped)">
+		font-semibold justify-end mobile:justify-start" @click="ToggleDrop(!isDropped)">
 			<div class="flex items-center gap-2 pr-3">
 				<img :src="lang.flag" class="w-6 h-4">
 				<div>{{lang.value}}</div>
@@ -13,7 +13,7 @@
 				'rotate-180' : isDropped
 			}">
 		</button>
-		<div class="bg-white overflow-hidden transition-all duration-300 absolute top-[58px] w-full
+		<div class="bg-white overflow-hidden transition-all duration-100 absolute top-[58px]  w-full
 			 shadow-cs4 rounded-lg z-[100] mobile:static mobile:rounded-none mobile:shadow-none"
 		:class="{
 			'h-0' : !isDropped,
@@ -21,9 +21,9 @@
 			'h-[116px]' : isDropped
 		}">
 			<div v-for="langItem in availableLang" class="w-full h-[58px] flex text-h3 items-center text-gray-c-500
-				font-semibold p-2 gap-2 hover:bg-blue-c-200 mobile:shadow-cs3 mobile:p-0"
+				font-semibold p-2 gap-2 hover:bg-blue-c-200 mobile:shadow-cs3 mobile:p-0 cursor-pointer"
 				:class="{'bg-blue-c-100 text-blue-c-400' : langItem.code == lang.code}"
-				@click="setLang(langItem)">
+				@click.stop="setLang(langItem)">
 					<img :src="langItem.flag" class="w-6 h-4">
 					<div>{{langItem.value}}</div>
 			</div>
@@ -33,7 +33,9 @@
 </template>
 
 <script>
-//FIXME opened height = available lang amount * list item height, in this case 58px
+//FIXME opened height = available lang amount multiple list item height, in this case 58px
+import {mapMutations} from "vuex";
+
 export default {
 	name: "LocalizationDropDown",
 	data (){
@@ -47,24 +49,15 @@ export default {
 		}
 	},
 	methods : {
+		...mapMutations(["setLocalization"]),
 		ToggleDrop(bool){
 			this.isDropped = bool;
 		},
 		setLang(item){
+			console.log(item.code)
 			this.lang = item
 			this.$i18n.locale = item.code;
-		},
-		onSelectChange(event){
-			switch (event.target.value){
-				case "English":
-					this.imageSrc = "USA_flag.svg"
-					this.$i18n.locale = 'en'
-					break;
-				case "Ukrainian":
-					this.$i18n.locale = 'ua'
-					this.imageSrc = "UA_flag.svg"
-					break;
-			}
+			this.setLocalization(item.code);
 		},
 	},
 	computed : {

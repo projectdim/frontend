@@ -45,6 +45,12 @@ export  default {
       }
       let lines = Math.ceil(height / line_height);
       return lines;
+    },
+    GetRandomElement(array){
+      return array[getRndInteger(0, array.length - 1)];
+    },
+    getRndInteger(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
     }
   }
 }

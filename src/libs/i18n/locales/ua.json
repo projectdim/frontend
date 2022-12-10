@@ -57,7 +57,8 @@
     "fuelStation": "Заправка",
     "open": "Працює",
     "closed": "Закрита",
-    "hospital": "Лікарня"
+    "hospital": "Лікарня",
+    "descriptionDeleted" : "Опис видалено"
   },
   "dashboard": {
     "admin": "Адміністратор",
@@ -72,7 +73,8 @@
     "organizationName": "Назва організації",
     "namePlaceholder": "Назва",
     "website": "Вебсайт",
-    "organizationAddSuccess": "Ви успішно додали нову організацію!"
+    "organizationExist" : "Огранізація \"{orgName}\" вже зареєстрована!",
+    "organizationAddSuccess": "Ви успішно додали організацію {orgName}!"
   },
   "organizationProfile": {
     "organization": "Організація",
@@ -87,7 +89,13 @@
     "email": "Пошта",
     "status": "Статус",
     "lastActivity": "Остання активність",
-    "deleteOrganization": "Видалення організації"
+    "deleteOrganization": "Видалення організації",
+    "orgUpdateSuccess" : "Дані оргацізації {orgName} оновлено успішно",
+    "userRemovedSuccess" : "Користувача {userName} видалено успішно",
+    "userRemovedError" : "Помилка видалення користувача {userName}",
+    "deleteUserTitle" : "Видалення користувача",
+    "deleteUserQuestion" : "Ви дійсно хочете видалити користувача {userName}?",
+    "maxInviteMess" : "Не більше 5 запрошень за раз"
   },
   "userSettings": {
     "header": "Налаштування",
@@ -106,11 +114,35 @@
     "organizationBlocked": "Нажаль Ви не можете продовжувати стоворювати звіти, оскільки Вашу організацію заблоковано.",
     "organizationBlockedInfo": "Ми проінформуємо Вас, коли проблему буде вирішено. Дякуємо за Вашу роботу."
   },
+  "userRegistration": {
+    "greeting" : "Вітаємо в DIM!",
+    "ownProfile" : "Створіть свій профіль",
+    "name": "Ім'я",
+    "fullName" : "Повне ім'я",
+    "email": "E-mail",
+    "password": "Пароль",
+    "newPassConf" : "Підтвердження паролю",
+    "passRepeatPlaceholder" : "Повторіть пароль",
+    "createProfile" : "Створити профіль",
+    "userMailExist" : "Користувача з поштою {userMail} вже зареєстровано.",
+    "userRegSuccess" : "Ви успішно створили аккаунт та можете авторизуватись.",
+    "terms" : {
+      "part1" : "Я приймаю умови",
+      "part2" : "Користувацької Угоди ",
+      "part3" : "та",
+      "part4" : "Політики Конфіденційності"
+    }
+  },
   "validations": {
-    "minLength": "Мінімальна довжина",
-    "characters": "знака"
+    "default" : "Поле не валідне.",
+    "minLength": "Мінімальна довжина {amount} символи.",
+    "minNameLength": "Мінімальна довжина імені {amount} символи.",
+    "mailNotValid" : "Пошта не валідна",
+    "passNotValid" : "Пароль повинен містити мінімум 8 символів з них мінімум одну велику літеру, одну малу та одну цифру",
+    "passNotEquals" : "Паролі не співпадають"
   },
   "general": {
+    "confirm" : "Підтвердити",
     "close": "Закрити",
     "save": "Зберегти",
     "send": "Send",
@@ -118,7 +150,7 @@
     "cause": "Причина:",
     "fieldNotValid": "Поле не валідне",
     "delete": "Видалити",
-    "cancel": "Відміна",
+    "cancel": "Скасувати",
     "next": "Далі",
     "dataNotSaved": "Дані не збережено",
     "publish": "Опублікувати",
@@ -141,6 +173,40 @@
     "deleted": "Видалена",
     "success": "Успішно",
     "edited": "Оновлено"
+  },
+  "tooltips": {
+    "water": "Вода",
+    "buildingCondition": "Стан будівлі",
+    "hospital": "Лікарня",
+    "electricity": "Елкетроенергія",
+    "fuelStation": "Заправна станція",
+    "carEntrance": "Автошляхи"
+  },
+  "notFoundAddress" : {
+    "noDBItem" : "На жаль, \"{address}\" немає в нашій базі даних",
+    "tips" : "Можливо варто вказати точнішу адресу.\nВи також можете запитати інформацію за цією адресою, і наша команда постарається приїхати туди якомога швидше."
+  },
+  "removeOrgModal" : {
+    "successMess" : "Організацію \"{orgName}\" успішно видалено.",
+    "errorMess" : "При видаленні організації \"{orgName}\" виникла помилка."
+  },
+  "month" : {
+    "jan" : "Січень",
+    "feb" : "Лютий",
+    "mar" : "Березень",
+    "apr" : "Квітень",
+    "may" : "Травень",
+    "jun" : "Червень",
+    "jul" : "Липень",
+    "aug" : "Серпень",
+    "sep" : "Вересень",
+    "oct" : "Жовтень",
+    "nov" : "Листопад",
+    "dec" : "Грудень"
+  },
+  "day" : {
+    "today" : "Сьогодні",
+    "tomorrow" : "Завтра",
+    "yesterday" : "Вчора"
   }
-
 }

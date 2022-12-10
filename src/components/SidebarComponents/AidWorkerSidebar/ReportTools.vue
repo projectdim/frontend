@@ -28,13 +28,14 @@
 		 </div>
 	 </div>
 
-   <div v-for="label in reports" :key="label.name" class="shadow-cs2 py-4">
+   <div v-for="label in ReportsData()" :key="label.name" class="shadow-cs2 py-4">
      <div class="flex flex-wrap justify-between mb-3 min-h-[34px]">
        <div class="text-h3 text-gray-c-600 py-2">
          {{ $t(`reportTools.${label.name}`) }}
        </div>
        <div class="flex flex-wrap gap-2">
-         <ReportRadio :label="label" v-model="report[label.name].flag"/>
+         <ReportRadio :label="label" v-model="report[label.name].flag"
+         :checked-op="report[label.name].flag"/>
        </div>
      </div>
      <resize-textarea
@@ -52,11 +53,11 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 import Button3 from "../../Buttons/Button_3.vue";
 import Button1 from "../../Buttons/Button_1.vue";
 import ButtonTag from "../../Buttons/ButtonTag.vue";
-import {ReportsState} from "../../../Scripts/Helper.js";
 import ModalTemplate from "../../Modals/ModalTemplate.vue";
 import ConfirmModal from "../../Modals/ConfirmModal.vue";
 import helper from "../../mixins/helper.js";
 import ReportRadio from "../../Buttons/ReportRadio.vue";
+import reportItemFlags from "../../mixins/reportItemFlags.js";
 
 export default {
 	name: "ReportTools",
@@ -67,33 +68,36 @@ export default {
 		ButtonTag,
 		Button1,
 		Button3},
-	mixins : [helper],
+	mixins : [
+    helper,
+    reportItemFlags
+  ],
 	data(){
 		return {
 			report : {
         buildingCondition: {
-          flag: 'noData',
+          flag: 'no_data',
           description: ""
         },
         electricity: {
-          flag: 'noData',
+          flag: 'no_data',
           description: ""
         },
         carEntrance: {
-          flag: 'noData',
+          flag: 'no_data',
           description: ""
         },
         water: {
-          flag: 'noData',
+          flag: 'no_data',
           description: ""
         },
         fuelStation: {
-          flag: 'noData',
+          flag: 'no_data',
           description: "",
           distance: 0
         },
         hospital: {
-          flag: 'noData',
+          flag: 'no_data',
           description: "",
           distance: 0
         }
@@ -102,56 +106,6 @@ export default {
 			question: this.$t('reportTools.beforeLeaveMessage'),
 			isPageLeaveConfirmed : false,
 			targetLeaveRef : "",
-      reports: [
-        {
-          name: "buildingCondition",
-          options: [
-            {value: 'Неушкоджена', i18n: 'intact', class: 'peer-checked:border-green-c-200 peer-checked:text-green-c-500'},
-            {value: 'Пошкоджена', i18n: "damaged", class: 'peer-checked:border-red-c-200 peer-checked:text-red-c-500'},
-            {value: 'Невідомо', i18n: 'noData', class: 'peer-checked:border-gray-c-500 peer-checked:text-gray-c-800'},
-          ]
-        },
-        {
-          name: "electricity",
-          options: [
-            {value: "Стабільна", i18n: 'accessible', class: 'peer-checked:border-green-c-200 peer-checked:text-green-c-500'},
-            {value: "Переривчаста", i18n: 'intermittent', class: 'peer-checked:border-red-c-200 peer-checked:text-red-c-500'},
-            {value: 'Невідомо', i18n: 'noData', class: 'peer-checked:border-gray-c-500 peer-checked:text-gray-c-800'},
-          ]
-        },
-        {
-          name: "carEntrance",
-          options: [
-            {value: 'Доступне', i18n: 'roadwayAccessible', class: 'peer-checked:border-green-c-200 peer-checked:text-green-c-500'},
-            {value: 'Недоступне', i18n: 'inaccessible', class: 'peer-checked:border-red-c-200 peer-checked:text-red-c-500'},
-            {value: 'Невідомо', i18n: 'noData', class: 'peer-checked:border-gray-c-500 peer-checked:text-gray-c-800'},
-          ]
-        },
-        {
-          name: "water",
-          options: [
-            {value: 'Стабільна', i18n: 'stable', class: 'peer-checked:border-green-c-200 peer-checked:text-green-c-500'},
-            {value: 'Нестабільна', i18n: 'intermittent', class: 'peer-checked:border-red-c-200 peer-checked:text-red-c-500'},
-            {value: 'Невідомо', i18n: 'noData', class: 'peer-checked:border-gray-c-500 peer-checked:text-gray-c-800'},
-          ]
-        },
-        {
-          name: "fuelStation",
-          options: [
-            {value: 'Відчинено', i18n: 'open', class: 'peer-checked:border-green-c-200 peer-checked:text-green-c-500'},
-            {value: 'Зачинено', i18n: 'closed', class: 'peer-checked:border-red-c-200 peer-checked:text-red-c-500'},
-            {value: 'Невідомо', i18n: 'noData', class: 'peer-checked:border-gray-c-500 peer-checked:text-gray-c-800'},
-          ]
-        },
-        {
-          name: "hospital",
-          options: [
-            {value: 'Відчинено', i18n: 'open', class: 'peer-checked:border-green-c-200 peer-checked:text-green-c-500'},
-            {value: 'Зачинено', i18n: 'closed',class: 'peer-checked:border-red-c-200 peer-checked:text-red-c-500'},
-            {value: 'Невідомо', i18n: 'noData', class: 'peer-checked:border-gray-c-500 peer-checked:text-gray-c-800'},
-          ]
-        }
-      ]
 		}
 	},
 	methods : {
@@ -178,44 +132,12 @@ export default {
 		GoBack(){
 			this.$router.go(-1);
 		},
+
 	},
 	computed : {
 		...mapGetters(["getSelectedLocationRequest"]),
-    reportStateDefault () {
-      return {
-        buildingCondition: {
-          flag: ReportsState.buildingCondition.NoData,
-          description: ""
-        },
-        electricity: {
-          flag: ReportsState.electricity.NoData,
-          description: ""
-        },
-        carEntrance: {
-          flag: ReportsState.carEntrance.NoData,
-          description: ""
-        },
-        water: {
-          flag: ReportsState.water.NoData,
-          description: ""
-        },
-        fuelStation: {
-          flag: ReportsState.fuelStation.NoData,
-          description: "",
-          distance: 0
-        },
-        hospital: {
-          flag: ReportsState.hospital.NoData,
-          description: "",
-          distance: 0
-        }
-      }
-    },
 	},
 	beforeRouteLeave(to, from, next){
-/*		console.log(JSON.parse(JSON.stringify(this.getSelectedLocationRequest.reports)))
-		console.log(JSON.parse(JSON.stringify(this.report)))
-		console.log(this.isPageLeaveConfirmed)*/
 		if(this.getSelectedLocationRequest.reports !== null &&
 			this.isEqual(this.getSelectedLocationRequest.reports, this.report))
 			next();

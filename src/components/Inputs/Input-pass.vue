@@ -12,11 +12,11 @@
 				 @focusin="OnDivFocus(true)"
 				 @focusout="OnDivFocus(false)">
 			<input ref="pass" class="w-full outline-none px-4 py-2 bg-transparent"
-						 :type="inputType" :placeholder="$t('login.password')"
+						 :type="inputType" :placeholder="placeholderC"
 						 @focusin="OnInputFocus(true)"
 						 @focusout="OnInputFocus(false)"
 						 @input="OnValueChange"
-						 :id="id" :disabled="disabled"
+						 :id="inpId" :disabled="disabled"
 			/>
 			<button class="w-[40px] h-min cursor-pointer rounded-lg px-1" @click="toggleInputType">
 				<svg class="block h-full w-full" viewBox="0 0 24 14" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -28,7 +28,7 @@
 				</svg>
 			</button>
 		</div>
-		<div v-if="!isValidStyle && validationMessage" class="text-red-c-500 text-b3 mt-1 text-left px-2">{{ $t('general.fieldNotValid') }}</div>
+		<div v-if="!isValidStyle && validationMessage" class="text-red-c-500 text-b3 mt-1 text-left px-2">{{ validationMessageC }}</div>
 	</div>
 </template>
 
@@ -38,18 +38,12 @@ import regex from "../mixins/regex.js";
 export default {
 	name: "Input-pass",
 	mixins : [regex],
-	emits : ["validation"],
+	emits : ["validation", "update:modelValue"],
   props : {
     modelValue : String,
-		placeholder : {
-			type : String,
-			default : "Пароль"
-		},
-		id : String,
-		validationMessage : {
-			type : String,
-			default : "Поле не валідне"
-		},
+		placeholder : String,
+		inpId : String,
+		validationMessage : String,
 		validationFunc : {
 			type : Function,
 			default : function (){
@@ -92,9 +86,13 @@ export default {
 			return isPassValid;
 		}
 	},
+  computed : {
+    placeholderC(){
+      return this.placeholder ? this.placeholder : this.$t("userSettings.password");
+    },
+    validationMessageC(){
+      return this.validationMessage ? this.validationMessage :  this.$t("validations.default");
+    }
+  }
 }
 </script>
-
-<style scoped>
-
-</style>

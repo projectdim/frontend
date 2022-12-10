@@ -14,7 +14,6 @@ export default {
       state.selectedLocationRequest = SelectedRequest
     },
     setRequestsCount(state, count){
-      // console.log(`Request count is ${count}`)
       state.requestsCount = count;
     }
   },

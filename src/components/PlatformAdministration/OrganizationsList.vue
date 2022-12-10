@@ -37,6 +37,7 @@
 								 @click.stop
 								 :placeholder="$t('dashboard.organizationSearchPlaceholder')"
 								 v-model="searchController.SearchedOrgName"
+                 id="inpOrgSearch"
 					/>
 				</div>
 
@@ -76,6 +77,7 @@
 			<Loader v-show="isLoaderVisible"/>
 		</div>
 
+<!--    add organization modal-->
 		<ModalTemplate class-list="grid place-items-center p-4" :is-modal-visible="isCreateModalVisible"
 		:close-func="closeCreateOrgModal" isHideOnClick="true">
 			<div class="bg-white w-[480px] mx-auto mobile:w-full relative p-6 rounded-lg" @click.stop>
@@ -84,26 +86,23 @@
 				<div class="text-h2 text-center font-semibold ">{{$t('dashboard.addOrganization')}}</div>
 				<div class="flex flex-col gap-4 mt-4 mb-6">
 					<div>
-						<p class="text-h4 text-gray-c-500">{{ $t('dashboard.organizationName') }}</p>
-						<input1 v-model="createOrgName" class="w-full mt-1" :placeholder="$t('dashboard.namePlaceholder')"/>
+						<label for="inpRegNewOrgName" class="text-h4 text-gray-c-500">{{ $t('dashboard.organizationName') }}</label>
+						<input1 inp-id="inpRegNewOrgName" v-model="createOrgName" class="w-full mt-1" :placeholder="$t('dashboard.namePlaceholder')"/>
 					</div>
 					<div>
-						<p class="text-h4 text-gray-c-500">{{ $t('dashboard.website') }}</p>
-						<input1 v-model="createOrgSite" class="w-full mt-1" placeholder="organization.com"/>
+						<label for="inpRegNewOrgSite" class="text-h4 text-gray-c-500">{{ $t('dashboard.website') }}</label>
+						<input1 inp-id="inpRegNewOrgSite" v-model="createOrgSite" class="w-full mt-1" placeholder="organization.com"/>
 					</div>
 				</div>
 
-				<button-1 class="w-full" :disabled="createOrgName.length < 3 || createOrgSite.length < 3"
+				<button-1 class="w-full" :disabled="isOrgCreateButtDisabled"
 				@click.stop="AddOrganizations">
           {{ $t('general.save') }}
 				</button-1>
 				<Loader v-if="isCreateModalLoaderVisible"/>
 			</div>
 		</ModalTemplate>
-		<SuccessMessage :is-visible="isSuccessMessageVisible" :message="SuccessMessage"
-										:close-func="closeSuccessModal" :hide-on-bg-click="true"/>
-		<ErrorModal :is-visible="isErrorMessageVisible" :message="ErrorMessage"
-								:close-func="closeErrorMessage" :hide-on-bg-click="true"/>
+<!--    #endregion-->
 
 		<RemoveOrgModal :is-visible="isRemovedModalVisible"
 			:organization="removedOrganization" :close-func="closeRemoveModal"
@@ -118,14 +117,21 @@ import api from "../../api/index.js";
 import ModalTemplate from "../Modals/ModalTemplate.vue";
 import Input1 from "../Inputs/Input-1.vue";
 import Loader from "../Loader.vue";
-import SuccessMessage from "../Modals/SuccessMessage.vue";
-import ErrorModal from "../Modals/ErrorModal.vue";
 import Button1 from "../Buttons/Button_1.vue";
 import RemoveOrgModal from "./RemoveOrgModal.vue";
+import StringFormater from "../mixins/StringFormater.js";
 
 export default {
 	name: "OrganizationsList",
-	components: {RemoveOrgModal, Button1, ErrorModal, SuccessMessage, Loader, Input1, ModalTemplate, OrganizationListItem},
+  mixins : [StringFormater],
+	components: {
+    RemoveOrgModal,
+    Button1,
+    Loader,
+    Input1,
+    ModalTemplate,
+    OrganizationListItem
+  },
 	data () {
 		return{
 			organizationsList : [],
@@ -138,10 +144,6 @@ export default {
 			createOrgName : "",
 			isCreateModalVisible : false,
 			isCreateModalLoaderVisible : false,
-			isSuccessMessageVisible : false,
-			SuccessMessage : this.$t('dashboard.organizationAddSuccess'),
-			isErrorMessageVisible : false,
-			ErrorMessage : this.$t('general.errorMessage'),
 			isLoaderVisible : false,
 			removedOrganization : null,
 			isRemovedModalVisible : false,
@@ -172,14 +174,6 @@ export default {
 			this.createOrgName = ""
 			this.createOrgSite = ""
 			this.isCreateModalVisible = false;
-		},
-		closeSuccessModal(){
-			this.isSuccessMessageVisible = false;
-			this.SuccessMessage = "";
-		},
-		closeErrorMessage(){
-			this.isErrorMessageVisible = false;
-			this.ErrorMessage = this.$t('general.errorMessage');
 		},
 		ResetSearchResult(){
 			this.searchController.SearchedOrgName = "";
@@ -216,24 +210,23 @@ export default {
 				});
 		},
 		async AddOrganizations(){
-			if(this.createOrgName.length < 3 || this.createOrgSite.length < 3)
-				return;
+      if(this.TrimTurbo(this.createOrgName).length < 3) {
+        return;
+      }
+      this.createOrgName = this.TrimTurbo(this.createOrgName);
 			this.isCreateModalLoaderVisible = true;
 			await api.organizations.createOrganization(this.createOrgName, this.createOrgSite)
 				.then(res => {
 					this.organizationsList = [res.data,...this.organizationsList]
-					this.SuccessMessage = `Організацію \"${res.data.name}\" додано успішно`;
 					this.closeCreateOrgModal();
-					this.isSuccessMessageVisible = true;
+          this.$toast.success(this.$t("dashboard.organizationAddSuccess", {orgName : this.createOrgName}))
 				})
 				.catch(err=>{
-					console.log(err.response)
+          let errMess = this.$t('general.errorMessage');
 					if(err.response.status == 400)
-						this.ErrorMessage = `Організація \"${this.createOrgName}\" вже зареєстрована!`
-					else
-						this.ErrorMessage = this.$t('general.errorMessage');
+						errMess = this.$t("dashboard.organizationExist", {orgName : this.createOrgName})
 					this.closeCreateOrgModal();
-					this.isErrorMessageVisible = true;
+          this.$toast.error(errMess)
 				})
 				.finally(()=>{
 					this.isCreateModalLoaderVisible = false;
@@ -241,33 +234,36 @@ export default {
 		},
 		async GetOrganizationByName(){
 			if(this.searchController.SearchedOrgName.length < 3){
-				this.ErrorMessage = this.$t('validations.minLength') + " 3 " + this.$t('validations.characters');
-				this.isErrorMessageVisible = true;
+        this.$toast.error(this.$t('validations.minLength', {amount : 3}));
 				return
 			}
 			await api.organizations.getOrganizationByName(this.searchController.SearchedOrgName,
 				{signal : this.searchController.cancelController.signal})
 				.then(res=>{
-					//console.log(res)
 					this.isAutoPaginationOn = false;
 					this.searchController.isSearchedOrgResult = true;
 					this.searchController.SearchedOrganizationsList = res.data;
 				})
 				.catch(err=>{
 					this.ResetSearchResult();
-					this.isErrorMessageVisible = true;
-					throw  err;
+          this.$toast.error(this.$t('general.errorMessage'))
+					throw err;
 				});
 		},
 		OrganizationAutoSearch(){
 			if(this.searchController.SearchedOrgName.length<3)
 				return;
 			if(this.searchController.cancelController)
-				this.searchController.cancelController.abort("Запит доповнено")
+				this.searchController.cancelController.abort("Request updated")
 			this.searchController.cancelController = new AbortController();
 			this.GetOrganizationByName();
 		}
 	},
+  computed : {
+    isOrgCreateButtDisabled(){
+      return this.TrimTurbo(this.createOrgName).length < 3;
+    }
+  },
 	watch : {
 		"searchController.SearchedOrgName" : {
 			immediate: true,
@@ -276,11 +272,8 @@ export default {
 					this.ResetSearchResult();
 				this.OrganizationAutoSearch();
 			}
-		}
+		},
 	},
-	/*created() {
-		this.GetOrganizationList(1);
-	},*/
 	mounted() {
 		let options = {
 			threshold: 0,

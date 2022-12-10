@@ -10,9 +10,20 @@ const vuexCookie = new VuexPersistence({
   saveState: (key, state, storage) =>
     setCookie(key, state, 1),
   modules: ['user'],
-  filter: (mutation) => mutation.type == 'setLoggedUserInfo' ||
-    mutation.type == "setLoggedUserCredentials" || mutation.type == "setUserOrganization"
+  filter : CookieUpdateFilter
+ /* filter: (mutation) => mutation.type == 'setLoggedUserInfo' ||
+    mutation.type == "setLoggedUserCredentials" || mutation.type == "setUserOrganization"*/
 });
+
+function CookieUpdateFilter(mutation){
+  let triggerMutation=[
+    "setLoggedUserInfo",
+    "setLoggedUserCredentials",
+    "setUserOrganization",
+    "setLocalization"
+  ]
+  return triggerMutation.includes(mutation.type);
+}
 
 
 const storePrototype = {
@@ -59,17 +70,6 @@ const storePrototype = {
     }
   },
   getters : { // функцію для отримання даних зі state з можливістю здійснювати попередні обрахунки
-    /*getToken(state){
-      if(state.loggedUserCredentials === null )
-        return null;
-      return `${state.loggedUserCredentials['token_type']} ${state.loggedUserCredentials['access_token']}`;
-    },
-    isAuth(state){
-      return state.loggedUserCredentials !== null && state.loggedUserInfo !== null
-    },
-    getUser(state){
-      return state.loggedUserInfo;
-    },*/
     getMapCenter(state){
       return state.mapCenter ? state.mapCenter : {lat: 49.23414701332752, lng: 28.46228865225255}
     },
@@ -101,7 +101,6 @@ const storePrototype = {
           lng: arg.geometry.location.lng()
         }
         await api.locations.exactSearch(payload.lat, payload.lng).then((response) => {
-          console.log(response.data)
           context.commit("setSelectedMarker", response.data);
         }).catch((err) => {
           if (err.response.status === 400) {

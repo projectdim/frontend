@@ -139,12 +139,6 @@
 		</div>
 	</ModalTemplate>
 <!--	-->
-<!--	Info messages-->
-	<SuccessMessage  :is-visible="isSuccessMessageVisible" :message="successMessage"
-									 :close-func="CloseAllInfoMessageModal" hide-on-bg-click="true"/>
-	<ErrorModal :is-visible="isErrorMessageVisible" :message="errorMessage"
-							:close-func="CloseAllInfoMessageModal" hide-on-bg-click="true"/>
-<!--	-->
 <!--Invite user modal-->
 	<ModalTemplate :is-modal-visible="isUserInviteModalVisible" is-hide-on-click="true"
 								 :close-func="CloseUserInviteModal" class-list="grid place-items-center px-4">
@@ -188,7 +182,7 @@
 <!---->
 	<ConfirmModal :is-visible="ConfirmModal.visible" :question="ConfirmModal.question"
 	:accept-button-func="ConfirmModal.accept" :cancel-button-func="ConfirmModal.decline"
-	:close-func="ConfirmModal.decline"/>
+	:close-func="ConfirmModal.decline" :title="ConfirmModal.title"/>
 	<Loader v-if="isLoaderVisible"/>
 </template>
 
@@ -202,8 +196,6 @@ import input1 from "../Inputs/Input-1.vue"
 import Button2 from "../Buttons/Button_2.vue";
 import Loader from "../Loader.vue";
 import api from "../../api/index.js";
-import SuccessMessage from "../Modals/SuccessMessage.vue";
-import ErrorModal from "../Modals/ErrorModal.vue";
 import RemoveOrgModal from "./RemoveOrgModal.vue";
 import ConfirmModal from "../Modals/ConfirmModal.vue";
 
@@ -211,8 +203,6 @@ export default {
 	name: "OrganizationProfile",
 	components: {
 		ConfirmModal,
-		ErrorModal,
-		SuccessMessage,
 		Button2,
 		ModalTemplate,
 		ButtonTag,
@@ -229,10 +219,6 @@ export default {
 			isEditModalLoaderVisible : false,
 			editingOrgName : "",
 			editingOrgSite : "",
-			isSuccessMessageVisible : false,
-			successMessage : this.$t('dataRenewed'),
-			isErrorMessageVisible : false,
-			errorMessage : this.$t('errorMessage'),
 			invitedUsersList : [""],
 			isUserInviteModalVisible : false,
 			isUserInviteModalLoaderVisible : false,
@@ -241,6 +227,7 @@ export default {
 			onErrorMessageClose : ()=>{},
 			ConfirmModal : {
 				question : "",
+        title : "",
 				accept : ()=>{},
 				decline : ()=>{},
 				visible : false
@@ -283,17 +270,11 @@ export default {
 			this.editingOrgName = "";
 			this.editingOrgSite = "";
 		},
-		CloseAllInfoMessageModal(){
-			this.isErrorMessageVisible = false;
-			this.isSuccessMessageVisible = false;
-			this.onErrorMessageClose();
-		},
-
 		AddUserInvite(){
 			if(this.invitedUsersList.length<5)
 				this.invitedUsersList.push("");
 			else
-				alert("Не більше 5 запрошень за раз")
+				this.$toast.info(this.$t("organizationProfile.maxInviteMess"))
 		},
 		ShowUserInviteModal(){
 			if(!this.invitedUsersList || this.invitedUsersList.length<=0)
@@ -312,18 +293,15 @@ export default {
 			await api.organizations.editOrganization(this.organization.id, this.editingOrgName, this.editingOrgSite, "")
 				.then(res => {
 					this.organization = res.data;
-					this.SuccessMessage = `${this.$t('organizationProfile.organization')} \"${res.data.name}\" ${this.$t('general.edited')} ${this.$t('general.success')}.`;
 					this.CloseEditModal();
-					this.isSuccessMessageVisible = true;
+          this.$toast.success(this.$t("organizationProfile.orgUpdateSuccess", {orgNane : this.organization.name}));
 				})
 				.catch(err=>{
-					console.log(err.response)
+          let ErrorMessage = this.$t('general.errorMessage');
 					if(err.response.status == 400)
-						this.ErrorMessage = `${this.$t('organizatonProfile.organization')} \"${this.createOrgName}\" ${this.$t('general.exists')}!`
-					else
-						this.ErrorMessage = this.$t('general.errorMessage');
+						ErrorMessage = this.$t('dashboard.organizationExist', {orgName : this.createOrgName});
 					this.CloseEditModal();
-					this.isErrorMessageVisible = true;
+          this.$toast.error(ErrorMessage);
 				})
 		},
 		async SendUserInvites(){
@@ -331,15 +309,13 @@ export default {
 			await api.organizations.sendUserInvite(this.organization.id, this.invitedUsersList)
 				.then(res=>{
 					this.organization = res.data;
-					this.successMessage = this.$t('organizationProfile.successInvite')
 					this.CloseUserInviteModal()
 					this.invitedUsersList = [""];
-					this.isSuccessMessageVisible = true;
+          this.$toast.success(this.$t('organizationProfile.successInvite'))
 				}).catch(err =>{
-					this.errorMessage = this.$t('general.errorMessage')
 					this.CloseUserInviteModal();
-					this.isErrorMessageVisible = true;
-					throw err
+          this.$toast.error(this.$t('general.errorMessage'))
+					//throw err
 				})
 		},
 		RemoveClick(){
@@ -352,7 +328,8 @@ export default {
 			this.$router.push("/admin/organizations");
 		},
 		showRemoveUserConfirm(worker){
-			this.ConfirmModal.question = `${this.$t('general.delete').toUpperCase()} ${this.$t('general.user').toLowerCase()} ${worker.username}?`
+			this.ConfirmModal.question = this.$t('organizationProfile.deleteUserQuestion',{userName : worker.username});
+      this.ConfirmModal.title = this.$t("organizationProfile.deleteUserTitle");
 			this.ConfirmModal.accept = ()=>this.removeWorker(worker);
 			this.ConfirmModal.decline = ()=>this.ConfirmModal.visible = false;
 			this.ConfirmModal.visible = true;
@@ -369,10 +346,10 @@ export default {
 				})
 				.catch(err=>{
 					this.isLoaderVisible = false;
-					this.isErrorMessageVisible = true;
-					this.onErrorMessageClose = ()=>{
-						this.$router.push("/admin/organizations");
-					}
+          this.$toast.error(this.$t("general.errorMessage"),  {
+            duration : false,
+            onClose : ()=> this.$router.push("/admin/organizations")
+          })
 				})
 		},
 		async removeWorker(worker){
@@ -380,18 +357,14 @@ export default {
 			this.isLoaderVisible = true;
 			await api.organizations.removeOrganizationMember(this.organization.id, worker.id)
 				.then(res=>{
-					console.log(res.data);
 					this.organization.participants = res.data.participants
-					this.successMessage = `${this.$t('general.user')} ${worker.username} ${this.$t('general.deleteSuccess')}.`
 					this.isLoaderVisible = false;
-					this.isSuccessMessageVisible = true;
+          this.$toast.success(this.$t("organizationProfile.userRemovedSuccess", {userName : worker.username}))
 				})
 				.catch(err=>{
-					console.log(err);
-					this.errorMessage = `${this.$t('general.deleteError')} ${this.$t('general.user').toLowerCase()} ${worker.username}`
 					this.isLoaderVisible = false;
-					this.isErrorMessageVisible = true;
-				})
+          this.$toast.error(this.$t("organizationProfile.userRemovedError", {userName : worker.username}))
+        })
 		}
 	},
 	computed : {

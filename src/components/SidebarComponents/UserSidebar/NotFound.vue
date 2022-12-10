@@ -3,10 +3,11 @@
 		text-h3 mobile:text-h4 tablet:text-h3">
     <div class="p-6">
       <div v-if="notFoundedMarkerData">
-        <p class="font-semibold text-4xl">На жаль, "{{ notFoundedMarkerData.address }}" немає в нашій базі даних</p>
+        <p class="font-semibold text-4xl">
+          {{ $t("notFoundAddress.noDBItem", {address : notFoundedMarkerData.address}) }}
+        </p>
         <p class="mt-2.5 text-gray-c-500 ">
-          Можливо варто вказати точнішу адресу.
-          Ви також можете запитати інформацію за цією адресою, і наша команда постарається приїхати туди якомога швидше.
+          {{ $t("notFoundAddress.tips") }}
         </p>
       </div>
       <div v-else>
@@ -20,26 +21,8 @@
 					{{ $t('userSideBar.choose-location-button') }}
 				</span>
 			</button-1>
-<!--			form feedback-->
-<!--      <p class="text-gray-c-500">
-				{{ $t('userSideBar.formHelperText') }}
-			</p>
-      <div class="h-min">
-		  	<textarea id="issueMessage"
-                  class="min-h-[68px] resize-none h-max w-full border-gray-c-300 border rounded-lg px-4 py-2 my-4"
-                  :placeholder="$t('userSideBar.formTextAreaPlaceholder')" v-model="issueMessage"></textarea>
-				<button @click="this.Show(issueMessage)"
-								:disabled="this.isDisabled"
-								:class="{'bg-gray-c-200 text-gray-c-400' : isDisabled,
-											'bg-gray-c-200 text-gray-c-600 ' : !isDisabled,
-											'hover:text-gray-c-500 active:bg-gray-c-300 active:text-gray-c-600' : !isDisabled}"
-								class="block border rounded-lg px-[50px] py-2 font-medium">
-					Відправити
-				</button>
-      </div>-->
-<!--			end region-->
+<!--			<FeedBackForm/>-->
     </div>
-
     <Contacts/>
 <!--		<Loader/>-->
   </div>
@@ -51,19 +34,16 @@ import axios from "axios";
 import api from "../../../api/index.js"
 import Loader from "../../Loader.vue";
 import Contacts from "./Contacts.vue";
+import FeedBackForm from "./FeedBackForm.vue";
 
 export default {
   name: "NotFound",
 	components: {
+		FeedBackForm,
 		Contacts,
 		Loader
 	},
 
-	data : function () {
-		return {
-			issueMessage: "",
-		}
-	},
 	computed : {
 		/*...mapState({
       notFoundedMarkerData : state =>{
@@ -73,14 +53,8 @@ export default {
       }
     }),*/
     ...mapState(["notFoundedMarkerData"]),
-		isDisabled(){
-			return this.issueMessage.length < 10;
-		},
 	},
 	methods : {
-		Show(string) {
-			alert(string);
-		},
     async requestReview () {
       const { address, coords } = await this.getPlaceData(
           this.notFoundedMarkerData.position.lat,
@@ -98,14 +72,14 @@ export default {
 				}
 			}
 			catch (err){
-				alert("Не вдалося створити запит, вкажіть точнішу адресу")
+				this.$toast.error("Не вдалося створити запит, вкажіть точнішу адресу")
 				return;
 			}
       await api.locations.requestAddressReview(Query).then((response) => {
         console.log(response)
-				alert(`Запит на адресу ${Query.address} надіслано успішно`)
+				this.$toast.success(`Запит на адресу ${Query.address} надіслано успішно`)
       }).catch((err) => {
-				alert(`Не вдалось надіслати запит на адресу ${Query.address}`)
+				this.$toast.error(`Не вдалось надіслати запит на адресу ${Query.address}`)
         console.log(err.response)
       });
     },

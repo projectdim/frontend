@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 *.env
+*.zip
 LICENSE
 
 # Editor directories and files
