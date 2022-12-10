@@ -1,11 +1,9 @@
 import axios from "axios";
-import {store} from "../store/mainStore.js";
+import { store } from "../store/mainStore.js";
 
 
 const instance = axios.create({
-    // TODO: Replace
     baseURL: import.meta.env.VITE_BACKEND_REMOTE,
-    //
     withCredentials: false,
     headers: {
         accept: 'application/json'

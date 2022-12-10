@@ -19,7 +19,7 @@
 						 :id="inpId" :disabled="disabled"
 			/>
 			<button class="w-[40px] h-min cursor-pointer rounded-lg px-1" @click="toggleInputType">
-				<svg class="block h-full w-full" viewBox="0 0 24 14" fill="none" xmlns="http://www.w3.org/2000/svg"
+				<svg id="viewPass" class="block h-full w-full" viewBox="0 0 24 14" fill="none" xmlns="http://www.w3.org/2000/svg"
 				:class="{
 					'fill-black' : inputType === 'password',
 					'fill-blue-c-500' : inputType === 'text',
@@ -28,7 +28,7 @@
 				</svg>
 			</button>
 		</div>
-		<div v-if="!isValidStyle && validationMessage" class="text-red-c-500 text-b3 mt-1 text-left px-2">{{ validationMessageC }}</div>
+		<div v-if="!isValidStyle && validationMessage" id="invalid-feedback" class="text-red-c-500 text-b3 mt-1 text-left px-2">{{ validationMessageC }}</div>
 	</div>
 </template>
 

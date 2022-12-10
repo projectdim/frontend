@@ -62,7 +62,7 @@
 								comp:p-2
 								text-h3">
 
-						<LocalizationDropDown class="min-w-min w-[150px] mobile:order-3
+						<LocalizationDropDown id="langDrop" class="w-[150px] mobile:order-3
 							mobile:px-4 mobile:w-full
 							h-full
 							mobile:h-[58px]"/>
@@ -70,7 +70,7 @@
 						<div v-if="isAuth" class="flex items-center gap-x-6
 							mobile:gap-x-1 ml-7 mobile:ml-0 mobile:flex-col-reverse">
 
-							<div class="menu-item menu-item-mobile" @click="showSettingModal">
+							<div class="menu-item menu-item-mobile" id="settings" @click="showSettingModal">
 								<img  src="/src/assets/Settings.svg"
 										 class="h-6 w-auto  block">
 								<p class="h-min hidden mobile:block">Налаштування</p>
@@ -142,11 +142,11 @@
 					</router-link>
 				</div>
 
-				<button-text-1 v-if="!isAuth" class="my-auto" role="link"
+				<button-text-1 v-if="!isAuth" id="loginButton" class="my-auto" role="link"
 											 @click="showLogInModal">
           {{ $t('header.login') }}
 				</button-text-1>
-				<button-text1 @click="logOut" v-if="isAuth" class="h-min my-auto">
+				<button-text1 @click="logOut" v-if="isAuth" id="logoutButton" class="h-min my-auto">
           {{ $t('header.logout') }}
 				</button-text1>
 			</div>
@@ -164,7 +164,7 @@
 
 <script>
 import UserSetting from "./UserSetting.vue";
-import {mapActions, mapGetters, mapMutations} from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import ButtonText1 from "./Buttons/Button_text_1.vue";
 import userRoles from "./mixins/userRoles.js";
 import LocalizationDropDown from "./Other/LocalizationDropDown.vue";

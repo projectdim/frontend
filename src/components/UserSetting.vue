@@ -6,7 +6,7 @@
     mobile:p-4 tablet:p-4 animate-userSettingsAppear relative
 		mobile:w-full tablet:w-[480px]
 		mobile:h-min mobile:rounded-lg" @click.stop
-		:class="{'animate-userSettingsAppear' : isSettingVisible}">
+		:class="{'animate-userSettingsAppear' : isSettingVisible}" id="userSettings">
 			<Loader v-if="isShowLoader"></Loader>
 <!--      Header-->
       <div class="mb-6 text-h1 mobile:text-h2 mobile:text-center relative
@@ -15,7 +15,7 @@
 				<img class="w-min h-min absolute top-0 mobile:right-0 hidden mobile:block " @click="closeModal"
 						 src="/close.svg">
       </div>
-			<button-text1 class="w-[100px] absolute top-7 right-4 mobile:hidden py-2" @click="closeModal">
+			<button-text1 id="close-settings" class="w-[100px] absolute top-7 right-4 mobile:hidden py-2" @click="closeModal">
 				{{ $t('general.close') }}
 			</button-text1>
 <!--    FORM-->
@@ -32,16 +32,16 @@
 
 				<div class="flex flex-row-reverse gap-3 py-6"
 					:class="{'mobile:hidden' : isPassChangeVisible}">
-					<Button1 :disabled="isSaveButtonDisabled" @click="updateUserData">
+					<Button1 id="updateData" :disabled="isSaveButtonDisabled" @click="updateUserData">
             {{ $t('general.save') }}
 					</Button1>
-					<ButtonOptions :button-color="'blue'" @valueChange="changePassVisibility"
+					<ButtonOptions id="updatePassword" :button-color="'blue'" @valueChange="changePassVisibility"
 						:checked="isPassChangeVisible">
             {{ $t('userSettings.change-password') }}
 					</ButtonOptions>
 				</div>
 
-				<div v-show="isPassChangeVisible">
+				<div v-show="isPassChangeVisible" id="passChangeBlock">
 					<label for="setting-pass">{{ $t('userSettings.password') }}</label>
 					<input-pass inp-id="setting-pass" :placeholder="$t('userSettings.password')" class="text-black mt-1 mb-6"
 						v-model="oldPass"/>
@@ -50,7 +50,7 @@
 						v-model="newPass"/>
 
 					<div class="flex flex-row-reverse gap-3 py-6">
-						<button1 :disabled="isChangePassButtonDisabled"
+						<button1 :disabled="isChangePassButtonDisabled" id="changePassButton"
 							@click="updateUserPassword">
 							{{ $t('general.save')}}
 						</button1>
