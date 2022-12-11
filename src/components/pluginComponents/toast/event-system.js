@@ -17,7 +17,6 @@ class Event {
         }
       }*/
       this.queue[name] = this.queue[name].filter(e=>e!==callback)
-      console.log(this.queue[name]);
     }
   }
 

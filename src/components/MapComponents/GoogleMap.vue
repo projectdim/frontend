@@ -10,16 +10,19 @@
 				<div class="w-[44px] cursor-pointer rounded-xl">
 					<img src="/search.svg" class="h-full w-full object-scale-down">
 				</div>
+<!--				:options="{
+				fields: [`geometry`, `name`]
+				}"-->
 				<GMapAutocomplete
           id="autocomplete"
 					ref="autocomplete"
 					placeholder="Пошук..."
 					@place_changed="setPlace"
 					class="w-full bg-transparent outline-none block text-h3"
-					:options="{
-							  fields: [`geometry`, `name`]
-						  }"
 					:select-first-on-enter = "true"
+					:options="{
+						fields: [`geometry`, `name`]
+					}"
 					@focusin="OnInputFocus(true)"
 					@focusout="OnInputFocus(false)"
 					:v-model="this.searchRequest"
@@ -134,26 +137,29 @@
 
 <script>
 import axios from "axios";
-import api from "../../api/index.js";
-import {URL_PROXY_PLACE_REQUEST} from "../../Scripts/MapScripts.js";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import userRoles from "../mixins/userRoles.js";
+import helper from "../mixins/helper.js";
 
 export default {
   name: "GoogleMap",
-	mixins : [userRoles],
+	mixins : [userRoles, helper],
   data : function (){
 	  return {
 		  currentMapZoom : 17,
 		  ifClickMarker : false,
 		  ClickMarkerCoords : {lat: Number, lng: Number},
-		  currentPlaceData: [],
 		  isInputFocused : false,
 		  searchRequest : "",
 	  }
   },
 	computed : {
-		...mapGetters(["getMapCenter", "getRole"]),
+		...mapGetters({
+			getMapCenter : "getMapCenter",
+			getRole : "getRole",
+			reviewedMarkers : "getReviewedMarkers",
+			requestedMarkers : "getRequestMarkers"
+		}),
 		notFoundMarker(){
 			//this.SetMarker(this.$store.state.notFoundedMarkerData.position)
 			return this.$store.state.notFoundedMarkerData;
@@ -163,12 +169,7 @@ export default {
 		...mapMutations(["setNoDataMarkerMarker", "setSelectedMarker", "setMapCenter"]),
 		...mapActions(["getMarkersByScreenBounds","GetMarkerByCoords", "getMarkerById"]),
 	  	ClickHandler(event) {
-		  if(event.placeId) {
-		  	  this.GetPlaceDetails(event.placeId);
-    	  }
-    	  else if (event.latLng) {
-		  	  this.SetMarker(event.latLng);
-		    }
+				this.getGooglePlaceInfo(event.latLng)
 		  },
 			getBounds ( arg ) {
     	  let bounds = {
@@ -178,17 +179,15 @@ export default {
 				this.getMarkersByScreenBounds(bounds);
     	},
       onCenterChanged (coords) {
-			//this.setMapCenter(coords);
         let payload = {
-          lat: coords.lat(),
-          lng: coords.lng(),
+					...this.coordsFormatter(coords),
           zoom: this.currentMapZoom
         }
         this.getMarkersByScreenBounds(payload);
       },
     	getMarkerInfo(marker) {
 				this.ifClickMarker = false;
-				if(this.$router.path !== "/main/overview")
+				if(!this.isPathMatched("/main/overview"))
 					this.$router.push("/main/overview");
         this.getMarkerById(marker.location_id);
 
@@ -196,41 +195,44 @@ export default {
         	this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
 				}, 500)
     	},
-		async GetPlaceDetails(placeId){
-			//TODO Romove proxy
-		    await axios.get(URL_PROXY_PLACE_REQUEST,{
-		  	  params : {
-		  	    placeId: placeId,
-		  	    key : import.meta.env.VITE_GMAPS_APIKEY
-		  	  }
-		    }).then( res => {
-		  	  console.log(res);
-		    }).catch( err => {
-		  	  console.log(err);
-		    });
-    	},
-		SetMarker(coords){
-				this.getPlaceInfo(coords)
-			this.ifClickMarker = true;
-		  this.ClickMarkerCoords = coords;
-		},
-    async getPlaceInfo (coords) {
-			//FIXME coords fields can be type of Number or type of Function
-			await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.lat()},${coords.lng()}&key=${import.meta.env.VITE_GMAPS_APIKEY}`)
+    async getGooglePlaceInfo (coords) {
+			coords = this.coordsFormatter(coords)
+			//TODO Перевірити чи є ця АДРЕСА в БД
+			await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.lat},${coords.lng}&key=${import.meta.env.VITE_GMAPS_APIKEY}`)
           .then((res =>{
-						let notFoundedMarker = {
-							position :
-								{
-									lat: coords.lat(),
-									lng: coords.lng()
-								},
-							address : res.data.results[0].formatted_address
+						let ExistedMarker = this.CheckIsReportedMarkerExist(res.data.results)
+						let correctMarkerData = res.data.results[0]
+						if(ExistedMarker){
+							this.getMarkerInfo(ExistedMarker);
+							this.ifClickMarker = false;
+							this.ClickMarkerCoords = null;
 						}
-						this.setNoDataMarkerMarker(notFoundedMarker);
-						this.currentPlaceData = res.data
+						else {
+							let m = ExistedMarker ? ExistedMarker : correctMarkerData;
+							let notFoundedMarker = {
+								position: this.coordsFormatter(m.geometry.location),
+								address: res.data.results[0].formatted_address
+							}
+							this.setNoDataMarkerMarker(notFoundedMarker);
+						}
 					}))
           .catch((err) => console.log(err));
     },
+		CheckIsReportedMarkerExist(googlePlacesArray){
+			let marker = undefined;
+			for(let i = 0 ; i < googlePlacesArray.length; i++){
+				let m = this.reviewedMarkers.find(x=>{
+					let xx = this.coordsFormatter(x.position);
+					let yy = this.coordsFormatter(googlePlacesArray[i].geometry.location)
+					return  xx.lat == yy.lat && xx .lng== yy.lng
+				})
+				if(m){
+					marker = m;
+					break;
+				}
+			}
+			return marker ?? false;
+		},
 		OnMapZoomChanged(arg){
 			this.currentMapZoom = arg;
 		},
@@ -238,12 +240,29 @@ export default {
 		  this.isInputFocused = arg;
 		},
 		setPlace(arg) {
+			/*console.log("Place")
+			console.log(arg)*/
 			this.GetMarkerByCoords(arg);
 			this.$router.push("/main/overview")
 		},
 		ClearSearchRequest(){
 		  let autocomplete = document.getElementById('autocomplete');
       autocomplete.value = ''
+		},
+		coordsFormatter(coords){
+			let res = {};
+
+			if(typeof coords.lat == 'function')
+				res.lat = coords.lat();
+			else if(typeof coords.lat == 'number')
+				res.lat = coords.lat;
+
+			if(typeof coords.lng == 'function')
+				res.lng = coords.lng();
+			else if(typeof coords.lng == 'number')
+				res.lng = coords.lng;
+
+			return res;
 		}
   },
 	watch : {

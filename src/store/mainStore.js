@@ -75,6 +75,12 @@ const storePrototype = {
     },
     getSelectedLocationRequest(state){
       return state.reports.selectedLocationRequest
+    },
+    getReviewedMarkers(state){
+      return state.markers;
+    },
+    getRequestMarkers(state){
+      return state.unreviewedMarkers;
     }
   },
   actions : { // функції для зміни даних шляхом ініціалізації мутацій можуть бути АСИНХРОННИМИ

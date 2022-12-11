@@ -10,7 +10,7 @@
 								:cancel-button-func="ModalCancel"/>
 
 
-	<div class="overflow-y-auto h-full relative">
+	<div class="overflow-y-auto h-full relative flex flex-col">
 		<div class="bg-blue-c-500 flex flex-wrap gap-2 justify-between p-6 sticky top-0 right-0 left-0
       z-50">
 			<p class="text-white text-h3 font-semibold align-middle grid content-center">
@@ -25,7 +25,7 @@
 			</Button2>
 		</div>
 
-		<div id="RequestPreview" class="px-6 mobile:px-4 pb-4 mobile:pb-2">
+		<div id="RequestPreview" class="px-6 mobile:px-4 pb-4 mobile:pb-2 grow">
 			<h1 class="font-semibold my-6 text-h1
 			mobile:text-h1-m
 			tablet:text-h1-m">

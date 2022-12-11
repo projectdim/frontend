@@ -75,12 +75,21 @@ export default {
 				this.$toast.error("Не вдалося створити запит, вкажіть точнішу адресу")
 				return;
 			}
-      await api.locations.requestAddressReview(Query).then((response) => {
+			/*Query = {
+				lng : coords.location.lng,
+				lat : coords.location.lat,
+			}*/
+
+			await api.locations.requestAddressReview(Query).then((response) => {
         console.log(response)
 				this.$toast.success(`Запит на адресу ${Query.address} надіслано успішно`)
       }).catch((err) => {
-				this.$toast.error(`Не вдалось надіслати запит на адресу ${Query.address}`)
-        console.log(err.response)
+				//TODO localization
+				let errMess = "error"
+				if(err.response.status == 400)
+					errMess = "Already exist"
+				this.$toast.error(errMess)
+        //console.log(err.response)
       });
     },
     async getPlaceData (lat, lng) {
