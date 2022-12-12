@@ -1,0 +1,47 @@
+{
+  "street_number": {
+    "long_name": "87",
+    "short_name": "87",
+    "types": [
+      "street_number"
+    ]
+  },
+  "route": {
+    "long_name": "вулиця Соборна",
+    "short_name": "вулиця Соборна",
+    "types": [
+      "route"
+    ]
+  },
+  "locality": {
+    "long_name": "Вінниця",
+    "short_name": "Вінниця",
+    "types": [
+      "locality",
+      "political"
+    ]
+  },
+  "administrative_area_level_1": {
+    "long_name": "Вінницька область",
+    "short_name": "Вінницька область",
+    "types": [
+      "administrative_area_level_1",
+      "political"
+    ]
+  },
+  "country": {
+    "long_name": "Украина",
+    "short_name": "UA",
+    "types": [
+      "country",
+      "political"
+    ]
+  },
+  "postal_code": {
+    "long_name": "21000",
+    "short_name": "21000",
+    "types": [
+      "postal_code"
+    ]
+  }
+}
