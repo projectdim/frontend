@@ -18,7 +18,7 @@
 			</p>
 			<Button2 class="flex flex-nowrap items-center gap-1"
 				@click="SaveAndPublish">
-				<img src="/public/completed.svg" class="inline-block">
+				<img src="/completed.svg" class="inline-block">
 				<p>
           {{ $t('general.publish') }}
 				</p>
@@ -30,6 +30,9 @@
 			mobile:text-h1-m
 			tablet:text-h1-m">
 				{{ this.requestedMarker.address }},
+				<span v-if="requestedMarker.street_number">
+					{{ this.requestedMarker.street_number }},
+				</span>
 				{{ this.requestedMarker.index }},
 				{{ this.requestedMarker.city }}
 			</h1>
@@ -109,8 +112,12 @@ export default {
       this.$toast.wait(this.$t('general.publishing'),  this.closePushingModal)
 			let payload ={
 				location_id : this.requestedMarker.id,
-				...this.markerReports
+				street_number : this.requestedMarker.street_number,
+				address : this.requestedMarker.address,
+				...this.requestedMarker.reports
 			}
+
+			console.log(payload)
 			await api.locations.submitLocationReport(payload)
 				.then(res=>{
           this.$toast.clear();
@@ -146,7 +153,12 @@ export default {
 		},
 	},
 	beforeRouteLeave(to, from, next){
-		if(this.isPageLeaveConfirmed || to.fullPath=="/main/submit-report")
+		console.log(to)
+		if(to.fullPath=="/main/submit-report"){
+			to.params = { previewUpdating : true}
+			next()
+		}
+		else if(this.isPageLeaveConfirmed)
 			next();
 		else {
 			this.isLeaveModalVisible = true;
@@ -154,9 +166,6 @@ export default {
 			next(false);
 		}
 	},
-  created() {
-    console.log(Object.keys(this.reportFlags))
-  }
 }
 </script>
 

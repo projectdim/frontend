@@ -8,6 +8,9 @@ export  default {
       return this.$route.matched.some(x=>x.path===url)
     },
     isEqual(object1, object2) {
+      if(!object1 || !object2)
+        return false;
+
       const props1 = Object.getOwnPropertyNames(object1);
       const props2 = Object.getOwnPropertyNames(object2);
 
@@ -25,6 +28,14 @@ export  default {
         }
       }
       return true;
+    },
+    isEqual2(object1, object2) {
+      if(!object1 || !object2)
+        return false;
+      let obj1 = JSON.stringify(object1)
+      let obj2 = JSON.stringify(object2)
+
+      return  obj1 === obj2;
     },
     getLineCount(el){
       let style = window.getComputedStyle(el, null);

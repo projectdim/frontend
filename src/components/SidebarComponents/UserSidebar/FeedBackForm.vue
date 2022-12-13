@@ -6,7 +6,8 @@
 		<div class="h-min">
 					<textarea id="issueMessage"
 										class="min-h-[68px] resize-none h-max w-full border-gray-c-300 border rounded-lg px-4 py-2 my-4"
-										:placeholder="$t('userSideBar.formTextAreaPlaceholder')" v-model="issueMessage"></textarea>
+										:placeholder="$t('userSideBar.formTextAreaPlaceholder')" v-model="issueMessage">
+          </textarea>
 			<button @click="this.Show(issueMessage)"
 							:disabled="this.isDisabled"
 							:class="{'bg-gray-c-200 text-gray-c-400' : isDisabled,

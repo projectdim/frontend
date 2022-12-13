@@ -59,8 +59,6 @@ export default {
   methods : {
 		...mapActions(["setSelectedRequest"]),
 		UpdateSelectedMarkerReports(){
-      console.log("Push to submit-report")
-      console.log(this.selectedMarker)
 			this.setSelectedRequest(this.selectedMarker);
 			this.$router.push("/main/submit-report");
 		},

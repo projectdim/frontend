@@ -56,41 +56,69 @@ export default {
 	},
 	methods : {
     async requestReview () {
-      const { address, coords } = await this.getPlaceData(
-          this.notFoundedMarkerData.position.lat,
-          this.notFoundedMarkerData.position.lng
-      );
-			let Query;
-			try {
-				Query = {
-					address: address.route.long_name + ',' + address.street_number.long_name,
-					index: address.postal_code.long_name,
-					country: address.country.long_name,
-					city: address.locality.long_name,
-					lat: coords.location.lat,
-					lng: coords.location.lng
-				}
-			}
-			catch (err){
-				this.$toast.error("Не вдалося створити запит, вкажіть точнішу адресу")
-				return;
-			}
+      // const { address, coords } = await this.getPlaceData(
+      //     this.notFoundedMarkerData.position.lat,
+      //     this.notFoundedMarkerData.position.lng
+      // );
+      // let payload;
+      // if (!address.route && !address.street_number) {
+      //   payload = {
+      //     lat: coords.location.lat,
+      //     lng: coords.location.lng
+      //   }
+      // } else {
+      //   payload = {
+      //     address: address.route.long_name + ',' + address.street_number.long_name,
+      //     index: address.postal_code.long_name,
+      //     country: address.country.long_name,
+      //     city: address.locality.long_name,
+      //     lat: coords.location.lat,
+      //     lng: coords.location.lng
+      //   }
+      // }
+      let payload = {
+        lat: this.notFoundedMarkerData.position.lat,
+        lng: this.notFoundedMarkerData.position.lng
+      }
+      await api.locations.requestAddressReview(payload).then(() => {
+        this.$toast.success(`Запит на адресу ${payload.address} надіслано успішно`)
+      }).catch((err) => {
+        //TODO localization
+        let errMess = "error"
+        if(err.response.status === 400)
+          errMess = "Already exist"
+        this.$toast.error(errMess)
+      });
+			// let Query;
+			// try {
+			// 	Query = {
+			// 		address: address.route.long_name + ',' + address.street_number.long_name,
+			// 		index: address.postal_code.long_name,
+			// 		country: address.country.long_name,
+			// 		city: address.locality.long_name,
+			// 		lat: coords.location.lat,
+			// 		lng: coords.location.lng
+			// 	}
+			// }
+			// catch (err){
+			// 	this.$toast.error("Не вдалося створити запит, вкажіть точнішу адресу")
+			// 	return;
+			// }
 			/*Query = {
 				lng : coords.location.lng,
 				lat : coords.location.lat,
 			}*/
-
-			await api.locations.requestAddressReview(Query).then((response) => {
-        console.log(response)
-				this.$toast.success(`Запит на адресу ${Query.address} надіслано успішно`)
-      }).catch((err) => {
-				//TODO localization
-				let errMess = "error"
-				if(err.response.status == 400)
-					errMess = "Already exist"
-				this.$toast.error(errMess)
-        //console.log(err.response)
-      });
+			// await api.locations.requestAddressReview(Query).then((response) => {
+      //   console.log(response)
+			// 	this.$toast.success(`Запит на адресу ${Query.address} надіслано успішно`)
+      // }).catch((err) => {
+			// 	//TODO localization
+			// 	let errMess = "error"
+			// 	if(err.response.status === 400)
+			// 		errMess = "Already exist"
+			// 	this.$toast.error(errMess)
+      //   //console.log(err.response)
+      // });
     },
     async getPlaceData (lat, lng) {
       let placeData = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat + ',' + lng}&key=${import.meta.env.VITE_GMAPS_APIKEY}`)

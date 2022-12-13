@@ -15,3 +15,8 @@ Build dist package with :
 ```
 npm run build
 ```
+
+Components docs:
+```
+https://vuejsexamples.com/resize-textarea-a-simple-textarea-resize-for-vue3/
+```

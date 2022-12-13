@@ -19,12 +19,16 @@ export default {
 		validationType : {
 			type : String,
 			validator(value) {
-				return ["mail", "name"].includes(value);
+				return ["mail", "name", "custom"].includes(value);
 			}
 		},
 		validationMessage : {
 			type : String,
 			default : "Поле не валідне"
+		},
+		validationFunc : {
+			type : Function,
+			default : (val)=> true
 		},
 		placeholder : String,
 		disabled : Boolean,
@@ -51,15 +55,16 @@ export default {
 		},
 		validate(){
 			let isValueValid = true;
-			if (this.validationType) {
-				switch (this.validationType){
-					case "mail":
-						isValueValid = this.isMail(this.modelValue);
-						break;
-					case "name":
-						isValueValid = this.isName(this.modelValue);
-						break;
-				}
+			switch (this.validationType){
+				case "mail":
+					isValueValid = this.isMail(this.modelValue);
+					break;
+				case "name":
+					isValueValid = this.isName(this.modelValue);
+					break;
+				default:
+					isValueValid = this.validationFunc(this.modelValue);
+					break;
 			}
 			if(isValueValid)
 				this.isValidStyle = true;

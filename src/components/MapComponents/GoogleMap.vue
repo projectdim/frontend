@@ -169,7 +169,8 @@ export default {
 		...mapMutations(["setNoDataMarkerMarker", "setSelectedMarker", "setMapCenter"]),
 		...mapActions(["getMarkersByScreenBounds","GetMarkerByCoords", "getMarkerById"]),
 	  	ClickHandler(event) {
-				this.getGooglePlaceInfo(event.latLng)
+        this.$router.push("/main/overview");
+        this.getGooglePlaceInfo(event.latLng)
 		  },
 			getBounds ( arg ) {
     	  let bounds = {
@@ -197,42 +198,86 @@ export default {
     	},
     async getGooglePlaceInfo (coords) {
 			coords = this.coordsFormatter(coords)
+      console.log("Click")
+      console.log(coords);
 			//TODO Перевірити чи є ця АДРЕСА в БД
 			await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.lat},${coords.lng}&key=${import.meta.env.VITE_GMAPS_APIKEY}`)
-          .then((res =>{
-						let ExistedMarker = this.CheckIsReportedMarkerExist(res.data.results)
-						let correctMarkerData = res.data.results[0]
-						if(ExistedMarker){
-							this.getMarkerInfo(ExistedMarker);
-							this.ifClickMarker = false;
-							this.ClickMarkerCoords = null;
-						}
-						else {
-							let m = ExistedMarker ? ExistedMarker : correctMarkerData;
-							let notFoundedMarker = {
-								position: this.coordsFormatter(m.geometry.location),
-								address: res.data.results[0].formatted_address
-							}
-							this.setNoDataMarkerMarker(notFoundedMarker);
-						}
-					}))
-          .catch((err) => console.log(err));
+        .then((res =>{
+          /*console.log("Result")
+          console.log(res.data)*/
+
+          //let googlePlace = res.data.results.find(x=> x.types.includes("premise"));
+
+          let googlePlace = res.data.results.find(x=> Object.keys(x.geometry).includes("bounds"));
+          console.log("Bounds")
+          console.log(googlePlace.geometry.bounds)
+
+          //let googlePlace = res.data.results[0];
+         /* console.log("googlePlace")
+          console.log(googlePlace)*/
+
+          if(googlePlace && this.checkIsCoordsInObjViewport(coords, googlePlace)){
+            let ExistedMarker = this.CheckIsReportedMarkerExist2(googlePlace)
+            if(ExistedMarker){
+              this.getMarkerInfo(ExistedMarker);
+              this.ifClickMarker = false;
+              this.ClickMarkerCoords = null;
+            }
+            else {
+              let notFoundedMarker = {
+                position: this.coordsFormatter(googlePlace.geometry.location),
+                address: googlePlace.formatted_address
+              }
+              this.setNoDataMarkerMarker(notFoundedMarker);
+            }
+          }
+          else {
+            let notFoundedMarker = {
+              position: coords,
+              address: res.data.results[0].formatted_address
+            }
+            this.setNoDataMarkerMarker(notFoundedMarker);
+          }
+
+			  	/*let ExistedMarker = this.CheckIsReportedMarkerExist(res.data.results)
+			  	let correctMarkerData = res.data.results[0]
+			  	if(ExistedMarker){
+			  		this.getMarkerInfo(ExistedMarker);
+			  		this.ifClickMarker = false;
+			  		this.ClickMarkerCoords = null;
+			  	}
+			  	else {
+			  		let m = ExistedMarker ? ExistedMarker : correctMarkerData;
+			  		let notFoundedMarker = {
+			  			position: this.coordsFormatter(m.geometry.location),
+			  			address: res.data.results[0].formatted_address
+			  		}
+			  		this.setNoDataMarkerMarker(notFoundedMarker);
+			  	}*/
+			  }))
+        .catch((err) => console.log(err));
     },
 		CheckIsReportedMarkerExist(googlePlacesArray){
 			let marker = undefined;
 			for(let i = 0 ; i < googlePlacesArray.length; i++){
-				let m = this.reviewedMarkers.find(x=>{
+        marker = this.reviewedMarkers.find(x=>{
 					let xx = this.coordsFormatter(x.position);
 					let yy = this.coordsFormatter(googlePlacesArray[i].geometry.location)
 					return  xx.lat == yy.lat && xx .lng== yy.lng
 				})
-				if(m){
-					marker = m;
+				if(marker){
 					break;
 				}
 			}
 			return marker ?? false;
 		},
+    CheckIsReportedMarkerExist2(googlePlace){
+      let marker = this.reviewedMarkers.find(x=>{
+          return this.checkIsCoordsInObjViewport(x.position, googlePlace)
+        })
+
+      return marker ?? false;
+    },
 		OnMapZoomChanged(arg){
 			this.currentMapZoom = arg;
 		},
@@ -263,7 +308,21 @@ export default {
 				res.lng = coords.lng;
 
 			return res;
-		}
+		},
+    checkIsCoordsInObjViewport(coords, obj){
+      if(!coords || !obj)
+        return false;
+      let viewport = obj.geometry.bounds;
+      if(!viewport){
+        console.error("Object bounds is null")
+        return  false;
+      }
+      let isLatInRange = coords.lat >= viewport.southwest.lat && coords.lat <= viewport.northeast.lat;
+      let isLngInRange = coords.lng >= viewport.southwest.lng && coords.lng <= viewport.northeast.lng;
+
+      /*console.log(`isLatInRange = ${isLatInRange}; isLngInRange = ${isLngInRange}`)*/
+      return isLatInRange && isLngInRange;
+    }
   },
 	watch : {
 		notFoundMarker : function (newValue) {

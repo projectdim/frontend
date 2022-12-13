@@ -7,6 +7,9 @@
 			mobile:px-4
 			tablet:px-4">
 				{{ selectedMarkerData.address }},
+				<span v-if="selectedMarkerData.address">
+					{{ selectedMarkerData.street_number }},
+				</span>
 				{{ selectedMarkerData.index }},
 				{{ selectedMarkerData.city }}
 		</h1>

@@ -7,26 +7,43 @@
 		:accept-button-func="PageLeaveAccepted"
 		:cancel-button-func="PageLeaveCanceled"/>
  <div class="py-4 px-6 overflow-y-auto h-full">
-
-	 <h3 class="font-semibold text-h2
-			mobile:text-h2-m">
-		 {{getSelectedLocationRequest.address}}
-	 </h3>
-
-<!--	 Header-->
 	 <div class="flex flex-wrap justify-between mb-2">
 		 <div class="font-semibold text-h2">
 			 <span class="align-middle">{{ $t('reportTools.header') }}</span>
 		 </div>
-		 <div class="flex  gap-2 h-[42px] mobile:w-full">
-				<Button3 class="min-w-[80px] mobile:grow" @click="GoBack">
+		 <div class="flex gap-2 h-[42px] mobile:w-full">
+				<button-3 class="min-w-[80px] mobile:grow" @click="GoBack">
 					{{ $t('general.cancel') }}
-				</Button3>
-			 <Button1 @click="PreviewFinishedReport" class="min-w-[80px] mobile:grow">
+				</button-3>
+			 <button-1 @click="PreviewFinishedReport" class="min-w-[80px] mobile:grow" :disabled="saveButtDisabled">
 				 {{ $t('general.save') }}
-			 </Button1>
+			 </button-1>
 		 </div>
 	 </div>
+
+   <div class="bg-blue-c-200 p-2 rounded-lg">
+		 <h1 class="w-full text-center text-h2 font-semibold">Актуальна адреса</h1>
+     <label>
+       <div class="text-h3 text-gray-c-600 py-2">
+         Місто<sup class="text-red-c-500">*</sup>
+       </div>
+       <input1 v-model="updatedReport.city" placeholder="Місто" class="w-full rounded-xl"
+							 :validation-func="AddressValidation" validation-message="Мінімальна довжина 2 символи"/>
+     </label>
+     <label>
+       <div class="text-h3 text-gray-c-600 py-2">
+         Вулиця<sup class="text-red-c-500">*</sup>
+       </div>
+       <input1 v-model="updatedReport.address" placeholder="Вулиця" class="w-full rounded-xl"
+							 :validation-func="AddressValidation" validation-message="Мінімальна довжина 2 символи"/>
+     </label>
+     <label>
+       <div class="text-h3 text-gray-c-600 py-2">
+         Будинок
+       </div>
+       <input1 v-model="updatedReport.street_number" placeholder="Номер будинку" class="w-full rounded-xl"/>
+     </label>
+   </div>
 
    <div v-for="label in ReportsData()" :key="label.name" class="shadow-cs2 py-4">
      <div class="flex flex-wrap justify-between mb-3 min-h-[34px]">
@@ -34,14 +51,14 @@
          {{ $t(`reportTools.${label.name}`) }}
        </div>
        <div class="flex flex-wrap gap-2">
-         <ReportRadio :label="label" v-model="report[label.name].flag"
-         :checked-op="report[label.name].flag"/>
+         <ReportRadio :label="label" v-model="updatedReport.reports[label.name].flag"
+         :checked-op="updatedReport.reports[label.name].flag"/>
        </div>
      </div>
      <resize-textarea
          class="textArea"
          :placeholder="$t('reportTools.textAreaPlaceholder')"
-         v-model="report[label.name].description"/>
+         v-model="updatedReport.reports[label.name].description"/>
    </div>
 
 
@@ -58,10 +75,12 @@ import ConfirmModal from "../../Modals/ConfirmModal.vue";
 import helper from "../../mixins/helper.js";
 import ReportRadio from "../../Buttons/ReportRadio.vue";
 import reportItemFlags from "../../mixins/reportItemFlags.js";
+import Input1 from "../../Inputs/Input-1.vue";
 
 export default {
 	name: "ReportTools",
 	components: {
+    Input1,
 		ReportRadio,
 		ConfirmModal,
 		ModalTemplate,
@@ -74,7 +93,8 @@ export default {
   ],
 	data(){
 		return {
-			report : {
+      updatedReport : {},
+      defaultReport: {
         buildingCondition: {
           flag: 'no_data',
           description: ""
@@ -112,9 +132,7 @@ export default {
 		...mapMutations(['setSelectedMarker']),
 		...mapActions(['setSelectedRequest']),
 		PreviewFinishedReport(){
-			let RequestLocationMarker = this.getSelectedLocationRequest;
-			RequestLocationMarker.reports = this.report;
-			this.setSelectedRequest(RequestLocationMarker);
+			this.setSelectedRequest(this.updatedReport);
 			this.isPageLeaveConfirmed = true;
 			this.$router.push("submit-report-preview");
 		},
@@ -132,14 +150,26 @@ export default {
 		GoBack(){
 			this.$router.go(-1);
 		},
-
+		AddressValidation(value){
+			return value.length >=2;
+		}
 	},
 	computed : {
 		...mapGetters(["getSelectedLocationRequest"]),
+		saveButtDisabled(){
+			if(this.$route.params.previewUpdating){
+				return false;
+			}
+			else {
+				return this.updatedReport.city.length < 2
+					|| this.updatedReport.address.length < 2
+					|| !this.updatedReport.reports
+					|| this.isEqual2(this.getSelectedLocationRequest, this.updatedReport)
+			}
+		},
 	},
 	beforeRouteLeave(to, from, next){
-		if(this.getSelectedLocationRequest.reports !== null &&
-			this.isEqual(this.getSelectedLocationRequest.reports, this.report))
+		if(this.isEqual2(this.getSelectedLocationRequest, this.updatedReport))
 			next();
 		if(this.isPageLeaveConfirmed)
 			next();
@@ -150,8 +180,10 @@ export default {
 		}
 	},
 	created() {
-		if(this.getSelectedLocationRequest.reports)
-			this.report = JSON.parse(JSON.stringify(this.getSelectedLocationRequest.reports))
+		if(this.getSelectedLocationRequest)
+			this.updatedReport = JSON.parse(JSON.stringify(this.getSelectedLocationRequest))
+    if(!this.getSelectedLocationRequest.reports)
+      this.updatedReport.reports = {...this.defaultReport};
 	}
 }
 </script>
