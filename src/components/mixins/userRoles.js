@@ -1,3 +1,4 @@
+import {mapGetters} from "vuex";
 
 export  default {
   data(){
@@ -10,6 +11,12 @@ export  default {
       }
     }
   },
+  computed : {
+    ...mapGetters({
+      getRole : "getRole",
+      getUser : "getUser"
+    })
+  },
   methods : {
     isRoleHaveAccess(userRole, requireRole){
       let roles = {
@@ -18,7 +25,6 @@ export  default {
         "organization_administrator" : ["user", "aid_worker", "organization_administrator"],
         "platform_administrator" : ["user", "aid_worker", "organization_administrator", "platform_administrator"],
       }
-      console.log(`${userRole} ${requireRole}`)
       return roles[userRole].includes(requireRole);
     }
   }

@@ -184,7 +184,11 @@
   },
   "notFoundAddress" : {
     "noDBItem" : "Unfortunately, \"{address}\" is not in our database",
-    "tips" : "You may want to provide a more precise address.\nYou can also request information at this address and our team will try to get there as soon as possible."
+    "tips" : "You may want to provide a more precise address.\nYou can also request information at this address and our team will try to get there as soon as possible.",
+    "modalSuccessMess" : "Request to \"{address}\" sent successfully.",
+    "modalErrRequestExist" : "The request for this address is already under consideration.",
+    "sendRequest" : "Send request",
+    "modalErrReqInWork" : "The request is already being processed by another user"
   },
   "removeOrgModal" : {
     "successMess" : "Organization \"{orgName}\" was successfully deleted.",

@@ -42,7 +42,8 @@ const storePrototype = {
       notFoundedMarkerData : null,
       loggedUserInfo : null,
       loggedUserCredentials : null,
-      mapCenter : null
+      mapCenter : null,
+      defaultMapCenter : {lat: 49.23414701332752, lng: 28.46228865225255}
     }
   },
   mutations : { // функції для зміни даних мають бути СИНХРОННИМИ
@@ -50,9 +51,15 @@ const storePrototype = {
       state.markers = markers.filter((mark) => mark.status === 3);
       state.unreviewedMarkers = markers.filter((mark) => mark.status === 1 || mark.status === 2);
     },
+    setUnreviewedMarkers(state, markers){
+      state.unreviewedMarkers = markers;
+    },
     setSelectedMarker(state, marker){
       state.selectedMarkerData = marker;
-      state.mapCenter = marker.position;
+      ////
+      state.mapCenter = {...state.defaultMapCenter};
+      state.mapCenter = {...marker.position};
+
       state.selectedMarkerHistoryData = [];
       state.notFoundedMarkerData = null;
     },
@@ -63,15 +70,17 @@ const storePrototype = {
     setNoDataMarkerMarker(state, marker){
       state.selectedMarkerData = null;
       state.notFoundedMarkerData = marker;
-      state.mapCenter = marker.position;
+      ////
+      state.mapCenter = {...marker.position};
     },
     setMapCenter(state, position){
-      state.mapCenter = position;
+      state.mapCenter = null;
+      state.mapCenter = {...position};
     }
   },
   getters : { // функцію для отримання даних зі state з можливістю здійснювати попередні обрахунки
     getMapCenter(state){
-      return state.mapCenter ? state.mapCenter : {lat: 49.23414701332752, lng: 28.46228865225255}
+      return state.mapCenter ? state.mapCenter : state.defaultMapCenter
     },
     getSelectedLocationRequest(state){
       return state.reports.selectedLocationRequest
@@ -80,12 +89,12 @@ const storePrototype = {
       return state.markers;
     },
     getRequestMarkers(state){
-      return state.unreviewedMarkers;
+      return state.unreviewedMarkers ?? [];
     }
   },
   actions : { // функції для зміни даних шляхом ініціалізації мутацій можуть бути АСИНХРОННИМИ
-    async getMarkersByScreenBounds(context, payload){
-      await api.locations.searchByCoords(payload)
+    async getMarkersByMapCenter(context, payload){
+      await api.locations.searchByMapCenter(payload)
         .then((response) => {
           context.commit('setMarkerList', [...response.data]);
         });
@@ -124,9 +133,15 @@ const storePrototype = {
       }
     },
     async getMarkerById (context, locationId) {
-      await api.locations.searchById(locationId).then((response) => {
+      await api.locations.getLocationById(locationId).then((response) => {
         context.commit("setSelectedMarker", response.data)
       })
+    },
+    setUnreviewedMarkers(context, markersArray){
+      context.commit("setUnreviewedMarkers", markersArray)
+    },
+    setNotFoundMarker(context, marker){
+      context.commit("setNoDataMarkerMarker", marker)
     }
   },
   plugins : [vuexCookie.plugin]

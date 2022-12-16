@@ -68,7 +68,7 @@ export default {
 		goToOrgProfile(){
 			//console.log("Go to org profile")
 			this.setSelectedOrganization(this.organization);
-			this.$router.push(`organization-profile/${this.organization.id}`);
+			this.$router.push(`/admin/organization-profile/${this.organization.id}`);
 		},
 		removeOrg(){
 			this.$emit("remove", this.organization);

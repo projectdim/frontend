@@ -79,7 +79,7 @@ export default {
   install : (app, option ={}) =>{
     app.component(Modal, Modal.name)
     let api = Api(option);
-    // Default: isBgClickClose : True, Duration : 3000ms
+    // Default: isBgClickClose : True, duration : 3000ms
     app.config.globalProperties.$toast = api;
   }
 }

@@ -114,10 +114,10 @@ export default {
 				location_id : this.requestedMarker.id,
 				street_number : this.requestedMarker.street_number,
 				address : this.requestedMarker.address,
+        city : this.requestedMarker.city,
 				...this.requestedMarker.reports
 			}
 
-			console.log(payload)
 			await api.locations.submitLocationReport(payload)
 				.then(res=>{
           this.$toast.clear();
@@ -153,7 +153,6 @@ export default {
 		},
 	},
 	beforeRouteLeave(to, from, next){
-		console.log(to)
 		if(to.fullPath=="/main/submit-report"){
 			to.params = { previewUpdating : true}
 			next()

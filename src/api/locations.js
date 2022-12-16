@@ -3,13 +3,13 @@ export default function (instance) {
         requestAddressReview (payload) {
             return instance.post('locations/request-info', payload)
         },
-        searchByCoords (payload) {
+        searchByMapCenter (payload) {
             return instance.post('locations/cord_search', payload)
         },
         exactSearch (lat, lng) {
             return instance.get(`locations/search?lat=${lat}&lng=${lng}`)
         },
-        searchById (locationId) {
+        getLocationById (locationId) {
             return instance.get(`locations/location-info?location_id=${locationId}`)
         },
         getLocationChangeLog (locationId) {

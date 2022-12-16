@@ -5,9 +5,7 @@ import SideBar from "../components/SidebarComponents/UserSidebar/SideBar.vue";
 import SideBarAidWorker from "../components/SidebarComponents/AidWorkerSidebar/SideBarAidWorker.vue";
 import ReportTools from "../components/SidebarComponents/AidWorkerSidebar/ReportTools.vue";
 import RequestCompletedPreview from "../components/SidebarComponents/AidWorkerSidebar/RequestCompletedPreview.vue";
-
 import {store} from "../store/mainStore.js";
-
 import {createRouter, createWebHistory} from "vue-router";
 import MainPlatformAdministration from "../components/PlatformAdministration/MainPlatformAdministration.vue";
 import OrganizationsList from "../components/PlatformAdministration/OrganizationsList.vue";
@@ -39,12 +37,18 @@ const mainRouter = [
       {
         path: "submit-report",
         component : ReportTools,
-        meta : {requiresAuth  : true}
+        meta : {
+          requiresAuth  : true,
+          selectedRequest : true
+        }
       },
       {
         path: "submit-report-preview",
         component : RequestCompletedPreview,
-        meta : {requiresAuth  : true}
+        meta : {
+          requiresAuth  : true,
+          selectedRequest : true
+        }
       },
     ]
   },
@@ -57,15 +61,8 @@ const mainRouter = [
     },
     children: [
       {
-        path: "",
-        redirect: to=>{
-          return {
-            path : "/admin/organizations"
-          }
-        }
-      },
-      {
         path: "organizations",
+        alias: [""],
         component: OrganizationsList,
         meta : {
           requiresAuth  : true,
@@ -108,8 +105,15 @@ export const Router = createRouter({
 Router.beforeEach((to, form)=>{
   if(to.meta.requiresAuth && !store.getters.isAuth){
     return {
-      path : "/"
+      path : "/main"
     }
+  }
+  if(to.meta.selectedRequest && !store.getters.getSelectedLocationRequest){
+    if(store.getters.isAuth){
+      return "/main/requests";
+    }
+    else
+      return "/main";
   }
   //FIXME
   /*if(to.meta.minRole && !userRoles.methods.isRoleHaveAccess(store.getters.getRole))

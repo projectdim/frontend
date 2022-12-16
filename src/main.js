@@ -11,6 +11,13 @@ import Info from "/src/components/pluginComponents/toast"
 
 const app = createApp(App);
 
+//TODO адреса та номер телефону найближчого відділку поліції
+// адреса лікарні та заправки
+// найближчі мережеві продуктові магазини
+// пропозиції моєї мами
+
+
+
 app.use(Info);
 app.use(store);
 app.use(Router);

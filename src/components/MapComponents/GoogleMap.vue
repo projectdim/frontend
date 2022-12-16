@@ -19,7 +19,7 @@
 					placeholder="Пошук..."
 					@place_changed="setPlace"
 					class="w-full bg-transparent outline-none block text-h3"
-					:select-first-on-enter = "true"
+					:select-first-on-enter="true"
 					:options="{
 						fields: [`geometry`, `name`]
 					}"
@@ -37,12 +37,12 @@
 	<GMapMap
 		class="z-0"
 		ref="map"
-		:center="getMapCenter"
- 		:zoom="this.currentMapZoom"
+		:center="currentMapCenter"
+ 		:zoom="currentMapZoom"
 		map-type-id="roadmap"
-		style="width: 100%; height: 100%"
+		style="width: 100%; height: 100%;"
 		@zoom_changed="OnMapZoomChanged"
-    @center_changed="onCenterChanged"
+    @center_changed="OnMapCenterChanged"
 		:click="true"
 		@click="ClickHandler"
 		:options="{
@@ -53,6 +53,7 @@
 			rotateControl: false,
 			fullscreenControl: false,
 			disableDefaultUI: true,
+			minZoom : 4,
 			styles:[
 				{
 					'featureType': 'administrative',
@@ -110,8 +111,9 @@
 		  :minimumClusterSize="2"
 		  :zoomOnClick="true"
 		  :maxZoom="13">
+<!--      Зелені маркера -->
 			<GMapMarker
-				v-for="(m, index) in this.$store.state.markers"
+				v-for="(m, index) in this.reviewedMarkers"
 				:key="index"
 				:position="m.position"
 				icon="/map-pin.svg"
@@ -119,16 +121,16 @@
 				:draggable="false"
 				@click="getMarkerInfo(m)"
 			/>
-<!--      Синие маркера -->
+<!--      Сині маркера -->
       <GMapMarker
 					v-if="getRole !== userRoles.user"
-          v-for="(m, index) in this.$store.state.unreviewedMarkers"
+          v-for="(m, index) in this.requestedMarkers"
           :key="index"
           :position="m.position"
           icon="/question-map-pin.svg"
-          :clickable="false"
+          :clickable="isRoleHaveAccess(getRole, userRoles.aidWorker)"
           :draggable="false"
-          @click="getMarkerInfo(m)"
+          @click="getRequestedMarkerInfo(m)"
       />
 	  </GMapCluster>
 	</GMapMap>
@@ -140,6 +142,7 @@ import axios from "axios";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import userRoles from "../mixins/userRoles.js";
 import helper from "../mixins/helper.js";
+import api from "../../api/index.js";
 
 export default {
   name: "GoogleMap",
@@ -147,6 +150,7 @@ export default {
   data : function (){
 	  return {
 		  currentMapZoom : 17,
+			currentMapCenter : {lat: 49.23414701332752, lng: 28.46228865225255},
 		  ifClickMarker : false,
 		  ClickMarkerCoords : {lat: Number, lng: Number},
 		  isInputFocused : false,
@@ -158,49 +162,64 @@ export default {
 			getMapCenter : "getMapCenter",
 			getRole : "getRole",
 			reviewedMarkers : "getReviewedMarkers",
-			requestedMarkers : "getRequestMarkers"
+			requestedMarkers : "getRequestMarkers",
+			isAuth : "isAuth"
 		}),
 		notFoundMarker(){
-			//this.SetMarker(this.$store.state.notFoundedMarkerData.position)
 			return this.$store.state.notFoundedMarkerData;
 		}
 	},
 	methods : {
 		...mapMutations(["setNoDataMarkerMarker", "setSelectedMarker", "setMapCenter"]),
-		...mapActions(["getMarkersByScreenBounds","GetMarkerByCoords", "getMarkerById"]),
-	  	ClickHandler(event) {
+		...mapActions(["getMarkersByMapCenter","GetMarkerByCoords", "getMarkerById"]),
+	  ClickHandler(event) {
+      this.$router.push("/main/overview");
+      this.getGooglePlaceInfo(event.latLng)
+		},
+		OnMapCenterChanged(coords) {
+      let payload = {
+				...this.coordsFormatter(coords),
+        zoom: this.currentMapZoom
+      }
+      this.getMarkersByMapCenter(payload);
+    },
+    getMarkerInfo(marker) {
+			this.ifClickMarker = false;
+			if(!this.isPathMatched("/main/overview"))
+				this.$router.push("/main/overview");
+			this.getMarkerById(marker.location_id);
+			setTimeout(()=>{
+				this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
+			}, 500)
+		},
+    getRequestedMarkerInfo(marker) {
+			this.ifClickMarker = false;
+			this.ClickMarkerCoords = null;
+      if(!this.isPathMatched("/main/overview"))
         this.$router.push("/main/overview");
-        this.getGooglePlaceInfo(event.latLng)
-		  },
-			getBounds ( arg ) {
-    	  let bounds = {
-    	    lat: { hi: arg.getNorthEast().lat(), lo: arg.getSouthWest().lat() },
-    	    lng: { hi: arg.getNorthEast().lng(), lo: arg.getSouthWest().lng() }
-    	  }
-				this.getMarkersByScreenBounds(bounds);
-    	},
-      onCenterChanged (coords) {
-        let payload = {
-					...this.coordsFormatter(coords),
-          zoom: this.currentMapZoom
-        }
-        this.getMarkersByScreenBounds(payload);
-      },
-    	getMarkerInfo(marker) {
-				this.ifClickMarker = false;
-				if(!this.isPathMatched("/main/overview"))
-					this.$router.push("/main/overview");
-        this.getMarkerById(marker.location_id);
+      this.getGooglePlaceInfo(marker.position);
+      setTimeout(()=>{
+        this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
+      }, 500)
+    },
+		 getRequestByClick(m){
+			if(!this.isAuth)
+					return;
 
-				setTimeout(()=>{
-        	this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
-				}, 500)
-    	},
+			 let notFoundedMarker = {
+				 position: m.location,
+         //TODO
+				 address: "saf",
+				 isRequested : true,
+				 location_id : m.location_id
+			 }
+			 this.setNoDataMarkerMarker(notFoundedMarker);
+
+		},
     async getGooglePlaceInfo (coords) {
 			coords = this.coordsFormatter(coords)
-      console.log("Click")
-      console.log(coords);
-			//TODO Перевірити чи є ця АДРЕСА в БД
+     /* console.log("Click")
+      console.log(coords);*/
 			await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.lat},${coords.lng}&key=${import.meta.env.VITE_GMAPS_APIKEY}`)
         .then((res =>{
           /*console.log("Result")
@@ -209,8 +228,8 @@ export default {
           //let googlePlace = res.data.results.find(x=> x.types.includes("premise"));
 
           let googlePlace = res.data.results.find(x=> Object.keys(x.geometry).includes("bounds"));
-          console.log("Bounds")
-          console.log(googlePlace.geometry.bounds)
+         /* console.log("Bounds")
+          console.log(googlePlace.geometry.bounds)*/
 
           //let googlePlace = res.data.results[0];
          /* console.log("googlePlace")
@@ -224,9 +243,12 @@ export default {
               this.ClickMarkerCoords = null;
             }
             else {
+              let isPlaceRequested = this.CheckIsRequestMarkerExist(googlePlace);
               let notFoundedMarker = {
                 position: this.coordsFormatter(googlePlace.geometry.location),
-                address: googlePlace.formatted_address
+                address: googlePlace.formatted_address,
+                isRequested : isPlaceRequested ? true : false,
+                location_id : isPlaceRequested ? isPlaceRequested.location_id : undefined
               }
               this.setNoDataMarkerMarker(notFoundedMarker);
             }
@@ -275,7 +297,12 @@ export default {
       let marker = this.reviewedMarkers.find(x=>{
           return this.checkIsCoordsInObjViewport(x.position, googlePlace)
         })
-
+      return marker ?? false;
+    },
+    CheckIsRequestMarkerExist(googlePlace){
+      let marker = this.requestedMarkers.find(x=>{
+        return this.checkIsCoordsInObjViewport(x.position, googlePlace)
+      })
       return marker ?? false;
     },
 		OnMapZoomChanged(arg){
@@ -285,8 +312,6 @@ export default {
 		  this.isInputFocused = arg;
 		},
 		setPlace(arg) {
-			/*console.log("Place")
-			console.log(arg)*/
 			this.GetMarkerByCoords(arg);
 			this.$router.push("/main/overview")
 		},
@@ -326,16 +351,35 @@ export default {
   },
 	watch : {
 		notFoundMarker : function (newValue) {
-			if(newValue) {
+			if(newValue && !newValue.isRequested) {
 				this.ifClickMarker = true;
 				this.ClickMarkerCoords = newValue.position;
 			}
+			else{
+				this.ifClickMarker = false;
+				this.ClickMarkerCoords = undefined;
+			}
 		},
 		getMapCenter : function (newValue) {
-			setTimeout(()=>{
-				this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
-			}, 500)
+			//FIXME костилі для того, щоб центр мапи змінювався
+			// при повторному присвоєнні ідентичного значення
+			if(newValue && newValue.lng && newValue.lat){
+				this.currentMapCenter = {lat: newValue.lat+0.000005, lng: newValue.lng+0.000005}
+					setTimeout(()=>{
+						this.currentMapCenter = this.coordsFormatter(newValue)
+						this.currentMapZoom = this.currentMapZoom >= 17 ? this.currentMapZoom : 17;
+						if(this.requestedMarkers.length <= 0 || this.reviewedMarkers.length <=0){
+							this.getMarkersByMapCenter(this.currentMapCenter);
+						}
+					}, 500)
+			}
 		}
+	},
+	created() {
+		this.OnMapCenterChanged(this.currentMapCenter);
+		setTimeout(()=>{
+			this.currentMapZoom = 16
+		}, 1000)
 	}
 }
 

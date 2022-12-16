@@ -13,9 +13,16 @@
 				</div>
 			</div>
 			<div class="text-h3 text-blue-c-500 font-semibold pb-2 shadow-cs2 cursor-pointer"
-				@click="this.setSelectedRequest(locationRequest)">
+				@click="setSelectedRequest(locationRequest)">
 				<img src="/Marker-blue.svg" class="inline-block mr-1">
-				{{locationRequest.address}}
+        <span v-if="locationRequest.address">
+          {{locationRequest.address}}<span v-if="locationRequest.street_number">
+            {{locationRequest.street_number}}
+          </span>,
+        </span>
+        {{locationRequest.index}}
+        {{locationRequest.city}}
+
 			</div>
 			<div class="flex justify-between mt-4 items-baseline">
 

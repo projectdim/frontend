@@ -152,7 +152,7 @@ export default {
 		},
 		AddressValidation(value){
 			return value.length >=2;
-		}
+		},
 	},
 	computed : {
 		...mapGetters(["getSelectedLocationRequest"]),
@@ -161,8 +161,8 @@ export default {
 				return false;
 			}
 			else {
-				return this.updatedReport.city.length < 2
-					|| this.updatedReport.address.length < 2
+				return this.updatedReport.city?.length < 2
+					|| this.updatedReport.address?.length < 2
 					|| !this.updatedReport.reports
 					|| this.isEqual2(this.getSelectedLocationRequest, this.updatedReport)
 			}
