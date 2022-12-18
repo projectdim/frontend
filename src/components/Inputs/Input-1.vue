@@ -79,7 +79,7 @@ export default {
 				'border-red-c-500' : !this.isValidStyle,
 			}
 		}
-	}
+	},
 }
 </script>
 

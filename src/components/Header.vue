@@ -212,6 +212,7 @@ export default {
 			this.setLoggedUserInfo(null)
 			this.setLoggedUserCredentials(null);
 			this.isMenuVisibleOnMobile = false;
+			this.$router.push("/welcome")
 		},
 		goToMain(){
 			this.isMenuVisibleOnMobile = false;

@@ -1,6 +1,6 @@
 <template>
 	<teleport to="body">
-		<div id="loginModal" v-if="isModalVisible" class="overflow-y-hidden z-50 h-screen w-screen bg-black/30 absolute top-0
+		<div id="loginModal" v-if="isModalVisible" class="overflow-y-hidden z-50 h-screen w-screen bg-black/30 fixed top-0 left-0 right-0 bottom-0
 				mobile:px-2 grid place-items-center"
 				 @click="hide">
         <div class="mx-auto rounded-xl p-6 w-[480px] mobile:w-full

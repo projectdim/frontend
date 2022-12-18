@@ -7,7 +7,10 @@ export  default {
         if (typeof dateStr !== typeof new Date()) {
           date = new Date(dateStr);
         }
-        return `${date.getDate()}.${date.getMonth()+1}.${date.getFullYear()}`
+        let day = date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`
+        let month = date.getMonth() + 1 > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}`
+
+        return `${day}.${month}.${date.getFullYear()}`
       }
       catch (err){
         console.error("Date formatter error. Method: GetDate");
@@ -21,7 +24,13 @@ export  default {
         if (typeof dateStr !== typeof new Date()) {
           date = new Date(dateStr);
         }
-        return `${date.getHours()}:${date.getMinutes()} ${date.getDate()}.${date.getMonth()+1}.${date.getFullYear()}`
+
+        let hours = date.getHours() > 9 ? date.getHours() : `0${date.getHours()}`
+        let minutes = date.getMinutes() > 9 ? date.getMinutes() : `0${date.getMinutes()}`
+        let day = date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`
+        let month = date.getMonth() + 1 > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}`
+
+        return `${hours}:${minutes} ${day}.${month}.${date.getFullYear()}`
       }
       catch (err){
         console.error("Date formatter error. Method: GetDateTime");
@@ -35,7 +44,11 @@ export  default {
         if (typeof dateStr !== typeof new Date()) {
           date = new Date(dateStr);
         }
-        return `${this.MonthLocalization(date.getMonth()+1).substring(0,3)} ${date.getDate()}, ${date.getHours()}:${date.getMinutes()}`
+
+        let hours = date.getHours() > 9 ? date.getHours() : `0${date.getHours()}`;
+        let minutes = date.getMinutes() > 9 ? date.getMinutes() : `0${date.getMinutes()}`;
+
+        return `${this.MonthLocalization(date.getMonth()+1).substring(0,3)} ${date.getDate()}, ${hours}:${minutes}`
       }
       catch (err){
         console.error("Date formatter error. Method: GetDateTimeShort");
@@ -99,6 +112,7 @@ export  default {
         throw err;
         return false
       }
-    }
+    },
+
   },
 }

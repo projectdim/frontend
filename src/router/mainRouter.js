@@ -10,8 +10,9 @@ import {createRouter, createWebHistory} from "vue-router";
 import MainPlatformAdministration from "../components/PlatformAdministration/MainPlatformAdministration.vue";
 import OrganizationsList from "../components/PlatformAdministration/OrganizationsList.vue";
 import OrganizationProfile from "../components/PlatformAdministration/OrganizationProfile.vue";
-import UserRegistration from "../components/UserRegistration.vue";
+import UserRegistration from "../components/Authorization/UserRegistration.vue";
 import userRoles from "../components/mixins/userRoles.js";
+import PasswordReset from "../components/Authorization/PasswordReset.vue";
 
 
 const mainRouter = [
@@ -82,6 +83,10 @@ const mainRouter = [
   {
     path: "/registration",
     component: UserRegistration
+  },
+  {
+    path: "/password-reset",
+    component: PasswordReset
   },
   { path : "/test", component : Test},
   {

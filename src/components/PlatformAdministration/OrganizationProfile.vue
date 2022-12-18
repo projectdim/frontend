@@ -308,6 +308,7 @@ export default {
 			this.isUserInviteModalLoaderVisible = true;
 			await api.organizations.sendUserInvite(this.organization.id, this.invitedUsersList)
 				.then(res=>{
+					console.log(res)
 					this.organization = res.data;
 					this.CloseUserInviteModal()
 					this.invitedUsersList = [""];

@@ -1,8 +1,8 @@
 <template>
 	<div class="flex flex-col h-screen">
-	<Header class="grow-0"/>
-		<div class="grow flex items-center justify-center mobile:p-4">
-				<div class="w-[480px] mobile:w-full  overflow-y-auto">
+	<Header class="grow-0 shrink-0"/>
+		<div class="grow flex items-center justify-center p-4 overflow-y-auto">
+				<div class="w-[480px] mobile:w-full">
 					<div class="text-center text-h1 font-semibold mb-9 text-gray-c-800">
             {{ $t("userRegistration.greeting") }}
           </div>
@@ -14,14 +14,14 @@
 							<label for="user-name" class="block mb-1 text-h4 text-gray-c-500">
                 {{ $t("userRegistration.name") }}
               </label>
-							<input-1 tabindex="1" inp-id="user-name" v-model="userName" validation-type="name" class="w-full mt-1 outline-none" :placeholder="$t('userRegistration.fullName')"
+							<input-1 tabindex="1" inp-id="user-name" v-model="userName" validation-type="name" class=" w-full mt-1 outline-none" :placeholder="$t('userRegistration.fullName')"
 							 @validation="onNameValidate" :validation-message="$t('validations.minNameLength', {amount : 2})"/>
 						</div>
 						<div class="mb-6">
 							<label for="user-mail" class="block mb-1 text-h4 text-gray-c-500">
                 {{ $t("userRegistration.email") }}
               </label>
-							<input-1 tabindex="2" inp-id="user-mail" v-model="userMail" validation-type="mail"  class="w-full mt-1 outline-none" :placeholder="$t('userRegistration.email')"
+							<input-1 :disabled="true" tabindex="2" inp-id="user-mail" v-model="userMail" validation-type="mail"  class="w-full mt-1 outline-none" :placeholder="$t('userRegistration.email')"
 							@validation="onMailValidate" :validation-message="$t('validations.mailNotValid')"/>
 						</div>
 						<div class="mb-6">
@@ -54,22 +54,22 @@
 						</div>
 					</div>
 
-					<button1 tabindex="7" @click="CreateUser" class="w-full" :disabled="!isRegEnabled">
+					<button-1 tabindex="7" @click="CreateUser" class="w-full" :disabled="!isRegEnabled">
 						{{$t("userRegistration.createProfile")}}
-					</button1>
+					</button-1>
 				</div>
 		</div>
 	</div>
 	<Loader v-if="isLoaderVisible" class="z-[9999]"/>
 </template>
 <script>
-import Header from "./Header.vue";
-import input1 from "./Inputs/Input-1.vue"
-import InputPass from "./Inputs/Input-pass.vue";
-import Button1 from "./Buttons/Button_1.vue";
-import regex from "./mixins/regex.js";
-import Loader from "./Loader.vue";
-import api from "../api/index.js";
+import Header from "../Header.vue";
+import input1 from "../Inputs/Input-1.vue"
+import InputPass from "../Inputs/Input-pass.vue";
+import Button1 from "../Buttons/Button_1.vue";
+import regex from "../mixins/regex.js";
+import Loader from "../Loader.vue";
+import api from "../../api/index.js";
 export default {
 	name: "UserRegistration",
 	components: {
@@ -87,10 +87,12 @@ export default {
 			userMail : "",
 			pass : "",
 			passConfirm : "",
+			organizationId: -1,
 			isNameValid : false,
 			isMailValid : false,
 			isPassValid : false,
 			isLoaderVisible : false,
+			access_token : undefined
 		}
 	},
 	methods : {
@@ -111,8 +113,9 @@ export default {
 		},
 		async CreateUser(){
 			this.isLoaderVisible = true;
-			await api.user.RegistrationUser(this.userName, this.userMail, this.userName, 34, this.pass)
+			await api.user.RegistrationTokenConfirm(this.userName, this.userMail, this.userName, this.organizationId, this.pass, this.access_token)
 				.then(res=>{
+					console.log(res)
 					this.isLoaderVisible = false
           this.$toast.success(this.$t("userRegistration.userRegSuccess"), {onClose : this.onRegSuccess})
 				})
@@ -123,6 +126,35 @@ export default {
 						errMess = this.$t("userRegistration.userMailExist", {userMail : this.userMail})
           this.$toast.error(errMess, this.$toast.options(false, false))
 				})
+		},
+		//TODO localization
+		async GetUserRegInfo(){
+			if(!this.$route.query.access_token){
+					this.$toast.error("Некоректне посилання.",
+						this.$toast.options(false, false, this.onRegSuccess)
+					);
+					return;
+			}
+			this.access_token = this.$route.query.access_token
+			this.$toast.wait("Wait.")
+			await api.user.VerifyRegistrationToken(this.access_token)
+				.then(res=>{
+					console.log(res.data)
+					//FIXME сигнатура поля зміниться
+					this.organizationId = res.data.organization;
+					this.userMail = res.data.email;
+					this.isMailValid = true;
+					this.$toast.clear();
+				})
+				.catch(err=>{
+					let errorMess = "Error";
+					this.$toast.clear();
+					if(err.response.status === 422)
+						errorMess = "Token is not valid";
+					else if(err.response.status === 400)
+						errorMess = "Token is either not valid or expired.";
+					this.$toast.error(errorMess, this.$toast.options(false, false, this.onRegSuccess))
+				})
 		}
 	},
 	computed : {
@@ -130,6 +162,9 @@ export default {
 			return this.isMailValid && this.isNameValid && this.isPassValid &&
 				this.isPassEquals() && this.isTermsAccept;
 		},
+	},
+	mounted() {
+		this.GetUserRegInfo();
 	}
 }
 </script>
