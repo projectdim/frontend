@@ -12,7 +12,7 @@ describe('user settings', () => {
     cy.get('#settings').click();
     cy.get('body').find('#userSettings').should('be.visible')
 
-    cy.get('#setting-mail').find('input').should('be.disabled');
+    cy.get('#setting-mail').should('be.disabled');
     cy.get('#updateData').should('be.disabled');
   });
 
@@ -22,7 +22,7 @@ describe('user settings', () => {
     const id = uuid()
     const testname = `testname${id}`
 
-    cy.get('#setting-name').find('input').clear().type(testname);
+    cy.get('#setting-name').clear().type(testname);
     cy.get('#updateData').should('not.be.disabled');
     cy.get('#updateData').click();
     cy.intercept('/api/v1/users/info' , (req) => {

@@ -111,10 +111,6 @@ const storePrototype = {
 
     async GetMarkerByCoords(context, {name, position}){
       try{
-        /*let payload = {
-          lat: arg.geometry.location.lat(),
-          lng: arg.geometry.location.lng()
-        }*/
         await api.locations.exactSearch(position.lat, position.lng).then((response) => {
           if(response.data.status === 3)
             context.commit("setSelectedMarker", response.data);

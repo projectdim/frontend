@@ -4,20 +4,25 @@
 		Test
 	</button-text-1>
 	<button-text-1 @click="Test2">
-		Test
+		ShowModal
 	</button-text-1>
   <div>{{mess}}</div>
+
+	<SendReportRequestModal :is-modal-visible="modalVisible" :close-func="HideModal"/>
+
 </template>
 
 <script>
 import RemoveOrgModal from "./PlatformAdministration/RemoveOrgModal.vue";
 import LocalizationDropDown from "./Other/LocalizationDropDown.vue";
+import SendReportRequestModal from "./Modals/SendReportRequestModal.vue";
 export default {
   name: "Test",
-	components: {LocalizationDropDown, RemoveOrgModal},
+	components: {SendReportRequestModal, LocalizationDropDown, RemoveOrgModal},
   data(){
     return {
-      mess : "Message"
+      mess : "Message",
+			modalVisible : true
     }
   },
 	methods : {
@@ -27,13 +32,11 @@ export default {
      });
 		},
 		Test2(){
-			/*this.$toast.error("Error",
-				{
-					isCloseOnBg: true,
-					timer : 2000
-				})*/
-      //this.$toast.clear()
+			this.modalVisible = true;
     },
+		HideModal(){
+			this.modalVisible = false;
+		},
     close(){
       this.$toast.clear();
     },

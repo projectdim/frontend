@@ -312,6 +312,7 @@ export default {
 		  this.isInputFocused = arg;
 		},
 		setPlace(arg) {
+			console.log(arg)
       let position = this.coordsFormatter(arg.geometry.location);
 			this.GetMarkerByCoords({name : arg.name, position});
 			this.$router.push("/main/overview")

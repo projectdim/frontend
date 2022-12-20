@@ -23,10 +23,10 @@
 				:class="{'mobile:flex mobile:flex-col-reverse' : isPassChangeVisible}">
 				<div :class="{'mobile:hidden' : isPassChangeVisible}">
 					<label for="setting-name">{{ $t('userSettings.name') }}</label>
-					<input1 inp-id="setting-name" :placeholder="$t('userSettings.name')" v-model="username"
+					<input-1 inp-id="setting-name" :placeholder="$t('userSettings.name')" v-model="username"
 									class="block text-black mt-1 mb-6"/>
 					<label for="setting-mail">{{ $t('userSettings.email') }}</label>
-					<input1 inp-id="setting-mail" :placeholder="$t('userSettings.email')" v-model="email"
+					<input-1 inp-id="setting-mail" :placeholder="$t('userSettings.email')" v-model="email"
 									class=" text-black mt-1" disabled/>
 				</div>
 
