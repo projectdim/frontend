@@ -1,10 +1,10 @@
 <template>
-	<div>
+	<label class="inline-block w-full">
 		<input @focusin="onFocus" @focusout="onLeave"
 					 :type="type" class="input-1" :value="modelValue" @input="updateInput" :placeholder="placeholder"
 		:class="validationStyle" :disabled="disabled" :id="inpId">
 		<div v-if="!isValidStyle && validationMessage" class="text-red-c-500 text-b3 mt-1 text-left px-2">{{validationMessage}}</div>
-	</div>
+	</label>
 </template>
 
 <script>
@@ -82,20 +82,3 @@ export default {
 	},
 }
 </script>
-
-<style scoped>
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer components {
-  .input-1 {
-    @apply border  font-normal
-    rounded-lg outline-none text-h3 px-4 py-2
-    hover:border-blue-c-400 focus:border-blue-c-500
-    disabled:bg-gray-c-100 disabled:hover:border-gray-c-300
-    disabled:text-gray-c-500 w-full
-  }
-}
-
-</style>

@@ -25,7 +25,7 @@
 @layer components {
     .title {
         @apply text-h1 mobile:text-h1-m
-        font-semibold
+        font-semibold text-gray-c-800
     }
     .subTitle {
         @apply font-semibold text-h2 mobile:text-h2-m
@@ -43,11 +43,17 @@
     .text-body-2{
         @apply text-h2 text-gray-c-800
     }
-
     .tooltip{
         @apply bg-white shadow-cs4 px-2 py-1 w-min h-min top-[-15px] left-2 rounded-xl
         text-gray-c-600 text-h3 absolute transition-opacity duration-300 opacity-0 group-hover:opacity-100 whitespace-nowrap
         group-active:opacity-100 font-normal
+    }
+    .input-1 {
+        @apply border font-normal
+        rounded-lg outline-none text-h3 px-4 py-2
+        hover:border-blue-c-400 focus:border-blue-c-500
+        disabled:bg-gray-c-100 disabled:hover:border-gray-c-300
+        disabled:text-gray-c-500 w-full
     }
 
     /*Дизайн скролла для Firefox*/
@@ -56,5 +62,19 @@
         scrollbar-color: rgba(73, 84, 102, 0.51) transparent;
         scrollbar-width : thin;
     }
+}
 
+.modal-anim-enter-active,
+.modal-anim-leave-active {
+    transition: opacity 0.2s ease, margin 0.2s ease;
+}
+
+.modal-anim-enter-from{
+    opacity: 0;
+    margin: 10px 0px -10px 0px;
+}
+
+.modal-anim-leave-to {
+    opacity: 0;
+    margin: -10px 0px 10px 0px;
 }

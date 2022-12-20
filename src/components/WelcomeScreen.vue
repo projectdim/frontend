@@ -18,7 +18,7 @@
           id="autocomplete"
           ref="autocomplete"
           :placeholder="$t('welcomeScreen.searchPlaceholder')"
-          @place_changed="GetMarkerByCoords"
+          @place_changed="GetMarker"
           class="w-full bg-transparent outline-none block text-h3"
           :options="{
 							  fields: [`geometry`, `name`]
@@ -66,6 +66,13 @@ export default {
       let autocomplete = document.getElementById('autocomplete');
       autocomplete.value = ''
     },
+		GetMarker(arg){
+			let payload = {
+          lat: arg.geometry.location.lat(),
+          lng: arg.geometry.location.lng()
+        }
+				this.GetMarkerByCoords({position : payload, name : arg.name})
+		}
   },
 	computed : {
 		...mapState(["selectedMarkerData","notFoundedMarkerData"])

@@ -40,10 +40,10 @@ export default {
 	name: "LocalizationDropDown",
 	data (){
 		return {
-			lang : {code : 'ua', value : "Українська", flag : "/src/assets/Flags/UA_flag.svg"},
+			lang : {code : 'ua', value : "Українська", flag : "/Flags/UA_flag.svg"},
 			availableLang : [
-				{code : 'ua', value : "Українська", flag : "/src/assets/Flags/UA_flag.svg"},
-				{code : 'en', value : "English", flag : "/src/assets/Flags/USA_flag.svg"}
+				{code : 'ua', value : "Українська", flag : "/Flags/UA_flag.svg"},
+				{code : 'en', value : "English", flag : "/Flags/USA_flag.svg"}
 			],
 			isDropped : false
 		}
