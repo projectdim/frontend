@@ -1,31 +1,24 @@
 <template>
-	<div v-if="selectedMarkerData !== null" id="sideBar" class="overflow-y-auto h-full shadow-cs1">
+	<div v-if="selectedMarkerData !== null"
+			 id="sideBar" class="overflow-y-auto h-full shadow-cs1 flex flex-col">
 	  <h1 class="px-6 font-semibold my-6 text-h1
 			mobile:text-h1-m
 			tablet:text-h1-m
 			mobile:px-4
 			tablet:px-4">
-				{{ selectedMarkerData.address }},
-				{{ selectedMarkerData.index }},
-				{{ selectedMarkerData.city }}
+			  {{selectedMarkerAddress}}
 		</h1>
 	  <div class="flex flex-nowrap text-center text-h3
 			mobile:text-h4
 			tablet:text-h4">
-			<div class="basis-1/2 pb-2.5 cursor-pointer hover:bg-gray-200 box-border"
-				 :class="this.selectedTabItem === `Overview`? `text-blue-c-500 border-blue-c-500 border-b-2` : `text-gray-c-500 border-gray-c-500 border-b`"
-				 @click="setSelectedTab(`Overview`)"
-			>
-				Огляд
-			</div>
-			<div class="basis-1/2 pb-2.5 cursor-pointer hover:bg-gray-200 box-border"
-				 :class="this.selectedTabItem === `History`? `text-blue-c-500 border-blue-c-500 border-b-2` : `text-gray-c-500 border-gray-c-500 border-b`"
-				 @click="setSelectedTab(`History`)"
-			>
-				Історія змін
-			</div>
+			<TabItemButton class="w-full" target-tab-value="Overview" :current-tab-value="selectedTabItem" @click="setSelectedTab('Overview')">
+				{{ $t('userSideBar.overview') }}
+			</TabItemButton>
+			<TabItemButton class="w-full" target-tab-value="History" :current-tab-value="selectedTabItem" @click="setSelectedTab(`History`)">
+				{{ $t('userSideBar.change-history') }}
+			</TabItemButton>
 	  </div>
-	  <div class="pt-6">
+	  <div class="pt-6 grow">
       <keep-alive>
 		    <Overview v-if="this.selectedTabItem === `Overview` && selectedMarkerData" />
       </keep-alive>
@@ -42,6 +35,7 @@ import Overview from "./Overview.vue";
 import History from "./History.vue";
 import { mapState } from "vuex";
 import NotFound from "./NotFound.vue";
+import TabItemButton from "../../Other/TabItemButton.vue";
 
 export default {
   name: "SideBar",
@@ -49,6 +43,7 @@ export default {
     selectedMarker: Object
   },
   components : {
+		TabItemButton,
 		History,
 		Overview,
 		NotFound
@@ -64,7 +59,29 @@ export default {
 	  }
   },
 	computed : {
-		...mapState(["selectedMarkerData"])
+		...mapState({
+      selectedMarkerData : "selectedMarkerData"
+    }),
+    selectedMarkerAddress(){
+      let address = ""
+      if(this.selectedMarkerData.address)
+        address += `${this.selectedMarkerData.address}, `
+      if(this.selectedMarkerData.street_number)
+        address += `${this.selectedMarkerData.street_number}, `
+      if(this.selectedMarkerData.index)
+        address += `${this.selectedMarkerData.index}, `
+      if(this.selectedMarkerData.city)
+        address += `${this.selectedMarkerData.city}`
+      let trim = 0;
+      for (let i = address.length-1; i<=0; i--){
+        if(address[i] === " " || address[i] === ",")
+          trim++
+        else
+          break;
+      }
+      address = address.substring(0, address.length-trim);
+      return address.length>0 ? address : this.$t("general.error");
+    }
 	}
 }
 </script>

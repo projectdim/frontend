@@ -1,25 +1,35 @@
-import { createApp } from 'vue'
+import './index.css';
+import { createApp} from 'vue'
+import App from './App.vue';
+import {store}  from "./store/mainStore.js";
 import VueGoogleMaps from '@fawmi/vue-google-maps'
-import './index.css'
-import 'vue3-carousel/dist/carousel.css';
-import App from './App.vue'
-import {store}  from "./store/mainStore.js"
 import {Router} from "./router/mainRouter.js";
 import ComponentsList from "./components/ComponentsList.js";
-import ResizeTextarea from 'resize-textarea-vue3'
+import i18n from "./libs/i18n/index.js";
+import ResizeTextarea from 'resize-textarea-vue3';
+import Info from "/src/components/pluginComponents/toast"
 
 const app = createApp(App);
-const  router = Router;
+
+//TODO адреса та номер телефону найближчого відділку поліції
+// адреса лікарні та заправки
+// найближчі мережеві продуктові магазини
+// пропозиції моєї мами
+
+
+
+app.use(Info);
+app.use(store);
+app.use(Router);
+app.use(i18n);
 app.use(VueGoogleMaps,{
-        load: {
-            key: import.meta.env.VITE_GMAPS_APIKEY,
-            language: 'ua',
-            libraries: "places"
-        },
+      load: {
+          key: import.meta.env.VITE_GMAPS_APIKEY,
+          language: store.getters.getLocalization,
+          libraries: "places"
+      },
     });
 
-app.use(store);
-app.use(router);
 
 ComponentsList.forEach(component=>{
   app.component(component.name, component);

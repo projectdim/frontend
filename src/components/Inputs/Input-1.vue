@@ -1,9 +1,9 @@
 <template>
 	<div>
-		<input @focusin="onFocus" @focusout="onLeave" @invalid="validate"
-					 type="text" class="input-1" :value="modelValue" @input="updateInput" :placeholder="placeholder"
-		:class="validationStyle" :disabled="disabled">
-		<div v-if="!isValidStyle && validationMessage" class="text-red-c-500 text-b3 mt-1">{{validationMessage}}</div>
+		<input @focusin="onFocus" @focusout="onLeave"
+					 :type="type" class="input-1" :value="modelValue" @input="updateInput" :placeholder="placeholder"
+		:class="validationStyle" :disabled="disabled" :id="inpId">
+		<div v-if="!isValidStyle && validationMessage" class="text-red-c-500 text-b3 mt-1 text-left px-2">{{validationMessage}}</div>
 	</div>
 </template>
 
@@ -13,22 +13,30 @@ import regex from "../mixins/regex.js";
 export default {
 	name: "Input-1",
 	mixins : [regex],
-	emits : ["validation"],
+	emits : ["validation", "update:modelValue"],
 	props : {
 		modelValue : [String, Number],
 		validationType : {
 			type : String,
 			validator(value) {
-				return ["mail", "name"].includes(value);
+				return ["mail", "name", "custom"].includes(value);
 			}
 		},
 		validationMessage : {
 			type : String,
 			default : "Поле не валідне"
 		},
+		validationFunc : {
+			type : Function,
+			default : (val)=> true
+		},
 		placeholder : String,
-		disabled : Boolean
-
+		disabled : Boolean,
+		type : {
+			type : String,
+			default: "text"
+		},
+    inpId : String
 	},
 	data () {
 		return {
@@ -47,15 +55,16 @@ export default {
 		},
 		validate(){
 			let isValueValid = true;
-			if (this.validationType) {
-				switch (this.validationType){
-					case "mail":
-						isValueValid = this.isMail(this.modelValue);
-						break;
-					case "name":
-						isValueValid = this.isName(this.modelValue);
-						break;
-				}
+			switch (this.validationType){
+				case "mail":
+					isValueValid = this.isMail(this.modelValue);
+					break;
+				case "name":
+					isValueValid = this.isName(this.modelValue);
+					break;
+				default:
+					isValueValid = this.validationFunc(this.modelValue);
+					break;
 			}
 			if(isValueValid)
 				this.isValidStyle = true;
@@ -70,7 +79,7 @@ export default {
 				'border-red-c-500' : !this.isValidStyle,
 			}
 		}
-	}
+	},
 }
 </script>
 

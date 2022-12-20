@@ -6,7 +6,8 @@ export default {
     return{
       loggedUserInfo : null,
       loggedUserCredentials : null,
-      userOrganization : {name : "..."}
+      userOrganization : {name : "..."},
+      lang : 'ua'
     }
   },
   mutations : {
@@ -18,6 +19,9 @@ export default {
     },
     setUserOrganization(state, organization){
       state.userOrganization = organization
+    },
+    setLocalization(state, lang){
+      state.lang = lang;
     }
   },
   getters : {
@@ -40,7 +44,10 @@ export default {
         return userRoles.data().userRoles.user;
       }
       else
-        return state.loggedUserInfo["role"];
+        return state.loggedUserInfo.role;
+    },
+    getLocalization(state){
+      return state.lang
     }
   },
   actions : {
@@ -52,9 +59,9 @@ export default {
             {
               name : res.data.name,
               id : res.data.id,
-              site : "http://peopleinneed.net/",
+              website : res.data.website,
               email : "here organization email",
-              created_at : (new Date()).toLocaleString()
+              created_at : (new Date(res.data.created_at)).toLocaleString()
             })
         })
         .catch(err=>{

@@ -10,9 +10,20 @@ const vuexCookie = new VuexPersistence({
   saveState: (key, state, storage) =>
     setCookie(key, state, 1),
   modules: ['user'],
-  filter: (mutation) => mutation.type == 'setLoggedUserInfo' ||
-    mutation.type == "setLoggedUserCredentials" || mutation.type == "setUserOrganization"
+  filter : CookieUpdateFilter
+ /* filter: (mutation) => mutation.type == 'setLoggedUserInfo' ||
+    mutation.type == "setLoggedUserCredentials" || mutation.type == "setUserOrganization"*/
 });
+
+function CookieUpdateFilter(mutation){
+  let triggerMutation=[
+    "setLoggedUserInfo",
+    "setLoggedUserCredentials",
+    "setUserOrganization",
+    "setLocalization"
+  ]
+  return triggerMutation.includes(mutation.type);
+}
 
 
 const storePrototype = {
@@ -31,7 +42,8 @@ const storePrototype = {
       notFoundedMarkerData : null,
       loggedUserInfo : null,
       loggedUserCredentials : null,
-      mapCenter : null
+      mapCenter : null,
+      defaultMapCenter : {lat: 49.23414701332752, lng: 28.46228865225255}
     }
   },
   mutations : { // функції для зміни даних мають бути СИНХРОННИМИ
@@ -39,9 +51,15 @@ const storePrototype = {
       state.markers = markers.filter((mark) => mark.status === 3);
       state.unreviewedMarkers = markers.filter((mark) => mark.status === 1 || mark.status === 2);
     },
+    setUnreviewedMarkers(state, markers){
+      state.unreviewedMarkers = markers;
+    },
     setSelectedMarker(state, marker){
       state.selectedMarkerData = marker;
-      state.mapCenter = marker.position;
+      ////
+      state.mapCenter = {...state.defaultMapCenter};
+      state.mapCenter = {...marker.position};
+
       state.selectedMarkerHistoryData = [];
       state.notFoundedMarkerData = null;
     },
@@ -52,40 +70,31 @@ const storePrototype = {
     setNoDataMarkerMarker(state, marker){
       state.selectedMarkerData = null;
       state.notFoundedMarkerData = marker;
-      state.mapCenter = marker.position;
+      ////
+      state.mapCenter = {...marker.position};
     },
-   /* setLoggedUserInfo(state, user){
-      state.loggedUserInfo = user;
-    },
-    setLoggedUserCredentials(state, credentials){
-      state.loggedUserCredentials = credentials;
-    },*/
     setMapCenter(state, position){
-      state.mapCenter = position;
+      state.mapCenter = null;
+      state.mapCenter = {...position};
     }
   },
   getters : { // функцію для отримання даних зі state з можливістю здійснювати попередні обрахунки
-    /*getToken(state){
-      if(state.loggedUserCredentials === null )
-        return null;
-      return `${state.loggedUserCredentials['token_type']} ${state.loggedUserCredentials['access_token']}`;
-    },
-    isAuth(state){
-      return state.loggedUserCredentials !== null && state.loggedUserInfo !== null
-    },
-    getUser(state){
-      return state.loggedUserInfo;
-    },*/
     getMapCenter(state){
-      return state.mapCenter ? state.mapCenter : {lat: 49.23414701332752, lng: 28.46228865225255}
+      return state.mapCenter ? state.mapCenter : state.defaultMapCenter
     },
     getSelectedLocationRequest(state){
       return state.reports.selectedLocationRequest
+    },
+    getReviewedMarkers(state){
+      return state.markers;
+    },
+    getRequestMarkers(state){
+      return state.unreviewedMarkers ?? [];
     }
   },
   actions : { // функції для зміни даних шляхом ініціалізації мутацій можуть бути АСИНХРОННИМИ
-    async getMarkersByScreenBounds(context, payload){
-      await api.locations.searchByCoords(payload)
+    async getMarkersByMapCenter(context, payload){
+      await api.locations.searchByMapCenter(payload)
         .then((response) => {
           context.commit('setMarkerList', [...response.data]);
         });
@@ -100,22 +109,31 @@ const storePrototype = {
       });
     },
 
-    async GetMarkerByCoords(context, arg){
+    async GetMarkerByCoords(context, {name, position}){
       try{
-        let payload = {
+        /*let payload = {
           lat: arg.geometry.location.lat(),
           lng: arg.geometry.location.lng()
-        }
-        await api.locations.exactSearch(payload.lat, payload.lng).then((response) => {
-          context.commit("setSelectedMarker", response.data);
+        }*/
+        await api.locations.exactSearch(position.lat, position.lng).then((response) => {
+          if(response.data.status === 3)
+            context.commit("setSelectedMarker", response.data);
+          else{
+            let notFoundAddress = {
+              position: response.data.position,
+              address: `${response.data.address}, ${response.data.street_number}, ${response.data.city}, ${response.data.index}, ${response.data.country}`,
+              isRequested : true
+            }
+            context.commit("setNoDataMarkerMarker", notFoundAddress);
+          }
         }).catch((err) => {
           if (err.response.status === 400) {
             let notFoundAddress = {
-              position: payload,
-              address: arg.name
+              position: position,
+              address: name
             }
             context.commit("setNoDataMarkerMarker", notFoundAddress);
-            throw err;
+            console.log(`Address ${name} not found in our DB`)
           }
         });
       }
@@ -124,14 +142,21 @@ const storePrototype = {
       }
     },
     async getMarkerById (context, locationId) {
-      await api.locations.searchById(locationId).then((response) => {
+      await api.locations.getLocationById(locationId).then((response) => {
         context.commit("setSelectedMarker", response.data)
       })
+    },
+    setUnreviewedMarkers(context, markersArray){
+      context.commit("setUnreviewedMarkers", markersArray)
+    },
+    setNotFoundMarker(context, marker){
+      context.commit("setNoDataMarkerMarker", marker)
     }
   },
   plugins : [vuexCookie.plugin]
 }
 
+export const storeProt = storePrototype;
 export const store = createStore(storePrototype);
 
 function setCookie(cname, cvalue, exdays = 0) {

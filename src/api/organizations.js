@@ -3,12 +3,13 @@ export default function (instance){
     getOrganizationsById(id){
       return instance.get(`/organizations/${id}`);
     },
-    getOrganizationByName(query){
+    getOrganizationByName(query, options){
       return instance.get('/organizations/search', {
         params : {
           query
-        }
-      })
+        },
+        options
+      });
     },
     getOrganizationList(page, limit){
       return instance.get("/organizations/all", {

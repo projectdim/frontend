@@ -4,7 +4,7 @@
 		<div>
 			<div class="flex justify-between mb-3">
 				<div class="text-h4 text-gray-c-500 capitalize">
-					{{getDateStr()}}
+					{{getDayDateString(locationRequest.created_at)}}
 				</div>
 				<div class="text-h4 text-gray-c-500">
 					{{locationRequest.city}}
@@ -13,31 +13,38 @@
 				</div>
 			</div>
 			<div class="text-h3 text-blue-c-500 font-semibold pb-2 shadow-cs2 cursor-pointer"
-				@click="this.setSelectedRequest(locationRequest)">
+				@click="setSelectedRequest(locationRequest)">
 				<img src="/Marker-blue.svg" class="inline-block mr-1">
-				{{locationRequest.address}}
+        <span v-if="locationRequest.address">
+          {{locationRequest.address}}<span v-if="locationRequest.street_number">
+            {{locationRequest.street_number}}
+          </span>,
+        </span>
+        {{locationRequest.index}}
+        {{locationRequest.city}}
+
 			</div>
 			<div class="flex justify-between mt-4 items-baseline">
 
 				<div>
 					<button-1 @click="this.Reporting">
-						Розглянути
+            {{ $t('aidWorkerSideBar.takeRequest') }}
 					</button-1>
 					<button-2 v-if="isMyRequest && itemUsageTabName==='myRequestsList'"
 										class="ml-3" @click="RemoveFromMyRequests">
-						Видалити
+						{{ $t('general.delete') }}
 					</button-2>
 				</div>
 
 				<button-text-1 @click="AddToMyRequests" v-if="!isMyRequest
 					&& itemUsageTabName==='requestsList'">
-					Додати до "Моїх запитів"
+          {{ $t('aidWorkerSideBar.addToMyList') }}
 				</button-text-1>
 
 				<div v-else-if="isMyRequest && itemUsageTabName==='requestsList'"
 						 class="text-h3 font-medium text-blue-c-500 p-2">
 					<img src="/completed2.svg" class="inline-block mr-2">
-					Мій запит
+          {{ $t('aidWorkerSideBar.myRequest') }}
 				</div>
 
 			</div>
@@ -48,15 +55,16 @@
 
 <script>
 
-import {getDayDateString} from "../../../Scripts/Helper.js";
 import {mapActions, mapState} from "vuex";
 import api from "../../../api/index.js";
 import Loader from "../../Loader.vue";
+import dateFormatter from "../../mixins/dateFormatter.js";
 
 export default {
 	name: "ReportRequestListItem",
 	components: {Loader},
 	emits : ["remove-from-my-list"],
+  mixins : [dateFormatter],
 	props : {
 		locationRequest : {
 			type : Object,
@@ -78,9 +86,6 @@ export default {
 	},
 	methods :{
 		...mapActions(["setSelectedRequest"]),
-		getDateStr(){
-			return getDayDateString(this.locationRequest.created_at);
-		},
 		Reporting(){
 			this.setSelectedRequest(this.locationRequest);
 			this.$router.push("/main/submit-report")

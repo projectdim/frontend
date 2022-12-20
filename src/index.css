@@ -44,6 +44,12 @@
         @apply text-h2 text-gray-c-800
     }
 
+    .tooltip{
+        @apply bg-white shadow-cs4 px-2 py-1 w-min h-min top-[-15px] left-2 rounded-xl
+        text-gray-c-600 text-h3 absolute transition-opacity duration-300 opacity-0 group-hover:opacity-100 whitespace-nowrap
+        group-active:opacity-100 font-normal
+    }
+
     /*Дизайн скролла для Firefox*/
     .overflow-y-auto{
         overflow-y: auto;

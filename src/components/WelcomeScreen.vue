@@ -6,18 +6,18 @@
 			text-h3">
     <img src="/src/assets/fullLogo.svg">
     <p class="text-gray-c-500  mt-9 text-justify">
-			Шукайте адресу, щоб переглянути краудсорсингові звіти про своє місто
+      {{ $t('welcomeScreen.helperText') }}
 		</p>
     <div class="mx-[2.5%] w-full border bg-white rounded-xl border-gray-c-300 border-[2px] h-10 flex flex-nowrap mt-6"
          :class="{'border-blue-c-500': isInputFocused}"
     >
       <div class="w-[44px] cursor-pointer rounded-xl">
-        <img src="/search.svg" class="h-full w-full object-scale-down">
+        <img alt="search" src="/search.svg" class="h-full w-full object-scale-down">
       </div>
       <GMapAutocomplete
           id="autocomplete"
           ref="autocomplete"
-          placeholder="Пошук..."
+          :placeholder="$t('welcomeScreen.searchPlaceholder')"
           @place_changed="GetMarkerByCoords"
           class="w-full bg-transparent outline-none block text-h3"
           :options="{
@@ -28,13 +28,13 @@
 					:v-model="this.searchRequest"
 			/>
       <div class="w-[40px] cursor-pointer rounded-xl" @click="this.ClearSearchRequest">
-        <img src="/close.svg" class="h-full w-full object-scale-down">
+        <img id="close-button" src="/close.svg" alt="close" class="h-full w-full object-scale-down">
       </div>
     </div>
     <div class="bg-gray-c-200 p-6 mt-12">
-      <p class="font-semibold text-black">Приклади: </p>
-      <p class="mt-4 font-normal">проспект Незалежності, Харків, Харківська область, Україна, 61000</p>
-      <p class="mt-2 font-normal">Жилянська,12 , Київ, Україна, 02000</p>
+      <p class="font-semibold text-black">{{ $t('welcomeScreen.examples') }}: </p>
+      <p class="mt-4 font-normal">{{ $t('welcomeScreen.firstExample') }}</p>
+      <p class="mt-2 font-normal">{{ $t('welcomeScreen.secondExample') }}</p>
     </div>
 <!--		<Test/>-->
   </div>

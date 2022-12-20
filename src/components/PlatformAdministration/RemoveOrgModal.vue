@@ -1,27 +1,27 @@
 <template>
 	<div v-if="isVisible">
-		<ModalTemplate :is-modal-visible="isModalVisible" :is-hide-on-click="false"
-									 :close-func="closeThisComponent" class-list="grid place-items-center p-2">
-			<div class="bg-white w-[480px] rounded-lg relative mobile:w-full relative p-6 mx-auto max-h-screen overflow-y-auto">
+		<ModalTemplate :is-modal-visible="isModalVisible" :is-hide-on-click="true"
+									 :close-func="closeThisComponent" class-list="grid place-items-center px-4">
+			<div class="bg-white w-[480px] rounded-lg relative mobile:w-full relative p-6 mx-auto max-h-screen overflow-y-auto"
+			@click.stop>
 				<button class="absolute top-6 right-6 cursor-pointer"
 								@click="closeThisComponent">
 					<img src="/src/assets/close.svg">
 				</button>
-				<div class="text-h2 text-center font-semibold ">
-					Видалення організації
-					<span class="text-red-c-500 underline">
-						"{{organization.name}}"
-					</span>
+				<div class="text-s1 mb-2">
+					{{ $t('organizationProfile.deleteOrganization') }}
+				</div>
+				<div class="text-s1 text-red-c-500 underline">
+					"{{organization.name}}"
 				</div>
 				<div class="text-h3 text-gray-c-600 my-2">
-					Для видалення введіть:
+					{{ $t('general.toDeleteType') }}
+					<span class="text-h3 text-center text-gray-c-800 font-semibold">
+						{{ organization.name.trim() }}
+					</span>
 				</div>
-				<div class="text-h3 text-center text-gray-c-800 mt-2 mb-4">
-					{{ organization.name }}
-				</div>
-				<div class="flex flex-col gap-4 mt-4 mb-2">
-					<input-1 v-model="inputValue" class="w-full"/>
-				</div>
+
+				<input-1 v-model="inputValue" class="w-full"/>
 
 				<button-1 :disabled="!isRemoveAvailable" class="w-full mt-6" @click.stop="removeOrg">
 					Видалити
@@ -29,11 +29,6 @@
 				<Loader v-if="isLoaderVisible" class="rounded-lg"/>
 			</div>
 		</ModalTemplate>
-		<SuccessMessage :is-visible="isSuccessModalVisible"
-										:message="`Організацію ${organization.name} видалено успішно`"
-										:close-func="closeSuccess"/>
-		<ErrorModal :is-visible="isErrorModalVisible"
-								:close-func="closeError"	:message="`Помилка видалення організації ${organization.name}`"/>
 	</div>
 </template>
 
@@ -42,13 +37,9 @@ import ModalTemplate from "../Modals/ModalTemplate.vue";
 import input1 from "../Inputs/Input-1.vue"
 import Loader from "../Loader.vue";
 import api from "../../api/index.js";
-import SuccessMessage from "../Modals/SuccessMessage.vue";
-import ErrorModal from "../Modals/ErrorModal.vue";
 export default {
 	name: "RemoveOrgModal",
 	components: {
-		ErrorModal,
-		SuccessMessage,
 		ModalTemplate,
 		input1,
 		Loader
@@ -59,8 +50,6 @@ export default {
 			inputValue: "",
 			isModalVisible : true,
 			isLoaderVisible : false,
-			isSuccessModalVisible : false,
-			isErrorModalVisible : false,
 		}
 	},
 	props : {
@@ -75,8 +64,6 @@ export default {
 		closeThisComponent(){
 			this.isModalVisible = true,
 			this.isLoaderVisible = false,
-			this.isSuccessModalVisible = false,
-			this.isErrorModalVisible = false
 			this.closeFunc();
 		},
 		closeSuccess(){
@@ -93,12 +80,20 @@ export default {
 				.then(res=>{
 					this.isModalVisible = false;
 					this.isLoaderVisible = false;
-					this.isSuccessModalVisible = true;
+          this.$toast.success(this.$t("removeOrgModal.successMess", {orgName : this.organization.name}),
+              {
+                duration : false,
+                onClose : this.closeSuccess,
+              })
 				})
 				.catch(err=>{
 					this.isModalVisible = false;
 					this.isLoaderVisible = false;
-					this.isErrorModalVisible = true;
+          this.$toast.error(this.$t("removeOrgModal.errorMess", {orgName : this.organization.name}),
+              {
+                duration : false,
+                onClose : this.closeError,
+              })
 				})
 				.finally(()=>{
 
@@ -107,12 +102,19 @@ export default {
 	},
 	computed : {
 		isRemoveAvailable  (){
-			return this.organization.name === this.inputValue;
+			return this.organization.name.trim() === this.inputValue;
 		}
 	}
 }
 </script>
 
 <style scoped>
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
+
+.text-s1{
+	@apply text-h2 text-center font-semibold;
+}
 
 </style>

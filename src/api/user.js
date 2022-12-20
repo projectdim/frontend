@@ -14,14 +14,29 @@ export default function (instance){
     UpdateUserPass(payload){
       return instance.put('/users/password', payload)
     },
-    RegistrationUser(username, email, full_name, organization, password){
-      return instance.post("/users/register",{
-        username,
-        email,
-        full_name,
-        organization : 34,
-        password
+    RegistrationTokenConfirm(username, email, full_name, organization, password, access_token){
+      return instance.post(`/users/confirm-registration/?access_token=${access_token}`,
+        {
+         username,
+         email,
+         full_name,
+         organization,
+         password
+         })
+    },
+    VerifyRegistrationToken(access_token){
+      return instance.get(`/users/verify`, {
+        params: {access_token}
       })
     },
+    PassResetRequest(user_email){
+      return instance.put(`users/password-reset?user_email=${user_email}`)
+    },
+    PassResetConfirm(access_token, new_password){
+      return instance.put("/users/confirm-reset", {
+        access_token,
+        new_password
+      });
+    }
   }
 }

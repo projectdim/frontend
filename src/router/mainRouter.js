@@ -1,19 +1,18 @@
 import WelcomeScreen from "../components/WelcomeScreen.vue";
 import MainScreen from "../components/MainScreen.vue";
-import ErrorPage from "../components/ErrorPage.vue";
 import Test from "../components/Test.vue";
 import SideBar from "../components/SidebarComponents/UserSidebar/SideBar.vue";
 import SideBarAidWorker from "../components/SidebarComponents/AidWorkerSidebar/SideBarAidWorker.vue";
 import ReportTools from "../components/SidebarComponents/AidWorkerSidebar/ReportTools.vue";
 import RequestCompletedPreview from "../components/SidebarComponents/AidWorkerSidebar/RequestCompletedPreview.vue";
-
 import {store} from "../store/mainStore.js";
-
 import {createRouter, createWebHistory} from "vue-router";
 import MainPlatformAdministration from "../components/PlatformAdministration/MainPlatformAdministration.vue";
 import OrganizationsList from "../components/PlatformAdministration/OrganizationsList.vue";
 import OrganizationProfile from "../components/PlatformAdministration/OrganizationProfile.vue";
-import UserRegistration from "../components/UserRegistration.vue";
+import UserRegistration from "../components/Authorization/UserRegistration.vue";
+import userRoles from "../components/mixins/userRoles.js";
+import PasswordReset from "../components/Authorization/PasswordReset.vue";
 
 
 const mainRouter = [
@@ -39,41 +38,55 @@ const mainRouter = [
       {
         path: "submit-report",
         component : ReportTools,
-        meta : {requiresAuth  : true}
+        meta : {
+          requiresAuth  : true,
+          selectedRequest : true
+        }
       },
       {
         path: "submit-report-preview",
         component : RequestCompletedPreview,
-        meta : {requiresAuth  : true}
+        meta : {
+          requiresAuth  : true,
+          selectedRequest : true
+        }
       },
     ]
   },
   {
     path : "/admin",
     component: MainPlatformAdministration,
-    meta : {requiresAuth  : true},
+    meta : {
+      requiresAuth  : true,
+      minRole : userRoles.data().userRoles.organizationAdmin
+    },
     children: [
       {
-        path: "",
-        redirect: to=>{
-          return {
-            path : "/admin/organizations"
-          }
-        }
-      },
-      {
         path: "organizations",
+        alias: [""],
         component: OrganizationsList,
+        meta : {
+          requiresAuth  : true,
+          minRole : userRoles.data().userRoles.platformAdmin
+        },
       },
       {
         path : "organization-profile/:id",
         component : OrganizationProfile,
+        meta : {
+          requiresAuth  : true,
+          minRole : userRoles.data().userRoles.organizationAdmin
+        },
       }
     ]
   },
   {
     path: "/registration",
     component: UserRegistration
+  },
+  {
+    path: "/password-reset",
+    component: PasswordReset
   },
   { path : "/test", component : Test},
   {
@@ -97,7 +110,19 @@ export const Router = createRouter({
 Router.beforeEach((to, form)=>{
   if(to.meta.requiresAuth && !store.getters.isAuth){
     return {
-      path : "/"
+      path : "/main"
     }
   }
+  if(to.meta.selectedRequest && !store.getters.getSelectedLocationRequest){
+    if(store.getters.isAuth){
+      return "/main/requests";
+    }
+    else
+      return "/main";
+  }
+  //FIXME
+  /*if(to.meta.minRole && !userRoles.methods.isRoleHaveAccess(store.getters.getRole))
+    return {
+      path : "/"
+    }*/
 })

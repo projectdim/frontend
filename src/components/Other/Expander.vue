@@ -1,29 +1,25 @@
 <template>
 	<div class="bg-gray-c-200 text-gray-c-500 p-2 rounded-sm mt-2
-				text-ellipsis overflow-hidden relative leading-[26px] w-full"
-				:class="{'h-[40px] pr-[70px]': !isExpanded}">
-
-				<button class="absolute text-blue-500 right-2 top-2 font-medium"
-								:class="{'hidden' : isExpanded}"
-					@click="Expand">
-						Деталі
-				</button>
-
-		<div class="break-words">
-			<slot></slot>
-		</div>
-		<div class="text-blue-500 text-center p-1 font-medium"
-				 :class="{'hidden' : !isExpanded}">
-			<button @click="Minimize">
-				Закрити
-			</button>
-		</div>
+				text-ellipsis overflow-hidden relative leading-[26px] w-full
+				break-words"
+			 :class="{'h-10 text-ellipsis': !isExpanded && isMinimizeEl,
+									'h-full' : isExpanded}"
+			 ref="desc">
+		<button class="float-right text-blue-500 font-medium ml-1 mb-1"
+						@click="Expand" v-if="isMinimizeEl">
+			<span v-if="!isExpanded">{{ $t('general.details') }}</span>
+			<span v-else>{{ $t('general.close')}}</span>
+		</button>
+		<slot></slot>
 	</div>
 </template>
 
 <script>
+import helper from "../mixins/helper.js";
+
 export default {
 	name: "Expander",
+	mixins : [helper],
 	props : {
 		defaultHeight : {
 			type : Number,
@@ -32,23 +28,22 @@ export default {
 	},
 	data() {
 		return {
-			isExpanded : false
+			isExpanded : false,
+			isMinimizeEl : false
 		}
 	},
 	methods : {
 		Expand(){
-			this.isExpanded = true;
+			this.isExpanded = !this.isExpanded;
 		},
-		Minimize(){
-			this.isExpanded = false;
-		}
+
 	},
-	computed : {
-		targetHeightClass(){
-			let c = `h-[${this.defaultHeight}px]`;
-			return { [c] : !this.isExpanded }
-		}
-	}
+	mounted() {
+		if(!this.$refs.desc)
+			this.isMinimizeEl = true;
+		else
+			this.isMinimizeEl =  this.getLineCount(this.$refs.desc) > 5;
+	},
 }
 </script>
 

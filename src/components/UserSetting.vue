@@ -2,62 +2,61 @@
 	<ModalTemplate :classList="'grid place-items-end mobile:place-items-center' +
 	 ' mobile:px-4'" :close-func="closeModal"
 	:is-modal-visible="isSettingVisible">
-    <div class="w-[600px] h-screen overflow-y-auto bg-white p-9
+    <div class="w-[600px] h-screen bg-white p-9
     mobile:p-4 tablet:p-4 animate-userSettingsAppear relative
 		mobile:w-full tablet:w-[480px]
 		mobile:h-min mobile:rounded-lg" @click.stop
-		:class="{'animate-userSettingsAppear' : isSettingVisible}">
+		:class="{'animate-userSettingsAppear' : isSettingVisible}" id="userSettings">
 			<Loader v-if="isShowLoader"></Loader>
 <!--      Header-->
       <div class="mb-6 text-h1 mobile:text-h2 mobile:text-center relative
 			font-semibold">
-        Налаштування
+        {{ $t('userSettings.header') }}
 				<img class="w-min h-min absolute top-0 mobile:right-0 hidden mobile:block " @click="closeModal"
 						 src="/close.svg">
       </div>
-			<button-text1 class="w-[100px] absolute top-9 right-9 mobile:hidden" @click="closeModal">
-				Закрити
+			<button-text1 id="close-settings" class="w-[100px] absolute top-7 right-4 mobile:hidden py-2" @click="closeModal">
+				{{ $t('general.close') }}
 			</button-text1>
 <!--    FORM-->
-      <div class="text-h4 text-gray-c-500"
+      <div class="text-h4 text-gray-c-500 w-full"
 				:class="{'mobile:flex mobile:flex-col-reverse' : isPassChangeVisible}">
-
 				<div :class="{'mobile:hidden' : isPassChangeVisible}">
-					<label for="setting-name">Ім'я</label>
-					<input1 id="setting-name" placeholder="Ім'я" v-model="username"
-									class="w-full text-black mt-1 mb-6"/>
-					<label for="setting-mail">E-mail</label>
-					<input1 id="setting-mail" placeholder="E-mail" v-model="email"
-									class="w-full text-black mt-1" disabled/>
+					<label for="setting-name">{{ $t('userSettings.name') }}</label>
+					<input1 inp-id="setting-name" :placeholder="$t('userSettings.name')" v-model="username"
+									class="block text-black mt-1 mb-6"/>
+					<label for="setting-mail">{{ $t('userSettings.email') }}</label>
+					<input1 inp-id="setting-mail" :placeholder="$t('userSettings.email')" v-model="email"
+									class=" text-black mt-1" disabled/>
 				</div>
 
 				<div class="flex flex-row-reverse gap-3 py-6"
 					:class="{'mobile:hidden' : isPassChangeVisible}">
-					<Button1 :disabled="isSaveButtonDisabled" @click="updateUserData">
-						Зберегти
+					<Button1 id="updateData" :disabled="isSaveButtonDisabled" @click="updateUserData">
+            {{ $t('general.save') }}
 					</Button1>
-					<ButtonOptions :button-color="'blue'" @valueChange="changePassVisibility"
+					<ButtonOptions id="updatePassword" :button-color="'blue'" @valueChange="changePassVisibility"
 						:checked="isPassChangeVisible">
-						Змінити пароль...
+            {{ $t('userSettings.change-password') }}
 					</ButtonOptions>
 				</div>
 
-				<div v-show="isPassChangeVisible">
-					<label for="setting-pass">Пароль</label>
-					<input-pass id="setting-pass" placeholder="Пароль" class="text-black mt-1 mb-6"
+				<div v-show="isPassChangeVisible" id="passChangeBlock">
+					<label for="setting-pass">{{ $t('userSettings.password') }}</label>
+					<input-pass inp-id="setting-pass" :placeholder="$t('userSettings.password')" class="text-black mt-1 mb-6"
 						v-model="oldPass"/>
-					<label for="setting-new-pass">Новий пароль</label>
-					<input-pass id="setting-new-pass" placeholder="Новий пароль" class="text-black mt-1"
+					<label for="setting-new-pass">{{ $t('userSettings.new-password') }}</label>
+					<input-pass inp-id="setting-new-pass" :placeholder="$t('userSettings.new-password')" class="text-black mt-1"
 						v-model="newPass"/>
 
 					<div class="flex flex-row-reverse gap-3 py-6">
-						<button1 :disabled="isChangePassButtonDisabled"
+						<button1 :disabled="isChangePassButtonDisabled" id="changePassButton"
 							@click="updateUserPassword">
-							Зберегти
+							{{ $t('general.save')}}
 						</button1>
 						<ButtonOptions :button-color="'blue'"  class="hidden mobile:block"
 													 @valueChange="changePassVisibility" :checked="isPassChangeVisible">
-							Змінити пароль...
+              {{ $t('userSettings.change-password') }}
 						</ButtonOptions>
 					</div>
 				</div>

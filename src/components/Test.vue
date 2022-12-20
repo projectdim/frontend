@@ -1,38 +1,46 @@
 <template>
-	<div>
-		<RemoveOrgModal
-			:organization="{name : 'Organization'}"
-			is-visible="true"
-		/>
-	</div>
+	<h1 class="w-full py-2 text-2xl text-center">Welcome to test screen</h1>
+	<button-text-1 @click="Test1">
+		Test
+	</button-text-1>
+	<button-text-1 @click="Test2">
+		Test
+	</button-text-1>
+  <div>{{mess}}</div>
 </template>
 
 <script>
 import RemoveOrgModal from "./PlatformAdministration/RemoveOrgModal.vue";
+import LocalizationDropDown from "./Other/LocalizationDropDown.vue";
 export default {
   name: "Test",
-	components: {RemoveOrgModal},
+	components: {LocalizationDropDown, RemoveOrgModal},
+  data(){
+    return {
+      mess : "Message"
+    }
+  },
 	methods : {
-		getCookie(cname) {
-			let name = cname + "=";
-			let decodedCookie = decodeURIComponent(document.cookie);
-			let ca = decodedCookie.split(';');
-			for(let i = 0; i <ca.length; i++) {
-				let c = ca[i];
-				while (c.charAt(0) == ' ') {
-					c = c.substring(1);
-				}
-				if (c.indexOf(name) == 0) {
-					return c.substring(name.length, c.length);
-				}
-			}
-			return "";
+		Test1(){
+     this.$toast.success("Привіт, Льоша!!!", {
+       onClose : ()=>{this.changeMessage()}
+     });
 		},
-		logCookie(){
-			let c = this.getCookie("vuex")
-			console.log(JSON.stringify(c));
-		}
-	}
+		Test2(){
+			/*this.$toast.error("Error",
+				{
+					isCloseOnBg: true,
+					timer : 2000
+				})*/
+      //this.$toast.clear()
+    },
+    close(){
+      this.$toast.clear();
+    },
+    changeMessage(){
+      this.mess = "qwertyyyyy"
+    }
+	},
 }
 </script>
 
