@@ -1,6 +1,6 @@
 <template>
 	<teleport to="body">
-		<div id="loginModal" v-if="isModalVisible" class="overflow-y-hidden z-50 h-screen w-screen bg-black/30 fixed top-0 left-0 right-0 bottom-0
+		<div id="loginModal" v-if="isModalVisible" class="overflow-y-hidden z-[1050] h-screen w-screen bg-black/30 fixed top-0 left-0 right-0 bottom-0
 				mobile:px-2 grid place-items-center"
 				 @click="hide">
         <div class="mx-auto rounded-xl px-6 pb-6 pt-9 w-[480px] mobile:w-full
@@ -50,7 +50,7 @@
 						<div v-else-if="state === states.passReset" class="text-h2 font-semibold py-1 text-center
 							mobile:text-h2-m tablet:text-h2-m w-full flex flex-col">
 							<div class="shrink-0 grow-0">
-								Відновлення паролю
+								{{$t("login.resetPasswordTitle")}}
 							</div>
 							<div class="grow grid content-center">
 								<Input-1 name="emailReset" ref="emailRestInput" validation-type="mail" type="email"
@@ -60,7 +60,7 @@
 										{{ $t('general.cancel') }}
 									</button-2>
 									<button-1 id="resetPassButton" class="block w-full" :disabled="!isPassResetMailValid" @click="ResetPasswordRequest">
-										Надіслати запит
+                    {{ $t('general.confirm') }}
 									</button-1>
 								</div>
 							</div>
@@ -94,8 +94,8 @@ export default {
 	},
 	data(){
 		return {
-			email : "admin@admin.com",
-			pass : "asd112233",
+			email : "",
+			pass : "",
 			passResetMail : "",
       isClosedClick : false,
 			logInErrorMessage : "",
@@ -119,7 +119,6 @@ export default {
 				this.closeFunc();
       }, 400);
 		},
-		//TODO Localization
     async login(){
       if(!this.isLoginButtonDisabled){
 				this.isLoaderVisible = true;
@@ -133,10 +132,10 @@ export default {
 					let mess = ""
 					switch(err.response.status){
 						case 400:
-							mess = "Пошта або пароль не вірні.";
+							mess = this.$t("validations.credentialsError");
 							break;
 						default:
-							mess = "Упс.. Щось пішло не так!";
+							mess = this.$t("general.errorMessage");
 							break;
 					}
 					this.toError(mess)
@@ -145,8 +144,8 @@ export default {
       }
     },
 		async getInfo(){
-			if(this.getToken === null){
-				this.toError("Проблеми з токеном");
+			if(!this.getToken){
+				this.toError(this.$t("general.errorMessage"));
 			}
 			await  api.user.GetInfo().then(res=>{
 				this.setLoggedUserInfo(res.data);
@@ -159,18 +158,33 @@ export default {
 		},
 		async ResetPasswordRequest(){
 			if(!this.isPassResetMailValid){
-				this.$toast.error("Пошта не валідна.")
+				this.$toast.error(this.$t("validations.mailNotValid"))
 				return;
 			}
 			this.isLoaderVisible = true;
 			await api.user.PassResetRequest(this.passResetMail)
 				.then(res=>{
-					console.log(res)
 					this.isLoaderVisible = false;
+          if(res.status === 200){
+            this.$toast.success(this.$t("login.passResetReqSend"),
+                this.$toast.options(false,true, this.hide)
+            )
+          }
 				})
 				.catch(err=> {
-					console.error(err)
 					this.isLoaderVisible = false;
+          let errMess = "";
+          switch (err.response.status){
+            case 400:
+              errMess = this.$t("login.mailNotExist")
+              break;
+            default:
+              errMess = this.$t("general.errorMessage")
+              break;
+          }
+          this.$toast.error(errMess,
+            this.$toast.options(false,true)
+          )
 				})
 		},
 		toDefaultState(){
@@ -220,7 +234,7 @@ export default {
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
-	transition: opacity 0.5s ease, margin 0.5s ease;
+	transition: opacity 0.2s ease, margin 0.2s ease;
 }
 
 .fade-enter-from{

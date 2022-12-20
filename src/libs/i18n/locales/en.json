@@ -109,10 +109,14 @@
     "header": "Login",
     "password": "Password",
     "resetPassword": "Reset password...",
+    "resetPasswordTitle": "Reset password",
     "logIn": "Login",
     "understood": "Understood, thank you.",
     "organizationBlocked": "Unfortunately you cannot submit any more reports, because your organization was blocked.",
-    "organizationBlockedInfo": "We will inform you as soon as the problem will be solved. We thank you for your service."
+    "organizationBlockedInfo": "We will inform you as soon as the problem will be solved. We thank you for your service.",
+    "passResetReqSend" : "Password reset request sent. Check your mail.",
+    "mailNotExist" : "The account with this mail is not registered.",
+    "passResetLinkInvalid" : "The link is not valid. Re-initialize the password recovery operation."
   },
   "userRegistration": {
     "greeting" : "Welcome to DIM!",
@@ -139,7 +143,8 @@
     "minNameLength": "Minimal name length is {amount} characters.",
     "mailNotValid" : "Email is not valid",
     "passNotValid" : "The password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter and one number",
-    "passNotEquals" :"Passwords do not match"
+    "passNotEquals" :"Passwords do not match",
+    "credentialsError" : "Email or password is incorrect."
   },
   "general": {
     "confirm" : "Confirm",
@@ -188,6 +193,7 @@
     "modalSuccessMess" : "Request to \"{address}\" sent successfully.",
     "modalErrRequestExist" : "The request for this address is already under consideration.",
     "sendRequest" : "Send request",
+    "requestExist" : "Request in review",
     "modalErrReqInWork" : "The request is already being processed by another user"
   },
   "removeOrgModal" : {

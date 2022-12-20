@@ -11,11 +11,11 @@ export default {
   },
   methods : {
     isMail(mail){
-      console.log(`Mail is ${this.mailRegex.test(mail)}`)
+      //console.log(`Mail is ${this.mailRegex.test(mail)}`)
       return this.mailRegex.test(mail);
     },
     isPass(pass){
-      console.log(`Pass is ${this.passRegex.test(pass)}`)
+      //console.log(`Pass is ${this.passRegex.test(pass)}`)
       return this.passRegex.test(pass);
     },
     isName(name){

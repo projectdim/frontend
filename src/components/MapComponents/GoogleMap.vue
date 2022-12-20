@@ -312,7 +312,8 @@ export default {
 		  this.isInputFocused = arg;
 		},
 		setPlace(arg) {
-			this.GetMarkerByCoords(arg);
+      let position = this.coordsFormatter(arg.geometry.location);
+			this.GetMarkerByCoords({name : arg.name, position});
 			this.$router.push("/main/overview")
 		},
 		ClearSearchRequest(){
@@ -321,7 +322,6 @@ export default {
 		},
 		coordsFormatter(coords){
 			let res = {};
-
 			if(typeof coords.lat == 'function')
 				res.lat = coords.lat();
 			else if(typeof coords.lat == 'number')
@@ -331,7 +331,6 @@ export default {
 				res.lng = coords.lng();
 			else if(typeof coords.lng == 'number')
 				res.lng = coords.lng;
-
 			return res;
 		},
     checkIsCoordsInObjViewport(coords, obj){

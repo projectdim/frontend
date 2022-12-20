@@ -6,12 +6,7 @@
 			tablet:text-h1-m
 			mobile:px-4
 			tablet:px-4">
-				{{ selectedMarkerData.address }},
-				<span v-if="selectedMarkerData.address">
-					{{ selectedMarkerData.street_number }},
-				</span>
-				{{ selectedMarkerData.index }},
-				{{ selectedMarkerData.city }}
+			  {{selectedMarkerAddress}}
 		</h1>
 	  <div class="flex flex-nowrap text-center text-h3
 			mobile:text-h4
@@ -64,7 +59,29 @@ export default {
 	  }
   },
 	computed : {
-		...mapState(["selectedMarkerData"])
+		...mapState({
+      selectedMarkerData : "selectedMarkerData"
+    }),
+    selectedMarkerAddress(){
+      let address = ""
+      if(this.selectedMarkerData.address)
+        address += `${this.selectedMarkerData.address}, `
+      if(this.selectedMarkerData.street_number)
+        address += `${this.selectedMarkerData.street_number}, `
+      if(this.selectedMarkerData.index)
+        address += `${this.selectedMarkerData.index}, `
+      if(this.selectedMarkerData.city)
+        address += `${this.selectedMarkerData.city}`
+      let trim = 0;
+      for (let i = address.length-1; i<=0; i--){
+        if(address[i] === " " || address[i] === ",")
+          trim++
+        else
+          break;
+      }
+      address = address.substring(0, address.length-trim);
+      return address.length>0 ? address : this.$t("general.error");
+    }
 	}
 }
 </script>

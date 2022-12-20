@@ -109,22 +109,31 @@ const storePrototype = {
       });
     },
 
-    async GetMarkerByCoords(context, arg){
+    async GetMarkerByCoords(context, {name, position}){
       try{
-        let payload = {
+        /*let payload = {
           lat: arg.geometry.location.lat(),
           lng: arg.geometry.location.lng()
-        }
-        await api.locations.exactSearch(payload.lat, payload.lng).then((response) => {
-          context.commit("setSelectedMarker", response.data);
+        }*/
+        await api.locations.exactSearch(position.lat, position.lng).then((response) => {
+          if(response.data.status === 3)
+            context.commit("setSelectedMarker", response.data);
+          else{
+            let notFoundAddress = {
+              position: response.data.position,
+              address: `${response.data.address}, ${response.data.street_number}, ${response.data.city}, ${response.data.index}, ${response.data.country}`,
+              isRequested : true
+            }
+            context.commit("setNoDataMarkerMarker", notFoundAddress);
+          }
         }).catch((err) => {
           if (err.response.status === 400) {
             let notFoundAddress = {
-              position: payload,
-              address: arg.name
+              position: position,
+              address: name
             }
             context.commit("setNoDataMarkerMarker", notFoundAddress);
-            console.log(`Address ${arg.name} not found in our DB`)
+            console.log(`Address ${name} not found in our DB`)
           }
         });
       }
