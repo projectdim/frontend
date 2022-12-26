@@ -89,7 +89,7 @@ export default {
   },
   methods : {
 		getDate(strDate){
-			return this.getDayDateString(strDate).replace(' ', ", ");
+			return this.GetDayDateString(strDate).replace(' ', ", ");
 		},
 		getChangedLogs(log){
 			let result = []

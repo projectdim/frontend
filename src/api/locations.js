@@ -1,7 +1,7 @@
 export default function (instance) {
     return {
-        requestAddressReview (payload) {
-            return instance.post('locations/request-info', payload)
+        requestAddressReview ({lat, lng}) {
+            return instance.post('locations/request-info', {lat, lng})
         },
         searchByMapCenter (payload) {
             return instance.post('locations/cord_search', payload)
@@ -32,6 +32,14 @@ export default function (instance) {
         },
         getRequestCount(){
             return instance.get("/locations/pending-count")
+        },
+        getRecentReports(records){
+            return instance.get("/locations/recent-reports",
+              {
+                  params : {
+                      records
+                  }
+              })
         }
     }
 }

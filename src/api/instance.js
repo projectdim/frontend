@@ -18,5 +18,11 @@ instance.interceptors.request.use((config)=>{
     return config;
 });
 
+instance.interceptors.response.use(
+  res=> res,
+  err=>{
+      console.log(err)
+  })
+
 
 export default instance;

@@ -1,11 +1,11 @@
 import './index.css';
 import { createApp} from 'vue'
 import App from './App.vue';
-import {store}  from "./store/mainStore.js";
-import VueGoogleMaps from '@fawmi/vue-google-maps'
-import {Router} from "./router/mainRouter.js";
-import ComponentsList from "./components/ComponentsList.js";
+import { store } from "./store/mainStore.js";
+import { Router } from "./router/mainRouter.js";
 import i18n from "./libs/i18n/index.js";
+import VueGoogleMaps from '@fawmi/vue-google-maps'
+import ComponentsList from "./components/ComponentsList.js";
 import ResizeTextarea from 'resize-textarea-vue3';
 import Info from "/src/components/pluginComponents/toast"
 
@@ -17,8 +17,6 @@ const app = createApp(App);
 // пропозиції моєї мами
 
 
-
-app.use(Info);
 app.use(store);
 app.use(Router);
 app.use(i18n);
@@ -29,10 +27,11 @@ app.use(VueGoogleMaps,{
           libraries: "places"
       },
     });
-
+app.use(ResizeTextarea);
+app.use(Info);
 
 ComponentsList.forEach(component=>{
   app.component(component.name, component);
 })
-app.use(ResizeTextarea);
+
 app.mount('#app');

@@ -144,7 +144,8 @@
     "mailNotValid" : "Email is not valid",
     "passNotValid" : "The password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter and one number",
     "passNotEquals" :"Passwords do not match",
-    "credentialsError" : "Email or password is incorrect."
+    "credentialsError" : "Email or password is incorrect.",
+    "codeNotValid" : "Code is not valid."
   },
   "general": {
     "confirm" : "Confirm",
@@ -218,5 +219,16 @@
     "today" : "Today",
     "tomorrow" : "Tomorrow",
     "yesterday" : "Yesterday"
+  },
+  "addressReqModal" : {
+    "step1Title" : "Enter number",
+    "step1Tips" : "Please leave your phone number to confirm your request.",
+    "step1Button" : "Get Code",
+    "step2Title" : "Enter code",
+    "step2Tips" : "Please enter 6-digits code that we send to {telNum}.",
+    "step2Button" : "Send request",
+    "codeExpires" : "Code expires in:",
+    "sendCodeAgain" : "Send code again",
+    "markerError" : "Unable to send request. Specify a more precise location on the map."
   }
 }

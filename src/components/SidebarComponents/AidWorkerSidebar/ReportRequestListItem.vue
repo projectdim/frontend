@@ -4,7 +4,7 @@
 		<div>
 			<div class="flex justify-between mb-3">
 				<div class="text-h4 text-gray-c-500 capitalize">
-					{{getDayDateString(locationRequest.created_at)}}
+					{{ GetDayDateString(locationRequest.created_at) }}
 				</div>
 				<div class="text-h4 text-gray-c-500">
 					{{locationRequest.city}}
@@ -15,14 +15,7 @@
 			<div class="text-h3 text-blue-c-500 font-semibold pb-2 shadow-cs2 cursor-pointer"
 				@click="setSelectedRequest(locationRequest)">
 				<img src="/Marker-blue.svg" class="inline-block mr-1">
-        <span v-if="locationRequest.address">
-          {{locationRequest.address}}<span v-if="locationRequest.street_number">
-            {{locationRequest.street_number}}
-          </span>,
-        </span>
-        {{locationRequest.index}}
-        {{locationRequest.city}}
-
+        {{markerAddress}}
 			</div>
 			<div class="flex justify-between mt-4 items-baseline">
 
@@ -125,7 +118,27 @@ export default {
 		},
 		isMyRequest(){
 			return this.locationRequest.reported_by === this.AidWorker.id;
-		}
+		},
+    markerAddress(){
+      let address = ""
+      if(this.locationRequest.address)
+        address += `${this.locationRequest.address}, `
+      if(this.locationRequest.street_number)
+        address += `${this.locationRequest.street_number}, `
+      /*if(this.locationRequest.index)
+        address += `${this.locationRequest.index}, `*/
+      if(this.locationRequest.city)
+        address += `${this.locationRequest.city}`
+      let trim = 0;
+      for (let i = address.length-1; i<=0; i--){
+        if(address[i] === " " || address[i] === ",")
+          trim++
+        else
+          break;
+      }
+      address = address.substring(0, address.length-trim);
+      return address.length>0 ? address : this.$t("general.error");
+    }
 	}
 }
 </script>

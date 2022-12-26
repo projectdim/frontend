@@ -119,7 +119,7 @@ import Input1 from "../Inputs/Input-1.vue";
 import Loader from "../Loader.vue";
 import Button1 from "../Buttons/Button_1.vue";
 import RemoveOrgModal from "./RemoveOrgModal.vue";
-import StringFormater from "../mixins/StringFormater.js";
+import StringFormater from "../mixins/StringFormatter.js";
 
 export default {
 	name: "OrganizationsList",

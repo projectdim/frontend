@@ -104,16 +104,14 @@ export default {
     },
     getSVGColorClass(field, status){
       let color = this.GetStateColor(field,status);
-      if(color === "red")
-        return 'fill-red-c-500';
-      else if(color === "green")
-        return 'fill-green-c-500';
-      else if(color === "yellow")
-        return 'fill-yellow-custom-400';
-      else if(color === "gray")
-        return 'fill-gray-c-500';
-      else
-        return 'fill-red-c-500';
+
+      let colors = {
+        red : "fill-red-c-500",
+        green : "fill-green-c-500",
+        yellow : "fill-yellow-custom-400",
+        gray : "fill-gray-c-500"
+      }
+      return colors[color] ?? colors.red;
     },
     GetStatusTranslation(status){
       try {

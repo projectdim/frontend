@@ -38,6 +38,7 @@
     </div>
     <Contacts/>
 		<Loader v-if="isLoader"/>
+    <SendReportRequestModal :is-modal-visible="isRequestModalView" :close-func="closeReqModal"/>
   </div>
 </template>
 
@@ -49,18 +50,21 @@ import Loader from "../../Loader.vue";
 import Contacts from "./Contacts.vue";
 import FeedBackForm from "./FeedBackForm.vue";
 import userRoles from "../../mixins/userRoles.js";
+import SendReportRequestModal from "../../Modals/SendReportRequestModal.vue";
 
 export default {
   name: "NotFound",
   mixins : [userRoles],
 	components: {
+    SendReportRequestModal,
 		FeedBackForm,
 		Contacts,
 		Loader
 	},
   data(){
     return {
-      isLoader : false
+      isLoader : false,
+      isRequestModalView : false
     }
   },
 	computed : {
@@ -86,35 +90,6 @@ export default {
       setNotFoundMarker : "setNotFoundMarker",
       setSelectedRequest : "setSelectedRequest"
     }),
-    async requestReview () {
-      this.isLoader = true;
-      let payload = {
-        lat: this.notFoundedMarkerData.position.lat,
-        lng: this.notFoundedMarkerData.position.lng
-      }
-      await api.locations.requestAddressReview(payload).then((res) => {
-        let data = {
-          position : {...res.data.position} ?? {...payload},
-          status : res.status ?? 1
-        }
-        this.setUnreviewedMarkers([data, ...this.getRequestMarkers])
-        this.setNotFoundMarker({
-          location_id : res.data.location_id,
-          position : {...payload},
-          isRequested : true,
-          address :  this.notFoundedMarkerData.address
-        })
-        let successMess = this.$t("notFoundAddress.modalSuccessMess", {address : this.notFoundedMarkerData.address});
-        this.isLoader = false;
-        this.$toast.success(successMess)
-      }).catch((err) => {
-        let errMess = this.$t("general.errorMessage");
-        if(err.response && err.response.status === 400)
-          errMess = this.$t("notFoundAddress.modalErrRequestExist");
-        this.isLoader = false;
-        this.$toast.error(errMess)
-      });
-    },
     async reviewNotFoundMarker(){
       if(!this.notFoundedMarkerData.location_id)
         return;
@@ -137,28 +112,15 @@ export default {
             this.$toast.error(this.$t("general.errorMessage"))
           })
     },
-    async getPlaceData (lat, lng) {
-      let placeData = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat + ',' + lng}&key=${import.meta.env.VITE_GMAPS_APIKEY}`)
-          .then((res => res.data))
-          .catch((err) => console.log(JSON.stringify(err)));
-      if (!placeData) return
-      let addressData = placeData.results[0].address_components;
-      let coordsData = placeData.results[0].geometry;
-      let formattedAddress = {};
-      for (var i = 0; i < addressData.length; i++) {
-        var c = addressData[i];
-        formattedAddress[c.types[0]] = c;
-      }
-      return {
-        address: formattedAddress, coords: coordsData
-      }
-    },
     buttonAction(){
       if(this.notFoundedMarkerData.isRequested
           && this.isRoleHaveAccess(this.getRole, this.userRoles.aidWorker))
        this.reviewNotFoundMarker();
       else
-        this.requestReview();
+        this.isRequestModalView = true;
+    },
+    closeReqModal(){
+      this.isRequestModalView = false;
     }
 	}
 }
@@ -167,3 +129,22 @@ export default {
 <style scoped>
 
 </style>
+
+
+<!--
+async getPlaceData (lat, lng) {
+let placeData = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat + ',' + lng}&key=${import.meta.env.VITE_GMAPS_APIKEY}`)
+.then((res => res.data))
+.catch((err) => console.log(JSON.stringify(err)));
+if (!placeData) return
+let addressData = placeData.results[0].address_components;
+let coordsData = placeData.results[0].geometry;
+let formattedAddress = {};
+for (var i = 0; i < addressData.length; i++) {
+var c = addressData[i];
+formattedAddress[c.types[0]] = c;
+}
+return {
+address: formattedAddress, coords: coordsData
+}
+},-->

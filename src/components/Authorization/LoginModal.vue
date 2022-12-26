@@ -147,9 +147,9 @@ export default {
 			if(!this.getToken){
 				this.toError(this.$t("general.errorMessage"));
 			}
-			await  api.user.GetInfo().then(res=>{
+			await api.user.GetInfo().then(res=>{
 				this.setLoggedUserInfo(res.data);
-				this.GetUserOrganization();
+				//this.GetUserOrganization();
 			}).catch(err=>{
 				this.toError(err)
 			}).finally(()=>{

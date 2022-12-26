@@ -60,15 +60,6 @@ export default {
 			this.setLocalization(item.code);
 		},
 	},
-	computed : {
-		listStyle (){
-			let openedHeight = `h-[${this.availableLang.length*58}px]`
-			let res = {};
-			res['h-0'] = !this.isDropped;
-			res[openedHeight] = this.isDropped
-			return res;
-		}
-	},
 	mounted(){
 		this.lang = this.availableLang.find(x=>x.code === this.$i18n.locale)
 	}

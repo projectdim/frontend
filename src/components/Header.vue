@@ -212,11 +212,11 @@ export default {
 			this.setLoggedUserInfo(null)
 			this.setLoggedUserCredentials(null);
 			this.isMenuVisibleOnMobile = false;
-			this.$router.push("/welcome")
+			this.$router.push("/")
 		},
 		goToMain(){
 			this.isMenuVisibleOnMobile = false;
-			this.$router.push("/main/overview")
+			this.$router.push("/")
 		},
 		goToRequests(){
 			this.getRequestsCount()
@@ -240,7 +240,7 @@ export default {
 			return this.getUser.username
 		},
 		userOrganization(){
-			return this.getUserOrganization.name
+			return this.getUser.organization_model.name
 		},
 		isAdminPage(){
 			return this.$route.matched.some(x=>x.path == '/admin');

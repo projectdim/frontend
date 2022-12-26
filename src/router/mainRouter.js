@@ -1,4 +1,4 @@
-import WelcomeScreen from "../components/WelcomeScreen.vue";
+import WelcomeScreen from "../components/WelcomeScreen/WelcomeScreen.vue";
 import MainScreen from "../components/MainScreen.vue";
 import Test from "../components/Test.vue";
 import SideBar from "../components/SidebarComponents/UserSidebar/SideBar.vue";
@@ -13,7 +13,6 @@ import OrganizationProfile from "../components/PlatformAdministration/Organizati
 import UserRegistration from "../components/Authorization/UserRegistration.vue";
 import userRoles from "../components/mixins/userRoles.js";
 import PasswordReset from "../components/Authorization/PasswordReset.vue";
-
 
 const mainRouter = [
   {
@@ -98,7 +97,6 @@ const mainRouter = [
     }
   },
 ]
-
 export const Router = createRouter({
   routes : mainRouter,
   history : createWebHistory(),
@@ -126,3 +124,4 @@ Router.beforeEach((to, form)=>{
       path : "/"
     }*/
 })
+
