@@ -154,7 +154,7 @@
 
 <!--			#region Modals-->
 			<LoginModal :is-modal-visible="isLoginModal"
-									:close-func="closeModal" class="z-[1001]">
+									:close-func="closeModal">
 			</LoginModal>
       <UserSetting :is-setting-visible="isSettingModal" v-if="isAuth"
 				@close="closeModal"/>

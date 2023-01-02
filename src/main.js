@@ -2,7 +2,8 @@ import './index.css';
 import { createApp} from 'vue'
 import App from './App.vue';
 import { store } from "./store/mainStore.js";
-import { Router } from "./router/mainRouter.js";
+//import { Router } from "./router/mainRouter.js";
+import {Router} from "./router/dynamicRouter.js";
 import i18n from "./libs/i18n/index.js";
 import VueGoogleMaps from '@fawmi/vue-google-maps'
 import ComponentsList from "./components/ComponentsList.js";

@@ -79,7 +79,7 @@
 
 <!--    add organization modal-->
 		<ModalTemplate class-list="grid place-items-center p-4" :is-modal-visible="isCreateModalVisible"
-		:close-func="closeCreateOrgModal" isHideOnClick="true">
+		:close-func="closeCreateOrgModal" :isHideOnClick="true">
 			<div class="bg-white w-[480px] mx-auto mobile:w-full relative p-6 rounded-lg" @click.stop>
 				<img src="/src/assets/close.svg" class="absolute top-6 right-6 cursor-pointer"
 						 @click="closeCreateOrgModal">

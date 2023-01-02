@@ -153,7 +153,7 @@ export default {
 		  currentMapZoom : 17,
 			currentMapCenter : {lat: 49.23414701332752, lng: 28.46228865225255},
 		  ifClickMarker : false,
-		  ClickMarkerCoords : {lat: Number, lng: Number},
+		  ClickMarkerCoords : null,
 		  isInputFocused : false,
 		  searchRequest : "",
       intervalId : "",

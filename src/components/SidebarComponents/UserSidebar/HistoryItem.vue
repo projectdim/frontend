@@ -85,7 +85,10 @@ export default {
   },
 	props : {
 		log : Object,
-		logs : []
+		logs : {
+      type : Array,
+      default : []
+    }
   },
   methods : {
 		getDate(strDate){
@@ -131,7 +134,7 @@ export default {
 					}
 				}
 			});
-			console.log(result);
+			//console.log(result);
 			return result;
 		}
 	}

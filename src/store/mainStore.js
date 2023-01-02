@@ -112,32 +112,24 @@ const storePrototype = {
     },
 
     async GetMarkerByCoords(context, {name, position}){
-      try{
-        await api.locations.exactSearch(position.lat, position.lng).then((response) => {
-          if(response.data.status === 3)
-            context.commit("setSelectedMarker", response.data);
-          else{
-            let notFoundAddress = {
-              position: response.data.position,
-              address: `${response.data.address}, ${response.data.street_number}, ${response.data.city}, ${response.data.index}, ${response.data.country}`,
-              isRequested : true
-            }
-            context.commit("setNoDataMarker", notFoundAddress);
+      await api.locations.exactSearch(position.lat, position.lng).then((response) => {
+        if(response.data.status === 3)
+          context.commit("setSelectedMarker", response.data);
+        else{
+          let notFoundAddress = {
+            position: response.data.position,
+            address: `${response.data.address}, ${response.data.street_number}, ${response.data.city}, ${response.data.index}, ${response.data.country}`,
+            isRequested : true
           }
-        }).catch((err) => {
-          if (err.response.status === 400) {
-            let notFoundAddress = {
-              position: position,
-              address: name
-            }
-            context.commit("setNoDataMarker", notFoundAddress);
-            console.log(`Address ${name} not found in our DB`)
-          }
-        });
-      }
-      catch (err){
-        throw err;
-      }
+          context.commit("setNoDataMarker", notFoundAddress);
+        }
+      }).catch((err) => {
+        let notFoundAddress = {
+          position: position,
+          address: name
+        }
+        context.commit("setNoDataMarker", notFoundAddress);
+      });
     },
     async getMarkerById (context, locationId) {
       await api.locations.getLocationById(locationId).then((response) => {

@@ -2,8 +2,8 @@
   <div class="flex flex-nowrap flex-col h-full">
     <Header class="shrink-0 grow-0"/>
     <div class="flex flex-col justify-start items-center px-4 pt-24
-        max-w-[600px] mx-auto
-        mobile:text-h4
+        w-[600px] mx-auto
+        mobile:text-h4 mobile:w-full
         text-h3 grow shrink">
       <img src="/src/assets/fullLogo.svg">
       <p class="text-gray-c-500  mt-9 text-justify">
@@ -26,7 +26,8 @@
                 }"
             @focusin="OnInputFocus(true)"
             @focusout="OnInputFocus(false)"
-            :v-model="this.searchRequest"
+            v-model="this.searchRequest"
+            :select-first-on-enter="true"
         />
         <div class="w-[40px] cursor-pointer rounded-xl" @click="this.ClearSearchRequest">
           <img id="close-button" src="/close.svg" alt="close" class="h-full w-full object-scale-down">
@@ -35,7 +36,7 @@
 
       <div class="w-full" v-if="recentReports.length>0">
         <div class="font-semibold mb-2">Recently completed reports</div>
-				<WelcomeScreenReportList :reports-list="recentReports"/>
+				<WelcomeScreenReportList :reports-list="recentReports" :delay="5000" @report-click="GetReportById" class="w-full"/>
       </div>
 
 
@@ -44,7 +45,6 @@
         <p class="mt-4 font-normal">{{ $t('welcomeScreen.firstExample') }}</p>
         <p class="mt-2 font-normal">{{ $t('welcomeScreen.secondExample') }}</p>
       </div>-->
-  <!--		<Test/>-->
     </div>
   </div>
 </template>
@@ -72,7 +72,7 @@ export default {
     }
   },
   methods: {
-		...mapActions(["GetMarkerByCoords"]),
+		...mapActions(["GetMarkerByCoords", "getMarkerById"]),
     OnInputFocus(arg){
       this.isInputFocused = arg;
     },
@@ -81,18 +81,29 @@ export default {
       autocomplete.value = ''
     },
 		GetMarker(arg){
-			let payload = {
+      console.log(arg)
+      let payload = {}
+      try {
+        payload = {
           lat: arg.geometry.location.lat(),
           lng: arg.geometry.location.lng()
         }
+      }
+      catch  {
+        this.$toast.error(this.$t("welcomeScreen.requestError", {address : arg.name ?? ""}))
+        return;
+      }
 			this.GetMarkerByCoords({position : payload, name : arg.name})
 			this.$router.push("/main/overview");
 		},
+    GetReportById(report){
+      this.getMarkerById(report.id);
+      this.$router.push("/main/overview");
+    },
 		async GetRecentReports(){
-			await api.locations.getRecentReports(100)
+			await api.locations.getRecentReports(20)
 				.then(res=>{
-					this.recentReports = res.data.filter(x=>x.status === 3) ?? [];
-					console.log(this.recentReports)
+					this.recentReports = res.data ?? [];
 				})
 				.catch(err=>{
 					console.error(err);

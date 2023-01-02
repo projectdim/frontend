@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-<!--    <Loader v-if="isLoader"/>-->
+    <Loader v-if="isLoader"/>
 		<HistoryItem v-for="logItem in sortedChangedLogs" :logs="logItem"   :key="`historyItem${logItem[0].id}`"/>
   </div>
 </template>
@@ -16,6 +16,7 @@ export default {
   data(){
     return {
       sortedChangedLogs : [],
+      isLoader : false
     }
   },
   methods: {
@@ -23,6 +24,7 @@ export default {
 			updateSelectedMarkerHistory : "getSelectedDataHistory"
 		}),
     sortChangedLogs(){
+      this.isLoader = true;
       let result = this.changeLogs.reduce((dates, log)=>{
         let date = log.created_at.split("T")[0];
         if(!dates[date])
@@ -39,9 +41,9 @@ export default {
 			changeLogs: state => state.selectedMarkerHistoryData,
 			selectedMarkerData: state => state.selectedMarkerData
 		}),
-    isLoader(){
+    /*isLoader(){
       return this.sortedChangedLogs.length <=0
-    }
+    }*/
 		/*sortedChangedLogs(){
 			let result = this.changeLogs.reduce((dates, log)=>{
 				let date = log.created_at.split("T")[0];

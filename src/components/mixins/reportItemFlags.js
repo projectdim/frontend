@@ -81,7 +81,7 @@ export default {
             'no_data': gray
           },
         }
-        return a[field][status];
+        return a[field][status] ?? red;
       }
       catch (err){
         console.error(`Поля ${field} зі статусом ${status} не знайдено`)

@@ -1,10 +1,12 @@
-import LoginModal from "../Authorization/LoginModal.vue";
 import modalTemplate from "./ModalTemplate.vue";
 import ConfirmModal from "./ConfirmModal.vue";
+import AwaitModal from "./AwaitModal.vue";
+import SendReportRequestModal from "./SendReportRequestModal.vue";
 
 
 export default [
-  LoginModal,
   modalTemplate,
-  ConfirmModal
+  ConfirmModal,
+  AwaitModal,
+  SendReportRequestModal
 ]

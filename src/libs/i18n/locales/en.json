@@ -4,7 +4,8 @@
     "searchPlaceholder": "Type an address...",
     "examples": "Examples",
     "firstExample": "Nezalezhnosti Ave, Kharkiv, Kharkivs'ka oblast, Ukraine, 61000",
-    "secondExample": "Bekhterevs'kyi Ln, Kyiv, Ukraine, 02000"
+    "secondExample": "Bekhterevs'kyi Ln, Kyiv, Ukraine, 02000",
+    "requestError" : "Unable to process request at {address}. Enter a more accurate address."
   },
   "header": {
     "login": "Log in",

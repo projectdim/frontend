@@ -54,7 +54,6 @@ export default {
 			this.isDropped = bool;
 		},
 		setLang(item){
-			console.log(item.code)
 			this.lang = item
 			this.$i18n.locale = item.code;
 			this.setLocalization(item.code);
