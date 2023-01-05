@@ -37,6 +37,10 @@ export default function (instance){
         access_token,
         new_password
       });
+    },
+    // organization is organization.id
+    SendInvite({email,organization}){
+      return instance.post("/users/invite", {email, organization})
     }
   }
 }

@@ -4,7 +4,8 @@
     "searchPlaceholder": "Пошук",
     "examples": "Приклади",
     "firstExample": "проспект Незалежності, Харків, Харківська область, Україна, 61000",
-    "secondExample": "Жилянська, 12 , Київ, Україна, 02000"
+    "secondExample": "Жилянська, 12 , Київ, Україна, 02000",
+    "requestError" : "Не вдається обробити запит за адресою {address}. Вкажіть точнішу адресу."
   },
   "header": {
     "login": "Увійти",
@@ -90,7 +91,7 @@
     "status": "Статус",
     "lastActivity": "Остання активність",
     "deleteOrganization": "Видалення організації",
-    "orgUpdateSuccess" : "Дані оргацізації {orgName} оновлено успішно",
+    "orgUpdateSuccess" : "Дані організації {orgName} оновлено успішно",
     "userRemovedSuccess" : "Користувача {userName} видалено успішно",
     "userRemovedError" : "Помилка видалення користувача {userName}",
     "deleteUserTitle" : "Видалення користувача",
@@ -103,7 +104,9 @@
     "email": "E-mail",
     "change-password": "Змінити пароль...",
     "password": "Пароль",
-    "new-password": "Новий пароль"
+    "new-password": "Новий пароль",
+    "userDataUpdatedSuccessMess" : "Оновлення даних успішне",
+    "userDataUpdatedErrorMess" : "Помилка оновлення даних"
   },
   "login": {
     "header": "Вхід",
@@ -144,7 +147,9 @@
     "mailNotValid" : "Пошта не валідна",
     "passNotValid" : "Пароль повинен містити мінімум 8 символів з них мінімум одну велику літеру, одну малу та одну цифру",
     "passNotEquals" : "Паролі не співпадають",
-    "credentialsError" : "Пошта або пароль не вірні."
+    "credentialsError" : "Пошта або пароль не вірні.",
+    "codeNotValid" : "Код не валідний.",
+    "numNotValid" : "Номер не коректний."
   },
   "general": {
     "confirm" : "Підтвердити",
@@ -183,7 +188,7 @@
     "water": "Вода",
     "buildingCondition": "Стан будівлі",
     "hospital": "Лікарня",
-    "electricity": "Елкетроенергія",
+    "electricity": "Електроенергія",
     "fuelStation": "Заправна станція",
     "carEntrance": "Автошляхи"
   },
@@ -218,5 +223,16 @@
     "today" : "Сьогодні",
     "tomorrow" : "Завтра",
     "yesterday" : "Вчора"
+  },
+  "addressReqModal" : {
+    "step1Title" : "Введіть номер телефону",
+    "step1Tips" : "Будь ласка введіть номер телефону для підтвердження запиту.",
+    "step1Button" : "Отримати код",
+    "step2Title" : "Введіть код",
+    "step2Tips" : "Введіть шестизначний код, який ми надіслали на номер {telNum}",
+    "step2Button" : "Відправити запит",
+    "codeExpires" : "Код застаріє за:",
+    "sendCodeAgain" : "Надіслати код повторно",
+    "markerError" : "Неможливо відправити запит. Вкажіть більш точне місце на карті."
   }
 }

@@ -73,7 +73,7 @@ export  default {
       ]
       return month[num-1] || "Error"
     },
-    getDayDateString(dateStr){
+    GetDayDateString(dateStr){
       try {
         let date = new Date(dateStr);
         if(this.isToday(date))
@@ -113,6 +113,8 @@ export  default {
         return false
       }
     },
+    UTCtoLocal(date){
 
+    }
   },
 }

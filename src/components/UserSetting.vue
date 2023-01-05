@@ -32,7 +32,7 @@
 
 				<div class="flex flex-row-reverse gap-3 py-6"
 					:class="{'mobile:hidden' : isPassChangeVisible}">
-					<Button1 id="updateData" :disabled="isSaveButtonDisabled" @click="updateUserData">
+					<Button1 id="updateData" :disabled="saveButDisable" @click="updateUserData">
             {{ $t('general.save') }}
 					</Button1>
 					<ButtonOptions id="updatePassword" :button-color="'blue'" @valueChange="changePassVisibility"
@@ -123,16 +123,16 @@ export default {
 		},
 		async updateUserData(){
 			let updatedData = {
-				"username": this.username,
-				"email": this.email,
-				"full_name": "Ivan Oliunyk",
+				username : this.username,
+				email : this.email,
+				full_name : "",
 			}
 			this.isShowLoader = true;
 			await api.user.UpdateUserData(updatedData).then(res=>{
 				this.setLoggedUserInfo(res.data);
-				alert("Оновлення даних успішне")
+				this.$toast.success(this.$t("userSettings.userDataUpdatedSuccessMess"))
 			}).catch(err=>{
-				alert("Помилка оновлення даних")
+        this.$toast.error(this.$t("userSettings.userDataUpdatedErrorMess"))
 			}).finally(()=>{
 				this.isShowLoader = false;
 			})
@@ -145,9 +145,9 @@ export default {
 			console.log(updatedPass)
 			this.isShowLoader = true;
 			await api.user.UpdateUserPass(updatedPass).then(res=>{
-				alert("Оновлення паролю успішне")
+        this.$toast.success(this.$t("userSettings.userDataUpdatedSuccessMess"))
 			}).catch(err=>{
-				alert("Помилка оновлення паролю")
+        this.$toast.error(this.$t("userSettings.userDataUpdatedErrorMess"))
 			}).finally(()=>{
 				this.newPass = "";
 				this.oldPass = "";
@@ -157,6 +157,10 @@ export default {
 	},
 	computed : {
 		...mapGetters(['getUser']),
+    saveButDisable(){
+      return this.username === this.getUser.username &&
+          this.email === this.getUser.email
+    },
 	},
 	watch : {
 		getUser(newValue){

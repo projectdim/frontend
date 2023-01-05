@@ -1,8 +1,21 @@
 <template>
-	<label class="inline-block w-full">
-		<input @focusin="onFocus" @focusout="onLeave"
+	<label class="inline-block w-full relative" @focusin="onFocus" @focusout="onLeave">
+		<input
 					 :type="type" class="input-1" :value="modelValue" @input="updateInput" :placeholder="placeholder"
-		:class="validationStyle" :disabled="disabled" :id="inpId">
+		:class="validationStyle" :disabled="disabled" :id="inpId" @keyup="keyAction" ref="inp">
+
+    <div v-if="suggestionsVisible && suggestions && suggestions.length>1"
+         class="absolute top-11 bg-white z-[100] w-full border rounded-xl overflow-hidden py-2">
+      <div v-for="(item, i) in suggestions"
+              class="block focus:bg-blue-c-300 w-full px-1 bg-yellow-300"
+              :class="{'bg-blue-c-200' : i===suggestionIndex}"
+           :key="`sg${i}`" @click.stop="suggestionClick(i)">
+        <span >
+          {{item}}
+        </span>
+      </div>
+    </div>
+
 		<div v-if="!isValidStyle && validationMessage" class="text-red-c-500 text-b3 mt-1 text-left px-2">{{validationMessage}}</div>
 	</label>
 </template>
@@ -36,23 +49,32 @@ export default {
 			type : String,
 			default: "text"
 		},
-    inpId : String
+    inpId : String,
+    suggestions : Array
 	},
 	data () {
 		return {
 			isValidStyle : true,
+      suggestionsVisible : false,
+      suggestionIndex : -1,
 		}
 	},
 	methods : {
 		updateInput(event){
+      this.suggestionIndex = -1;
+      this.suggestionsVisible = true;
 			this.$emit('update:modelValue', event.target.value)
 		},
 		onFocus(){
+      //console.log("focus")
 			this.isValidStyle = true;
+      this.suggestionsVisible = true;
 		},
 		onLeave(){
+      //console.log("Leave")
 			this.isValidStyle = this.validate();
-		},
+      this.suggestionsVisible = false;
+    },
 		validate(){
 			let isValueValid = true;
 			switch (this.validationType){
@@ -70,7 +92,32 @@ export default {
 				this.isValidStyle = true;
 			this.$emit("validation", isValueValid);
 			return isValueValid;
-		}
+		},
+    keyAction(e){
+      if(!e.keyCode)
+        return
+      if(e.keyCode === 40) {
+        if(this.suggestionIndex + 1 < this.suggestions.length && this.suggestionIndex >=0)
+          this.suggestionIndex++;
+        else
+          this.suggestionIndex = 0;
+        this.$emit('update:modelValue', this.suggestions[this.suggestionIndex])
+
+      }
+      if(e.keyCode === 38) {
+        if(this.suggestionIndex <= 0)
+          this.suggestionIndex = this.suggestions.length-1;
+        else
+          this.suggestionIndex--;
+        this.$emit('update:modelValue', this.suggestions[this.suggestionIndex])
+      }
+    },
+    suggestionClick(index){
+      console.log(index)
+      this.suggestionIndex = index;
+      this.$emit('update:modelValue', this.suggestions[this.suggestionIndex])
+    }
+
 	},
 	computed : {
 		validationStyle(){

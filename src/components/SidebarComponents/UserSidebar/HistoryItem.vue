@@ -85,11 +85,14 @@ export default {
   },
 	props : {
 		log : Object,
-		logs : []
+		logs : {
+      type : Array,
+      default : []
+    }
   },
   methods : {
 		getDate(strDate){
-			return this.getDayDateString(strDate).replace(' ', ", ");
+			return this.GetDayDateString(strDate).replace(' ', ", ");
 		},
 		getChangedLogs(log){
 			let result = []
@@ -131,7 +134,7 @@ export default {
 					}
 				}
 			});
-			console.log(result);
+			//console.log(result);
 			return result;
 		}
 	}

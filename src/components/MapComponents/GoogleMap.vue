@@ -34,107 +34,108 @@
 		</div>
 <!--		:click="true"
 		@click="ClickHandler"-->
-	<GMapMap
-		class="z-0"
-		ref="map"
-		:center="currentMapCenter"
- 		:zoom="currentMapZoom"
-		map-type-id="roadmap"
-		style="width: 100%; height: 100%;"
-		@zoom_changed="OnMapZoomChanged"
-    @center_changed="OnMapCenterChanged"
-		:click="true"
-		@click="ClickHandler"
-		:options="{
-			zoomControl: false,
-			mapTypeControl: false,
-			scaleControl: true,
-			streetViewControl: false,
-			rotateControl: false,
-			fullscreenControl: false,
-			disableDefaultUI: true,
-			minZoom : 4,
-			styles:[
-				{
-					'featureType': 'administrative',
-					'elementType': 'geometry',
-					'stylers': [
-						{ 'visibility': 'off' }
-					]
-				},
-				{
-					'featureType': 'poi',
-					'stylers': [
-						{ 'visibility': 'off' }
-					]
-				},
-				{
-					'featureType': 'road',
-					'elementType': 'labels.icon',
-					'stylers': [
-						{ 'visibility': 'off' }
-					]
-				},
-				{
-					'featureType': 'transit',
-					'stylers': [
-						{ 'visibility': 'off' }
-					]
-				}
-			]
-   		}"
-	>
-	  <GMapMarker
-		  :v-if="this.ifClickMarker"
-		  key="customMarker"
-		  :draggable="false"
-		  :position= "this.ClickMarkerCoords"
-		  :icon= '{
-				url: "/map-marker.svg",
-				scaledSize: {width: 40, height: 40},
-      }'
-		  :clickable="false"
-	  />
-	  <GMapCluster
-		  :styles="[
-      	{
-			   	textColor: 'black',
-			   	textSize: 16,
-			   	textLineHeight: 40,
-			   	textColor : 'white',
-			   	url : '/clusters/m3.png',
-					height: 44,
-					width: 40,
-					boxShadow : '2px 2px 10px 0px rgba(115, 118, 128, 0.11)'
-        },
-     	]"
-		  :minimumClusterSize="2"
-		  :zoomOnClick="true"
-		  :maxZoom="13">
-<!--      Зелені маркера -->
-			<GMapMarker
-				v-for="(m, index) in this.reviewedMarkers"
-				:key="index"
-				:position="m.position"
-				icon="/map-pin.svg"
-				:clickable="true"
-				:draggable="false"
-				@click="getMarkerInfo(m)"
-			/>
-<!--      Сині маркера -->
+    <GMapMap
+      class="z-0"
+      ref="map"
+      :center="currentMapCenter"
+      :zoom="currentMapZoom"
+      map-type-id="roadmap"
+      style="width: 100%; height: 100%;"
+      @zoom_changed="OnMapZoomChanged"
+      @center_changed="OnMapCenterChanged"
+      :click="true"
+      @click="ClickHandler"
+      :options="{
+        zoomControl: false,
+        mapTypeControl: false,
+        scaleControl: true,
+        streetViewControl: false,
+        rotateControl: false,
+        fullscreenControl: false,
+        disableDefaultUI: true,
+        minZoom : 4,
+        styles:[
+          {
+            'featureType': 'administrative',
+            'elementType': 'geometry',
+            'stylers': [
+              { 'visibility': 'off' }
+            ]
+          },
+          {
+            'featureType': 'poi',
+            'stylers': [
+              { 'visibility': 'off' }
+            ]
+          },
+          {
+            'featureType': 'road',
+            'elementType': 'labels.icon',
+            'stylers': [
+              { 'visibility': 'off' }
+            ]
+          },
+          {
+            'featureType': 'transit',
+            'stylers': [
+              { 'visibility': 'off' }
+            ]
+          }
+        ]
+        }"
+    >
       <GMapMarker
-					v-if="getRole !== userRoles.user"
-          v-for="(m, index) in this.requestedMarkers"
+        :v-if="this.ifClickMarker"
+        key="customMarker"
+        :draggable="false"
+        :position= "this.ClickMarkerCoords"
+        :icon= '{
+          url: "/map-marker.svg",
+          scaledSize: {width: 40, height: 40},
+        }'
+        :clickable="false"
+      />
+      <GMapCluster
+        :styles="[
+          {
+            textColor: 'black',
+            textSize: 16,
+            textLineHeight: 40,
+            textColor : 'white',
+            url : '/clusters/m3.png',
+            height: 44,
+            width: 40,
+            boxShadow : '2px 2px 10px 0px rgba(115, 118, 128, 0.11)'
+          },
+        ]"
+        :minimumClusterSize="2"
+        :zoomOnClick="true"
+        :maxZoom="13">
+  <!--      Зелені маркера -->
+        <GMapMarker
+          v-for="(m, index) in this.reviewedMarkers"
           :key="index"
           :position="m.position"
-          icon="/question-map-pin.svg"
-          :clickable="isRoleHaveAccess(getRole, userRoles.aidWorker)"
+          icon="/map-pin.svg"
+          :clickable="true"
           :draggable="false"
-          @click="getRequestedMarkerInfo(m)"
-      />
-	  </GMapCluster>
-	</GMapMap>
-  	</div>
+          @click="getMarkerInfo(m)"
+        />
+  <!--      Сині маркера -->
+        <GMapMarker
+            v-if="getRole !== userRoles.user"
+            v-for="(m, index) in this.requestedMarkers"
+            :key="index"
+            :position="m.position"
+            icon="/question-map-pin.svg"
+            :clickable="isRoleHaveAccess(getRole, userRoles.aidWorker)"
+            :draggable="false"
+            @click="getRequestedMarkerInfo(m)"
+        />
+      </GMapCluster>
+    </GMapMap>
+    <img v-if="isLoaderVisible" src="/src/assets/Loader.svg" class="block absolute bottom-6 right-6 w-8 h-8 animate-spin" alt="Loader...">
+  </div>
 </template>
 
 <script>
@@ -152,9 +153,11 @@ export default {
 		  currentMapZoom : 17,
 			currentMapCenter : {lat: 49.23414701332752, lng: 28.46228865225255},
 		  ifClickMarker : false,
-		  ClickMarkerCoords : {lat: Number, lng: Number},
+		  ClickMarkerCoords : null,
 		  isInputFocused : false,
 		  searchRequest : "",
+      intervalId : "",
+      isLoaderVisible :false
 	  }
   },
 	computed : {
@@ -170,19 +173,28 @@ export default {
 		}
 	},
 	methods : {
-		...mapMutations(["setNoDataMarkerMarker", "setSelectedMarker", "setMapCenter"]),
+		...mapMutations(["setNoDataMarker", "setSelectedMarker", "setMapCenter"]),
 		...mapActions(["getMarkersByMapCenter","GetMarkerByCoords", "getMarkerById"]),
 	  ClickHandler(event) {
       this.$router.push("/main/overview");
       this.getGooglePlaceInfo(event.latLng)
 		},
+    //FIXME coords
 		OnMapCenterChanged(coords) {
+      this.isLoaderVisible = true;
+      clearTimeout(this.intervalId);
+      this.intervalId =
+          setTimeout(()=>this.GetMarkersByMapCenter(coords), 500);
+    },
+    async GetMarkersByMapCenter(coords){
       let payload = {
-				...this.coordsFormatter(coords),
+        ...this.coordsFormatter(coords),
         zoom: this.currentMapZoom
       }
-      this.getMarkersByMapCenter(payload);
+      await this.getMarkersByMapCenter(payload);
+      this.isLoaderVisible = false;
     },
+    /////////
     getMarkerInfo(marker) {
 			this.ifClickMarker = false;
 			if(!this.isPathMatched("/main/overview"))
@@ -213,7 +225,7 @@ export default {
 				 isRequested : true,
 				 location_id : m.location_id
 			 }
-			 this.setNoDataMarkerMarker(notFoundedMarker);
+			 this.setNoDataMarker(notFoundedMarker);
 
 		},
     async getGooglePlaceInfo (coords) {
@@ -250,7 +262,7 @@ export default {
                 isRequested : isPlaceRequested ? true : false,
                 location_id : isPlaceRequested ? isPlaceRequested.location_id : undefined
               }
-              this.setNoDataMarkerMarker(notFoundedMarker);
+              this.setNoDataMarker(notFoundedMarker);
             }
           }
           else {
@@ -258,7 +270,7 @@ export default {
               position: coords,
               address: res.data.results[0].formatted_address
             }
-            this.setNoDataMarkerMarker(notFoundedMarker);
+            this.setNoDataMarker(notFoundedMarker);
           }
 
 			  	/*let ExistedMarker = this.CheckIsReportedMarkerExist(res.data.results)
@@ -274,7 +286,7 @@ export default {
 			  			position: this.coordsFormatter(m.geometry.location),
 			  			address: res.data.results[0].formatted_address
 			  		}
-			  		this.setNoDataMarkerMarker(notFoundedMarker);
+			  		this.setNoDataMarker(notFoundedMarker);
 			  	}*/
 			  }))
         .catch((err) => console.log(err));

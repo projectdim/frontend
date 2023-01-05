@@ -52,15 +52,15 @@ export default {
   },
   actions : {
     async GetUserOrganization(context) {
-      await api.organizations.getOrganizationsById(context.state.loggedUserInfo.organization)
+      await api.organizations.getOrganizationsById(context.state.loggedUserInfo.organization_model.id)
         .then(res => {
-          console.log(res.data)
+          console.log(res)
           context.commit("setUserOrganization",
             {
               name : res.data.name,
               id : res.data.id,
-              website : res.data.website,
-              email : "here organization email",
+              website : res.data.website ?? "None",
+              email : "Here organization email",
               created_at : (new Date(res.data.created_at)).toLocaleString()
             })
         })

@@ -1,18 +1,22 @@
-import WelcomeScreen from "../components/WelcomeScreen/WelcomeScreen.vue";
-import MainScreen from "../components/MainScreen.vue";
-import Test from "../components/Test.vue";
-import SideBar from "../components/SidebarComponents/UserSidebar/SideBar.vue";
-import SideBarAidWorker from "../components/SidebarComponents/AidWorkerSidebar/SideBarAidWorker.vue";
-import ReportTools from "../components/SidebarComponents/AidWorkerSidebar/ReportTools.vue";
-import RequestCompletedPreview from "../components/SidebarComponents/AidWorkerSidebar/RequestCompletedPreview.vue";
+const WelcomeScreen = () => import("../components/WelcomeScreen/WelcomeScreen.vue");
+const MainScreen = () => import("../components/MainScreen.vue");
+const Test = () => import("../components/Test.vue");
+const SideBar = () => import("../components/SidebarComponents/UserSidebar/SideBar.vue");
+const SideBarAidWorker = () => import("../components/SidebarComponents/AidWorkerSidebar/SideBarAidWorker.vue");
+const ReportTools = () => import("../components/SidebarComponents/AidWorkerSidebar/ReportTools.vue");
+const RequestCompletedPreview = () => import("../components/SidebarComponents/AidWorkerSidebar/RequestCompletedPreview.vue");
+const MainPlatformAdministration = () => import("../components/PlatformAdministration/MainPlatformAdministration.vue");
+const OrganizationsList = () => import("../components/PlatformAdministration/OrganizationsList.vue");
+const OrganizationProfile = () => import("../components/PlatformAdministration/OrganizationProfile.vue");
+const UserRegistration = () => import("../components/Authorization/UserRegistration.vue");
+const PasswordReset = () => import("../components/Authorization/PasswordReset.vue");
+
+
 import {store} from "../store/mainStore.js";
 import {createRouter, createWebHistory} from "vue-router";
-import MainPlatformAdministration from "../components/PlatformAdministration/MainPlatformAdministration.vue";
-import OrganizationsList from "../components/PlatformAdministration/OrganizationsList.vue";
-import OrganizationProfile from "../components/PlatformAdministration/OrganizationProfile.vue";
-import UserRegistration from "../components/Authorization/UserRegistration.vue";
 import userRoles from "../components/mixins/userRoles.js";
-import PasswordReset from "../components/Authorization/PasswordReset.vue";
+
+
 
 const mainRouter = [
   {

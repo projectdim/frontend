@@ -27,7 +27,6 @@ function CookieUpdateFilter(mutation){
 
 
 const storePrototype = {
-/*  strict: process.env.NODE_ENV !== 'production',*/
   modules:{
     reports : ReportLocationState,
     user : UserStore,
@@ -67,7 +66,7 @@ const storePrototype = {
       state.selectedMarkerHistoryData = markerHistory;
     },
     // marker : {position: coords, address: name}
-    setNoDataMarkerMarker(state, marker){
+    setNoDataMarker(state, marker){
       state.selectedMarkerData = null;
       state.notFoundedMarkerData = marker;
       ////
@@ -90,6 +89,9 @@ const storePrototype = {
     },
     getRequestMarkers(state){
       return state.unreviewedMarkers ?? [];
+    },
+    notFoundedMarker(state){
+      return state.notFoundedMarkerData ?? null;
     }
   },
   actions : { // функції для зміни даних шляхом ініціалізації мутацій можуть бути АСИНХРОННИМИ
@@ -110,32 +112,24 @@ const storePrototype = {
     },
 
     async GetMarkerByCoords(context, {name, position}){
-      try{
-        await api.locations.exactSearch(position.lat, position.lng).then((response) => {
-          if(response.data.status === 3)
-            context.commit("setSelectedMarker", response.data);
-          else{
-            let notFoundAddress = {
-              position: response.data.position,
-              address: `${response.data.address}, ${response.data.street_number}, ${response.data.city}, ${response.data.index}, ${response.data.country}`,
-              isRequested : true
-            }
-            context.commit("setNoDataMarkerMarker", notFoundAddress);
+      await api.locations.exactSearch(position.lat, position.lng).then((response) => {
+        if(response.data.status === 3)
+          context.commit("setSelectedMarker", response.data);
+        else{
+          let notFoundAddress = {
+            position: response.data.position,
+            address: `${response.data.address}, ${response.data.street_number}, ${response.data.city}, ${response.data.index}, ${response.data.country}`,
+            isRequested : true
           }
-        }).catch((err) => {
-          if (err.response.status === 400) {
-            let notFoundAddress = {
-              position: position,
-              address: name
-            }
-            context.commit("setNoDataMarkerMarker", notFoundAddress);
-            console.log(`Address ${name} not found in our DB`)
-          }
-        });
-      }
-      catch (err){
-        throw err;
-      }
+          context.commit("setNoDataMarker", notFoundAddress);
+        }
+      }).catch((err) => {
+        let notFoundAddress = {
+          position: position,
+          address: name
+        }
+        context.commit("setNoDataMarker", notFoundAddress);
+      });
     },
     async getMarkerById (context, locationId) {
       await api.locations.getLocationById(locationId).then((response) => {
@@ -146,14 +140,13 @@ const storePrototype = {
       context.commit("setUnreviewedMarkers", markersArray)
     },
     setNotFoundMarker(context, marker){
-      context.commit("setNoDataMarkerMarker", marker)
+      context.commit("setNoDataMarker", marker)
     }
   },
   plugins : [vuexCookie.plugin]
 }
 
-export const storeProt = storePrototype;
-export const store = createStore(storePrototype);
+
 
 function setCookie(cname, cvalue, exdays = 0) {
   const d = new Date();
@@ -176,4 +169,7 @@ function getCookie(cname) {
   }
   return {};
 }
+
+export const store = createStore(storePrototype);
+
 
