@@ -105,8 +105,8 @@
 	</div>
 
 <!--	Edit organization modal-->
-	<ModalTemplate :is-modal-visible="isEditModalVisible" is-hide-on-click="false"
-								 class-list="grid place-items-center px-4" :is-hide-on-click="true"
+	<ModalTemplate :is-modal-visible="isEditModalVisible" :is-hide-on-click="true"
+								 class-list="grid place-items-center px-4"
 								 :close-func="CloseEditModal">
 		<div @click.stop class="bg-white w-[480px] rounded-lg relative mobile:w-full relative p-6 mx-auto max-h-screen overflow-y-auto">
 			<button class="absolute top-6 right-6 cursor-pointer"
@@ -140,7 +140,7 @@
 	</ModalTemplate>
 <!--	-->
 <!--Invite user modal-->
-	<ModalTemplate :is-modal-visible="isUserInviteModalVisible" is-hide-on-click="true"
+	<ModalTemplate :is-modal-visible="isUserInviteModalVisible" :is-hide-on-click="true"
 								 :close-func="CloseUserInviteModal" class-list="grid place-items-center px-4">
 		<div class="bg-white w-[480px] rounded-lg relative mobile:w-full relative p-6 mx-auto max-h-screen overflow-y-auto"
 		@click.stop>

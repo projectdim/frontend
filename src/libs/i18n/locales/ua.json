@@ -91,7 +91,7 @@
     "status": "Статус",
     "lastActivity": "Остання активність",
     "deleteOrganization": "Видалення організації",
-    "orgUpdateSuccess" : "Дані оргацізації {orgName} оновлено успішно",
+    "orgUpdateSuccess" : "Дані організації {orgName} оновлено успішно",
     "userRemovedSuccess" : "Користувача {userName} видалено успішно",
     "userRemovedError" : "Помилка видалення користувача {userName}",
     "deleteUserTitle" : "Видалення користувача",
@@ -104,7 +104,9 @@
     "email": "E-mail",
     "change-password": "Змінити пароль...",
     "password": "Пароль",
-    "new-password": "Новий пароль"
+    "new-password": "Новий пароль",
+    "userDataUpdatedSuccessMess" : "Оновлення даних успішне",
+    "userDataUpdatedErrorMess" : "Помилка оновлення даних"
   },
   "login": {
     "header": "Вхід",
@@ -146,7 +148,8 @@
     "passNotValid" : "Пароль повинен містити мінімум 8 символів з них мінімум одну велику літеру, одну малу та одну цифру",
     "passNotEquals" : "Паролі не співпадають",
     "credentialsError" : "Пошта або пароль не вірні.",
-    "codeNotValid" : "Код не валідний."
+    "codeNotValid" : "Код не валідний.",
+    "numNotValid" : "Номер не коректний."
   },
   "general": {
     "confirm" : "Підтвердити",
@@ -185,7 +188,7 @@
     "water": "Вода",
     "buildingCondition": "Стан будівлі",
     "hospital": "Лікарня",
-    "electricity": "Елкетроенергія",
+    "electricity": "Електроенергія",
     "fuelStation": "Заправна станція",
     "carEntrance": "Автошляхи"
   },

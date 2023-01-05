@@ -30,14 +30,20 @@
       </div>
     </div>
   </div>
-  <input class="input-1" v-model="inp">
+  <input ref="tel" class="input-1" v-model="inp" @keyup="keyAction">
 </div>
 </template>
 
 <script>
+import regex from "../mixins/regex.js";
 export default {
   name: "TelInput",
-  emits : ["validation", "update:modelValue"],
+  emits : [
+    "validation",
+    "update:modelValue",
+    "enter-click"
+  ],
+  mixins : [regex],
   props : {
     modelValue : String
   },
@@ -63,14 +69,20 @@ export default {
       this.code = this.availableCode.find(x=>x.code === code);
     },
     numValidation(){
-      let regex = new RegExp(`[0-9]{${this.code.numLength}}`);
-      let isValid = regex.test(this.number) && this.number.length === this.code.numLength
+      //let regex = new RegExp(`[0-9]{${this.code.numLength}}`);
+      let isValid = this.onlyDigitsRegex.test(this.number) && this.number.length === this.code.numLength
       this.$emit("validation", isValid);
+    },
+    keyAction(e){
+      if(!e.keyCode)
+        return;
+      if(e.keyCode === 13)
+        this.$emit("enter-click")
     }
   },
   watch : {
     inp(newVal){
-      if(/[0-9]/.test(newVal) || newVal==="") {
+      if(this.onlyDigitsRegex.test(newVal) || newVal==="") {
         this.number = newVal;
         this.$emit("update:modelValue", `${this.code.value}${this.number}`)
       }
@@ -82,6 +94,9 @@ export default {
       this.numValidation();
     }
   },
+  mounted() {
+    this.$refs.tel.focus();
+  }
 }
 </script>
 

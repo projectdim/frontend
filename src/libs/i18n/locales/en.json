@@ -104,7 +104,9 @@
     "email": "E-mail",
     "change-password": "Change password...",
     "password": "Password",
-    "new-password": "New password"
+    "new-password": "New password",
+    "userDataUpdatedSuccessMess" : "Data update successful",
+    "userDataUpdatedErrorMess" : "Error updating data"
   },
   "login": {
     "header": "Login",
@@ -146,7 +148,8 @@
     "passNotValid" : "The password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter and one number",
     "passNotEquals" :"Passwords do not match",
     "credentialsError" : "Email or password is incorrect.",
-    "codeNotValid" : "Code is not valid."
+    "codeNotValid" : "Code is not valid.",
+    "numNotValid" : "Number is not valid."
   },
   "general": {
     "confirm" : "Confirm",

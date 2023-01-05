@@ -21,8 +21,9 @@
 						<div class="text-body-1 mt-2 text-gray-c-600">
               {{ $t("addressReqModal.step1Tips") }}
 						</div>
-            <TelInput class="my-6" v-model="telNum" @validation="onNumValidation"/>
-						<button-1 class="w-full" @click="getCode" :disabled="!isNumValid">
+            <TelInput class="my-6" v-model="telNum" @validation="onNumValidation"
+              @enter-click="numInpEnterClick"/>
+						<button-1 class="w-full" @click="GetCodeAction" :disabled="!isNumValid">
               {{ $t("addressReqModal.step1Button") }}
 						</button-1>
 					</div>
@@ -33,8 +34,9 @@
 						<div class="text-body-1 mt-2 text-gray-c-600">
               {{step2Tips}}
 						</div>
-						<CodeInput class="w-full my-6" :digit-amount="6" v-model="code"/>
-						<button-1 class="w-full" @click="sendRequest" :disabled="!isCodeValid">
+						<CodeInput class="w-full my-6" :digit-amount="6" v-model="code"
+              @enter-click="codeInpEnterClick"/>
+						<button-1 class="w-full" @click="SendRequestAction" :disabled="!isCodeValid">
 							{{$t("addressReqModal.step2Button")}}
 						</button-1>
             <div class="mt-4 text-body-1 text-gray-c-500 h-[42px] flex justify-center place-items-center">
@@ -45,7 +47,7 @@
                    &nbsp;{{ timer }}
                  </span>
                 </div>
-                <button @click="getCode" v-else class="font-semibold text-blue-c-500">
+                <button @click="GetCodeAction" v-else class="font-semibold text-blue-c-500">
                   {{ $t("addressReqModal.sendCodeAgain") }}
                 </button>
               </transition>
@@ -65,9 +67,11 @@ import CodeInput from "../Inputs/CodeInput.vue";
 import api from "../../api/index.js";
 import {mapGetters, mapMutations} from "vuex";
 import TelInput from "../Inputs/TelInput.vue";
+import regex from "../mixins/regex.js";
 export default {
 	name: "SendReportRequestModal",
 	components: {TelInput, CodeInput, Button2, Input1},
+  mixins : [regex],
 	props : {
 		isModalVisible : {
 			type : Boolean,
@@ -91,7 +95,8 @@ export default {
 				numEnter : "numEnter",
 				codeEnter : "codeEnter",
  			},
-      onClose : () =>{}
+      onClose : () =>{},
+      intervalId : 0
 		}
 	},
 	methods : {
@@ -113,21 +118,46 @@ export default {
 				this.closeFunc();
 			}, 400);
 		},
-		//TODO send code
-		getCode(){
-			//in callback
-			this.step = this.steps.codeEnter;
-      this.startTimer(10);
+	  async getCode(){
+      if(!this.isNumValid) {
+        this.$toast.error(this.$t("validations.numNotValid"),
+            this.$toast.options(false, false));
+        return;
+      }
+      let tel = this.telNum.replace("+","%2B")
+			await api.guest.getCode(tel)
+				.then(res=>{
+          console.log(res)
+          this.startTimer(this.getExpiredTime(res.data.expires_at));
+          //this.startTimer(res.data.expiration_minutes * 60);
+          this.step = this.steps.codeEnter;
+				})
+				.catch(error =>{
+					let errorMess = this.$t("general.errorMessage")
+					if(error.response.status === 400)
+						errorMess = this.$t("validations.numNotValid")
+					this.$toast.error(errorMess,
+						this.$toast.options(false, false));
+				})
+
 		},
+    getCodeDev(){
+      this.step = this.steps.codeEnter;
+      this.startTimer(15*60);
+    },
+    getExpiredTime(date){
+      return (new Date(date) - new Date()) / 1000
+    },
     startTimer(seconds){
+      clearInterval(this.intervalId);
       this.codeExpiredIn = seconds;
-      let id = setInterval(()=>{
+      this.intervalId = setInterval(()=>{
         this.codeExpiredIn--
         if(this.codeExpiredIn<=0)
-          clearInterval(id);
+          clearInterval(this.intervalId);
       }, 1000);
     },
-    async sendRequest(){
+    async sendRequestDev(){
       if(!this.notFoundedMarker){
         this.$toast.error(this.$t("addressReqModal.markerError"))
         return;
@@ -172,9 +202,95 @@ export default {
             this.hide();
           });
     },
+    async sendRequest(){
+      if(!this.isNumValid) {
+        this.$toast.error(this.$t("validations.numNotValid"),
+            this.$toast.options(false, false));
+        return;
+      }
+      if(!this.isCodeValid){
+        this.$toast.error(this.$t("validations.codeNotValid"),
+            this.$toast.options(false, false));
+        return;
+      }
+      let params = {
+        phone_number : this.telNum,
+        otp : this.code,
+        ...this.notFoundedMarker.position
+      }
+      // FIXME не працює на сервері
+      await api.guest.sendAddressRequest(params)
+          .then((res) => {
+            console.log(res)
+						/*let data = {
+							position : {...res.data.position} ?? {...this.notFoundedMarker.position},
+							status : res.status ?? 1
+						}*/
+
+            let data = {
+              position : {...this.notFoundedMarker.position},
+              status : res.status ?? 1
+            }
+
+            this.setUnreviewedMarkers([data, ...this.getRequestMarkers])
+            this.setNotFoundMarker({
+              location_id : res.data.location_id,
+              //position : res.data.position,
+              position: {...this.notFoundedMarker.position},
+              isRequested : true,
+              address :  this.notFoundedMarker.address
+            })
+            let successMess = this.$t("notFoundAddress.modalSuccessMess",
+                {address : this.notFoundedMarker.address});
+
+            this.isLoaderVisible = false;
+            this.onClose = () => {this.$toast.success(successMess)}
+            this.hide();
+          })
+          .catch((err) => {
+            console.error(err)
+            let errMess = this.$t("general.errorMessage");
+            //TODO 400 статкус код коли запит на локацію вже існує. чи коли код чи номер не валідний?
+            /*if(err.response && err.response.status === 400)
+              errMess = this.$t("notFoundAddress.modalErrRequestExist");*/
+            this.isLoaderVisible = false;
+            this.onClose = () => {this.$toast.error(errMess)}
+            this.hide();
+          });
+    },
     onNumValidation(arg){
       this.isNumValid = arg;
-    }
+    },
+    numInpEnterClick(){
+      if(this.isNumValid)
+        this.GetCodeAction();
+    },
+    codeInpEnterClick(){
+      if(this.isCodeValid)
+        this.SendRequestAction();
+    },
+		GetCodeAction(){
+			//this.getCode();
+			if(import.meta.env.PROD){
+				console.log("Get code PROD");
+				this.getCode();
+			}
+			else if(import.meta.env.DEV){
+				console.log("Get code DEV");
+				this.getCodeDev();
+			}
+		},
+		SendRequestAction(){
+			//this.sendRequest();
+			if(import.meta.env.PROD){
+				console.log("Send request PROD")
+				this.sendRequest();
+			}
+			else if(import.meta.env.DEV){
+				console.log("Send request DEV")
+				this.sendRequestDev();
+			}
+		},
 	},
   computed : {
     ...mapGetters({
@@ -192,7 +308,8 @@ export default {
       return this.$t("addressReqModal.step2Tips", {telNum : this.telNum})
     },
     isCodeValid(){
-      return /\d{6}/.test(this.code)
+      /*/\d{6}/.test(this.code)*/
+      return this.onlyDigitsRegex.test(this.code)
           && this.code.length === 6
           && this.codeExpiredIn > 0;
     }
@@ -203,6 +320,9 @@ export default {
 			console.log(`code is ${newVal}`)
 		}
 	}*/
+  beforeUnmount() {
+    clearInterval(this.intervalId);
+  }
 }
 </script>
 

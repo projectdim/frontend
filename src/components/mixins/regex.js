@@ -7,6 +7,8 @@ export default {
       passRegex : new RegExp(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/),
       //Name Validation
       nameRegex : new RegExp(/^[a-zA-ZА-Яа-я]{3,}$/),
+      // Only digits
+      onlyDigitsRegex : new RegExp(/^\d+$/)
     }
   },
   methods : {

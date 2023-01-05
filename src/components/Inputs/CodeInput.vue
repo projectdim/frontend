@@ -2,7 +2,7 @@
 	<div class="flex flex-nowrap justify-center mobile:gap-2 gap-4">
 		<input v-for="n in digitAmount" class="input-1 text-center max-w-[62px]" placeholder="X"
 					 :ref="`inp${n-1}`" @input="OnInput( n-1)" @focusin="onFocusGet(n-1)"
-           @keyup="onKeyPress"
+           @keyup="keyAction"
 		>
 	</div>
 </template>
@@ -10,6 +10,9 @@
 <script>
 export default {
 	name: "CodeInput",
+  emits : [
+      "enter-click"
+  ],
 	props : {
 		digitAmount : {
 			type : Number,
@@ -67,15 +70,21 @@ export default {
         }
       }
     },
-    onKeyPress(e){
+    keyAction(e){
       if(!e.keyCode)
         return;
       if(e.keyCode === 37)
         this.moveToPrevInp(this.selectedInputIndex);
       else if(e.keyCode === 39)
         this.moveToNextInp(this.selectedInputIndex);
+      else if(e.keyCode === 13)
+        this.$emit("enter-click")
     }
-	}
+	},
+  mounted() {
+    if(this.$refs["inp0"] && this.$refs["inp0"][0])
+      this.$refs["inp0"][0].focus();
+  }
 }
 </script>
 

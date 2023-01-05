@@ -4,21 +4,21 @@
 								rounded-lg outline-none text-h3
 								hover:border-blue-c-400 focus:border-blue-c-500
 								disabled:bg-gray-c-100 disabled:hover:border-gray-c-300
-								disabled:text-gray-c-500 flex overflow-hidden"
+								disabled:text-gray-c-500 flex overflow-hidden relative"
 				 :class="{'border-blue-c-500': isInputFocused,
 									'border-gray-c-300' : !isInputFocused && isValidStyle,
 									'border-red-c-500' : !isInputFocused && !isValidStyle
 									}"
 				 @focusin="OnDivFocus(true)"
 				 @focusout="OnDivFocus(false)">
-			<input ref="pass" class="w-full outline-none px-4 py-2 bg-transparent"
+			<input ref="pass" class="w-full outline-none px-4 pr-10 py-2 bg-transparent"
 						 :type="inputType" :placeholder="placeholderC"
 						 @focusin="OnInputFocus(true)"
 						 @focusout="OnInputFocus(false)"
 						 @input="OnValueChange"
 						 :id="inpId" :disabled="disabled"
 			/>
-			<button class="w-[40px] h-min cursor-pointer rounded-lg px-1" @click="toggleInputType">
+			<button class="w-[40px] h-full cursor-pointer rounded-lg px-1 absolute right-0 top-0" @click="toggleInputType">
 				<svg id="viewPass" class="block h-full w-full" viewBox="0 0 24 14" fill="none" xmlns="http://www.w3.org/2000/svg"
 				:class="{
 					'fill-black' : inputType === 'password',

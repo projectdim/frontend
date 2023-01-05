@@ -41,15 +41,20 @@
 					/>
 				</div>
 
-				<button-1 class="block items-center px-9 mobile:w-full" :disabled="searchController.SearchedOrgName.length < 3"
+<!--				<button-1 class="block items-center px-9 mobile:w-full" :disabled="searchController.SearchedOrgName.length < 3"
 					@click="GetOrganizationByName">
 					{{ $t('general.search') }}
-				</button-1>
+				</button-1>-->
 
 				<button-2 class="block flex items-center mobile:w-full justify-center" @click="showAddOrgModal">
 					<img src="/src/assets/plusBlue.svg" class="inline-block mr-2.5 mobile:mt-0.5">
 					<p>{{ $t('dashboard.addOrganization') }}</p>
 				</button-2>
+
+				<button-1 class="block mobile:grow h-min" @click.stop="ShowUserInviteModal">
+					<img class="inline-block mb-0.5 mr-1.5" src="/src/assets/Organizations/addUser.svg" alt="">
+					<span>{{ $t('organizationProfile.addEmployee') }}</span>
+				</button-1>
 
 			</div>
 			<div v-if="searchController.isSearchedOrgResult"  class="py-6 flex flex-wrap gap-4 justify-center">
@@ -78,7 +83,7 @@
 		</div>
 
 <!--    add organization modal-->
-		<ModalTemplate class-list="grid place-items-center p-4" :is-modal-visible="isCreateModalVisible"
+		<ModalTemplate class-list="grid place-items-center p-4" :is-modal-visible="modals.createOrgModalVisible"
 		:close-func="closeCreateOrgModal" :isHideOnClick="true">
 			<div class="bg-white w-[480px] mx-auto mobile:w-full relative p-6 rounded-lg" @click.stop>
 				<img src="/src/assets/close.svg" class="absolute top-6 right-6 cursor-pointer"
@@ -99,14 +104,19 @@
 				@click.stop="AddOrganizations">
           {{ $t('general.save') }}
 				</button-1>
-				<Loader v-if="isCreateModalLoaderVisible"/>
+				<Loader v-if="modals.createOrgModalLoaderVisible"/>
 			</div>
 		</ModalTemplate>
 <!--    #endregion-->
 
-		<RemoveOrgModal :is-visible="isRemovedModalVisible"
+		<RemoveOrgModal :is-visible="modals.removeOrgModalVisible"
 			:organization="removedOrganization" :close-func="closeRemoveModal"
 			:on-remove-success="onRemoveSuccess"
+		/>
+
+		<user-invite-modal :is-modal-visible="modals.userInvite"
+											 :is-hide-on-click="true"
+											 :close-func="CloseUserInviteModal"
 		/>
 	</div>
 </template>
@@ -119,12 +129,15 @@ import Input1 from "../Inputs/Input-1.vue";
 import Loader from "../Loader.vue";
 import Button1 from "../Buttons/Button_1.vue";
 import RemoveOrgModal from "./RemoveOrgModal.vue";
-import StringFormater from "../mixins/StringFormatter.js";
+import StringFormatter from "../mixins/StringFormatter.js";
+import axios from "axios";
+import UserInviteModal from "../Modals/UserInviteModal.vue";
 
 export default {
 	name: "OrganizationsList",
-  mixins : [StringFormater],
+  mixins : [StringFormatter],
 	components: {
+		UserInviteModal,
     RemoveOrgModal,
     Button1,
     Loader,
@@ -134,6 +147,12 @@ export default {
   },
 	data () {
 		return{
+			modals : {
+				userInvite : false,
+				removeOrgModalVisible : false,
+				createOrgModalVisible : false,
+				createOrgModalLoaderVisible : false,
+			},
 			organizationsList : [],
 			isInputFocused : false,
 			limit : 20,
@@ -142,11 +161,8 @@ export default {
 			isAutoPaginationOn : true,
 			createOrgSite : "",
 			createOrgName : "",
-			isCreateModalVisible : false,
-			isCreateModalLoaderVisible : false,
 			isLoaderVisible : false,
 			removedOrganization : null,
-			isRemovedModalVisible : false,
 			searchController : {
 				SearchedOrgName : "",
 				SearchedOrganizationsList : [],
@@ -168,12 +184,12 @@ export default {
 			this.$refs.inp.select()
 		},
 		showAddOrgModal(){
-			this.isCreateModalVisible = true;
+			this.modals.createOrgModalVisible = true;
 		},
 		closeCreateOrgModal(){
 			this.createOrgName = ""
 			this.createOrgSite = ""
-			this.isCreateModalVisible = false;
+			this.modals.createOrgModalVisible = false;
 		},
 		ResetSearchResult(){
 			this.searchController.SearchedOrgName = "";
@@ -183,10 +199,10 @@ export default {
 		},
 		onRemoveClick(org){
 			this.removedOrganization = org;
-			this.isRemovedModalVisible = true;
+			this.modals.removeOrgModalVisible = true;
 		},
 		closeRemoveModal(){
-			this.isRemovedModalVisible = false;
+			this.modals.removeOrgModalVisible = false;
 		},
 		onRemoveSuccess(){
 			this.organizationsList = this.organizationsList.filter(x=>x.id!== this.removedOrganization.id)
@@ -214,7 +230,7 @@ export default {
         return;
       }
       this.createOrgName = this.TrimTurbo(this.createOrgName);
-			this.isCreateModalLoaderVisible = true;
+			this.modals.createOrgModalLoaderVisible = true;
 			await api.organizations.createOrganization(this.createOrgName, this.createOrgSite)
 				.then(res => {
 					this.organizationsList = [res.data,...this.organizationsList]
@@ -229,7 +245,7 @@ export default {
           this.$toast.error(errMess)
 				})
 				.finally(()=>{
-					this.isCreateModalLoaderVisible = false;
+					this.modals.createOrgModalLoaderVisible = false;
 				});
 		},
 		async GetOrganizationByName(){
@@ -237,14 +253,22 @@ export default {
         this.$toast.error(this.$t('validations.minLength', {amount : 3}));
 				return
 			}
+			/*await api.organizations.getOrganizationByName(this.searchController.SearchedOrgName,
+				{signal : this.searchController.cancelController.signal}
+			)*/
 			await api.organizations.getOrganizationByName(this.searchController.SearchedOrgName,
-				{signal : this.searchController.cancelController.signal})
+				{cancelToken : this.searchController.cancelController.token}
+			)
 				.then(res=>{
 					this.isAutoPaginationOn = false;
 					this.searchController.isSearchedOrgResult = true;
 					this.searchController.SearchedOrganizationsList = res.data;
 				})
 				.catch(err=>{
+					if(axios.isCancel(err)) {
+						console.log("Canceled")
+						return;
+					}
 					this.ResetSearchResult();
           this.$toast.error(this.$t('general.errorMessage'))
 					throw err;
@@ -253,10 +277,17 @@ export default {
 		OrganizationAutoSearch(){
 			if(this.searchController.SearchedOrgName.length<3)
 				return;
-			if(this.searchController.cancelController)
-				this.searchController.cancelController.abort("Request updated")
-			this.searchController.cancelController = new AbortController();
+			if(this.searchController.cancelController) {
+				this.searchController.cancelController.cancel("Request updated")
+			}
+			this.searchController.cancelController = axios.CancelToken.source();
 			this.GetOrganizationByName();
+		},
+		ShowUserInviteModal(){
+			this.modals.userInvite = true;
+		},
+		CloseUserInviteModal(){
+			this.modals.userInvite = false;
 		}
 	},
   computed : {
