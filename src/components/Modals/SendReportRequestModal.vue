@@ -270,26 +270,26 @@ export default {
         this.SendRequestAction();
     },
 		GetCodeAction(){
-			//this.getCode();
-			if(import.meta.env.PROD){
+			this.getCode();
+			/*if(import.meta.env.PROD){
 				console.log("Get code PROD");
 				this.getCode();
 			}
 			else if(import.meta.env.DEV){
 				console.log("Get code DEV");
 				this.getCodeDev();
-			}
+			}*/
 		},
 		SendRequestAction(){
-			//this.sendRequest();
-			if(import.meta.env.PROD){
+			this.sendRequest();
+			/*if(import.meta.env.PROD){
 				console.log("Send request PROD")
 				this.sendRequest();
 			}
 			else if(import.meta.env.DEV){
 				console.log("Send request DEV")
 				this.sendRequestDev();
-			}
+			}*/
 		},
 	},
   computed : {

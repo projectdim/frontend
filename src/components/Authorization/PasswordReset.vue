@@ -28,7 +28,7 @@
 
 
 				<button-1 :disabled="isButtonDisabled" tabindex="7" class="w-full" @click="ResetPass">
-					Підтвердити
+					{{ $t('general.confirm') }}
 				</button-1>
 			</div>
 		</div>
