@@ -1,6 +1,6 @@
 <template>
   <modal-template :is-modal-visible="isModalVisible" :close-func="close" :is-hide-on-click="isHideOnClick"
-  :class-list="`grid place-content-center`">
+  	:class-list="`grid place-content-center px-2`">
     <transition name="modal-anim">
       <div v-if="animTrigger" class="bg-white w-[480px] rounded-lg relative mobile:w-full relative p-6 mx-auto max-h-screen overflow-y-auto"
            @click.stop>

@@ -6,7 +6,7 @@
 	  	tablet:flex-col-reverse
 	  	mobile:overflow-y-auto
 			tablet:overflow-y-auto">
-		<div class="shrink-0 comp:w-[600px]">
+		<div class="shrink-0 comp:w-[600px] z-50">
 			<router-view></router-view>
 		</div>
 		<div class="w-full p-0 min-h-[456px]">
@@ -32,7 +32,8 @@ export default {
 	},
   computed : {
 		...mapState(["selectedMarkerData", "notFoundedMarkerData"])
-	}
+	},
+
 }
 </script>
 

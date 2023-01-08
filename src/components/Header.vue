@@ -2,13 +2,8 @@
   	<header class="w-full
   	mobile:h-[62px]
   	tablet:h-[62px]
-  	comp:h-[74px]
-  	mobile:px-4 mobile:py-2.5
-  	tablet:px-4 tablet:py-2.5
-  	comp:px-6 comp:py-0
-  	mobile:sticky mobile:top-0
-  	shadow-cs2 bg-white z-[1000] flex items-center gap-3 mobile:justify-between">
-
+  	comp:h-[74px] mobile:px-4 mobile:py-2.5 tablet:px-4 tablet:py-2.5 comp:px-6 comp:py-0
+  	sticky mobile:top-0 bg-white flex items-center gap-3 mobile:justify-between shadow-cs2 z-[1000]">
 			<div class="w-min h-full place-content-center hidden mobile:grid">
 				<div class="w-6 h-5 py-1" @click="toggleMenu">
 					<div class="bg-black w-full h-0.5 rounded-xl"></div>
@@ -150,8 +145,6 @@
           {{ $t('header.logout') }}
 				</button-text1>
 			</div>
-
-
 <!--			#region Modals-->
 			<LoginModal :is-modal-visible="isLoginModal"
 									:close-func="closeModal">

@@ -1,8 +1,8 @@
 <template>
 	<div id="mapContainer" class="h-full relative">
-		<div class="absolute z-10 w-full
+		<div class="absolute w-full
 			mobile:top-3.5
-			top-6">
+			top-6 z-10">
 			<div class="border bg-white rounded-xl  border-2 h-10 flex flex-nowrap
 				mobile:mx-4 mx-[30px]"
 				:class="{'border-blue-c-500': isInputFocused,
@@ -35,7 +35,6 @@
 <!--		:click="true"
 		@click="ClickHandler"-->
     <GMapMap
-      class="z-0"
       ref="map"
       :center="currentMapCenter"
       :zoom="currentMapZoom"
@@ -392,7 +391,7 @@ export default {
 		setTimeout(()=>{
 			this.currentMapZoom = 16
 		}, 1000)
-	}
+	},
 }
 
 </script>
