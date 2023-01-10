@@ -82,7 +82,7 @@ export default {
         if(i==2)
           break;
       }
-      //this.animId = setInterval(this.GetVisibleElements, this.delay)
+      this.animId = setInterval(this.GetVisibleElements, this.delay)
     },
     OnReportClick(report){
       this.$emit("report-click", report);

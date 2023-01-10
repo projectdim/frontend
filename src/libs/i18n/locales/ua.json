@@ -5,7 +5,8 @@
     "examples": "Приклади",
     "firstExample": "проспект Незалежності, Харків, Харківська область, Україна, 61000",
     "secondExample": "Жилянська, 12 , Київ, Україна, 02000",
-    "requestError" : "Не вдається обробити запит за адресою {address}. Вкажіть точнішу адресу."
+    "requestError" : "Не вдається обробити запит за адресою {address}. Вкажіть точнішу адресу.",
+    "recentlyReports" : "Нещодавно завершені звіти"
   },
   "footer" : {
     "about" : "Про нас",
@@ -18,7 +19,9 @@
     "login": "Увійти",
     "logout": "Вийти",
     "map": "Карта",
-    "dashboard": "Кабінет"
+    "dashboard": "Кабінет",
+    "settings" : "Налаштування",
+    "requests" : "Запити"
   },
   "userSideBar": {
     "choose-location": "Виберіть на карті місце, яке Вас цікавить.",
@@ -66,7 +69,11 @@
     "open": "Працює",
     "closed": "Закрита",
     "hospital": "Лікарня",
-    "descriptionDeleted" : "Опис видалено"
+    "descriptionDeleted" : "Опис видалено",
+    "city" : "Місто",
+    "street" : "Вулиця",
+    "streetNumber" : "Номер будинку",
+    "currentAddress" : "Актуальна адреса"
   },
   "dashboard": {
     "admin": "Адміністратор",

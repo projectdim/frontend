@@ -35,7 +35,7 @@
       </div>
 
       <div class="w-full" v-if="recentReports.length>0">
-        <div class="font-semibold mb-2 bg-white z-10">Recently completed reports</div>
+        <div class="font-semibold mb-2 bg-white z-10">{{$t("welcomeScreen.recentlyReports")}}</div>
 				<WelcomeScreenReportList :reports-list="recentReports" :delay="5000" @report-click="GetReportById" class="w-full]"/>
       </div>
 
@@ -48,9 +48,9 @@
     </div>
 		<footer class="mt-[30px] py-6 mobile:py-5 px-4 gap-6 mobile:gap-3 flex items-center flex-wrap justify-center">
 			<div class="flex gap-6 flex-nowrap text-h4 text-blue-c-500 font-semibold break-words">
-				<a href="http://google.com" target="_blank">{{$t("footer.about")}}</a>
-				<a href="http://google.com" target="_blank">{{$t("footer.blog")}}</a>
-				<a href="http://google.com" target="_blank">❤ {{$t("footer.support")}}</a>
+				<a href="https://about.projectdim.org" target="_blank">{{$t("footer.about")}}</a>
+				<a href="https://dimblog.wixsite.com/project-dim" target="_blank">{{$t("footer.blog")}}</a>
+				<a href="https://about.projectdim.org/" target="_blank">❤ {{$t("footer.support")}}</a>
 			</div>
 			<div class="flex gap-4 flex-nowrap text-h4 text-gray-c-400 font-semibold mobile:text-b3">
 				<p>{{$t("footer.ngo")}}</p>

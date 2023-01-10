@@ -16,7 +16,7 @@
 				<GMapAutocomplete
           id="autocomplete"
 					ref="autocomplete"
-					placeholder="Пошук..."
+					:placeholder="$t('welcomeScreen.searchPlaceholder')"
 					@place_changed="setPlace"
 					class="w-full bg-transparent outline-none block text-h3"
 					:select-first-on-enter="true"
