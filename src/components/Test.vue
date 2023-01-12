@@ -7,7 +7,7 @@
 		ShowModal
 	</button-text-1>
 
-	<InputSuggest/>
+	<InputSuggest class="bg-red-c-500 px-2 mb-2" :suggestion="items"/>
   <div class="bg-green-700 h-10 w-full"></div>
   <user-invite-modal :close-func="HideModal" :is-hide-on-click="true" :is-modal-visible="modalVisible"/>
 </template>
@@ -27,27 +27,22 @@ export default {
     return {
       mess : "Message",
 			modalVisible : false,
-			item: {},
 			items: [
-				{ id: 1, name: 'Golden Retriever' },
-				{ id: 2, name: 'Cat' },
-				{ id: 3, name: 'Squirrel' },
+				'Golden Retriever t',
+				'Cat','Cat','Cat','Cat','Cat','Cat','Cat',
+				'Squirrel',
+				'Golden Retriever t',
+				'Cat',
+				'Squirrel',
+				'Golden Retriever t',
+				'Cat',
+				'Squirrel'
 			],
     }
   },
 	methods : {
 		Test1(){
-			/*let date1 = new Date("2023-01-02T14:10:00Z");
-			let dateUTC = new Date(Date.UTC(date1.getFullYear(), date1.getMonth(), date1.getDate(), date1.getHours(),date1.getMinutes(), date1.getSeconds(), date1.getMilliseconds()))
-
-			let now = new Date("2023-01-02T16:00:00");
-			let t = date1 - now;
-			console.log(date1)
-			console.log(now)
-			console.log(`${Math.trunc(t/60000)}:${Math.trunc(t%6000)}`)
-			console.log(t)*/
-			console.log(new Date("2023-01-02T14:10:00Z"))
-			console.log(new Date("2023-01-02T14:10:00"))
+			this.items = null
 		},
 		Test2(){
 			this.modalVisible = true;

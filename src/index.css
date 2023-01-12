@@ -57,7 +57,7 @@
     }
     .input-1 {
         @apply border font-normal
-        rounded-lg outline-none text-h3 px-4 py-2
+        rounded-lg text-h3 px-4 py-2
         hover:border-blue-c-400 focus:border-blue-c-500
         disabled:bg-gray-c-100 disabled:hover:border-gray-c-300
         disabled:text-gray-c-500 w-full
