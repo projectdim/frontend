@@ -7,19 +7,32 @@
 		ShowModal
 	</button-text-1>
 
+	<InputSuggest/>
+  <div class="bg-green-700 h-10 w-full"></div>
   <user-invite-modal :close-func="HideModal" :is-hide-on-click="true" :is-modal-visible="modalVisible"/>
 </template>
 
 <script>
 
 import UserInviteModal from "./Modals/UserInviteModal.vue";
+import InputSuggest from "./Inputs/suggestionInput/Input-suggestion.vue";
+
 export default {
   name: "Test",
-  components: {UserInviteModal},
+  components: {
+		InputSuggest,
+		UserInviteModal,
+	},
   data(){
     return {
       mess : "Message",
-			modalVisible : true
+			modalVisible : false,
+			item: {},
+			items: [
+				{ id: 1, name: 'Golden Retriever' },
+				{ id: 2, name: 'Cat' },
+				{ id: 3, name: 'Squirrel' },
+			],
     }
   },
 	methods : {
